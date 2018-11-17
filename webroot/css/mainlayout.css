@@ -1,0 +1,210 @@
+/* Use this for linking local font file */
+@font-face {
+    font-family: 'Quattrocento-Regular';
+    src: url('../../webroot/font/google_fonts/Quattrocento-Regular.ttf');
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+
+}
+
+/* mainNav */
+ul > li {
+    margin-right: 30px;
+}
+
+/* Top Bar */
+ul.topbar > li.nav-item {
+    margin-right: 10px;
+}
+
+.navLogo {
+    display: contents !important;
+}
+
+.login {
+    display: block;
+}
+
+.login a {
+    line-height: 0;
+    color: #5c5c5c
+}
+
+.login a:hover {
+    color: #0059ff;
+}
+
+.mainNav {
+    height: 60px;
+    background-color: #D5D5D5 !important;
+    padding-left: 255px !important;
+    font-size: 1.5rem;
+}
+
+.topbar {
+    background-color: #e9ecef;
+    max-height: 54px;
+}
+
+.topbarchange {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.sidenavchange {
+    position: fixed !important;
+    top: 55px;
+    z-index: 99;
+}
+
+#sidenav {
+    position: absolute;
+    width: 200px;
+    left: 90px;
+    margin-top: 20px;
+}
+
+#sidenav > ul {
+    width: 220px;
+}
+
+.dataentry {
+    position: relative;
+    left: 290px;
+    width: 75%;
+    display: inline-block;
+}
+
+.dataentrychange {
+    top:55px;
+}
+
+.caseNumber {
+    font-size: 22px;
+    position: absolute;
+    left: 20px;
+}
+
+/*
+@media screen and (max-width: 1441px) {}
+*/
+
+@media screen and (max-width: 1367px) {
+    #sidenav {
+        left: 20px;
+    }
+    #sidenav > ul {
+        width: 135px;
+    }
+    .dataentry {
+        left: 120px;
+        width: 91%;
+    }
+    .caseNumber {
+        font-size: 16px;
+        width: 360px;
+    }
+}
+
+
+.maintab {
+}
+
+#chooseFile {
+    display: none;
+}
+
+.searchmodal {
+    position: fixed !important;
+    left: -445px !important;
+    width: 215% !important;
+}
+
+.subtabtitle {
+    font-family: 'Quattrocento-Regular';
+    text-align: center;
+    font-size: 3.5em;
+}
+
+.modalheader {
+    font-size: 2.5em;
+    margin-left: 30px;
+    width: 100%;
+}
+
+.duedate {
+    font-size: 20px;
+    text-align: left;
+    padding-left: 10px !important;
+}
+
+.arrow {
+    position: relative;
+    top: -10px;
+    font-size: 25px;
+    color: teal;
+}
+
+.qco {
+    color: rgb(0, 152, 247);
+    cursor: pointer;
+}
+
+/* Making the search table color can be easily recognized */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* mainNav hover */
+.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+/* topBar hover*/
+li.nav-item:hover > .dropdown-menu {
+    display: block;
+} 
+
+/* Sidenav Dropdown hover effect */
+.dropright:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu:hover + .dropdown-menu {
+    display: inline-block;
+}
+
+.row {
+    margin-top: 20px;
+}
+
+.caseList{
+    width: 410px;
+    height: 300px;
+}
+
+#sidenav > ul > li {
+    min-width: 85px;
+}
+
+.checkboxstyle {
+    position: inherit;
+    top: 6px;
+    margin-right: 10px;
+}
+
+form > h3 > nav {
+    font-size: 15px;
+}
+
+nav > ul > li {
+    margin-right: 0;
+}

@@ -1,0 +1,79 @@
+<?php
+namespace App\Model\Table;
+
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
+
+/**
+ * SdStudyCros Model
+ *
+ * @property \App\Model\Table\SdStudiesTable|\Cake\ORM\Association\BelongsTo $SdStudies
+ *
+ * @method \App\Model\Entity\SdStudyCro get($primaryKey, $options = [])
+ * @method \App\Model\Entity\SdStudyCro newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\SdStudyCro[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\SdStudyCro|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\SdStudyCro|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\SdStudyCro patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\SdStudyCro[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\SdStudyCro findOrCreate($search, callable $callback = null, $options = [])
+ */
+class SdStudyCrosTable extends Table
+{
+
+    /**
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
+     */
+    public function initialize(array $config)
+    {
+        parent::initialize($config);
+
+        $this->setTable('sd_study_cros');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->belongsTo('SdStudies', [
+            'foreignKey' => 'sd_study_id',
+            'joinType' => 'INNER'
+        ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        $validator
+            ->integer('cro_company')
+            ->requirePresence('cro_company', 'create')
+            ->notEmpty('cro_company');
+
+        return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['sd_study_id'], 'SdStudies'));
+
+        return $rules;
+    }
+}
