@@ -25,7 +25,7 @@ class SdCasesTableTest extends TestCase
      */
     public $fixtures = [
         'app.sd_cases',
-        'app.sd_studies',
+        'app.sd_products',
         'app.sd_phases'
     ];
 

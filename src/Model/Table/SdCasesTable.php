@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * SdCases Model
  *
- * @property \App\Model\Table\SdStudiesTable|\Cake\ORM\Association\BelongsTo $SdStudies
+ * @property \App\Model\Table\SdProductsTable|\Cake\ORM\Association\BelongsTo $SdProducts
  * @property \App\Model\Table\SdPhasesTable|\Cake\ORM\Association\BelongsTo $SdPhases
  *
  * @method \App\Model\Entity\SdCase get($primaryKey, $options = [])
@@ -38,8 +38,8 @@ class SdCasesTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('SdStudies', [
-            'foreignKey' => 'sd_study_id',
+        $this->belongsTo('SdProducts', [
+            'foreignKey' => 'sd_product_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('SdPhases', [
@@ -61,6 +61,12 @@ class SdCasesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->scalar('caseNo')
+            ->maxLength('caseNo', 22)
+            ->requirePresence('caseNo', 'create')
+            ->notEmpty('caseNo');
+
+        $validator
             ->scalar('start_date')
             ->requirePresence('start_date', 'create')
             ->notEmpty('start_date');
@@ -69,6 +75,11 @@ class SdCasesTable extends Table
             ->scalar('end_date')
             ->requirePresence('end_date', 'create')
             ->notEmpty('end_date');
+
+        $validator
+            ->integer('status')
+            ->requirePresence('status', 'create')
+            ->notEmpty('status');
 
         return $validator;
     }
@@ -82,7 +93,7 @@ class SdCasesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['sd_study_id'], 'SdStudies'));
+        $rules->add($rules->existsIn(['sd_product_id'], 'SdProducts'));
         $rules->add($rules->existsIn(['sd_phase_id'], 'SdPhases'));
 
         return $rules;

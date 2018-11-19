@@ -10,7 +10,9 @@ use Cake\Validation\Validator;
  * SdProducts Model
  *
  * @property \App\Model\Table\SdWorkflowsTable|\Cake\ORM\Association\BelongsTo $SdWorkflows
+ * @property |\Cake\ORM\Association\HasMany $SdCases
  * @property \App\Model\Table\SdProductAssignmentsTable|\Cake\ORM\Association\HasMany $SdProductAssignments
+ * @property |\Cake\ORM\Association\HasMany $SdStudyCros
  *
  * @method \App\Model\Entity\SdProduct get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdProduct newEntity($data = null, array $options = [])
@@ -42,7 +44,13 @@ class SdProductsTable extends Table
             'foreignKey' => 'sd_workflow_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('SdCases', [
+            'foreignKey' => 'sd_product_id'
+        ]);
         $this->hasMany('SdProductAssignments', [
+            'foreignKey' => 'sd_product_id'
+        ]);
+        $this->hasMany('SdStudyCros', [
             'foreignKey' => 'sd_product_id'
         ]);
     }

@@ -106,5 +106,63 @@ jQuery(function($) {
     $("#clearsearch").click(function(){
         $(':input').val('');
     });  
-
 }); 
+
+
+function onQueryClicked(){
+    var request = {'searchName': $("#searchName").val(), 'searchProductName':$("#searchProductName").val()};
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/dashboards/index',
+        data:request,
+        success:function(response){
+            var result = $.parseJSON(response);
+            var text = "";
+            text +="<h3>Search Results</h3>";
+            text +="<table class=\"table table-hover\">";
+            
+            text += "<thead>";
+            text +="<tr class=\"table-secondary\">";
+            text +="<th scope=\"col\">AER No.</th>";
+            text +="<th scope=\"col\">Documents</th>";
+            text +="<th scope=\"col\">Version</th>";
+            text +="<th scope=\"col\">Activity</th>";
+            text +="<th scope=\"col\">Country</th>";
+            text +="<th scope=\"col\">Project No.</th>";
+            text +="<th scope=\"col\">Product Type</th>";
+            text +="<th scope=\"col\">Activity Due Date</th>";
+            text +="<th scope=\"col\">Submission Due Date</th>";
+            text +="<th scope=\"col\">Action</th>";
+            text +="</tr>";
+            text +="</thead>";
+            text +="<tbody>";
+            $.each(result, function(k,caseDetail){
+                text += "<tr>";
+                text += "<td>" + caseDetail.caseNo + "</td>";
+                text += "<td></td>";
+                text += "<td></td>";
+                text += "<td>" + caseDetail.start_date + "</td>";
+                text += "<td></td>";
+                text += "<td>" + caseDetail.sd_product.study_no + "<td>";
+                text += "<td></td>";
+                text += "<td>" + caseDetail.end_date + "</td>";
+                text += "<td><a href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.caseNo+"\">Data Entry</a></td>";
+                text += "</tr>";
+            })
+            text +="</tbody>";
+            text +="</table>";
+            $("#textHint").html(text);
+        },
+        error:function(response){
+                console.log(response);
+                console.log(response.status);
+                console.log(response.statusText);
+            $("#textHint").html("Sorry, no case matches");
+
+        }
+    });
+}

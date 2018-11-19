@@ -44,22 +44,28 @@
              */
             public function showdetails($tabid = 1  )
             { 
-                
+                $caseNo = $this->request->getQuery('caseNo');
+                $setNo = $this->request->getQuery('setNo');
+                if(empty($setNo)) $setNo = "1";
                 $sdTabs = $this->SdTabs->find()->select(['tab_name','display_order'])->where(['status'=>1])->order(['display_order' => 'ASC']);
                 $this->viewBuilder()->layout('main_layout');
                 $associated = ['SdSectionStructures','SdSectionStructures'=>['SdFields'=>['SdElementTypes'],'SdSectionValues']];
                 $sdTab = TableRegistry::get('SdSections',['contain'=>$associated]);
-                $sdFieldValues = TableRegistry::get('SdSectionValues',['contain'=>'SdElementTypes']);
                 $sdSections = $sdTab ->find()->where(['sd_tab_id'=>$tabid,'status'=>true])
                                     ->order(['SdSections.section_level'=>'DESC','SdSections.display_order'=>'ASC'])
-                                    ->contain(['SdSectionStructures'=>function($q){
-                                        return $q->order(['SdSectionStructures.row_no'=>'ASC','SdSectionStructures.field_start_at'=>'ASC'])->contain(['SdFields'=>['SdFieldValueLookUps','SdElementTypes'=> function($q){
-                                    return $q->select('type_name')->where(['SdElementTypes.status'=>true]);//display order
-                                        }],'SdSectionValues'=> function ($q) {
-                                    return $q->where(['SdSectionValues.status' => true]);
-                                }]);}]);
+                                    ->contain(['SdSectionStructures'=>function($q)use($caseNo){
+                                        return $q->order(['SdSectionStructures.row_no'=>'ASC','SdSectionStructures.field_start_at'=>'ASC'])
+                                            ->contain(['SdFields'=>['SdFieldValueLookUps','SdElementTypes'=> function($q){
+                                            return $q->select('type_name')->where(['SdElementTypes.status'=>true]);//display order
+                                                }],'SdSectionValues'=> function ($q)use($caseNo) {
+                                                return $q->where(['SdSectionValues.case_no'=>$caseNo]);
+                                            }
+                                        ]);
+                                    }]);
                 if ($this->request->is(['patch', 'post', 'put'])) {
-                    $patchedSections =$sdTab->patchEntities($sdSections,$this->request->getData(),['associated' =>$associated]);
+                    $requstData = $this->request->getData();
+                    $sdFieldValues = TableRegistry::get('SdSectionValues',['contain'=>'SdElementTypes']);
+                    $patchedSections = $sdTab->patchEntities($sdSections,$this->request->getData(),['associated' =>$associated]);
                     foreach ($patchedSections as $sectionEntity) {
                         foreach($sectionEntity->sd_section_structures as $sectionStructureEntity){
                             foreach($sectionStructureEntity->sd_section_values as $sectionValue){
@@ -67,9 +73,18 @@
                                     $sdFieldValueEntity = $sdFieldValues->get($sectionValue['id']);/**add last-updated time */                            
                                     $sdFieldValues->patchEntity($sdFieldValueEntity,$sectionValue);/*debug($sdFieldValueEntity);*/
                                     if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in updating!" ;
-                                }elseif($sectionValue['field_value'] != null){          
+                                }elseif(!empty($sectionValue['field_value'])){
                                     $sdFieldValueEntity = $sdFieldValues->newEntity();/**add created time */
-                                    $sdFieldValueEntity = $sdFieldValues->patchEntity($sdFieldValueEntity, $sectionValue);/*debug($sdFieldValueEntity);*/
+                                    $dataSet = [
+                                        'case_no' => $caseNo,
+                                        'version_no' => '1',
+                                        'sd_section_structure_id' => $sectionValue['sd_section_structure_id'],
+                                        'created_time' =>date("Y-m-d H:i:s"),
+                                        'set_number' => $setNo,
+                                        'field_value' =>$sectionValue['field_value'],
+                                        'status' =>'1',
+                                    ];
+                                    $sdFieldValueEntity = $sdFieldValues->patchEntity($sdFieldValueEntity, $dataSet);/*debug($sdFieldValueEntity);*/
                                     if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in adding!" ;
                                 }
                             }

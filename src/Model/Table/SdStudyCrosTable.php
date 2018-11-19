@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * SdStudyCros Model
  *
- * @property \App\Model\Table\SdStudiesTable|\Cake\ORM\Association\BelongsTo $SdStudies
+ * @property |\Cake\ORM\Association\BelongsTo $SdProducts
  *
  * @method \App\Model\Entity\SdStudyCro get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdStudyCro newEntity($data = null, array $options = [])
@@ -37,8 +37,8 @@ class SdStudyCrosTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('SdStudies', [
-            'foreignKey' => 'sd_study_id',
+        $this->belongsTo('SdProducts', [
+            'foreignKey' => 'sd_product_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -72,7 +72,7 @@ class SdStudyCrosTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['sd_study_id'], 'SdStudies'));
+        $rules->add($rules->existsIn(['sd_product_id'], 'SdProducts'));
 
         return $rules;
     }

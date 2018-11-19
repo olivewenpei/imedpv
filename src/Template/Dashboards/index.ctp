@@ -1,3 +1,6 @@
+<script>
+var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+</script>
 <div class="container">
   <div class="row">
     <div class="col">
@@ -74,13 +77,14 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <?= $this->Form->create();?>  
                             <div class="form-row">
                                 <div class="form-group col-lg-4">
                                     <!-- <label for="recipient-name" class="col-form-label">Recipient:</label> -->
-                                    <input type="text" class="form-control form-control-lg" id="pro_name" placeholder="Search by Product Name">
+                                    <input type="text" class="form-control form-control-lg" id="searchProductName" name="searchProductName" placeholder="Search by Product Name">
                                 </div>
                                 <div class="form-group col-lg-4">
-                                    <input type="text" class="form-control form-control-lg" id="icsr_no" placeholder="Select ICSR No.">
+                                    <input type="text" class="form-control form-control-lg"  id="searchName" name="searchName" placeholder="Select ICSR No.">
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <input type="text" class="form-control form-control-lg" id="case_status" placeholder="Select Case Status">
@@ -128,84 +132,17 @@
 
                             <div class="form-row justify-content-center">
                                 <div class="form-group col-lg-2">
-                                    <a href="/sd-tabs/showdetails" type="submit" class="form-control-lg btn btn-primary rounded p-2 w-100"><i class="fas fa-search"></i> Search</a>
+                                    <div id="searchBtn" onclick="onQueryClicked()" class="form-control-lg btn btn-primary w-100 py-2"><i class="fas fa-search"></i> Search</div>
                                 </div>
                                 <div class="form-group col-lg-1">
-                                    <button id="advsearch" class="form-control-lg btn btn-outline-info w-100"><i class="fas fa-keyboard"></i> Advance</button>
+                                    <div id="advsearch" class="form-control-lg btn btn-outline-info w-100 py-2"><i class="fas fa-keyboard"></i> Advance</div>
                                 </div>
                                 <div class="form-group col-lg-1">
-                                    <button id="clearsearch" class="form-control-lg btn btn-outline-danger w-100"><i class="fas fa-eraser"></i> Clear</button>
+                                    <div id="clearsearch" class="form-control-lg btn btn-outline-danger w-100 py-2"><i class="fas fa-eraser"></i> Clear</a>
                                 </div>
                             </div> 
-                            <hr>
-                            <h3>Search Results</h3>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr class="table-secondary">
-                                    <th scope="col">ICSR No.</th>
-                                    <th scope="col">Documents</th>
-                                    <th scope="col">Version</th>
-                                    <th scope="col">Activity</th>
-                                    <th scope="col">Country</th>
-                                    <th scope="col">Project No.</th>
-                                    <th scope="col">Product Type</th>
-                                    <th scope="col">Activity Due Date</th>
-                                    <th scope="col">Submission Due Date</th>
-                                    <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <th scope="row">16464654654</th>
-                                    <td>wg4h5w45</td>
-                                    <td>China</td>
-                                    <td>01/01/2018</td>
-                                    <td>01/01/2018</td>
-                                    <td>wg4h5w45</td>
-                                    <td>China</td>
-                                    <td>01/01/2018</td>
-                                    <td>01/01/2018</td>
-                                    <td>
-                                        <a class="btn btn-outline-info btn-sm" href="/sd-tabs/showdetails" role="button" title="Edit"><i class="far fa-edit"></i> Edit</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Allocate"><i class="fas fa-users"></i> Allocate</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Data Entry"><i class="fas fa-file-signature"></i> Entry</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Raise Query"><i class="fas fa-plus-circle"></i> Query</a>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">164646546542</th>
-                                    <td>wg4h5w45</td>
-                                    <td>China</td>
-                                    <td>01/01/2018</td>
-                                    <td>01/01/2018</td>
-                                    <td>aeheahrse</td>
-                                    <td>USA</td>
-                                    <td>01/01/2018</td>
-                                    <td>01/01/2018</td>
-                                    <td>
-                                        <a class="btn btn-outline-info btn-sm" href="/sd-tabs/showdetails" role="button" title="Edit"><i class="far fa-edit"></i> Edit</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Allocate"><i class="fas fa-users"></i> Allocate</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Data Entry"><i class="fas fa-file-signature"></i> Entry</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Raise Query"><i class="fas fa-plus-circle"></i> Query</a>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">316464654654</th>
-                                    <td>wg4h5w45</td>
-                                    <td>China</td>
-                                    <td>01/01/2018</td>
-                                    <td>01/01/2018</td>
-                                    <td>d324fga4ag</td>
-                                    <td>Canada</td>
-                                    <td>01/01/2018</td>
-                                    <td>01/01/2018</td>
-                                    <td>
-                                        <a class="btn btn-outline-info btn-sm" href="/sd-tabs/showdetails" role="button" title="Edit"><i class="far fa-edit"></i> Edit</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Allocate"><i class="fas fa-users"></i> Allocate</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Data Entry"><i class="fas fa-file-signature"></i> Entry</a>
-                                        <a class="btn btn-outline-info btn-sm" href="#" role="button" title="Raise Query"><i class="fas fa-plus-circle"></i> Query</a>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <?= $this->Form->end();?>  
+                            <div id="textHint"></div>
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
