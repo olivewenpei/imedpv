@@ -150,7 +150,7 @@ function onQueryClicked(){
                 text += "<td>" + caseDetail.sd_product.study_no + "<td>";
                 text += "<td></td>";
                 text += "<td>" + caseDetail.end_date + "</td>";
-                text += "<td><a href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.caseNo+"\">Data Entry</a></td>";
+                text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.caseNo+"\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">More</a></td>";
                 text += "</tr>";
             })
             text +="</tbody>";

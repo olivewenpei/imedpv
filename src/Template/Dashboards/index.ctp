@@ -142,7 +142,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
                                 </div>
                             </div> 
                             <?= $this->Form->end();?>  
-                            <div id="textHint"></div>
+                            <div id="textHint" class="d-block w-100"></div>
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
