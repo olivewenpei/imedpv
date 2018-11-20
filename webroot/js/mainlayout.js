@@ -106,6 +106,13 @@ jQuery(function($) {
     $("#clearsearch").click(function(){
         $(':input').val('');
     });  
+
+// Dashboard "Search case" button of shadow effect
+    $('#searchBtn').hover(
+        function(){ $(this).addClass('shadow') },
+        function(){ $(this).removeClass('shadow') 
+    });
+
 }); 
 
 
