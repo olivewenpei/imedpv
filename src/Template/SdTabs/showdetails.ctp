@@ -127,21 +127,21 @@ echo $this->element('widget');
 <!-- Data Entry Body -->
 <!-- General Tab -->
 <div class="dataentry">
- <?= $this->Form->create($sdSections);?>
-<?php
-    $setNo = $this->request->getQuery('setNo');
-    if(empty($setNo)) $setNo = "1";
-    $exsitSectionNo = [];
-    for($i = 0; $i < sizeof($sdSections->toarray()); $i++){
-        $exsitSectionNo[$i] = $sdSections->toarray()[$i]->id;
-    }
-    foreach($sdSections->toarray() as $sdSectionKey => $sdSection_detail){
-        $exsitSectionNo = displaySection($sdSection_detail, $exsitSectionNo, $sdSections, $setNo);
-    }
+    <?= $this->Form->create($sdSections);?>
+    <?php
+        $setNo = $this->request->getQuery('setNo');
+        if(empty($setNo)) $setNo = "1";
+        $exsitSectionNo = [];
+        for($i = 0; $i < sizeof($sdSections->toarray()); $i++){
+            $exsitSectionNo[$i] = $sdSections->toarray()[$i]->id;
+        }
+        foreach($sdSections->toarray() as $sdSectionKey => $sdSection_detail){
+            $exsitSectionNo = displaySection($sdSection_detail, $exsitSectionNo, $sdSections, $setNo);
+        }
     ?>
-            <button type="submit" class="btn btn-success float-right p-2 w-25">Complete "General Tab"</button> 
-            <hr class="d-inline-block w-100">
-            <?= $this->Form->end() ?>  
+    <a href="#" role="submit" class="btn btn-success float-right p-2 w-25">Complete "General Tab"</a> 
+    <hr class="d-inline-block w-100">
+    <?= $this->Form->end() ?>  
 </div>
 
 <?php
@@ -153,7 +153,9 @@ function displaySection($section, $exsitSectionNo, $sdSections, $setNo){
         if(!empty($section->child_section)){ 
             $child_array = explode(",",$section->child_section);
             foreach($child_array as $Key => $sdSectionKey){
+                echo"<div class=\"secdiff\">";
                 $exsitSectionNo=displaySection($sdSections->toarray()[array_search($sdSectionKey,$exsitSectionNo)],$exsitSectionNo,$sdSections, $setNo);
+                echo"</div>";
             }
         }
         return $exsitSectionNo;
@@ -167,8 +169,8 @@ function displaySingleSection($section, $setNo){
         echo "<div class=\"subtabtitle col-md-12\">".$section->section_name."</div>";
     elseif($section->section_level ==1 ){
         echo "<h3 class=\"secspace\">".$section->section_name;
-        echo"<button type=\"button\" id=\"save-btn".$section->id."\" class=\"float-right px-5 btn btn-outline-secondary\">Save</button>";
-        echo"<button type=\"button\"  class=\"float-right px-3 mx-3 btn btn-outline-info\" title=\"Add new\">Add</button>";
+        echo"<a href=\"#\" role=\"button\" id=\"save-btn".$section->id."\" class=\"float-right px-5 btn btn-outline-secondary\" aria-pressed=\"true\">Save</a>";
+        echo"<a href=\"#\" role=\"button\" id=\"#\"  class=\"float-right px-3 mx-3 btn btn-outline-info\" title=\"Add new\">Add</a>";
 
         // Pagination
         echo "<nav class=\"d-inline-block float-right\" title=\"Pagination\" aria-label=\"Page navigation example\">";
@@ -267,7 +269,7 @@ function displaySingleSection($section, $setNo){
                     echo "<div class=\"form-row\" id=\"radio".$sd_section_structure_detail->sd_field->id."\">";
                     foreach($sd_section_structure_detail->sd_field->sd_field_value_look_ups as $option_no=>$option_detail){
                         echo "<div class=\"custom-control custom-radio custom-control-inline col-md-4\">";
-                        echo "<input id=\"checkbox".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" name=".$field_value_nameHolder." value=";
+                        echo "<input id=\"checkbox".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" class=\"checkboxstyle\"  name=".$field_value_nameHolder." value=";
                         echo $option_detail['value'];
                         if(!empty($sd_section_structure_detail->sd_section_values[$j])&&$sd_section_structure_detail->sd_section_values[$j]->field_value==$option_detail['value'])
                         echo " checked";                            

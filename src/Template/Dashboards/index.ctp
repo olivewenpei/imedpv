@@ -60,9 +60,9 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
   <div class="row">
     <div class="col">
         <div class="card text-center">
-        <h5 class="card-header">ICSR Case List</h5>
+        <h5 class="card-header"> Case List</h5>
         <div class="card-body">
-        <h3 class="card-title">ICSR Case List</h3>
+        <h3 class="card-title"> Case List</h3>
             <p class="card-text">Cases Report Details</p>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Search Cases</button>
@@ -84,7 +84,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
                                     <input type="text" class="form-control form-control-lg" id="searchProductName" name="searchProductName" placeholder="Search by Product Name">
                                 </div>
                                 <div class="form-group col-lg-4">
-                                    <input type="text" class="form-control form-control-lg"  id="searchName" name="searchName" placeholder="Select ICSR No.">
+                                    <input type="text" class="form-control form-control-lg"  id="searchName" name="searchName" placeholder="Select Case No.">
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <input type="text" class="form-control form-control-lg" id="case_status" placeholder="Select Case Status">
@@ -138,7 +138,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
                                     <div id="advsearch" class="form-control-lg btn btn-outline-info w-100 py-2"><i class="fas fa-keyboard"></i> Advance</div>
                                 </div>
                                 <div class="form-group col-lg-1">
-                                    <div id="clearsearch" class="form-control-lg btn btn-outline-danger w-100 py-2"><i class="fas fa-eraser"></i> Clear</a>
+                                    <div id="clearsearch" class="form-control-lg btn btn-outline-danger w-100 py-2"><i class="fas fa-eraser"></i> Clear</div>
                                 </div>
                             </div> 
                             <?= $this->Form->end();?>  
