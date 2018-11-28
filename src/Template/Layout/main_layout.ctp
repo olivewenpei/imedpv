@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <!-- <title>Dashboard</title> -->
 
     <!-- For local jQuery link, Bootstrap required -->
     <?= $this->Html->script('bootstrap/jquery-3.2.1.slim.min.js') ?> 
@@ -54,7 +54,7 @@
         <a class="nav-link" href="/Dashboards/index">Dashboard <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Product</a>
+        <a class="nav-link" href="/sd-products/addproduct">Product</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ICSR</a>

@@ -7,6 +7,8 @@
 echo $this->element('widget');
 ?>
 
+<title>Data Entry</title>
+
 <!-- Data Entry Top Bar -->
 <ul class="topbar nav justify-content-end pt-2 pb-2" id="topbar">
 
@@ -142,6 +144,52 @@ echo $this->element('widget');
     <a href="#" role="submit" class="btn btn-success float-right p-2 w-25">Complete "General Tab"</a> 
     <hr class="d-inline-block w-100">
     <?= $this->Form->end() ?>  
+
+    <div class="card mt-1 mb-5">
+        <div class="card-header">
+            <h3 class="d-inline">Source </h3>
+            <a class="btn btn-outline-primary float-right" href="#" role="button" title="add"><i class="fas fa-plus"></i> Add</a>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-secondary">
+                        <th scope="col">Report type (A.1.4)</th>
+                        <th scope="col">Primary Source</th>
+                        <th scope="col">Date received</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Identification no.</th>
+                        <th scope="col">Company unit</th>
+                        <th scope="col">Company unit decode</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row"></th>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"><a class="btn btn-outline-danger" href="#" role="button" title="delete"><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                        <td scope="col"><a class="btn btn-outline-danger" href="#" role="button" title="delete"><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 <?php

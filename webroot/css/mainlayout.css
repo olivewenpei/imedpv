@@ -123,9 +123,8 @@ ul.topbar > li.nav-item {
 }
 
 .searchmodal {
-    position: fixed !important;
-    left: -445px !important;
-    width: 215% !important;
+    left: -195px;
+    width: 135%;
 }
 
 .subtabtitle {
@@ -219,4 +218,8 @@ li.nav-item:hover > .dropdown-menu {
     background-color: #f3f1f1;
     padding: 20px;
     margin: 20px 0px;
+}
+
+tbody > tr {
+    cursor: pointer;
 }

@@ -109,4 +109,9 @@ class SdProductsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function addproduct()
+    {
+        $this->viewBuilder()->layout('main_layout');
+    }
 }

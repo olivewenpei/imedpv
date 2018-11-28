@@ -113,6 +113,22 @@ jQuery(function($) {
         function(){ $(this).removeClass('shadow') 
     });
 
+// Make the table row clickable
+    $(document).ready(function($) {
+        $("tbody > tr").click(function() {
+            window.document.location = $(this).data("href");
+        });
+    });
+
+// TO DO: make nav button has "active" effect    
+    $(document).ready(function($) {
+        $("#navbarSupportedContent > ul > li").click(function() {
+            $(this).removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+    
+
 }); 
 
 
