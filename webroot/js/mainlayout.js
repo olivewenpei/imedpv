@@ -127,6 +127,15 @@ jQuery(function($) {
             $(this).addClass('active');
         });
     });
+
+    $(document).ready(function($){
+        $('#choctybtn').click(function() {
+            $('#chocty').hide();
+            $('#conhead').hide();
+            $('#workflow').show();
+            $('#workhead').show();
+        });
+    });
     
 
 }); 

@@ -223,3 +223,11 @@ li.nav-item:hover > .dropdown-menu {
 tbody > tr {
     cursor: pointer;
 }
+
+.workhead {
+    display: none;
+}
+
+.workflow {
+    display: none;
+}
