@@ -224,10 +224,14 @@ tbody > tr {
     cursor: pointer;
 }
 
-.workhead {
+
+.secondpage, .thirdpage, .fourthpage {
     display: none;
 }
 
-.workflow {
-    display: none;
+.undo {
+    display: none !important;
+    height: 22px;
+    padding: 1px !important;
+    margin-left: 10px;
 }

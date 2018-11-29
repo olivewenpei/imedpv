@@ -128,15 +128,39 @@ jQuery(function($) {
         });
     });
 
+// Add Product card    
     $(document).ready(function($){
-        $('#choctybtn').click(function() {
-            $('#chocty').hide();
-            $('#conhead').hide();
-            $('#workflow').show();
-            $('#workhead').show();
+        $('#submitmsg').click(function() {
+            $('.firstpage').hide();
+            $('.secondpage').show();
         });
     });
-    
+    $(document).ready(function($){
+        $('#submitchocountry').click(function() {
+            $('.secondpage').hide();
+            $('.thirdpage').show();
+        });
+    });
+    $(document).ready(function($){
+        $('#submitworkflow').click(function() {
+            $('.thirdpage').hide();
+            $('.fourthpage').show();
+        });
+    });
+
+// Assign human to CROs
+    $(document).ready(function($){
+        $('#worman,#teres').click(function() {
+            if($(".checkboxstyle").is(":checked")) {
+                $(".checkboxstyle:checked").prop("disabled",true);
+                $("input:disabled").parent().find(".undo").attr('style', 'display: block !important');
+            };
+        });
+        $(".undo").click(function() {
+            $(this).prevAll().prop("checked",false).prop("disabled",false);
+            $(this).attr('style', 'display: none !important');
+        })
+    })
 
 }); 
 
