@@ -170,7 +170,7 @@ tr:nth-child(even) {
 /* topBar hover*/
 li.nav-item:hover > .dropdown-menu {
     display: block;
-} 
+}
 
 /* Sidenav Dropdown hover effect */
 .dropright:hover > .dropdown-menu {
@@ -225,7 +225,7 @@ tbody > tr {
 }
 
 
-.secondpage, .thirdpage, .fourthpage {
+.secondpage, .thirdpage, .fourthpage, .defworkflow {
     display: none;
 }
 
@@ -234,4 +234,34 @@ tbody > tr {
     height: 22px;
     padding: 1px !important;
     margin-left: 10px;
+}
+
+.custworkflow {
+    display: none;
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
+.custworkflow:active {
+    display: none;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+
+.custworkflow ul, .thirdpage ul {
+    list-style-type: none;
+}
+
+.card-body > button {
+    position: relative;
+    top: -8px;
+}
+
+#draggable {
+    border: 3px dotted #7e7e7e;
+    padding: 10px;
+}
+
+#draggable > div {
+    background-color: rgba(247, 241, 183, 0.87);
 }

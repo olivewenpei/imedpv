@@ -2,18 +2,18 @@
 
 <div class="container">
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="col">
             <div class="card">
                 <div class="card-header text-center">
-                    <h5 class="firstpage">Add Product</h5> 
-                    <h5 class="secondpage">Choose Country</h5> 
-                    <h5 class="thirdpage">Choose Workflow</h5> 
+                    <h5 class="firstpage">Add Product</h5>
+                    <h5 class="secondpage">Choose Country</h5>
+                    <h5 class="thirdpage">Choose Workflow</h5>
                     <h5 class="fourthpage">Choose CROs</h5>
                 </div>
                 <div class="card-body">
 
-                    <form class="firstpage text-center">
+                    <div class="firstpage text-center">
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label>Product Name</label>
@@ -28,8 +28,11 @@
                                 <input type="text" class="form-control" id="#" placeholder="Product Type">
                             </div>
                         </div>
-                        <a href="#" id="submitmsg" class="btn btn-primary w-25 mt-3" role="button" aria-pressed="true">Submit</a>
-                    </form>
+
+                        <div id="submitmsg" class="btn btn-primary w-25 mt-3" type="submit">Submit</div>
+
+
+                    </div>
 
                     <form class="secondpage text-center">
                         <div class="form-check">
@@ -39,64 +42,179 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option1">
                             <label class="form-check-label" for="exampleRadios1">Japan</label>
-                        </div>                       
-                        <a href="#" id="submitchocountry" class="btn btn-primary w-25 mt-3" role="button" aria-pressed="true">Countinue</a>
+                        </div>
+                        <button type="button" id="goback1" class="btn btn-outline-warning mr-3 mt-3">Go Back</button>
+                        <div id="submitchocountry" class="btn btn-primary w-25 mt-3" type="submit">Countinue</div>
                     </form>
 
-                    <form class="thirdpage text-center">
-                        <h3>Default Workflow</h3>  
-                        <div class="card w-25 h-25 m-3 d-inline-block">
-                            <div class="card-body p-5">
-                                <h5 class="card-title">First Step: <br> <b> Triage</b></h5>
-                                <p class="card-text">Capture the initial Case information.</p>
-                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    <div class="thirdpage text-center">
+                        <div class="row">
+                            <!-- Default Workflow -->
+                            <div class="col">
+                                <button type="button" id="defbtn" class="btn btn-success btn-lg">Default Workflow</button>
+                                <hr>
+                                <ol class="defworkflow">
+                                    <p>This is default workflow and cannot be changed</p>
+                                    <li class="custworkflowstep">
+                                        <div class="card w-100 h-25 my-2">
+                                            <div class="card-body p-3">
+                                                <h5 class="card-title"><b> Triage</b></h5>
+                                                <p class="card-text">Capture the initial Case information.</p>
+                                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="custworkflowstep">
+                                        <div class="card w-100 h-25 my-2">
+                                            <div class="card-body p-3">
+                                                <h5 class="card-title"> <b> Data Entry</b></h5>
+                                                <p class="card-text">Entry initial data from call center</p>
+                                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="custworkflowstep">
+                                        <div class="card w-100 h-25 my-2">
+                                            <div class="card-body p-3">
+                                                <h5 class="card-title"> <b> Quality Check</b></h5>
+                                                <p class="card-text">Check the validation of cases</p>
+                                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="custworkflowstep">
+                                        <div class="card w-100 h-25 my-2">
+                                            <div class="card-body p-3">
+                                                <h5 class="card-title"> <b> Medical Review</b></h5>
+                                                <p class="card-text">Review cases by doctors.</p>
+                                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="custworkflowstep">
+                                        <div class="card w-100 h-25 my-2">
+                                            <div class="card-body p-3">
+                                                <h5 class="card-title"><b> Generate Report</b></h5>
+                                                <p class="card-text">Output a report from system</p>
+                                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="custworkflowstep">
+                                        <div class="card w-100 h-25 my-2">
+                                            <div class="card-body p-3">
+                                                <h5 class="card-title"><b> Complete</b></h5>
+                                                <p class="card-text">Case information gathered and reviewed.</p>
+                                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
                             </div>
-                        </div>  
-                        <div class="card w-25 h-25 m-3 d-inline-block">
-                            <div class="card-body p-5">
-                                <h5 class="card-title">Second Step: <br> <b> Data Entry</b></h5>
-                                <p class="card-text">Entry initial data from call center</p>
-                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+
+                            <!-- Customize Workflow -->
+                            <div class="col">
+                                <button type="button" id="custbtn" class="btn btn-success btn-lg">Customize Your Workflow</button>
+                                <hr class="custhr">
+                                <div class="custworkflow">
+                                    <p>Please drag the yellow box to anywhere in the workflow for customization</p>
+                                    <ul>
+                                        <li id="draggable" class="custworkflowstep">
+                                            <div class="card w-100 h-25 my-2">
+                                                <div class="card-body p-3">
+                                                    <button type="button" class="close" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h5 class="card-title"><input type="text" placeholder="Type your step name here" class="font-weight-bold" /> </h5>
+                                                    <p class="card-text"><textarea type="text"  class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ol id="sortable">
+                                        <li class="custworkflowstep">
+                                            <div class="card w-100 h-25 my-2">
+                                                <div class="card-body p-3">
+                                                    <button type="button" class="close" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h5 class="card-title"> <b> Triage</b></h5>
+                                                    <p class="card-text">Capture the initial Case information.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="custworkflowstep">
+                                            <div class="card w-100 h-25 my-2">
+                                                <div class="card-body p-3">
+                                                    <button type="button" class="close" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h5 class="card-title"><b> Data Entry</b></h5>
+                                                    <p class="card-text">Entry initial data from call center</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="custworkflowstep">
+                                            <div class="card w-100 h-25 my-2">
+                                                <div class="card-body p-3">
+                                                    <button type="button" class="close" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h5 class="card-title"> <b> Quality Check</b></h5>
+                                                    <p class="card-text">Check the validation of cases</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="custworkflowstep">
+                                            <div class="card w-100 h-25 my-2">
+                                                <div class="card-body p-3">
+                                                    <button type="button" class="close" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h5 class="card-title"> <b> Medical Review</b></h5>
+                                                    <p class="card-text">Review cases by doctors.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="custworkflowstep">
+                                            <div class="card w-100 h-25 my-2">
+                                                <div class="card-body p-3">
+                                                    <button type="button" class="close" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h5 class="card-title"> <b> Generate Report</b></h5>
+                                                    <p class="card-text">Output a report from system</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="custworkflowstep">
+                                            <div class="card w-100 h-25 my-2">
+                                                <div class="card-body p-3">
+                                                    <button type="button" class="close" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h5 class="card-title"> <b> Complete</b></h5>
+                                                    <p class="card-text">Case information gathered and reviewed.</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </div>
                             </div>
-                        </div>        
-                        <div class="card w-25 h-25 m-3 d-inline-block">
-                            <div class="card-body p-5"> 
-                                <h5 class="card-title">Third Step: <br>  <b> Quality Check</b></h5>
-                                <p class="card-text">Check the validation of cases</p>
-                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                            </div>
-                        </div>          
-                        <div class="card w-25 m-3 d-inline-block">
-                            <div class="card-body p-5">
-                                <h5 class="card-title">Forth Step: <br> <b> Medical Review</b></h5>
-                                <p class="card-text">Review cases by doctors</p>
-                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                            </div>
-                        </div>           
-                        <div class="card w-25 m-3 d-inline-block">
-                            <div class="card-body p-5">
-                                <h5 class="card-title">Fifth Step: <br> <b> Generate Report</b></h5>
-                                <p class="card-text">Output a report from system</p>
-                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                            </div>
-                        </div>        
-                        <div class="card w-25 m-3 d-inline-block">
-                            <div class="card-body p-5">
-                                <h5 class="card-title">Final Step: <br> <b> Complete</b></h5>
-                                <p class="card-text">Case information gathered and reviewed.</p>
-                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                            </div>
-                        </div>       
-                        <a href="#" id="" class="btn btn-info w-25 mt-3" role="button" aria-pressed="true">Customize</a>
-                        <a href="#" id="submitworkflow" class="btn btn-primary w-25 mt-3" role="button" aria-pressed="true">Countinue</a>
-                    </form>
-                    
+                        </div>
+
+                        <div class="d-block mt-3">
+                            <button type="button" id="goback2" class="btn btn-outline-warning mr-3">Go Back</button>
+                            <div type="submit" id="submitworkflow" class="btn btn-primary w-25">Countinue</div>
+                        </div>
+                    </div>
+
                     <form class="fourthpage text-center">
                         <p class="card-text">Click the CRO which you want to assign personnels</p>
                         <div class="btn-group-vertical w-25">
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">A CRO</button>   
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">B CRO</button>  
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">C CRO</button>  
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">A CRO</button>
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">B CRO</button>
+                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">C CRO</button>
                         </div>
 
                         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -134,14 +252,18 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="#" type="submit" id="worman" role="button" class="btn btn-outline-success">Assign as workflow manager</a>
-                                        <a href="#" id="teres" role="button" class="btn btn-outline-success">Assign as team resources</a>
+                                        <button id="worman" class="btn btn-outline-success" type="submit">Assign as workflow manager</button>
+                                        <button id="teres" class="btn btn-outline-success" type="submit">Assign as team resources</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <a href="#" id="" class="btn btn-primary d-block w-25 mt-3 mx-auto" role="button" aria-pressed="true">Add CROs</a>
+
+                        <div class="d-block mt-3">
+                            <button type="button" id="goback3" class="btn btn-outline-warning mr-3">Go Back</button>
+                            <div id="" class="btn btn-primary w-25 mx-auto" type="submit">Add CROs</div>
+                        </div>
+
                     </form>
 
                 </div>
@@ -150,4 +272,3 @@
     </div>
 
 </div>
-

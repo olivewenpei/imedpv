@@ -13,7 +13,7 @@ echo $this->element('widget');
 <ul class="topbar nav justify-content-end pt-2 pb-2" id="topbar">
 
     <!-- "Case Number" Display -->
-    <span class="caseNumber" id="caseNumber" title="Case Number"> 
+    <span class="caseNumber" id="caseNumber" title="Case Number">
         Full Data Entry - <b>IMS18091235600078</b> [protocol ytest]
     </span>
 
@@ -141,9 +141,9 @@ echo $this->element('widget');
             $exsitSectionNo = displaySection($sdSection_detail, $exsitSectionNo, $sdSections, $setNo);
         }
     ?>
-    <a href="#" role="submit" class="btn btn-success float-right p-2 w-25">Complete "General Tab"</a> 
+    <button type="submit" class="btn btn-success float-right p-2 w-25">Complete "General Tab"</button>
     <hr class="d-inline-block w-100">
-    <?= $this->Form->end() ?>  
+    <?= $this->Form->end() ?>
 
     <div class="card mt-1 mb-5">
         <div class="card-header">
@@ -198,7 +198,7 @@ function displaySection($section, $exsitSectionNo, $sdSections, $setNo){
     if(in_array($section->id,$exsitSectionNo)){
         displaySingleSection($section, $setNo);
         $exsitSectionNo[array_search($section->id,$exsitSectionNo)]= null;
-        if(!empty($section->child_section)){ 
+        if(!empty($section->child_section)){
             $child_array = explode(",",$section->child_section);
             foreach($child_array as $Key => $sdSectionKey){
                 echo"<div class=\"secdiff\">";
@@ -207,7 +207,7 @@ function displaySection($section, $exsitSectionNo, $sdSections, $setNo){
             }
         }
         return $exsitSectionNo;
-        
+
     }
 }
 
@@ -241,10 +241,10 @@ function displaySingleSection($section, $setNo){
         echo "</ul>";
         echo "</nav>";
         echo "</h3><hr class=\"my-2\">";
-    } 
+    }
 
-    $length_taken = 0;  
-    $cur_row_no = 0;     
+    $length_taken = 0;
+    $cur_row_no = 0;
     foreach($section->sd_section_structures as $sd_section_structure =>$sd_section_structure_detail){
         if($i == 0){
             $length_taken = 0;
@@ -261,7 +261,7 @@ function displaySingleSection($section, $setNo){
         foreach ($sd_section_structure_detail->sd_section_values as $key_detail_section_values=>$value_detail_section_values){
             $jflag ++;
             if($value_detail_section_values->set_number==$setNo){
-                $j = $key_detail_section_values; 
+                $j = $key_detail_section_values;
                 break;
             }
         }
@@ -271,9 +271,9 @@ function displaySingleSection($section, $setNo){
         echo " <a title=\"Field Helper\" data-toggle=\"popover\" data-trigger=\"hover\" data-content=".$sd_section_structure_detail->sd_field->comment."><i class=\"qco fas fa-info-circle\"></i></a></label>";
         $q = 'sdSections.sd_section_structures.'.$i.'.sd_section_values.'.$j.'.id';
         $p = 'sdSections.sd_section_structures.'.$i.'.sd_section_values.'.$j.'.field_value';
-        $id_idHolder = 'sdsections-sd-section-structures-'.$i.'-sd-section-values-'.$j.'-id'; 
+        $id_idHolder = 'sdsections-sd-section-structures-'.$i.'-sd-section-values-'.$j.'-id';
         $id_nameHolder ='sdSections[sd_section_structures]['.$i.'][sd_section_values]['.$j.'][id]';
-        $field_value_nameHolder = 'sdSections[sd_section_structures]['.$i.'][sd_section_values]['.$j.'][field_value]'; 
+        $field_value_nameHolder = 'sdSections[sd_section_structures]['.$i.'][sd_section_values]['.$j.'][field_value]';
         $section_structure_id_nameHolder = 'sdSections[sd_section_structures]['.$i.'][sd_section_values]['.$j.'][sd_section_structure_id]';
         echo"<input id= ".$id_idHolder." name=".$section_structure_id_nameHolder." value=".$sd_section_structure_detail->id." type=\"hidden\">";
         foreach($sd_section_structure_detail->sd_section_values as $sd_section_values_detail_no=>$sd_section_values)
@@ -281,25 +281,25 @@ function displaySingleSection($section, $setNo){
             echo"<input id= ".$id_idHolder." name=".$id_nameHolder." value=".$sd_section_structure_detail->sd_section_values[$j]->id." type=\"hidden\">";
         }
         ?>
-            <?php 
+            <?php
             switch($sd_section_structure_detail->sd_field->sd_element_type->type_name){
                 case 'select':
                     echo "<select class=\"form-control\" id=\"select".$sd_section_structure_detail->sd_field->id."\" name=".$field_value_nameHolder.">";
                         echo"<option id=\"select".$sd_section_structure_detail->sd_field->id."-option-null\" value=\"null\" ></option>";
                         foreach($sd_section_structure_detail->sd_field->sd_field_value_look_ups as $option_no=>$option_detail){
                             echo "<option id=\"select".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" value=".$option_detail['value'];
-                            
+
                             if(!empty($sd_section_structure_detail->sd_section_values[$j])&&$sd_section_structure_detail->sd_section_values[$j]->field_value==$option_detail['value'])
-                            echo " selected";               
+                            echo " selected";
                             echo ">".$option_detail['caption']."</option>   ";
                         };
-                    echo"</select>";    
+                    echo"</select>";
                     continue;
                 case 'text':
                     echo "<input id=\"text".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder." type=\"text\"";
                     echo (!empty($sd_section_structure_detail->sd_section_values[$j]))?"value=".$sd_section_structure_detail->sd_section_values[$j]->field_value:null;
-                    echo " >";  
-                    continue;   
+                    echo " >";
+                    continue;
                 case 'radio':
                     echo "<div id=\"radio".$sd_section_structure_detail->sd_field->id."\">";
                     foreach($sd_section_structure_detail->sd_field->sd_field_value_look_ups as $option_no=>$option_detail){
@@ -307,11 +307,11 @@ function displaySingleSection($section, $setNo){
                         echo "<input class=\"custom-control-input\" id=\"radio".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" name=".$field_value_nameHolder." type=\"radio\" value=";
                         echo $option_detail['value'];
                         if(!empty($sd_section_structure_detail->sd_section_values[$j])&&$sd_section_structure_detail->sd_section_values[$j]->field_value==$option_detail['value'])
-                        echo " checked";                            
+                        echo " checked";
                         echo "><label class=\"custom-control-label\" for=\"radio".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" >".$option_detail['caption']."</label>";
-                        echo "</div>";      
-                    }   
-                    echo "</div>";                  
+                        echo "</div>";
+                    }
+                    echo "</div>";
                     continue;
                 case 'checkbox':
                     echo "<div class=\"form-row\" id=\"radio".$sd_section_structure_detail->sd_field->id."\">";
@@ -320,7 +320,7 @@ function displaySingleSection($section, $setNo){
                         echo "<input id=\"checkbox".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" class=\"checkboxstyle\"  name=".$field_value_nameHolder." value=";
                         echo $option_detail['value'];
                         if(!empty($sd_section_structure_detail->sd_section_values[$j])&&$sd_section_structure_detail->sd_section_values[$j]->field_value==$option_detail['value'])
-                        echo " checked";                            
+                        echo " checked";
                         echo " type=\"checkbox\"><label for=\"checkbox".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\">".$option_detail['caption']."</label>";
                         echo "</div>";
                     }
@@ -330,14 +330,14 @@ function displaySingleSection($section, $setNo){
                     echo "<textarea id=\"textarea".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder;
                     echo " rows=".$sd_section_structure_detail->field_height.">";
                     echo (!empty($sd_section_structure_detail->sd_section_values[$j]))?$sd_section_structure_detail->sd_section_values[$j]->field_value:null;
-                    echo "</textarea>";  
-                    continue;  
+                    echo "</textarea>";
+                    continue;
                 case 'date':
                     echo "<input type=\"text\" class=\"form-control\" name=".$field_value_nameHolder." id=\"date".$sd_section_structure_detail->sd_field->id."\" value=";
                     echo (!empty($sd_section_structure_detail->sd_section_values[$j]))?$sd_section_structure_detail->sd_section_values[$j]->field_value:null;
                     echo ">";
             }
-        echo"</div>";        
+        echo"</div>";
         $i++;
         $length_taken = $sd_section_structure_detail->field_length + $sd_section_structure_detail->field_start_at;
     }

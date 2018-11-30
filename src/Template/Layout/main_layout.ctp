@@ -5,30 +5,30 @@
     <!-- <title>Dashboard</title> -->
 
     <!-- For local jQuery link, Bootstrap required -->
-    <?= $this->Html->script('bootstrap/jquery-3.2.1.slim.min.js') ?> 
+    <?= $this->Html->script('bootstrap/jquery-3.2.1.slim.min.js') ?>
 
     <!-- For local Font Awesome icon link -->
-    <?= $this->Html->css('fontAwesome/all.min.css') ?> 
+    <?= $this->Html->css('fontAwesome/all.min.css') ?>
 
     <!-- For local CSS link -->
-    <?= $this->Html->css('mainlayout.css') ?> 
+    <?= $this->Html->css('mainlayout.css') ?>
 
     <!-- For local JS link -->
-    <?= $this->Html->script('mainlayout.js') ?> 
+    <?= $this->Html->script('mainlayout.js') ?>
 
     <!-- For local Bootstrap/CSS link -->
-    <?= $this->Html->css('bootstrap/bootstrap-grid.min.css') ?> 
-    <?= $this->Html->css('bootstrap/bootstrap-reboot.min.css') ?> 
-    <?= $this->Html->css('bootstrap/bootstrap.min.css') ?> 
+    <?= $this->Html->css('bootstrap/bootstrap-grid.min.css') ?>
+    <?= $this->Html->css('bootstrap/bootstrap-reboot.min.css') ?>
+    <?= $this->Html->css('bootstrap/bootstrap.min.css') ?>
 
     <!-- For local Bootstrap/JS link -->
-    <?= $this->Html->script('bootstrap/bootstrap.bundle.min.js') ?> 
-    <?= $this->Html->script('bootstrap/bootstrap.min.js') ?> 
+    <?= $this->Html->script('bootstrap/bootstrap.bundle.min.js') ?>
+    <?= $this->Html->script('bootstrap/bootstrap.min.js') ?>
 </head>
 <body>
 <nav class="topNav navbar navbar-light">
   <a class="navLogo navbar-brand" href="/Dashboards/index">
-    <img src="/img/logo-2.png" alt="logo"> 
+    <img src="/img/logo-2.png" alt="logo">
   </a>
 
   <div class="login dropdown">

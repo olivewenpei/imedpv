@@ -22,6 +22,7 @@
         <p class="lead">Looks like what you searched is not EXISTED. (404 ERROR) </p>
         <hr class="my-4">
         <p>May be the link is wrong or expired. Please make sure the URL is correct :) </p>
+        <button type="button" class="btn btn-outline-info btn-lg mr-2" onclick="window.history.back()">Back to Previous</button>
         <a class="btn btn-primary btn-lg" href="/Dashboards/index" role="button">Back to Dashboard</a>
     </div> 
 

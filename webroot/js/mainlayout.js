@@ -1,4 +1,4 @@
-// Datepicker Script 
+// Datepicker Script
 $( function() {
     $( "[id^=date]" ).datepicker({
         changeMonth: true,
@@ -21,35 +21,77 @@ $( function() {
         });
     });
 
-// For popover effect on comments    
+// For popover effect on comments
 var $popover = jQuery.noConflict(); // This line is required if call more than 1 jQuery function from library
 $popover(document).ready(function(){
-    $popover('[data-toggle="popover"]').popover();   
+    $popover('[data-toggle="popover"]').popover();
 });
 
 jQuery(function($) {  // In case of jQuery conflict
 
-jQuery(function($) {  // TO DO: This line should have deleted, BUT will not work if delete directly    
+jQuery(function($) {  // TO DO: This line should have deleted, BUT will not work if delete directly
 // Date Input Validation ("Latest received date (A.1.7.b)" MUST Greater than "Initial Received date (A.1.6.b)")
-    $("#date12").change(function () { 
+    $("#date12").change(function () {
         var startDate = $('#date10').val();
-        var endDate = $('#date12').val(); 
-        
+        var endDate = $('#date12').val();
+
         if (Date.parse(endDate) <= Date.parse(startDate)) {
-            alert("End date should be greater than Start date");     
+            alert("End date should be greater than Start date");
             document.getElementById("date12").value = "";
-        } 
+        }
     });
 });
 
 // Dashboard popup Advance Search
-jQuery(function($) { 
+jQuery(function($) {
     $(document).ready(function(){
         $("#advsearch").click(function(){
             $("#advsearchfield").slideDown();
         });
     });
-}); 
+
+// Defaultworkflow and Custworkflow button control
+    $('#defbtn').click(function() {
+        $('.defworkflow').slideDown();
+        $('.custworkflow').slideUp();
+    })
+
+    $('#custbtn').click(function() {
+        $('.custworkflow').slideDown();
+        $('.defworkflow').slideUp();
+    });
+
+// Custworkflow draggable effect
+    $( function() {
+        $( "#sortable" ).sortable({
+          revert: true,
+          cancel: ".fixed,input,textarea",
+          delay: 100,
+          //connectWith: "",
+          stop: function (event, ui) {
+              //p.HandleSortPareto(ui, ui.item)  // note this just handles the change in order
+          },
+          start: function (event, ui) {}
+        });
+        $( "#draggable" ).draggable({
+          connectToSortable: "#sortable",
+          helper: "clone",
+          revert: "invalid",
+          start  : function(event, ui){
+              $(ui.helper).addClass("w-100 h-100");
+          }
+        });
+
+        $( "ul, li" ).disableSelection();
+      } );
+
+// Remove Custworkflow Step
+    $('.close').click(function() {
+        $(this).parents('ol#sortable > li.custworkflowstep').fadeOut();
+    });
+
+
+});
 
 
 // Control the topNav and leftNav running with the scroll
@@ -93,11 +135,11 @@ jQuery(function($) {
             unsaved = true;
         });
 
-        function unloadPage(){ 
+        function unloadPage(){
             if(unsaved){
                 return "You have unsaved changes on this page. Do you want to leave this page without saving or stay on this page?";
             }
-        }
+        };
 
         window.onbeforeunload = unloadPage;
     });
@@ -105,12 +147,12 @@ jQuery(function($) {
 // Dashboard "Case search modal" for clearing inputs
     $("#clearsearch").click(function(){
         $(':input').val('');
-    });  
+    });
 
 // Dashboard "Search case" button of shadow effect
     $('#searchBtn').hover(
         function(){ $(this).addClass('shadow') },
-        function(){ $(this).removeClass('shadow') 
+        function(){ $(this).removeClass('shadow')
     });
 
 // Make the table row clickable
@@ -120,7 +162,7 @@ jQuery(function($) {
         });
     });
 
-// TO DO: make nav button has "active" effect    
+// TO DO: make nav button has "active" effect
     $(document).ready(function($) {
         $("#navbarSupportedContent > ul > li").click(function() {
             $(this).removeClass('active');
@@ -128,23 +170,31 @@ jQuery(function($) {
         });
     });
 
-// Add Product card    
+// Add Product card
     $(document).ready(function($){
         $('#submitmsg').click(function() {
             $('.firstpage').hide();
             $('.secondpage').show();
         });
-    });
-    $(document).ready(function($){
         $('#submitchocountry').click(function() {
             $('.secondpage').hide();
             $('.thirdpage').show();
         });
-    });
-    $(document).ready(function($){
         $('#submitworkflow').click(function() {
             $('.thirdpage').hide();
             $('.fourthpage').show();
+        });
+        $('#goback1').click(function() {
+            $('.secondpage').hide();
+            $('.firstpage').show();
+        });
+        $('#goback2').click(function() {
+            $('.thirdpage').hide();
+            $('.secondpage').show();
+        });
+        $('#goback3').click(function() {
+            $('.fourthpage').hide();
+            $('.thirdpage').show();
         });
     });
 
@@ -160,9 +210,10 @@ jQuery(function($) {
             $(this).prevAll().prop("checked",false).prop("disabled",false);
             $(this).attr('style', 'display: none !important');
         })
-    })
+    });
 
-}); 
+
+});
 
 
 function onQueryClicked(){
@@ -180,7 +231,7 @@ function onQueryClicked(){
             var text = "";
             text +="<h3>Search Results</h3>";
             text +="<table class=\"table table-hover\">";
-            
+
             text += "<thead>";
             text +="<tr class=\"table-secondary\">";
             text +="<th scope=\"col\">AER No.</th>";
