@@ -7,7 +7,6 @@
             <div class="card">
                 <div class="card-header text-center">
                     <h5 class="firstpage">Add Product</h5>
-                    <h5 class="secondpage">Choose Country</h5>
                     <h5 class="thirdpage">Choose Workflow</h5>
                     <h5 class="fourthpage">Choose CROs</h5>
                 </div>
@@ -29,23 +28,24 @@
                             </div>
                         </div>
 
-                        <div id="submitmsg" class="btn btn-primary w-25 mt-3" type="submit">Submit</div>
+                        <div id="addpro" class="btn btn-primary w-25 mt-3">Submit</div>
 
-
+                        <div id="choosecon" class="mt-3">
+                            <h3>Choose Country</h3>
+                            <hr>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Choose Country</label>
+                                    <select class="form-control" id="">
+                                    <option>Global</option>
+                                    <option>Europe</option>
+                                    <option>Japan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="submitchocountry" class="btn btn-primary w-25 mt-3">Countinue</div>
+                        </div>
                     </div>
-
-                    <form class="secondpage text-center">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option1">
-                            <label class="form-check-label" for="exampleRadios1">USA</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option1">
-                            <label class="form-check-label" for="exampleRadios1">Japan</label>
-                        </div>
-                        <button type="button" id="goback1" class="btn btn-outline-warning mr-3 mt-3">Go Back</button>
-                        <div id="submitchocountry" class="btn btn-primary w-25 mt-3" type="submit">Countinue</div>
-                    </form>
 
                     <div class="thirdpage text-center">
                         <div class="row">
@@ -117,14 +117,11 @@
                                 <button type="button" id="custbtn" class="btn btn-success btn-lg">Customize Your Workflow</button>
                                 <hr class="custhr">
                                 <div class="custworkflow">
-                                    <p>Please drag the yellow box to anywhere in the workflow for customization</p>
+                                    <p>You can edit the workflow here and please drag the yellow box to anywhere in the workflow for customization</p>
                                     <ul>
                                         <li id="draggable" class="custworkflowstep">
                                             <div class="card w-100 h-25 my-2">
                                                 <div class="card-body p-3">
-                                                    <button type="button" class="close" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
                                                     <h5 class="card-title"><input type="text" placeholder="Type your step name here" class="font-weight-bold" /> </h5>
                                                     <p class="card-text"><textarea type="text"  class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
                                                 </div>

@@ -13,7 +13,7 @@ body{
 }
 
 /* mainNav */
-ul > li {
+ul.navMenu > li, ul.nav-pills > li {
     margin-right: 30px;
 }
 
@@ -112,10 +112,6 @@ ul.topbar > li.nav-item {
         font-size: 16px;
         width: 360px;
     }
-}
-
-
-.maintab {
 }
 
 #chooseFile {
@@ -224,8 +220,7 @@ tbody > tr {
     cursor: pointer;
 }
 
-
-.secondpage, .thirdpage, .fourthpage, .defworkflow {
+#choosecon, .thirdpage, .fourthpage, .defworkflow {
     display: none;
 }
 
@@ -264,4 +259,13 @@ tbody > tr {
 
 #draggable > div {
     background-color: rgba(247, 241, 183, 0.87);
+}
+
+.ui-state-highlight {
+    height: 100px;
+    border-color: red;
+}
+
+#draggable > .card > .card-body > button {
+    display: none;
 }

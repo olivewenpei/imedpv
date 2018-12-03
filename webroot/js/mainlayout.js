@@ -64,31 +64,43 @@ jQuery(function($) {
 // Custworkflow draggable effect
     $( function() {
         $( "#sortable" ).sortable({
-          revert: true,
-          cancel: ".fixed,input,textarea",
-          delay: 100,
-          //connectWith: "",
-          stop: function (event, ui) {
-              //p.HandleSortPareto(ui, ui.item)  // note this just handles the change in order
-          },
-          start: function (event, ui) {}
+            revert: true,
+            cancel: ".fixed,input,textarea",
+            delay: 100,
+            placeholder: "ui-state-highlight",
+            start  : function(event, ui){
+                $(ui.helper).addClass("w-100 h-50");
+            },
+            // Remove Custworkflow Step
+            update: function (event,ui) {
+                $('.close').click(function() {
+                    $(this).parents('li.custworkflowstep').fadeOut();
+                });
+            }
         });
         $( "#draggable" ).draggable({
-          connectToSortable: "#sortable",
-          helper: "clone",
-          revert: "invalid",
-          start  : function(event, ui){
-              $(ui.helper).addClass("w-100 h-100");
-          }
+            connectToSortable: "#sortable",
+            cursor: "pointer",
+            helper: "clone",
+            opacity: 0.6,
+            revert: "invalid",
+            start  : function(event, ui){
+                    $(ui.helper).addClass("w-100 h-75");
+            },
+            // Add "close icon" when drag into new place
+            create :  function (event, ui) {
+                    $(this).find('.card-body').prepend(
+                        '<button type="button" class="close" aria-label="Close">' +
+                            '<span aria-hidden="true">' + '&times;' + '</span>' +
+                        '</button>');
+                    },
+            // Remove all inputs in original when drag into new place
+            stop : function (event,ui) {
+                $(this).find('input, textarea').val('');
+            }
         });
 
-        $( "ul, li" ).disableSelection();
       } );
-
-// Remove Custworkflow Step
-    $('.close').click(function() {
-        $(this).parents('ol#sortable > li.custworkflowstep').fadeOut();
-    });
 
 
 });
@@ -172,25 +184,20 @@ jQuery(function($) {
 
 // Add Product card
     $(document).ready(function($){
-        $('#submitmsg').click(function() {
-            $('.firstpage').hide();
-            $('.secondpage').show();
-        });
+        $('#addpro').click(function() {
+            $('#choosecon').show();
+        })
         $('#submitchocountry').click(function() {
-            $('.secondpage').hide();
+            $('.firstpage').hide();
             $('.thirdpage').show();
         });
         $('#submitworkflow').click(function() {
             $('.thirdpage').hide();
             $('.fourthpage').show();
         });
-        $('#goback1').click(function() {
-            $('.secondpage').hide();
-            $('.firstpage').show();
-        });
         $('#goback2').click(function() {
             $('.thirdpage').hide();
-            $('.secondpage').show();
+            $('.firstpage').show();
         });
         $('#goback3').click(function() {
             $('.fourthpage').hide();
@@ -209,7 +216,7 @@ jQuery(function($) {
         $(".undo").click(function() {
             $(this).prevAll().prop("checked",false).prop("disabled",false);
             $(this).attr('style', 'display: none !important');
-        })
+        });
     });
 
 
