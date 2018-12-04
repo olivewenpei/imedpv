@@ -216,6 +216,15 @@ li.nav-item:hover > .dropdown-menu {
     margin: 20px 0px;
 }
 
+.prodiff:nth-child(odd) {
+    padding: 20px;
+}
+
+.prodiff:nth-child(even) {
+    background-color: #f3f1f1;
+    padding: 20px;
+}
+
 tbody > tr {
     cursor: pointer;
 }
@@ -293,4 +302,8 @@ tbody > tr {
 .workflow:hover span:after {
   opacity: 1;
   right: 0;
+}
+
+hr.wfhr {
+    border-top: 2px dotted lightgrey;
 }

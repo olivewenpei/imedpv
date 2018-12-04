@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <div class="text-center">
                         <!-- Add Product -->
-                        <div id="addpro" class="form-row">
+                        <div id="addpro" class="prodiff form-row">
                             <div class="form-group col-md-4">
                                 <label>Product Name</label>
                                 <input type="text" class="form-control" id="#" placeholder="Product Name">
@@ -28,7 +28,7 @@
                         </div>
 
                         <!-- Choose Country -->
-                        <div id="choosecon" class="mt-5 text-center">
+                        <div id="choosecon" class="prodiff text-center mt-5">
                             <h3>Choose Country</h3>
                             <hr>
                             <div class="form-row">
@@ -45,14 +45,14 @@
                         </div>
 
                         <!-- Choose Workflow -->
-                        <div id="choosewf" class="text-center mt-5">
+                        <div id="choosewf" class="prodiff text-center mt-5">
                             <h3>Choose Workflow</h3>
                             <hr>
                             <div class="row">
                                 <!-- Default Workflow -->
                                 <div class="col">
                                     <button type="button" id="defbtn" class="btn btn-success btn-sm workflow"><span>Default Workflow</span></button>
-                                    <hr>
+                                    <hr class="wfhr">
                                     <ol class="defworkflow">
                                         <p>This is default workflow and cannot be changed</p>
                                         <li class="custworkflowstep">
@@ -115,7 +115,7 @@
                                 <!-- Customize Workflow -->
                                 <div class="col">
                                     <button type="button" id="custbtn" class="btn btn-success btn-sm workflow"><span>Customize Your Workflow</span></button>
-                                    <hr class="custhr">
+                                    <hr class="wfhr">
                                     <div class="custworkflow">
                                         <p>You can edit the workflow here and please drag the yellow box to anywhere in the workflow for customization</p>
                                         <ul>
@@ -206,7 +206,7 @@
                         </div>
 
                         <!-- Choose CROs -->
-                        <div id="choosecro" class="text-center">
+                        <div id="choosecro" class="prodiff text-center">
                             <h3 class="mt-5">Choose CROs</h3>
                             <hr>
                             <p class="card-text">Click the CRO which you want to assign personnels</p>
@@ -227,28 +227,39 @@
                                         </div>
                                         <div class="modal-body">
                                             <p>Assign people as manager or team members.</p>
-                                            <div class="form-row">
-                                                <div class="custom-control custom-radio custom-control-inline col-md-2">
-                                                    <input id="a1" class="checkboxstyle" name="a1" value="1" type="checkbox">
-                                                    <label for="a1">Alice</label>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                </div>
-                                                <div class="custom-control custom-radio custom-control-inline col-md-2">
-                                                    <input id="a2" class="checkboxstyle" name="a1" value="2" type="checkbox">
-                                                    <label for="a2">John</label>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                </div>
-                                                <div class="custom-control custom-radio custom-control-inline col-md-2">
-                                                    <input id="a3" class="checkboxstyle" name="a1" value="3" type="checkbox">
-                                                    <label for="a3">Tom</label>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                </div>
-                                                <div class="custom-control custom-radio custom-control-inline col-md-2">
-                                                    <input id="a4" class="checkboxstyle" name="a1" value="4" type="checkbox">
-                                                    <label for="a4">Tommy</label>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
+                                            <!-- Choose Personnels -->
+                                            <div class="m-3">
+                                                <h6 class="text-uppercase text-left">Team A</h6>  <hr class="my-1">
+                                                <div class="form-row">
+                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
+                                                        <input id="a1" class="checkboxstyle" name="a1" value="1" type="checkbox">
+                                                        <label for="a1">Alice</label>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
+                                                    </div>
+                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
+                                                        <input id="a2" class="checkboxstyle" name="a1" value="2" type="checkbox">
+                                                        <label for="a2">John</label>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="m-3">
+                                                <h6 class="text-uppercase text-left">Team B</h6>  <hr class="my-1">
+                                                <div class="form-row">
+                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
+                                                        <input id="a3" class="checkboxstyle" name="a1" value="3" type="checkbox">
+                                                        <label for="a3">Tom</label>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
+                                                    </div>
+                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
+                                                        <input id="a4" class="checkboxstyle" name="a1" value="4" type="checkbox">
+                                                        <label for="a4">Tommy</label>
+                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Personnels Table -->
+                                            <ul class="output"></ul>
                                         </div>
                                         <div class="modal-footer">
                                             <button id="worman" class="btn btn-outline-success" type="submit">Assign as workflow manager</button>

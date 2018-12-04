@@ -99,13 +99,39 @@ jQuery(function($) {
                 $(this).find('input, textarea').val('');
             }
         });
+      });
 
-      } );
-
-
-      $('.close').click(function() {
+// Custworkflow Close icon
+    $('.close').click(function() {
         $(this).parents('li.custworkflowstep').fadeOut();
     });
+    
+/*  TO DO: Assign people to table
+    $("input:checkbox").click(function() {
+        var percheckval = $("label[for='" + this.id + "']").text(); 
+        $( ".output" ).append ("<li>" + percheckval + "</li>" );
+     });
+
+     $('#worman, #teres').click(function(){
+         if ($('.checkboxstyle').is(':checked')) {
+             alert('Yes');
+         }
+     });
+
+    $('#worman, #teres').click(function(){
+        if ($("input:checkbox").click(function() {
+            var percheckval = $("label[for='" + this.id + "']").text(); 
+            alert(percheckval)
+        }));
+     });
+
+     $("input:checkbox").change(function() {
+            if($('#worman, #teres').click(function(){
+                var percheckval = $("label[for='" + this.id + "']").text(); 
+                $( ".output" ).append ("<li>" + percheckval + "</li>" );
+            }));
+        });
+*/
 
 
 });
