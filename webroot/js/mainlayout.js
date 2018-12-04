@@ -103,6 +103,11 @@ jQuery(function($) {
       } );
 
 
+      $('.close').click(function() {
+        $(this).parents('li.custworkflowstep').fadeOut();
+    });
+
+
 });
 
 
@@ -188,20 +193,10 @@ jQuery(function($) {
             $('#choosecon').show();
         })
         $('#submitchocountry').click(function() {
-            $('.firstpage').hide();
-            $('.thirdpage').show();
+            $('#choosewf').show();
         });
         $('#submitworkflow').click(function() {
-            $('.thirdpage').hide();
-            $('.fourthpage').show();
-        });
-        $('#goback2').click(function() {
-            $('.thirdpage').hide();
-            $('.firstpage').show();
-        });
-        $('#goback3').click(function() {
-            $('.fourthpage').hide();
-            $('.thirdpage').show();
+            $('#choosecro').show();
         });
     });
 
