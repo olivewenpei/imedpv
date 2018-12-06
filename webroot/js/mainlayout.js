@@ -24,8 +24,13 @@ $( function() {
 // For popover effect on comments
 var $popover = jQuery.noConflict(); // This line is required if call more than 1 jQuery function from library
 $popover(document).ready(function(){
-    $popover('[data-toggle="popover"]').popover();
+    $popover('[data-toggle="popover"]').popover({
+        html: true,
+        trigger: 'hover focus',
+        delay: { show: 100, hide: 500 }
+    });
 });
+
 
 jQuery(function($) {  // In case of jQuery conflict
 
@@ -61,6 +66,7 @@ jQuery(function($) {
         $('.defworkflow').slideUp();
     });
 
+
 // Custworkflow draggable effect
     $( function() {
         $( "#sortable" ).sortable({
@@ -89,10 +95,7 @@ jQuery(function($) {
             },
             // Add "close icon" when drag into new place
             create :  function (event, ui) {
-                    $(this).find('.card-body').prepend(
-                        '<button type="button" class="close" aria-label="Close">' +
-                            '<span aria-hidden="true">' + '&times;' + '</span>' +
-                        '</button>');
+                    $(this).find('.card-body').prepend( '<button type="button" class="close" aria-label="Close">' + '<span aria-hidden="true">' + '&times;' + '</span>' + '</button>');
                     },
             // Remove all inputs in original when drag into new place
             stop : function (event,ui) {
@@ -105,34 +108,46 @@ jQuery(function($) {
     $('.close').click(function() {
         $(this).parents('li.custworkflowstep').fadeOut();
     });
-    
-/*  TO DO: Assign people to table
-    $("input:checkbox").click(function() {
-        var percheckval = $("label[for='" + this.id + "']").text(); 
-        $( ".output" ).append ("<li>" + percheckval + "</li>" );
-     });
 
-     $('#worman, #teres').click(function(){
-         if ($('.checkboxstyle').is(':checked')) {
-             alert('Yes');
-         }
-     });
 
-    $('#worman, #teres').click(function(){
-        if ($("input:checkbox").click(function() {
-            var percheckval = $("label[for='" + this.id + "']").text(); 
-            alert(percheckval)
-        }));
-     });
+/*  TO DO: Assign people to table */
 
-     $("input:checkbox").change(function() {
-            if($('#worman, #teres').click(function(){
-                var percheckval = $("label[for='" + this.id + "']").text(); 
-                $( ".output" ).append ("<li>" + percheckval + "</li>" );
+    $('input[type=checkbox]').change(function() {
+        var vals = $('input[type=checkbox]:checked').map(function() {
+            return $(this).val();
+        }).get().join('<br>');
+        var unvals = $('input[type=checkbox]:not(checked)').is(function () {
+            if($('input[type=checkbox]:checked').map(function() {
+                return $(this).val();
             }));
-        });
-*/
+         });
+        if( $('#worman').click(function(){
+            $('.worman').html(vals);
+        }));
+        if( $('#teres').click(function(){
+            $('.teres').html(unvals);
+        }));
+    });
 
+// "Complete" button message
+    $('button[type=submit]').click(function() {
+        swal({
+            title: "Are you sure?",
+            text: "Your data is changed, are you sure to complete?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal("All the data has been saved", {
+                icon: "success",
+              });
+            } else {
+              swal("All the input data is safe!");
+            }
+          });
+    })
 
 });
 
@@ -170,22 +185,6 @@ jQuery(function($) {
         });
     });
 
-// Alert if changes unsaved
-    $(document).ready(function () {
-        var unsaved = false;
-
-        $(":input").change(function(){      //trigers change in all input fields including text type
-            unsaved = true;
-        });
-
-        function unloadPage(){
-            if(unsaved){
-                return "You have unsaved changes on this page. Do you want to leave this page without saving or stay on this page?";
-            }
-        };
-
-        window.onbeforeunload = unloadPage;
-    });
 
 // Dashboard "Case search modal" for clearing inputs
     $("#clearsearch").click(function(){
@@ -252,10 +251,11 @@ function onQueryClicked(){
             'X-CSRF-Token': csrfToken
         },
         type:'POST',
-        url:'/dashboards/index',
+        url:'/dashboards/search',
         data:request,
         success:function(response){
             var result = $.parseJSON(response);
+            console.log(response);
             var text = "";
             text +="<h3>Search Results</h3>";
             text +="<table class=\"table table-hover\">";
@@ -285,7 +285,7 @@ function onQueryClicked(){
                 text += "<td>" + caseDetail.sd_product.study_no + "<td>";
                 text += "<td></td>";
                 text += "<td>" + caseDetail.end_date + "</td>";
-                text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.caseNo+"\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">More</a></td>";
+                text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.caseNo+"\" onClick=\"DataEntryCheck()\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">More</a></td>";
                 text += "</tr>";
             })
             text +="</tbody>";
@@ -300,4 +300,8 @@ function onQueryClicked(){
 
         }
     });
+
+    function DataEntryCheck(){
+
+    }
 }

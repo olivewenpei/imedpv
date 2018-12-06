@@ -8,6 +8,10 @@ echo $this->element('widget');
 ?>
 
 <title>Data Entry</title>
+<head>
+    <!-- For checking unsaved contents JS link -->
+    <?= $this->Html->script('checkunsaved.js') ?>
+</head>
 
 <!-- Data Entry Top Bar -->
 <ul class="topbar nav justify-content-end pt-2 pb-2" id="topbar">
@@ -125,6 +129,7 @@ echo $this->element('widget');
             </li>
         </ul>
     </div>
+
 
 <!-- Data Entry Body -->
 <!-- General Tab -->
@@ -268,7 +273,7 @@ function displaySingleSection($section, $setNo){
         if ($j==-1) $j = $jflag;
         echo "<div id=\"field".$sd_section_structure_detail->sd_field->id."\" class=\"form-group col-md-".$sd_section_structure_detail->field_length." offset-md-".($sd_section_structure_detail->field_start_at-$length_taken)."\">";
         echo "<label id= \"field-label".$sd_section_structure_detail->sd_field->id."\" >".$sd_section_structure_detail->sd_field->field_label;//loop by value set
-        echo " <a title=\"Field Helper\" data-toggle=\"popover\" data-trigger=\"hover\" data-content=".$sd_section_structure_detail->sd_field->comment."><i class=\"qco fas fa-info-circle\"></i></a></label>";
+        echo " <a tabindex=\"0\" role=\"button\" data-toggle=\"popover\" title=\"Field Helper\" data-content=\"<div>".$sd_section_structure_detail->sd_field->comment."</div>\"><i class=\"qco fas fa-info-circle\"></i></a></label>";
         $q = 'sdSections.sd_section_structures.'.$i.'.sd_section_values.'.$j.'.id';
         $p = 'sdSections.sd_section_structures.'.$i.'.sd_section_values.'.$j.'.field_value';
         $id_idHolder = 'sdsections-sd-section-structures-'.$i.'-sd-section-values-'.$j.'-id';

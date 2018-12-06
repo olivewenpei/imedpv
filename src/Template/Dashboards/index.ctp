@@ -5,7 +5,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 <div class="container">
   <div class="row">
     <div class="col">
-        <div class="card text-center"> 
+        <div class="card text-center">
             <h5 class="card-header">Seriousness Cases Alert (For Medical Review ONLY)</h5>
             <div class="card-body">
 				<!--
@@ -39,10 +39,10 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
     </div>
   </div>
 
-  
+
   <div class="row" id="pendcase">
     <div class="col">
-        <div class="card text-center"> 
+        <div class="card text-center">
             <h5 class="card-header"> <span class="badge badge-pill badge-danger" id="alertNew">3</span> Pending Cases (For Data Entry ONLY)</h5>
             <div class="card-body">
 				<!--
@@ -102,7 +102,6 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
         <h5> Case List</h5>
     </div>
     <div class="card-body">
-        <?= $this->Form->create();?>  
         <div class="form-row">
             <div class="form-group col-lg-4">
                 <!-- <label for="recipient-name" class="col-form-label">Recipient:</label> -->
@@ -119,7 +118,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             <div class="duedate form-group col-2">Activity Due Date:</div>
             <div class="form-group col-1">
                 <input type="text" class="form-control" id="datepicker1" placeholder="[mm/dd/yyyy]">
-            </div> 
+            </div>
             <div class="arrow">
                 <i class="far fa-window-minimize"></i>
             </div>
@@ -130,7 +129,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             <div class="duedate form-group col-2 float-right">Submission Due Date:</div>
             <div class="form-group col-1">
                 <input type="text" class="form-control" id="datepicker3" placeholder="[mm/dd/yyyy]">
-            </div> 
+            </div>
             <div class="arrow">
                 <i class="far fa-window-minimize"></i>
             </div>
@@ -165,10 +164,9 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             <div class="form-group col-lg-1">
                 <div id="clearsearch" class="form-control-lg btn btn-outline-danger w-100 py-2"><i class="fas fa-eraser"></i> Clear</div>
             </div>
-        </div> 
-        <?= $this->Form->end();?>  
+        </div>
         <div id="textHint" class="d-block w-100 text-center"></div>
     </div>
   </div>
-  
+
 </div>

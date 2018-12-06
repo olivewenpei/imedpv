@@ -6,6 +6,7 @@
 
     <!-- For local jQuery link, Bootstrap required -->
     <?= $this->Html->script('bootstrap/jquery-3.2.1.slim.min.js') ?>
+    <?= $this->Html->script('bootstrap/popper.min.js') ?>
 
     <!-- For local Font Awesome icon link -->
     <?= $this->Html->css('fontAwesome/all.min.css') ?>
@@ -15,6 +16,7 @@
 
     <!-- For local JS link -->
     <?= $this->Html->script('mainlayout.js') ?>
+    <?= $this->Html->script('sweetalert.js') ?>
 
     <!-- For local Bootstrap/CSS link -->
     <?= $this->Html->css('bootstrap/bootstrap-grid.min.css') ?>
@@ -93,6 +95,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 </body>
 </html>

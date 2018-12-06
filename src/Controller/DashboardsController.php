@@ -9,6 +9,10 @@ class DashboardsController extends AppController {
     public function index (){
         $this->viewBuilder()->layout('main_layout');
         $userinfo = $this->request->session()->read('Auth.user');
+
+    }
+
+    public function search(){
         if($this->request->is('POST')){
             $this->autoRender = false;
             $searchKey = $this->request->getData();
@@ -27,12 +31,19 @@ class DashboardsController extends AppController {
                             $flag ++;
                         }
                         return $exp;
-                    });                
+                    });
                 }
                 $searchResult = $searchResult->contain(['SdProducts'=>['fields'=>['SdProducts.study_no']]])->all();
             }catch (\PDOException $e){
                 echo "cannot the case find in database";
             }
+            //[{"id":2,"caseNo":"1","sd_product_id":0,"sd_phase_id":1,"start_date":"20121111","end_date":"20121111","status":1,"sd_product":{"study_no":"Test Product Study"}}]
+            /*
+            $searchResult = array(
+                0=>array('id'=>2, 'caseNo'=>1),
+                1=>array('id'=>4, 'caseNo'=>6)
+        );*/
+
             echo json_encode($searchResult);
             // $this->set(compact('searchResult'));
             die();

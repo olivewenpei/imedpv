@@ -232,12 +232,12 @@
                                                 <h6 class="text-uppercase text-left">Team A</h6>  <hr class="my-1">
                                                 <div class="form-row">
                                                     <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a1" class="checkboxstyle" name="a1" value="1" type="checkbox">
+                                                        <input id="a1" class="checkboxstyle" name="a1" value="Alice" type="checkbox">
                                                         <label for="a1">Alice</label>
                                                         <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
                                                     </div>
                                                     <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a2" class="checkboxstyle" name="a1" value="2" type="checkbox">
+                                                        <input id="a2" class="checkboxstyle" name="a1" value="John" type="checkbox">
                                                         <label for="a2">John</label>
                                                         <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
                                                     </div>
@@ -247,19 +247,20 @@
                                                 <h6 class="text-uppercase text-left">Team B</h6>  <hr class="my-1">
                                                 <div class="form-row">
                                                     <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a3" class="checkboxstyle" name="a1" value="3" type="checkbox">
+                                                        <input id="a3" class="checkboxstyle" name="a1" value="Tom" type="checkbox">
                                                         <label for="a3">Tom</label>
                                                         <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
                                                     </div>
                                                     <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a4" class="checkboxstyle" name="a1" value="4" type="checkbox">
+                                                        <input id="a4" class="checkboxstyle" name="a1" value="Tommy" type="checkbox">
                                                         <label for="a4">Tommy</label>
                                                         <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- Personnels Table -->
-                                            <ul class="output"></ul>
+                                            <ul>Workflow Manager:<div class="worman"> </div></ul>
+                                            <ul>Team Resources:<div class="teres"> </div></ul>
                                         </div>
                                         <div class="modal-footer">
                                             <button id="worman" class="btn btn-outline-success" type="submit">Assign as workflow manager</button>
