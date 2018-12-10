@@ -13,8 +13,6 @@
         <li><?= $this->Html->link(__('New Sd Case'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Sd Phases'), ['controller' => 'SdPhases', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Sd Phase'), ['controller' => 'SdPhases', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="sdCases view large-9 medium-8 columns content">
@@ -25,20 +23,24 @@
             <td><?= h($sdCase->caseNo) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Sd Product') ?></th>
-            <td><?= $sdCase->has('sd_product') ? $this->Html->link($sdCase->sd_product->id, ['controller' => 'SdProducts', 'action' => 'view', $sdCase->sd_product->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sd Phase') ?></th>
-            <td><?= $sdCase->has('sd_phase') ? $this->Html->link($sdCase->sd_phase->id, ['controller' => 'SdPhases', 'action' => 'view', $sdCase->sd_phase->id]) : '' ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($sdCase->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Sd Product Workflow Id') ?></th>
+            <td><?= $this->Number->format($sdCase->sd_product_workflow_id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Activity Id') ?></th>
+            <td><?= $this->Number->format($sdCase->sd_activity_id) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Status') ?></th>
             <td><?= $this->Number->format($sdCase->status) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd User Id') ?></th>
+            <td><?= $this->Number->format($sdCase->sd_user_id) ?></td>
         </tr>
     </table>
     <div class="row">

@@ -27,8 +27,12 @@
             <td><?= $this->Number->format($sdUserAssignment->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Sd Study Assignment Id') ?></th>
-            <td><?= $this->Number->format($sdUserAssignment->sd_study_assignment_id) ?></td>
+            <th scope="row"><?= __('Sd Product Assignment Id') ?></th>
+            <td><?= $this->Number->format($sdUserAssignment->sd_product_assignment_id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Activity Id') ?></th>
+            <td><?= $this->Number->format($sdUserAssignment->sd_activity_id) ?></td>
         </tr>
     </table>
 </div>

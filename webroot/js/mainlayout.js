@@ -1,23 +1,23 @@
 // Datepicker Script
 $( function() {
-    $( "[id^=date]" ).datepicker({
+    $( "[id*=date]" ).datepicker({
         changeMonth: true,
         changeYear: true
     });
-    $("#field355").hide();
+    $("#section-1-field-355").hide();
 } );
 
 // For Additional documents (A.1.8.1) select in General Tab
     // If choose "Yes", show "Choose file"
     $(document).ready(function(){
-        $("#radio13-option-1").click(function(){
-            $("#field355").show(1000);
+        $("#section-1-radio-13-option-1").click(function(){
+            $("#section-1-field-355").show(1000);
         });
     });
     // If choose "No", hide "Choose file"
     $(document).ready(function(){
-        $("#radio13-option-2").click(function(){
-            $("#field355").hide(1000);
+        $("#section-1-radio-13-option-2").click(function(){
+            $("#section-1-field-355").hide(1000);
         });
     });
 
@@ -31,21 +31,19 @@ $popover(document).ready(function(){
     });
 });
 
-
 jQuery(function($) {  // In case of jQuery conflict
 
-jQuery(function($) {  // TO DO: This line should have deleted, BUT will not work if delete directly
+  // TO DO: This line should have deleted, BUT will not work if delete directly
 // Date Input Validation ("Latest received date (A.1.7.b)" MUST Greater than "Initial Received date (A.1.6.b)")
-    $("#date12").change(function () {
-        var startDate = $('#date10').val();
-        var endDate = $('#date12').val();
+    $("#section-1-date-12").change(function () {
+        var startDate = $('#section-1-date-10').val();
+        var endDate = $('#section-1-date-12').val();
 
         if (Date.parse(endDate) <= Date.parse(startDate)) {
             alert("End date should be greater than Start date");
-            document.getElementById("date12").value = "";
+            document.getElementById("section-1-date-12").value = "";
         }
     });
-});
 
 // Dashboard popup Advance Search
 jQuery(function($) {
@@ -197,7 +195,7 @@ jQuery(function($) {
         function(){ $(this).removeClass('shadow')
     });
 
-// Make the table row clickable
+    // Make the table row clickable
     $(document).ready(function($) {
         $("tbody > tr").click(function() {
             window.document.location = $(this).data("href");
@@ -225,7 +223,7 @@ jQuery(function($) {
         });
     });
 
-// Assign human to CROs
+    // Assign human to CROs
     $(document).ready(function($){
         $('#worman,#teres').click(function() {
             if($(".checkboxstyle").is(":checked")) {
@@ -239,9 +237,142 @@ jQuery(function($) {
         });
     });
 
+    // AutoComplete
+    jQuery(function($) {
+        var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
+
+        function split( val ) {
+            return val.split( /,\s*/ );
+        }
+        function extractLast( term ) {
+            return split( term ).pop();
+        }
+
+        $( "#section-1-text-1" )
+            // don't navigate away from the field on tab when selecting an item
+            .on( "keydown", function( event ) {
+            if ( event.keyCode === $.ui.keyCode.TAB &&
+                $( this ).autocomplete( "instance" ).menu.active ) {
+                event.preventDefault();
+            }
+            })
+            .autocomplete({
+            minLength: 0,
+            source: function( request, response ) {
+                // delegate back to autocomplete, but extract the last term
+                response( $.ui.autocomplete.filter(
+                availableTags, extractLast( request.term ) ) );
+            },
+            focus: function() {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function( event, ui ) {
+                var terms = split( this.value );
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+                return false;
+            }
+        });
+
+    });
 
 });
 
+
+
+function setPageChange(section_id, pageNo, addFlag=null) {
+
+    var sectionIdOriginal =  $("[id^=right_set-"+section_id+"]").attr('id');
+    var sectionId = sectionIdOriginal.split('-');
+    var setNo = sectionId[5];
+
+    var max_set_no = 0;
+    $("[id^=section-"+sectionId[1]+"-page_number").each(function() {
+        max_set_no = Math.max(Number($(this).html()), max_set_no);
+
+    });
+
+    // if ((Number(setNo)+Number(steps) <= 0)||(Number(setNo)+Number(steps)>max_set_no)) {console.log("set_no not avaiable"); return;};
+    if ((pageNo <= 0)||(pageNo>max_set_no)) {console.log("set_no not avaiable"); return;};
+    if(addFlag == 1) {
+        pageNo = max_set_no+1;
+        alert("you are editing a new record");
+        $("[id^=add_set-"+sectionId[1]+"]").hide();
+        }else $("[id^=add_set-"+sectionId[1]+"]").show();;
+    $("[id^=section-"+sectionId[1]+"][name$=\\[id\\]]").each(function(){
+        var sectionStructureK = $(this).attr('name').split(/[\[\]]/)[3];
+        var valueFlag = false;
+        if (section[sectionId[3]].sd_section_structures[sectionStructureK].sd_field.sd_field_values.length>=1){
+            var thisElement = $(this);
+            $.each(section[sectionId[3]].sd_section_structures[sectionStructureK].sd_field.sd_field_values, function(index, value){
+                if (value.set_number== pageNo){
+                    thisElement.val(value.id);
+                    valueFlag = true;
+                }
+            });
+            if(valueFlag == false) {
+                $(this).val(null);
+
+            };
+        }
+    });
+    $("[id^=section-"+sectionId[1]+"][name$=\\[set_number\\]]").each(function(){
+        var newSetNumber = pageNo;
+        $(this).val(newSetNumber);
+    });
+    $("[id^=section-"+sectionId[1]+"][name$=\\[field_value\\]]").each(function(){
+        var sectionStructureK = $(this).attr('name').split(/[\[\]]/)[3];
+        var valueFlag = false;
+        if (section[sectionId[3]].sd_section_structures[sectionStructureK].sd_field.sd_field_values.length>=1){
+            var thisElement = $(this);
+            $.each(section[sectionId[3]].sd_section_structures[sectionStructureK].sd_field.sd_field_values, function(index, value){
+                if (value.set_number== pageNo){
+                    thisElement.val(value.field_value);
+                    valueFlag = true;
+                }
+            });
+            if(valueFlag == false) {
+                $(this).val(null);
+
+            };
+        }
+    });
+    $("[id^=left_set-"+sectionId[1]+"]").attr('id', 'left_set-'+sectionId[1]+'-'+sectionId[2]+'-'+sectionId[3]+'-'+sectionId[4]+'-'+pageNo);
+    $("[id^=left_set-"+sectionId[1]+"]").attr('onclick','setPageChange('+sectionId[1]+','+Number(Number(pageNo)-1)+')');
+    $("[id^=right_set-"+sectionId[1]+"]").attr('id', 'right_set-'+sectionId[1]+'-'+sectionId[2]+'-'+sectionId[3]+'-'+sectionId[4]+'-'+pageNo);
+    $("[id^=right_set-"+sectionId[1]+"]").attr('onclick','setPageChange('+sectionId[1]+','+Number(Number(pageNo)+1)+')');
+    $("[id=section-"+sectionId[1]+"-page_number-"+sectionId[5]+"]").css('background-color', 'white');
+    $("[id=section-"+sectionId[1]+"-page_number-"+pageNo+"]").css('background-color', 'grey');
+};
 
 function onQueryClicked(){
     var request = {'searchName': $("#searchName").val(), 'searchProductName':$("#searchProductName").val()};
@@ -254,8 +385,8 @@ function onQueryClicked(){
         url:'/dashboards/search',
         data:request,
         success:function(response){
-            var result = $.parseJSON(response);
             console.log(response);
+            var result = $.parseJSON(response);
             var text = "";
             text +="<h3>Search Results</h3>";
             text +="<table class=\"table table-hover\">";
@@ -282,10 +413,10 @@ function onQueryClicked(){
                 text += "<td></td>";
                 text += "<td>" + caseDetail.start_date + "</td>";
                 text += "<td></td>";
-                text += "<td>" + caseDetail.sd_product.study_no + "<td>";
+                text += "<td>" + caseDetail.sd_product_workflow.sd_product.study_no + "<td>";
                 text += "<td></td>";
                 text += "<td>" + caseDetail.end_date + "</td>";
-                text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.caseNo+"\" onClick=\"DataEntryCheck()\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">More</a></td>";
+                text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.id+"\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">More</a></td>";
                 text += "</tr>";
             })
             text +="</tbody>";
@@ -293,9 +424,8 @@ function onQueryClicked(){
             $("#textHint").html(text);
         },
         error:function(response){
-                console.log(response);
-                console.log(response.status);
-                console.log(response.statusText);
+                console.log(response.responseText);
+
             $("#textHint").html("Sorry, no case matches");
 
         }

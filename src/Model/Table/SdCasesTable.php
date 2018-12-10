@@ -9,8 +9,11 @@ use Cake\Validation\Validator;
 /**
  * SdCases Model
  *
- * @property \App\Model\Table\SdProductsTable|\Cake\ORM\Association\BelongsTo $SdProducts
- * @property \App\Model\Table\SdPhasesTable|\Cake\ORM\Association\BelongsTo $SdPhases
+ * @property |\Cake\ORM\Association\BelongsTo $SdProductWorkflows
+ * @property |\Cake\ORM\Association\BelongsTo $SdActivities
+ * @property |\Cake\ORM\Association\BelongsTo $SdUsers
+ * @property |\Cake\ORM\Association\HasMany $SdCaseGeneralInfos
+ * @property |\Cake\ORM\Association\HasMany $SdFieldValues
  *
  * @method \App\Model\Entity\SdCase get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdCase newEntity($data = null, array $options = [])
@@ -38,13 +41,23 @@ class SdCasesTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('SdProducts', [
-            'foreignKey' => 'sd_product_id',
+        $this->belongsTo('SdProductWorkflows', [
+            'foreignKey' => 'sd_product_workflow_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('SdPhases', [
-            'foreignKey' => 'sd_phase_id',
+        $this->belongsTo('SdActivities', [
+            'foreignKey' => 'sd_activity_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('SdUsers', [
+            'foreignKey' => 'sd_user_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->hasMany('SdCaseGeneralInfos', [
+            'foreignKey' => 'sd_case_id'
+        ]);
+        $this->hasMany('SdFieldValues', [
+            'foreignKey' => 'sd_case_id'
         ]);
     }
 
@@ -93,8 +106,9 @@ class SdCasesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['sd_product_id'], 'SdProducts'));
-        $rules->add($rules->existsIn(['sd_phase_id'], 'SdPhases'));
+        $rules->add($rules->existsIn(['sd_product_workflow_id'], 'SdProductWorkflows'));
+        $rules->add($rules->existsIn(['sd_activity_id'], 'SdActivities'));
+        $rules->add($rules->existsIn(['sd_user_id'], 'SdUsers'));
 
         return $rules;
     }

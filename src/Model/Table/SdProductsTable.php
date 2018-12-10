@@ -9,10 +9,7 @@ use Cake\Validation\Validator;
 /**
  * SdProducts Model
  *
- * @property \App\Model\Table\SdWorkflowsTable|\Cake\ORM\Association\BelongsTo $SdWorkflows
- * @property |\Cake\ORM\Association\HasMany $SdCases
- * @property \App\Model\Table\SdProductAssignmentsTable|\Cake\ORM\Association\HasMany $SdProductAssignments
- * @property |\Cake\ORM\Association\HasMany $SdStudyCros
+ * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
  * @method \App\Model\Entity\SdProduct get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdProduct newEntity($data = null, array $options = [])
@@ -40,17 +37,7 @@ class SdProductsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('SdWorkflows', [
-            'foreignKey' => 'sd_workflow_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->hasMany('SdCases', [
-            'foreignKey' => 'sd_product_id'
-        ]);
-        $this->hasMany('SdProductAssignments', [
-            'foreignKey' => 'sd_product_id'
-        ]);
-        $this->hasMany('SdStudyCros', [
+        $this->hasMany('SdProductWorkflows', [
             'foreignKey' => 'sd_product_id'
         ]);
     }
@@ -88,19 +75,5 @@ class SdProductsTable extends Table
             ->notEmpty('status');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['sd_workflow_id'], 'SdWorkflows'));
-
-        return $rules;
     }
 }

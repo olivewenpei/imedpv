@@ -8,8 +8,6 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Sd Workflow'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Phases'), ['controller' => 'SdPhases', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Phase'), ['controller' => 'SdPhases', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?></li>
     </ul>
@@ -21,6 +19,8 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('country') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('workflow_type') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -29,6 +29,8 @@
             <tr>
                 <td><?= $this->Number->format($sdWorkflow->id) ?></td>
                 <td><?= $this->Number->format($sdWorkflow->status) ?></td>
+                <td><?= h($sdWorkflow->country) ?></td>
+                <td><?= $this->Number->format($sdWorkflow->workflow_type) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdWorkflow->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sdWorkflow->id]) ?>

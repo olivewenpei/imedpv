@@ -8,10 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Sd Product'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Workflows'), ['controller' => 'SdWorkflows', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Workflow'), ['controller' => 'SdWorkflows', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Product Assignments'), ['controller' => 'SdProductAssignments', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Product Assignment'), ['controller' => 'SdProductAssignments', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdProducts index large-9 medium-8 columns content">
@@ -20,7 +18,6 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sd_workflow_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('product_type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sponsor_company') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
@@ -31,7 +28,6 @@
             <?php foreach ($sdProducts as $sdProduct): ?>
             <tr>
                 <td><?= $this->Number->format($sdProduct->id) ?></td>
-                <td><?= $sdProduct->has('sd_workflow') ? $this->Html->link($sdProduct->sd_workflow->name, ['controller' => 'SdWorkflows', 'action' => 'view', $sdProduct->sd_workflow->id]) : '' ?></td>
                 <td><?= $this->Number->format($sdProduct->product_type) ?></td>
                 <td><?= $this->Number->format($sdProduct->sponsor_company) ?></td>
                 <td><?= $this->Number->format($sdProduct->status) ?></td>

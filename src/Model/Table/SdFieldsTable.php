@@ -10,7 +10,8 @@ use Cake\Validation\Validator;
  * SdFields Model
  *
  * @property \App\Model\Table\SdElementTypesTable|\Cake\ORM\Association\BelongsTo $SdElementTypes
- * @property |\Cake\ORM\Association\HasMany $SdFieldValueLookUps
+ * @property \App\Model\Table\SdFieldValueLookUpsTable|\Cake\ORM\Association\HasMany $SdFieldValueLookUps
+ * @property |\Cake\ORM\Association\HasMany $SdFieldValues
  * @property \App\Model\Table\SdSectionStructuresTable|\Cake\ORM\Association\HasMany $SdSectionStructures
  *
  * @method \App\Model\Entity\SdField get($primaryKey, $options = [])
@@ -43,6 +44,9 @@ class SdFieldsTable extends Table
             'foreignKey' => 'sd_element_type_id'
         ]);
         $this->hasMany('SdFieldValueLookUps', [
+            'foreignKey' => 'sd_field_id'
+        ]);
+        $this->hasMany('SdFieldValues', [
             'foreignKey' => 'sd_field_id'
         ]);
         $this->hasMany('SdSectionStructures', [

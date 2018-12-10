@@ -9,8 +9,9 @@ use Cake\Validation\Validator;
 /**
  * SdUserAssignments Model
  *
- * @property \App\Model\Table\SdStudyAssignmentsTable|\Cake\ORM\Association\BelongsTo $SdStudyAssignments
+ * @property |\Cake\ORM\Association\BelongsTo $SdProductAssignments
  * @property \App\Model\Table\SdUsersTable|\Cake\ORM\Association\BelongsTo $SdUsers
+ * @property |\Cake\ORM\Association\BelongsTo $SdActivities
  *
  * @method \App\Model\Entity\SdUserAssignment get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdUserAssignment newEntity($data = null, array $options = [])
@@ -38,12 +39,16 @@ class SdUserAssignmentsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('SdStudyAssignments', [
-            'foreignKey' => 'sd_study_assignment_id',
+        $this->belongsTo('SdProductAssignments', [
+            'foreignKey' => 'sd_product_assignment_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('SdUsers', [
             'foreignKey' => 'sd_user_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('SdActivities', [
+            'foreignKey' => 'sd_activity_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -72,8 +77,9 @@ class SdUserAssignmentsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['sd_study_assignment_id'], 'SdStudyAssignments'));
+        $rules->add($rules->existsIn(['sd_product_assignment_id'], 'SdProductAssignments'));
         $rules->add($rules->existsIn(['sd_user_id'], 'SdUsers'));
+        $rules->add($rules->existsIn(['sd_activity_id'], 'SdActivities'));
 
         return $rules;
     }

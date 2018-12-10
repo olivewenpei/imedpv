@@ -20,9 +20,6 @@ class SdProductsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['SdWorkflows']
-        ];
         $sdProducts = $this->paginate($this->SdProducts);
 
         $this->set(compact('sdProducts'));
@@ -38,7 +35,7 @@ class SdProductsController extends AppController
     public function view($id = null)
     {
         $sdProduct = $this->SdProducts->get($id, [
-            'contain' => ['SdWorkflows', 'SdProductAssignments']
+            'contain' => ['SdProductWorkflows']
         ]);
 
         $this->set('sdProduct', $sdProduct);
@@ -61,8 +58,7 @@ class SdProductsController extends AppController
             }
             $this->Flash->error(__('The sd product could not be saved. Please, try again.'));
         }
-        $sdWorkflows = $this->SdProducts->SdWorkflows->find('list', ['limit' => 200]);
-        $this->set(compact('sdProduct', 'sdWorkflows'));
+        $this->set(compact('sdProduct'));
     }
 
     /**
@@ -86,8 +82,7 @@ class SdProductsController extends AppController
             }
             $this->Flash->error(__('The sd product could not be saved. Please, try again.'));
         }
-        $sdWorkflows = $this->SdProducts->SdWorkflows->find('list', ['limit' => 200]);
-        $this->set(compact('sdProduct', 'sdWorkflows'));
+        $this->set(compact('sdProduct'));
     }
 
     /**
@@ -109,7 +104,7 @@ class SdProductsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
-    
+
     public function addproduct()
     {
         $this->viewBuilder()->layout('main_layout');

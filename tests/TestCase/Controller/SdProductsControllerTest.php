@@ -17,8 +17,7 @@ class SdProductsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.sd_products',
-        'app.sd_workflows',
-        'app.sd_product_assignments'
+        'app.sd_product_workflows'
     ];
 
     /**

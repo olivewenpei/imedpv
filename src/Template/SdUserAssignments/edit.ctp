@@ -23,8 +23,9 @@
     <fieldset>
         <legend><?= __('Edit Sd User Assignment') ?></legend>
         <?php
-            echo $this->Form->control('sd_study_assignment_id');
+            echo $this->Form->control('sd_product_assignment_id');
             echo $this->Form->control('sd_user_id', ['options' => $sdUsers]);
+            echo $this->Form->control('sd_activity_id');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

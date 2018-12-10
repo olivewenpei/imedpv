@@ -7,8 +7,9 @@ use Cake\ORM\Entity;
  * SdUserAssignment Entity
  *
  * @property int $id
- * @property int $sd_study_assignment_id
+ * @property int $sd_product_assignment_id
  * @property int $sd_user_id
+ * @property int $sd_activity_id
  *
  * @property \App\Model\Entity\SdStudyAssignment $sd_study_assignment
  * @property \App\Model\Entity\SdUser $sd_user
@@ -26,8 +27,9 @@ class SdUserAssignment extends Entity
      * @var array
      */
     protected $_accessible = [
-        'sd_study_assignment_id' => true,
+        'sd_product_assignment_id' => true,
         'sd_user_id' => true,
+        'sd_activity_id' => true,
         'sd_study_assignment' => true,
         'sd_user' => true
     ];

@@ -10,6 +10,8 @@ use Cake\ORM\Entity;
  * @property string $name
  * @property string $description
  * @property int $status
+ * @property string $country
+ * @property int $workflow_type
  *
  * @property \App\Model\Entity\SdPhase[] $sd_phases
  * @property \App\Model\Entity\SdProduct[] $sd_products
@@ -30,6 +32,8 @@ class SdWorkflow extends Entity
         'name' => true,
         'description' => true,
         'status' => true,
+        'country' => true,
+        'workflow_type' => true,
         'sd_phases' => true,
         'sd_products' => true
     ];

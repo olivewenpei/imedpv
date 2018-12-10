@@ -13,6 +13,8 @@
         <li><?= $this->Html->link(__('New Sd Field'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Element Types'), ['controller' => 'SdElementTypes', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Element Type'), ['controller' => 'SdElementTypes', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Field Value Look Ups'), ['controller' => 'SdFieldValueLookUps', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Field Value Look Up'), ['controller' => 'SdFieldValueLookUps', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Section Structures'), ['controller' => 'SdSectionStructures', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Section Structure'), ['controller' => 'SdSectionStructures', 'action' => 'add']) ?> </li>
     </ul>
@@ -66,6 +68,33 @@
         </tr>
     </table>
     <div class="related">
+        <h4><?= __('Related Sd Field Value Look Ups') ?></h4>
+        <?php if (!empty($sdField->sd_field_value_look_ups)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Sd Field Id') ?></th>
+                <th scope="col"><?= __('Value') ?></th>
+                <th scope="col"><?= __('Caption') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($sdField->sd_field_value_look_ups as $sdFieldValueLookUps): ?>
+            <tr>
+                <td><?= h($sdFieldValueLookUps->id) ?></td>
+                <td><?= h($sdFieldValueLookUps->sd_field_id) ?></td>
+                <td><?= h($sdFieldValueLookUps->value) ?></td>
+                <td><?= h($sdFieldValueLookUps->caption) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'SdFieldValueLookUps', 'action' => 'view', $sdFieldValueLookUps->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdFieldValueLookUps', 'action' => 'edit', $sdFieldValueLookUps->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdFieldValueLookUps', 'action' => 'delete', $sdFieldValueLookUps->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdFieldValueLookUps->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
         <h4><?= __('Related Sd Section Structures') ?></h4>
         <?php if (!empty($sdField->sd_section_structures)): ?>
         <table cellpadding="0" cellspacing="0">
@@ -73,7 +102,10 @@
                 <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('Sd Section Id') ?></th>
                 <th scope="col"><?= __('Sd Field Id') ?></th>
-                <th scope="col"><?= __('Position') ?></th>
+                <th scope="col"><?= __('Row No') ?></th>
+                <th scope="col"><?= __('Field Length') ?></th>
+                <th scope="col"><?= __('Field Height') ?></th>
+                <th scope="col"><?= __('Field Start At') ?></th>
                 <th scope="col"><?= __('Is Required') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -82,7 +114,10 @@
                 <td><?= h($sdSectionStructures->id) ?></td>
                 <td><?= h($sdSectionStructures->sd_section_id) ?></td>
                 <td><?= h($sdSectionStructures->sd_field_id) ?></td>
-                <td><?= h($sdSectionStructures->position) ?></td>
+                <td><?= h($sdSectionStructures->row_no) ?></td>
+                <td><?= h($sdSectionStructures->field_length) ?></td>
+                <td><?= h($sdSectionStructures->field_height) ?></td>
+                <td><?= h($sdSectionStructures->field_start_at) ?></td>
                 <td><?= h($sdSectionStructures->is_required) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'SdSectionStructures', 'action' => 'view', $sdSectionStructures->id]) ?>

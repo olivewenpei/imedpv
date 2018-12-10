@@ -9,8 +9,8 @@ use Cake\Validation\Validator;
 /**
  * SdWorkflows Model
  *
- * @property \App\Model\Table\SdPhasesTable|\Cake\ORM\Association\HasMany $SdPhases
- * @property \App\Model\Table\SdProductsTable|\Cake\ORM\Association\HasMany $SdProducts
+ * @property |\Cake\ORM\Association\HasMany $SdActivities
+ * @property |\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
  * @method \App\Model\Entity\SdWorkflow get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdWorkflow newEntity($data = null, array $options = [])
@@ -38,10 +38,10 @@ class SdWorkflowsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('SdPhases', [
+        $this->hasMany('SdActivities', [
             'foreignKey' => 'sd_workflow_id'
         ]);
-        $this->hasMany('SdProducts', [
+        $this->hasMany('SdProductWorkflows', [
             'foreignKey' => 'sd_workflow_id'
         ]);
     }
@@ -72,6 +72,17 @@ class SdWorkflowsTable extends Table
             ->integer('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
+
+        $validator
+            ->scalar('country')
+            ->maxLength('country', 10)
+            ->requirePresence('country', 'create')
+            ->notEmpty('country');
+
+        $validator
+            ->integer('workflow_type')
+            ->requirePresence('workflow_type', 'create')
+            ->notEmpty('workflow_type');
 
         return $validator;
     }

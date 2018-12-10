@@ -7,14 +7,12 @@ use Cake\ORM\Entity;
  * SdProduct Entity
  *
  * @property int $id
- * @property int $sd_workflow_id
  * @property int $product_type
  * @property string $study_no
  * @property int $sponsor_company
  * @property int $status
  *
- * @property \App\Model\Entity\SdWorkflow $sd_workflow
- * @property \App\Model\Entity\SdProductAssignment[] $sd_product_assignments
+ * @property \App\Model\Entity\SdProductWorkflow[] $sd_product_workflows
  */
 class SdProduct extends Entity
 {
@@ -29,12 +27,10 @@ class SdProduct extends Entity
      * @var array
      */
     protected $_accessible = [
-        'sd_workflow_id' => true,
         'product_type' => true,
         'study_no' => true,
         'sponsor_company' => true,
         'status' => true,
-        'sd_workflow' => true,
-        'sd_product_assignments' => true
+        'sd_product_workflows' => true
     ];
 }

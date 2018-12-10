@@ -38,7 +38,7 @@ class SdFieldsController extends AppController
     public function view($id = null)
     {
         $sdField = $this->SdFields->get($id, [
-            'contain' => ['SdElementTypes', 'SdSectionStructures']
+            'contain' => ['SdElementTypes', 'SdFieldValueLookUps', 'SdSectionStructures']
         ]);
 
         $this->set('sdField', $sdField);
@@ -109,5 +109,4 @@ class SdFieldsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
-
 }

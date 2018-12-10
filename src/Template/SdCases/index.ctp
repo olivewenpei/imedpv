@@ -10,8 +10,6 @@
         <li><?= $this->Html->link(__('New Sd Case'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Phases'), ['controller' => 'SdPhases', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Phase'), ['controller' => 'SdPhases', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdCases index large-9 medium-8 columns content">
@@ -20,10 +18,11 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_product_workflow_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('caseNo') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sd_product_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sd_phase_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_activity_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_user_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -31,10 +30,11 @@
             <?php foreach ($sdCases as $sdCase): ?>
             <tr>
                 <td><?= $this->Number->format($sdCase->id) ?></td>
+                <td><?= $this->Number->format($sdCase->sd_product_workflow_id) ?></td>
                 <td><?= h($sdCase->caseNo) ?></td>
-                <td><?= $sdCase->has('sd_product') ? $this->Html->link($sdCase->sd_product->id, ['controller' => 'SdProducts', 'action' => 'view', $sdCase->sd_product->id]) : '' ?></td>
-                <td><?= $sdCase->has('sd_phase') ? $this->Html->link($sdCase->sd_phase->id, ['controller' => 'SdPhases', 'action' => 'view', $sdCase->sd_phase->id]) : '' ?></td>
+                <td><?= $this->Number->format($sdCase->sd_activity_id) ?></td>
                 <td><?= $this->Number->format($sdCase->status) ?></td>
+                <td><?= $this->Number->format($sdCase->sd_user_id) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdCase->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sdCase->id]) ?>

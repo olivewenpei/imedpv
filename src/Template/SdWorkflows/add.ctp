@@ -8,8 +8,6 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Sd Workflows'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Phases'), ['controller' => 'SdPhases', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Phase'), ['controller' => 'SdPhases', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?></li>
     </ul>
@@ -22,6 +20,8 @@
             echo $this->Form->control('name');
             echo $this->Form->control('description');
             echo $this->Form->control('status');
+            echo $this->Form->control('country');
+            echo $this->Form->control('workflow_type');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

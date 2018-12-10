@@ -18,8 +18,9 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sd_study_assignment_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_product_assignment_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_activity_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -27,8 +28,9 @@
             <?php foreach ($sdUserAssignments as $sdUserAssignment): ?>
             <tr>
                 <td><?= $this->Number->format($sdUserAssignment->id) ?></td>
-                <td><?= $this->Number->format($sdUserAssignment->sd_study_assignment_id) ?></td>
+                <td><?= $this->Number->format($sdUserAssignment->sd_product_assignment_id) ?></td>
                 <td><?= $sdUserAssignment->has('sd_user') ? $this->Html->link($sdUserAssignment->sd_user->title, ['controller' => 'SdUsers', 'action' => 'view', $sdUserAssignment->sd_user->id]) : '' ?></td>
+                <td><?= $this->Number->format($sdUserAssignment->sd_activity_id) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdUserAssignment->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sdUserAssignment->id]) ?>

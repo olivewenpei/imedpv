@@ -177,10 +177,6 @@ li.nav-item:hover > .dropdown-menu {
     display: inline-block;
 }
 
-.row {
-    margin-top: 20px;
-}
-
 .caseList{
     width: 410px;
     height: 300px;
@@ -195,6 +191,19 @@ li.nav-item:hover > .dropdown-menu {
     top: 2px;
     margin-right: 8px;
     zoom: 160%;
+}
+
+.secdiff {
+    display: flex;
+    flex-direction: column;
+}
+
+.fieldInput {
+    order: 2;
+}
+
+.secdiff > row {
+    order: 1;
 }
 
 .secdiff > .secspace > nav {

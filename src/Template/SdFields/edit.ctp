@@ -16,6 +16,8 @@
         <li><?= $this->Html->link(__('List Sd Fields'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Sd Element Types'), ['controller' => 'SdElementTypes', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Element Type'), ['controller' => 'SdElementTypes', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Field Value Look Ups'), ['controller' => 'SdFieldValueLookUps', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Field Value Look Up'), ['controller' => 'SdFieldValueLookUps', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Section Structures'), ['controller' => 'SdSectionStructures', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Section Structure'), ['controller' => 'SdSectionStructures', 'action' => 'add']) ?></li>
     </ul>

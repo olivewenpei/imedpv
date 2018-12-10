@@ -8,10 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Sd Products'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Workflows'), ['controller' => 'SdWorkflows', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Workflow'), ['controller' => 'SdWorkflows', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Product Assignments'), ['controller' => 'SdProductAssignments', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Product Assignment'), ['controller' => 'SdProductAssignments', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdProducts form large-9 medium-8 columns content">
@@ -19,7 +17,6 @@
     <fieldset>
         <legend><?= __('Add Sd Product') ?></legend>
         <?php
-            echo $this->Form->control('sd_workflow_id', ['options' => $sdWorkflows]);
             echo $this->Form->control('product_type');
             echo $this->Form->control('study_no');
             echo $this->Form->control('sponsor_company');

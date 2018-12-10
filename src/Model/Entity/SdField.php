@@ -19,6 +19,7 @@ use Cake\ORM\Entity;
  * @property string $comment
  *
  * @property \App\Model\Entity\SdElementType $sd_element_type
+ * @property \App\Model\Entity\SdFieldValueLookUp[] $sd_field_value_look_ups
  * @property \App\Model\Entity\SdSectionStructure[] $sd_section_structures
  */
 class SdField extends Entity
@@ -45,6 +46,7 @@ class SdField extends Entity
         'sd_element_type_id' => true,
         'comment' => true,
         'sd_element_type' => true,
+        'sd_field_value_look_ups' => true,
         'sd_section_structures' => true
     ];
 }
