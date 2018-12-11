@@ -235,7 +235,7 @@ li.nav-item:hover > .dropdown-menu {
 }
 
 tbody > tr {
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 
 #choosecon, #choosewf, #choosecro, .defworkflow {

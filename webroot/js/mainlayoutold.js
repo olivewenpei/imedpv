@@ -225,47 +225,6 @@ jQuery(function($) {
 
     // Assign human to CROs
     $(document).ready(function($){
-        $("[id^=pagination-l2").each(function(){
-
-            var hsectionid = $(this).attr('id').split('-')[3];
-            
-            var child_section_element = $("[id^=child_section][id$=section-"+hsectionid+"]").attr('id');
-            var child_section_id = child_section_element.split('-')[1];
-            child_section_id = child_section_id.split(/[\[\]]/);
-            child_section_id = jQuery.grep(child_section_id, function(n, i){
-                return (n !== "" && n != null);
-            });console.log(child_section_id);
-            var max_set_no  = 0 ;
-            $(child_section_id).each(function(k, v){
-                changeElement = $("[id^=add_set-"+v+"]").attr('id');
-                max_set_no = Math.max(changeElement.split('-')[5], max_set_no);
-                $("[id^=pagination-section-"+v+"]").hide();
-            });
-            if (max_set_no==0) return;
-            var text= "";
-            text += "<nav class=\"d-inline-block float-right\" title=\"Pagination\" aria-label=\"Page navigation example\">";
-            text += "<ul class=\"pagination mb-0\">";
-            text +=    "<li class=\"page-item\">";
-            text +=    "<a id=\"left_set-"+hsectionid+"-setNo-1\" onclick=\"level2setPageChange("+hsectionid+",0)\" class=\"page-link\" aria-label=\"Previous\">";
-            text +=        "<span aria-hidden=\"true\">&laquo;</span>";
-            text +=        "<span class=\"sr-only\">Previous</span>";
-            text +=    "</a>";
-            text +=    "</li>";
-            for(pageNo=1; pageNo<=max_set_no; pageNo++){
-                        text +=    "<li class=\"page-item\"><a id=\"section-"+hsectionid+"-page_number-"+pageNo+"\" onclick=\"level2setPageChange("+hsectionid+","+pageNo+")\" class=\"page-link\">"+pageNo+"</a></li>";
-            }
-            text +=    "<li class=\"page-item\">";
-            text +=    "<a id=\"right_set-"+hsectionid+"-setNo-1\" onclick=\"level2setPageChange("+hsectionid+",2)\" class=\"page-link\" aria-label=\"Next\">";
-            text +=        "<span aria-hidden=\"true\">&raquo;</span>";
-            text +=        "<span class=\"sr-only\">Next</span>";
-            text +=    "</a>";
-            text +=    "</li>";
-            text += "</ul>";
-            text += "</nav>";
-            $("#showpagination").html(text);
-        })
-    });
-    $(document).ready(function($){
         $('#worman,#teres').click(function() {
             if($(".checkboxstyle").is(":checked")) {
                 $(".checkboxstyle:checked").prop("disabled",true);
@@ -278,34 +237,78 @@ jQuery(function($) {
         });
     });
 
-});
-function level2setPageChange(section_id, pageNo, addFlag=null){
-    var child_section =  $("[id^=child_section][id$=section-"+section_id+"]").attr('id').split('-');
-    child_section_id = child_section[1].split(/[\[\]]/);
-    child_section_id = jQuery.grep(child_section_id, function(n, i){
-        return (n !== "" && n != null);
-    });
-    var max_set_no  = 0 ;
+    // AutoComplete
+    jQuery(function($) {
+        var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
 
-    $(child_section_id).each(function(k,v){
-        setPageChange(v, pageNo, addFlag);
-    });
-    if(addFlag==1)
-    {    $(child_section_id).each(function(k, v){
-            changeElement = $("[id^=add_set-"+v+"]").attr('id');
-            max_set_no = Math.max(changeElement.split('-')[5], max_set_no);
+        function split( val ) {
+            return val.split( /,\s*/ );
+        }
+        function extractLast( term ) {
+            return split( term ).pop();
+        }
+
+        $( "#section-1-text-1" )
+            // don't navigate away from the field on tab when selecting an item
+            .on( "keydown", function( event ) {
+            if ( event.keyCode === $.ui.keyCode.TAB &&
+                $( this ).autocomplete( "instance" ).menu.active ) {
+                event.preventDefault();
+            }
+            })
+            .autocomplete({
+            minLength: 0,
+            source: function( request, response ) {
+                // delegate back to autocomplete, but extract the last term
+                response( $.ui.autocomplete.filter(
+                availableTags, extractLast( request.term ) ) );
+            },
+            focus: function() {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function( event, ui ) {
+                var terms = split( this.value );
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+                return false;
+            }
         });
-        pageNo = max_set_no+1;
-    }
-    $("[id^=left_set-"+section_id+"]").attr('id', 'left_set-'+section_id+'-setNo-'+pageNo);
-    $("[id^=left_set-"+section_id+"]").attr('onclick','level2setPageChange('+section_id+','+Number(Number(pageNo)-1)+')');
-    $("[id^=right_set-"+section_id+"]").attr('id', 'right_set-'+section_id+'-setNo-'+pageNo);
-    $("[id^=right_set-"+section_id+"]").attr('onclick','level2setPageChange('+section_id+','+Number(Number(pageNo)+1)+')');
-    console.log(child_section);
-    $("[id=section-"+section_id+"-page_number-"+child_section[5]+"]").css('background-color', 'white');
-    $("[id=section-"+section_id+"-page_number-"+pageNo+"]").css('background-color', 'grey');
-    $("[id^=child_section][id$=section-"+section_id+"]").attr('id',child_section[0]+'-'+child_section[1]+'-'+child_section[2]+'-'+child_section[3]+'-'+child_section[4]+'-'+pageNo+'-'+child_section[6]+'-'+child_section[7]);
-}
+
+    });
+
+});
+
+
+
 function setPageChange(section_id, pageNo, addFlag=null) {
 
     var sectionIdOriginal =  $("[id^=right_set-"+section_id+"]").attr('id');
