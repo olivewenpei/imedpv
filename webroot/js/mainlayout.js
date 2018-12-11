@@ -225,10 +225,36 @@ jQuery(function($) {
 
     // Assign human to CROs
     $(document).ready(function($){
+        $('#worman,#teres').click(function() {
+            if($(".checkboxstyle").is(":checked")) {
+                $(".checkboxstyle:checked").prop("disabled",true);
+                $("input:disabled").parent().find(".undo").attr('style', 'display: block !important');
+            };
+        });
+        $(".undo").click(function() {
+            $(this).prevAll().prop("checked",false).prop("disabled",false);
+            $(this).attr('style', 'display: none !important');
+        });
+    });
+
+    $(document).ready(function () {
+        $('#add_set-4-sectionKey-12-setNo-1').click(function () {
+            $('#addbtnalert').show();
+          })
+    });
+
+    $( function() {
+    $('.sidesel > a').each(function() {
+        if ( $(this).text() == $('.subtabtitle').text()) {
+            $(this).addClass('.selval');}
+    });
+});
+
+    $(document).ready(function($){
         $("[id^=pagination-l2").each(function(){
 
             var hsectionid = $(this).attr('id').split('-')[3];
-            
+
             var child_section_element = $("[id^=child_section][id$=section-"+hsectionid+"]").attr('id');
             var child_section_id = child_section_element.split('-')[1];
             child_section_id = child_section_id.split(/[\[\]]/);
@@ -265,18 +291,6 @@ jQuery(function($) {
             $("#showpagination").html(text);
         })
     });
-    $(document).ready(function($){
-        $('#worman,#teres').click(function() {
-            if($(".checkboxstyle").is(":checked")) {
-                $(".checkboxstyle:checked").prop("disabled",true);
-                $("input:disabled").parent().find(".undo").attr('style', 'display: block !important');
-            };
-        });
-        $(".undo").click(function() {
-            $(this).prevAll().prop("checked",false).prop("disabled",false);
-            $(this).attr('style', 'display: none !important');
-        });
-    });
 
 });
 function level2setPageChange(section_id, pageNo, addFlag=null){
@@ -296,6 +310,7 @@ function level2setPageChange(section_id, pageNo, addFlag=null){
             max_set_no = Math.max(changeElement.split('-')[5], max_set_no);
         });
         pageNo = max_set_no+1;
+        $('#addbtnalert').show();
     }
     $("[id^=left_set-"+section_id+"]").attr('id', 'left_set-'+section_id+'-setNo-'+pageNo);
     $("[id^=left_set-"+section_id+"]").attr('onclick','level2setPageChange('+section_id+','+Number(Number(pageNo)-1)+')');
@@ -322,8 +337,8 @@ function setPageChange(section_id, pageNo, addFlag=null) {
     if ((pageNo <= 0)||(pageNo>max_set_no)) {console.log("set_no not avaiable"); return;};
     if(addFlag == 1) {
         pageNo = max_set_no+1;
-        alert("you are editing a new record");
         $("[id^=add_set-"+sectionId[1]+"]").hide();
+        $('#addbtnalert').show();
         }else $("[id^=add_set-"+sectionId[1]+"]").show();;
     $("[id^=section-"+sectionId[1]+"][name$=\\[id\\]]").each(function(){
         var sectionStructureK = $(this).attr('name').split(/[\[\]]/)[3];

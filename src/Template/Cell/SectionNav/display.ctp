@@ -7,7 +7,7 @@
             $multiSec = 0;
             if(sizeof($sdTabV->sd_sections)>=3) $multiSec=1;
             echo "<li class=\"nav-item ";
-            echo ($sdTabV->id==$tabid)?"current_tab ":null;
+            echo ($sdTabV->id==$tabid)?"selval ":null;
             echo ($multiSec)?"dropright ":null;
             echo "mb-2 bg-outline-primary text-white border border-primary rounded\">";
             echo "<a class=\"nav-link ";

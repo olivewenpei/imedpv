@@ -20,6 +20,7 @@ echo $this->element('widget');
 <head>
     <!-- For checking unsaved contents JS link -->
     <?= $this->Html->script('specific.js') ?>
+    <!-- For export pdf -->
     <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js') ?>
 </head>
 
@@ -89,6 +90,8 @@ echo $this->element('widget');
     </li>
 
 </ul>
+
+<div id="addbtnalert" class="alert alert-danger" role="alert" style="display:none;">You are adding a new record</div>
 
 <div class="maintab container-fluid">
 <?php
@@ -179,12 +182,8 @@ function displaySingleSection($section, $setNo, $sectionKey){
             echo "<div id=\"showpagination\"></div>";
         }
     }    elseif($section->section_level ==1 ){
-        echo "<h3 id=\"section_label-".$section->id."\"class=\"secspace\">".$section->section_name;
-        echo"<a role=\"button\" id=\"save-btn".$section->id."\" class=\"float-right px-5 btn btn-outline-secondary\" aria-pressed=\"true\">Save</a>";
-        // Pagination
-        echo "</h3>";
+        echo "<div class=\"fieldInput\">";
         echo "<hr class=\"my-2\">";
-
         $max_set_No = 0;
         $length_taken = 0;
         $cur_row_no = 0;
@@ -284,14 +283,20 @@ function displaySingleSection($section, $setNo, $sectionKey){
             $length_taken = $sd_section_structure_detail->field_length + $sd_section_structure_detail->field_start_at;
         }
         if($i!=0) echo"</div>";
+        echo "</div>";
+        echo "<div class=\"header-section\">";
+        echo "<h3 id=\"section_label-".$section->id."\"class=\"secspace\">".$section->section_name;
+        // echo "<a role=\"button\" id=\"save-btn".$section->id."\" class=\"px-5 btn btn-outline-secondary\" aria-pressed=\"true\">Save</a>";
+        // Pagination
+        echo "</h3>";
         if($section->is_addable == 1)
         {
-            echo "<div id=\"pagination-section-".$section->id."\">";
+
             if($max_set_No == 0){
                 // echo " NO PAGINATION NEEDED";
             }else{
-                echo "<div role=\"button\" id=\"add_set-".$section->id."-sectionKey-".$sectionKey."-setNo-".$max_set_No."\" onclick=\"setPageChange(".$section->id.",1,1)\" class=\"float-right px-3 mx-3 btn btn-outline-info\" title=\"Add new\">Add</div>";
-                echo "<nav class=\"d-inline-block float-right\" title=\"Pagination\" aria-label=\"Page navigation example\">";
+                echo "<div id=\"pagination-section-".$section->id."\" class=\"d-inline-flex ml-3\">";
+                echo "<nav class=\"\" title=\"Pagination\" aria-label=\"Page navigation example\">";
                 echo "<ul class=\"pagination mb-0\">";
                 echo    "<li class=\"page-item\">";
                 echo    "<a id=\"left_set-".$section->id."-sectionKey-".$sectionKey."-setNo-1\" onclick=\"setPageChange(".$section->id.",0)\" class=\"page-link\" aria-label=\"Previous\">";
@@ -310,9 +315,11 @@ function displaySingleSection($section, $setNo, $sectionKey){
                 echo    "</li>";
                 echo "</ul>";
                 echo "</nav>";
+                echo "<div role=\"button\" id=\"add_set-".$section->id."-sectionKey-".$sectionKey."-setNo-".$max_set_No."\" onclick=\"setPageChange(".$section->id.",1,1)\" class=\"px-3 mx-3 btn btn-outline-info\" title=\"Add new\">Add</div>";
+                echo "</div>";
             }
-            echo"</div>";
-        }
+
+        }echo"</div>";
     }
 }
 ?>

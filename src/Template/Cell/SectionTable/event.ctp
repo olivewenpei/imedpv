@@ -29,10 +29,10 @@
                         echo (!empty($setValue['158']))?$setValue['158']:null;
                         echo "</td>";
                         echo "<td scope=\"col\">";
-                        echo (($setValue['154']))?$sdFieldLookUps[0][$setValue['154']]:null;
+                        echo (!empty($setValue['154']))?$sdFieldLookUps[0][$setValue['154']]:null;
                         echo "</td>";
                         echo "<td scope=\"col\">";
-                        echo "<div><a class=\"btn btn-outline-danger\" onclick=\"setPageChange(55,".$setNo.")\" role=\"button\" title=\"show\"><i class=\"fas fa-trash-alt\"></i></a></div>";
+                        echo "<button class=\"btn btn-outline-danger\" onclick=\"setPageChange(55,".$setNo.")\" role=\"button\" title=\"show\"><i class=\"fas fa-trash-alt\"></i></button>";
                         echo "</td>";
                         echo "</tr>";
                     }
