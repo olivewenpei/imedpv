@@ -12,7 +12,7 @@ echo $this->element('widget');
 
     jQuery(function($) {
         $(document).ready(function () {
-            $("[id$=page_number-1]").css('background-color', 'grey');
+            $("[id$=page_number-1]").css('background-color', '#cacaca');
     });
     })
 </script>
@@ -22,6 +22,9 @@ echo $this->element('widget');
     <?= $this->Html->script('specific.js') ?>
     <!-- For export pdf -->
     <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js') ?>
+    <!-- For select add input  -->
+    <?= $this->Html->css('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css') ?>
+    <?= $this->Html->script("https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js") ?>
 </head>
 
 <!-- Data Entry Top Bar -->
@@ -90,9 +93,6 @@ echo $this->element('widget');
     </li>
 
 </ul>
-
-<div id="addbtnalert" class="alert alert-danger" role="alert" style="display:none;">You are adding a new record</div>
-
 <div class="maintab container-fluid">
 <?php
      $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseNo = $this->request->getQuery('caseNo')]);
@@ -178,8 +178,8 @@ function displaySingleSection($section, $setNo, $sectionKey){
             $child_array = explode(",",$section->child_section);
             foreach($child_array as $Key => $sdSectionKey) echo "[".$sdSectionKey."]";
             echo "-sectionKey-".$sectionKey."-setNo-1-section-".$section->id."\" onclick=\"level2setPageChange(".$section->id.",1,1)\" class=\"float-right px-3 mx-3 btn btn-outline-info\" title=\"Add new\">Add</div>";
-            echo "</div>";
             echo "<div id=\"showpagination\"></div>";
+            echo "</div>";
         }
     }    elseif($section->section_level ==1 ){
         echo "<div class=\"fieldInput\">";
@@ -225,7 +225,7 @@ function displaySingleSection($section, $setNo, $sectionKey){
                 echo "<input id= \"section-".$section->id."-sd_structure_id-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][sd_field_id]\" value=".$sd_section_structure_detail->sd_field->id." type=\"hidden\">";
                     switch($sd_section_structure_detail->sd_field->sd_element_type->type_name){
                         case 'select':
-                            echo "<select class=\"form-control\" id=\"section-".$section->id."-select-".$sd_section_structure_detail->sd_field->id."\" name=".$field_value_nameHolder.">";
+                            echo "<select class=\"form-control js-example-responsive\" id=\"section-".$section->id."-select-".$sd_section_structure_detail->sd_field->id."\" name=".$field_value_nameHolder.">";
                                 echo"<option id=\"section-".$section->id."-select-".$sd_section_structure_detail->sd_field->id."-option-null\" value=\"null\" ></option>";
                                 foreach($sd_section_structure_detail->sd_field->sd_field_value_look_ups as $option_no=>$option_detail){
                                     echo "<option id=\"section-".$section->id."-select-".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" value=".$option_detail['value'];
@@ -289,14 +289,15 @@ function displaySingleSection($section, $setNo, $sectionKey){
         // echo "<a role=\"button\" id=\"save-btn".$section->id."\" class=\"px-5 btn btn-outline-secondary\" aria-pressed=\"true\">Save</a>";
         // Pagination
         echo "</h3>";
+        echo "<div id=\"addbtnalert-".$section->id."\" class=\"addbtnalert mx-3 alert alert-danger\" role=\"alert\" style=\"display:none;\">You are adding a new record</div>";
         if($section->is_addable == 1)
         {
 
             if($max_set_No == 0){
                 // echo " NO PAGINATION NEEDED";
             }else{
-                echo "<div id=\"pagination-section-".$section->id."\" class=\"d-inline-flex ml-3\">";
-                echo "<nav class=\"\" title=\"Pagination\" aria-label=\"Page navigation example\">";
+                echo "<div id=\"pagination-section-".$section->id."\" class=\" ml-3\">";
+                echo "<nav class=\"secpag\" title=\"Pagination\" aria-label=\"Page navigation example\">";
                 echo "<ul class=\"pagination mb-0\">";
                 echo    "<li class=\"page-item\">";
                 echo    "<a id=\"left_set-".$section->id."-sectionKey-".$sectionKey."-setNo-1\" onclick=\"setPageChange(".$section->id.",0)\" class=\"page-link\" aria-label=\"Previous\">";

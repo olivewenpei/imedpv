@@ -2,7 +2,7 @@
 
 <div class="container">
 
-    <div class="row mb-3">
+    <div class="row my-3">
         <div class="col">
             <div class="card">
                 <div class="card-header text-center">

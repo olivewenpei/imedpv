@@ -223,12 +223,12 @@ li.nav-item:hover > .dropdown-menu {
 }
 
 .secdiff:nth-child(odd) {
+    background-color: #f3f1f1;
     padding: 20px;
     margin: 20px 0px;
 }
 
 .secdiff:nth-child(even) {
-    background-color: #f3f1f1;
     padding: 20px;
     margin: 20px 0px;
 }
@@ -329,11 +329,18 @@ hr.wfhr {
     display: -webkit-inline-box;
 }
 
-#addbtnalert {
+.addbtnalert {
     display: none;
     text-align: center;
-    position: fixed;
-    right: 0;
-    z-index: 1;
-    top: 54px;
+    padding: 5px 15px !important;
+    height: 38px;
+}
+
+.secpag {
+    display: -webkit-inline-box;
+}
+
+.selection > .select2-selection {
+    height: 37px !important;
+    border-color: lightgrey !important;
 }

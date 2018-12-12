@@ -3,7 +3,7 @@
 var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 </script>
 <div class="container">
-  <div class="row">
+  <div class="row mt-3">
     <div class="col">
         <div class="card text-center">
             <h5 class="card-header">Seriousness Cases Alert (For Medical Review ONLY)</h5>
@@ -40,7 +40,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
   </div>
 
 
-  <div class="row" id="pendcase">
+  <div class="row mt-3" id="pendcase">
     <div class="col">
         <div class="card text-center">
             <h5 class="card-header"> <span class="badge badge-pill badge-danger" id="alertNew">3</span> Pending Cases (For Data Entry ONLY)</h5>

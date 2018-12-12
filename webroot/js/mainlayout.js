@@ -243,12 +243,10 @@ jQuery(function($) {
           })
     });
 
-    $( function() {
-    $('.sidesel > a').each(function() {
-        if ( $(this).text() == $('.subtabtitle').text()) {
-            $(this).addClass('.selval');}
+    $(".js-example-responsive").select2({
+        width: 'resolve', // need to override the changed default
+        //theme: 'bootstrap'
     });
-});
 
     $(document).ready(function($){
         $("[id^=pagination-l2").each(function(){
@@ -265,6 +263,7 @@ jQuery(function($) {
             $(child_section_id).each(function(k, v){
                 changeElement = $("[id^=add_set-"+v+"]").attr('id');
                 max_set_no = Math.max(changeElement.split('-')[5], max_set_no);
+                console.log($("[id^=pagination-section-"+v+"]"));
                 $("[id^=pagination-section-"+v+"]").hide();
             });
             if (max_set_no==0) return;
@@ -308,17 +307,20 @@ function level2setPageChange(section_id, pageNo, addFlag=null){
     {    $(child_section_id).each(function(k, v){
             changeElement = $("[id^=add_set-"+v+"]").attr('id');
             max_set_no = Math.max(changeElement.split('-')[5], max_set_no);
+            $("[id=addbtnalert-"+v+"]").show();
         });
         pageNo = max_set_no+1;
-        $('#addbtnalert').show();
-    }
+
+    }else{$(child_section_id).each(function(k, v){
+        $("[id=addbtnalert-"+v+"]").hide();
+    });}
     $("[id^=left_set-"+section_id+"]").attr('id', 'left_set-'+section_id+'-setNo-'+pageNo);
     $("[id^=left_set-"+section_id+"]").attr('onclick','level2setPageChange('+section_id+','+Number(Number(pageNo)-1)+')');
     $("[id^=right_set-"+section_id+"]").attr('id', 'right_set-'+section_id+'-setNo-'+pageNo);
     $("[id^=right_set-"+section_id+"]").attr('onclick','level2setPageChange('+section_id+','+Number(Number(pageNo)+1)+')');
     console.log(child_section);
     $("[id=section-"+section_id+"-page_number-"+child_section[5]+"]").css('background-color', 'white');
-    $("[id=section-"+section_id+"-page_number-"+pageNo+"]").css('background-color', 'grey');
+    $("[id=section-"+section_id+"-page_number-"+pageNo+"]").css('background-color', '#cacaca');
     $("[id^=child_section][id$=section-"+section_id+"]").attr('id',child_section[0]+'-'+child_section[1]+'-'+child_section[2]+'-'+child_section[3]+'-'+child_section[4]+'-'+pageNo+'-'+child_section[6]+'-'+child_section[7]);
 }
 function setPageChange(section_id, pageNo, addFlag=null) {
@@ -338,8 +340,10 @@ function setPageChange(section_id, pageNo, addFlag=null) {
     if(addFlag == 1) {
         pageNo = max_set_no+1;
         $("[id^=add_set-"+sectionId[1]+"]").hide();
-        $('#addbtnalert').show();
-        }else $("[id^=add_set-"+sectionId[1]+"]").show();;
+        $("[id=addbtnalert-"+sectionId[1]+"]").show();
+        }else {
+        $("[id^=add_set-"+section_id+"]").show()
+        $("[id=addbtnalert-"+sectionId[1]+"]").hide();};
     $("[id^=section-"+sectionId[1]+"][name$=\\[id\\]]").each(function(){
         var sectionStructureK = $(this).attr('name').split(/[\[\]]/)[3];
         var valueFlag = false;
@@ -383,7 +387,7 @@ function setPageChange(section_id, pageNo, addFlag=null) {
     $("[id^=right_set-"+sectionId[1]+"]").attr('id', 'right_set-'+sectionId[1]+'-'+sectionId[2]+'-'+sectionId[3]+'-'+sectionId[4]+'-'+pageNo);
     $("[id^=right_set-"+sectionId[1]+"]").attr('onclick','setPageChange('+sectionId[1]+','+Number(Number(pageNo)+1)+')');
     $("[id=section-"+sectionId[1]+"-page_number-"+sectionId[5]+"]").css('background-color', 'white');
-    $("[id=section-"+sectionId[1]+"-page_number-"+pageNo+"]").css('background-color', 'grey');
+    $("[id=section-"+sectionId[1]+"-page_number-"+pageNo+"]").css('background-color', '#cacaca');
 };
 
 function onQueryClicked(){
