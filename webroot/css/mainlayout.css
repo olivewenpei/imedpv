@@ -197,7 +197,7 @@ li.nav-item:hover > .dropdown-menu {
     background-color: #277fe1;
 }
 
-.selval > a {
+.selval > a,.selval > a:hover  {
     color: white;
 }
 

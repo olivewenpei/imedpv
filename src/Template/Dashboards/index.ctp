@@ -162,7 +162,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
                 <div id="advsearch" class="form-control-lg btn btn-outline-info w-100 py-2"><i class="fas fa-keyboard"></i> Advance</div>
             </div>
             <div class="form-group col-lg-1">
-                <div id="clearsearch" class="form-control-lg btn btn-outline-danger w-100 py-2"><i class="fas fa-eraser"></i> Clear</div>
+                <div class="clearsearch form-control-lg btn btn-outline-danger w-100 py-2"><i class="fas fa-eraser"></i> Clear</div>
             </div>
         </div>
         <div id="textHint" class="d-block w-100 text-center"></div>

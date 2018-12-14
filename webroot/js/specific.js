@@ -1,5 +1,5 @@
-// Alert if changes unsaved
 jQuery(function($) {
+    // Alert if changes unsaved
     $(document).ready(function() {
         var unsaved = false;
 
@@ -16,6 +16,33 @@ jQuery(function($) {
             break ;
         });
         window.onbeforeunload = unloadPage;
+    });
+
+    // Show "Save" button when any input change
+    $(document).ready(function() {
+        $("input,textarea,select").change(function () {
+            $(this).parents('.fieldInput').siblings().find("[id^=save-btn]").show();
+         })
+    });
+
+    // Auto populate the selected value into next
+    // "Product" Form of admin (B.4.k.7)
+    $(document).ready(function() {
+        $('#section-22-select-191,#section-22-select-192').change(function() {
+            var foa = $('#select2-section-22-select-191-container').text();
+            var roa = $('#select2-section-22-select-192-container').text();
+            $('#section-22-text-347').val(foa);
+            $('#section-22-text-286').val(roa);
+        });
+    });
+
+    $(document).ready(function() {
+        $('#section-22-date-199,#section-22-date-205').change(function() {
+            var tsd = $('#section-22-date-199').val();
+            var ted = $('#section-22-date-205').val();
+            $('#section-22-text-288').val(tsd);
+            $('#section-22-text-289').val(ted);
+        });
     });
 
 });

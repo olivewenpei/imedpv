@@ -33,8 +33,8 @@ $popover(document).ready(function(){
 
 jQuery(function($) {  // In case of jQuery conflict
 
-  // TO DO: This line should have deleted, BUT will not work if delete directly
-// Date Input Validation ("Latest received date (A.1.7.b)" MUST Greater than "Initial Received date (A.1.6.b)")
+    // TO DO: This line should have deleted, BUT will not work if delete directly
+    // Date Input Validation ("Latest received date (A.1.7.b)" MUST Greater than "Initial Received date (A.1.6.b)")
     $("#section-1-date-12").change(function () {
         var startDate = $('#section-1-date-10').val();
         var endDate = $('#section-1-date-12').val();
@@ -184,8 +184,8 @@ jQuery(function($) {
     });
 
 
-// Dashboard "Case search modal" for clearing inputs
-    $("#clearsearch").click(function(){
+// Clearing inputs
+    $(".clearsearch").click(function(){
         $(':input').val('');
     });
 
@@ -243,10 +243,12 @@ jQuery(function($) {
           })
     });
 
+    // Add input field in select field
     $(".js-example-responsive").select2({
-        width: 'resolve', // need to override the changed default
-        //theme: 'bootstrap'
+        width: 'resolve'
     });
+
+
 
     $(document).ready(function($){
         $("[id^=pagination-l2").each(function(){

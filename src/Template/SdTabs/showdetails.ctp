@@ -95,12 +95,14 @@ echo $this->element('widget');
 </ul>
 <div class="maintab container-fluid">
 <?php
-     $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseNo = $this->request->getQuery('caseNo')]);
-     echo $sectionNavCell;
+    $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseNo = $this->request->getQuery('caseNo')]);
+    echo $sectionNavCell;
+
+    $WhoddCell = $this->cell('Whodd');
+    echo $WhoddCell;
 ?>
 
 <!-- Data Entry Body -->
-<!-- General Tab -->
 <div class="dataentry">
     <?= $this->Form->create($sdSections);?>
     <?php
@@ -286,7 +288,6 @@ function displaySingleSection($section, $setNo, $sectionKey){
         echo "</div>";
         echo "<div class=\"header-section\">";
         echo "<h3 id=\"section_label-".$section->id."\"class=\"secspace\">".$section->section_name;
-        // echo "<a role=\"button\" id=\"save-btn".$section->id."\" class=\"px-5 btn btn-outline-secondary\" aria-pressed=\"true\">Save</a>";
         // Pagination
         echo "</h3>";
         echo "<div id=\"addbtnalert-".$section->id."\" class=\"addbtnalert mx-3 alert alert-danger\" role=\"alert\" style=\"display:none;\">You are adding a new record</div>";
@@ -296,7 +297,7 @@ function displaySingleSection($section, $setNo, $sectionKey){
             if($max_set_No == 0){
                 // echo " NO PAGINATION NEEDED";
             }else{
-                echo "<div id=\"pagination-section-".$section->id."\" class=\" ml-3\">";
+                echo "<div id=\"pagination-section-".$section->id."\" class=\"ml-3\">";
                 echo "<nav class=\"secpag\" title=\"Pagination\" aria-label=\"Page navigation example\">";
                 echo "<ul class=\"pagination mb-0\">";
                 echo    "<li class=\"page-item\">";
@@ -320,7 +321,9 @@ function displaySingleSection($section, $setNo, $sectionKey){
                 echo "</div>";
             }
 
-        }echo"</div>";
+        }
+        echo "<div role=\"button\" id=\"save-btn".$section->id."\" class=\"ml-3 px-5 btn btn-outline-secondary\" style=\"display:none;\" aria-pressed=\"true\">Save</div>";
+        echo"</div>";
     }
 }
 ?>
