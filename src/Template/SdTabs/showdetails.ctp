@@ -7,12 +7,14 @@
 echo $this->element('widget');
 ?>
 <script type="text/javascript">
+    var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
     var section = <?php $sdSections =$sdSections->toList();
-    echo json_encode($sdSections)?>;
 
+    echo json_encode($sdSections)?>;
+    var caseNo = <?= json_encode($this->request->getQuery('caseNo')) ?>;
     jQuery(function($) {
         $(document).ready(function () {
-            $("[id$=page_number-1]").css('background-color', '#cacaca');
+            $("[id$=page_number-1]").css('font-weight', 'bold');
     });
     })
 </script>
@@ -93,16 +95,18 @@ echo $this->element('widget');
     </li>
 
 </ul>
+
+
 <div class="maintab container-fluid">
 <?php
-    $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseNo = $this->request->getQuery('caseNo')]);
-    echo $sectionNavCell;
-
-    $WhoddCell = $this->cell('Whodd');
-    echo $WhoddCell;
+     $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseNo = $this->request->getQuery('caseNo')]);
+     echo $sectionNavCell;
+     $WhoddCell = $this->cell('Whodd');
+     echo $WhoddCell;
 ?>
 
 <!-- Data Entry Body -->
+<!-- General Tab -->
 <div class="dataentry">
     <?= $this->Form->create($sdSections);?>
     <?php
@@ -180,12 +184,13 @@ function displaySingleSection($section, $setNo, $sectionKey){
             $child_array = explode(",",$section->child_section);
             foreach($child_array as $Key => $sdSectionKey) echo "[".$sdSectionKey."]";
             echo "-sectionKey-".$sectionKey."-setNo-1-section-".$section->id."\" onclick=\"level2setPageChange(".$section->id.",1,1)\" class=\"float-right px-3 mx-3 btn btn-outline-info\" title=\"Add new\">Add</div>";
-            echo "<div id=\"showpagination\"></div>";
             echo "</div>";
+            echo "<div id=\"showpagination\"></div>";
         }
     }    elseif($section->section_level ==1 ){
         echo "<div class=\"fieldInput\">";
         echo "<hr class=\"my-2\">";
+
         $max_set_No = 0;
         $length_taken = 0;
         $cur_row_no = 0;
@@ -224,10 +229,10 @@ function displaySingleSection($section, $setNo, $sectionKey){
                     echo"<input id= ".$id_idHolder." name=".$id_nameHolder." value=\"\" type=\"hidden\">";
                 }
                 echo "<input id= \"section-".$section->id."-set_number-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][set_number]\" value=".$setNo." type=\"hidden\">";
-                echo "<input id= \"section-".$section->id."-sd_structure_id-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][sd_field_id]\" value=".$sd_section_structure_detail->sd_field->id." type=\"hidden\">";
+                echo "<input id= \"section-".$section->id."-sd_field_id-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][sd_field_id]\" value=".$sd_section_structure_detail->sd_field->id." type=\"hidden\">";
                     switch($sd_section_structure_detail->sd_field->sd_element_type->type_name){
                         case 'select':
-                            echo "<select class=\"form-control js-example-responsive\" id=\"section-".$section->id."-select-".$sd_section_structure_detail->sd_field->id."\" name=".$field_value_nameHolder.">";
+                            echo "<select class=\"form-control\" id=\"section-".$section->id."-select-".$sd_section_structure_detail->sd_field->id."\" name=".$field_value_nameHolder.">";
                                 echo"<option id=\"section-".$section->id."-select-".$sd_section_structure_detail->sd_field->id."-option-null\" value=\"null\" ></option>";
                                 foreach($sd_section_structure_detail->sd_field->sd_field_value_look_ups as $option_no=>$option_detail){
                                     echo "<option id=\"section-".$section->id."-select-".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" value=".$option_detail['value'];
@@ -250,7 +255,7 @@ function displaySingleSection($section, $setNo, $sectionKey){
                                 echo "<input class=\"custom-control-input\" id=\"section-".$section->id."-radio-".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" name=".$field_value_nameHolder." type=\"radio\" value=";
                                 echo $option_detail['value'];
                                 if(!empty($sd_section_structure_detail->sd_field->sd_field_values[$j])&&$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value==$option_detail['value'])
-                                echo " checked";
+                                echo " checked=true";
                                 echo "><label class=\"custom-control-label\" for=\"section-".$section->id."-radio-".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" >".$option_detail['caption']."</label>";
                                 echo "</div>";
                             }
@@ -263,7 +268,7 @@ function displaySingleSection($section, $setNo, $sectionKey){
                                 echo "<input id=\"section-".$section->id."-checkbox-".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\" class=\"checkboxstyle\"  name=".$field_value_nameHolder." value=";
                                 echo $option_detail['value'];
                                 if(!empty($sd_section_structure_detail->sd_field->sd_field_values[$j])&&$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value==$option_detail['value'])
-                                echo " checked=\"true\"";
+                                echo " checked=\"true\"";//TODO
                                 echo " type=\"checkbox\"><label for=\"checkbox-".$sd_section_structure_detail->sd_field->id."-option-".$option_detail['value']."\">".$option_detail['caption']."</label>";
                                 echo "</div>";
                             }
@@ -293,24 +298,23 @@ function displaySingleSection($section, $setNo, $sectionKey){
         echo "<div id=\"addbtnalert-".$section->id."\" class=\"addbtnalert mx-3 alert alert-danger\" role=\"alert\" style=\"display:none;\">You are adding a new record</div>";
         if($section->is_addable == 1)
         {
-
+            echo "<div id=\"pagination-section-".$section->id."\">";
             if($max_set_No == 0){
                 // echo " NO PAGINATION NEEDED";
             }else{
-                echo "<div id=\"pagination-section-".$section->id."\" class=\"ml-3\">";
-                echo "<nav class=\"secpag\" title=\"Pagination\" aria-label=\"Page navigation example\">";
+                echo "<nav class=\"d-inline-block float-right\" title=\"Pagination\" aria-label=\"Page navigation example\">";
                 echo "<ul class=\"pagination mb-0\">";
-                echo    "<li class=\"page-item\">";
-                echo    "<a id=\"left_set-".$section->id."-sectionKey-".$sectionKey."-setNo-1\" onclick=\"setPageChange(".$section->id.",0)\" class=\"page-link\" aria-label=\"Previous\">";
+                echo    "<li class=\"page-item\" id=\"left_set-".$section->id."-sectionKey-".$sectionKey."-setNo-1\" onclick=\"setPageChange(".$section->id.",0)\">";
+                echo    "<a class=\"page-link\" aria-label=\"Previous\">";
                 echo        "<span aria-hidden=\"true\">&laquo;</span>";
                 echo        "<span class=\"sr-only\">Previous</span>";
                 echo    "</a>";
                 echo    "</li>";
                 for($pageNo = 1; $pageNo<=$max_set_No; $pageNo++ ){
-                            echo    "<li class=\"page-item\"><a id=\"section-".$section->id."-page_number-".$pageNo."\" onclick=\"setPageChange(".$section->id.",".$pageNo.")\" class=\"page-link\">".$pageNo."</a></li>";
+                    echo    "<li class=\"page-item\" id=\"section-".$section->id."-page_number-".$pageNo."\" onclick=\"setPageChange(".$section->id.",".$pageNo.")\"><a class=\"page-link\">".$pageNo."</a></li>";
                 }
-                echo    "<li class=\"page-item\">";
-                echo    "<a id=\"right_set-".$section->id."-sectionKey-".$sectionKey."-setNo-1\" onclick=\"setPageChange(".$section->id.",2)\" class=\"page-link\" aria-label=\"Next\">";
+                echo    "<li class=\"page-item\" id=\"right_set-".$section->id."-sectionKey-".$sectionKey."-setNo-1\" onclick=\"setPageChange(".$section->id.",2)\">";
+                echo    "<a class=\"page-link\" aria-label=\"Next\">";
                 echo        "<span aria-hidden=\"true\">&raquo;</span>";
                 echo        "<span class=\"sr-only\">Next</span>";
                 echo    "</a>";
@@ -318,11 +322,11 @@ function displaySingleSection($section, $setNo, $sectionKey){
                 echo "</ul>";
                 echo "</nav>";
                 echo "<div role=\"button\" id=\"add_set-".$section->id."-sectionKey-".$sectionKey."-setNo-".$max_set_No."\" onclick=\"setPageChange(".$section->id.",1,1)\" class=\"px-3 mx-3 btn btn-outline-info\" title=\"Add new\">Add</div>";
-                echo "</div>";
-            }
 
+            }
+            echo"</div>";
         }
-        echo "<div role=\"button\" id=\"save-btn".$section->id."\" class=\"ml-3 px-5 btn btn-outline-secondary\" style=\"display:none;\" aria-pressed=\"true\">Save</div>";
+        echo "<div role=\"button\" id=\"save-btn".$section->id."-".$sectionKey."\" onclick=\"saveSection(".$section->id.")\" class=\"ml-3 px-5 btn btn-outline-secondary\" style=\"display:none;\" aria-pressed=\"true\">Save</div>";
         echo"</div>";
     }
 }

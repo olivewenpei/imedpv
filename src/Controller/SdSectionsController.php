@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller;
-
+use Cake\ORM\TableRegistry;
 use App\Controller\AppController;
 
 /**
@@ -108,5 +108,38 @@ class SdSectionsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    /*
+    save Single section
+    */
+    public function saveSection($caseNo){
+        if($this->request->is('POST')){
+            $this->autoRender = false;
+            $sdFieldValues = TableRegistry::get('SdFieldValues');
+            $savedField = [];
+            foreach($requstData = $this->request->getData() as $sectionFieldK =>$sectionFieldValue){                
+                if($sectionFieldValue['id']!=null){//add judging whether updateing Using Validate
+                    $sdFieldValueEntity = $sdFieldValues->get($sectionFieldValue['id']);/**add last-updated time */                            
+                    $sdFieldValues->patchEntity($sdFieldValueEntity,$sectionFieldValue);
+                    if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in updating!" ;
+                    $savedField[$sdFieldValueEntity['sd_field_id']] = $sdFieldValueEntity['id'];
+                }elseif(!empty($sectionFieldValue['field_value'])){
+                    $sdFieldValueEntity = $sdFieldValues->newEntity();
+                    $dataSet = [
+                        'sd_case_id' => $caseNo,
+                        'version_no' => '1',
+                        'sd_field_id' => $sectionFieldValue['sd_field_id'],
+                        'set_number' => $sectionFieldValue['set_number'],
+                        'created_time' =>date("Y-m-d H:i:s"),
+                        'field_value' =>$sectionFieldValue['field_value'],
+                        'status' =>'1',
+                    ];
+                    $sdFieldValueEntity = $sdFieldValues->patchEntity($sdFieldValueEntity, $dataSet);
+                    if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in adding!" ;
+                    $savedField[$sdFieldValueEntity['sd_field_id']] = $sdFieldValueEntity['id'];
+                }
+            }
+        }else $this->autoRender = true;
+        echo json_encode($savedField);
     }
 }
