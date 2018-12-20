@@ -237,11 +237,11 @@ jQuery(function($) {
         });
     });
 
-    $(document).ready(function () {
-        $('#add_set-4-sectionKey-12-setNo-1').click(function () {
-            $('#addbtnalert').show();
-          })
-    });
+    // $(document).ready(function () {
+    //     $('#add_set-4-sectionKey-12-setNo-1').click(function () {
+    //         $('#addbtnalert').show();
+    //       })
+    // });
 
     // Add input field in select field
     $(".js-example-responsive").select2({
@@ -405,6 +405,7 @@ function onQueryClicked(){
         success:function(response){
             console.log(response);
             var result = $.parseJSON(response);
+            console.log(result);
             var text = "";
             text +="<h3>Search Results</h3>";
             text +="<table class=\"table table-hover\">";
@@ -449,7 +450,6 @@ function onQueryClicked(){
         }
     });
 
-    function DataEntryCheck(){
 
-    }
+
 }

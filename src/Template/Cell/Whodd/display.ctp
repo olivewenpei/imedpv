@@ -14,24 +14,24 @@
             <div class="container">
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" id="" placeholder="ATC code">
+                        <input type="text" class="form-control" id="atc" name="atc" placeholder="ATC code">
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" id="" placeholder="Drug code">
+                        <input type="text" class="form-control" id="drugcode" name="drugcode" placeholder="Drug code">
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" id="" placeholder="Medicinal Prod ID">
+                        <input type="text" class="form-control" id="medicalProd" placeholder="Medicinal Prod ID">
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" id="" placeholder="Trade Name">
+                        <input type="text" class="form-control" id="tradename" placeholder="Trade Name">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" id="" placeholder="Ingredient">
+                        <input type="text" class="form-control" id="ingredient" placeholder="Ingredient">
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" id="" placeholder="Formulation">
+                        <input type="text" class="form-control" id="formulation" placeholder="Formulation">
                     </div>
                     <div class="form-group col-md-3">
                         <select id="inputState" class="form-control">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-row justify-content-center">
                     <div class="form-group col-sm-2">
-                        <div id="" class="form-control btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
+                        <div id="whoddsea" onclick="whoddsea()" class="form-control btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
                     </div>
                     <div class="form-group col-sm-1">
                         <div class="clearsearch form-control btn btn-outline-danger w-100"><i class="fas fa-eraser"></i> Clear</div>
@@ -51,37 +51,8 @@
             </div>
 
             <!-- Table field (Should be hidden before search) -->
-            <h4 class="text-center">Search Results</h4>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                    <th scope="col">Trade Name</th>
-                    <th scope="col">Formulation / Strength</th>
-                    <th scope="col">Sales Country</th>
-                    <th scope="col">Generic?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="whoddtable"></div>
+
 
             <!-- Detail field (Should be hidden before search) -->
             <h4 class="text-center">Drug Details</h4> <hr>
@@ -129,3 +100,39 @@
     </div>
   </div>
 </div>
+
+
+<script>
+    function whoddsea() {
+        var result = [{name:'Abalgiin',fs:'Unspecified / Unspecified',con:'China',ge:'N'},
+                      {name:'Abalgiin',fs:'LIQUIDS, DROPS / Unspecified',con:'USA',ge:'N'}];
+
+        var text = "";
+        text +="<h4 class=\"text-center\">Search Results</h4>";
+        text +="<table class=\"table table-hover table-striped\">";
+
+        text += "<thead>";
+        text +="<tr class=\"table-secondary\">";
+        text +="<th scope=\"col\">Trade Name</th>";
+        text +="<th scope=\"col\">Formulation / Strength</th>";
+        text +="<th scope=\"col\">Sales Country</th>";
+        text +="<th scope=\"col\">Generic?</th>";
+
+        text +="</tr>";
+        text +="</thead>";
+        text +="<tbody>";
+        $.each(result, function(k,v){
+            text += "<tr>";
+            text += "<td>" + v.name + "</td>";
+            text += "<td>" + v.fs + "</td>";
+            text += "<td>" + v.con + "</td>";
+            text += "<td>" + v.ge + "</td>";
+            text += "</tr>";
+        })
+        text +="</tbody>";
+        text +="</table>";
+        $("#whoddtable").html(text);
+
+
+    }
+</script>

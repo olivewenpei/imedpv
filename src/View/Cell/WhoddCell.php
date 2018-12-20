@@ -34,4 +34,8 @@ class WhoddCell extends Cell
     public function display()
     {
     }
+
+    public function WhoddBrowser() {
+
+    }
 }

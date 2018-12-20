@@ -29,21 +29,21 @@
 
             /**
              * Case number generator function
-             * 
-             * @return string case number 
-             * 
+             *
+             * @return string case number
+             *
              */
             private function caseNoGenerator(){
-                
+
             }
 
             /**
              * ShowDetail method
-             *                  
+             *
              * @return \Cake\Http\Response|void
              */
             public function showdetails($tabid = 1  )
-            { 
+            {
                 $caseNo = $this->request->getQuery('caseNo');
                 $setNo = $this->request->getQuery('setNo');
                 if(empty($setNo)) $setNo = "1";
@@ -65,9 +65,9 @@
                     $requstData = $this->request->getData();
                     $sdFieldValues = TableRegistry::get('SdFieldValues',['contain'=>'SdElementTypes']);
                     foreach($requstData['sd_field_values'] as $sectionValueK => $sectionValue) {
-                        foreach($sectionValue as $sectionFieldK =>$sectionFieldValue){                         
+                        foreach($sectionValue as $sectionFieldK =>$sectionFieldValue){
                             if($sectionFieldValue['id']!=null){//add judging whether updateing Using Validate
-                                $sdFieldValueEntity = $sdFieldValues->get($sectionFieldValue['id']);/**add last-updated time */                            
+                                $sdFieldValueEntity = $sdFieldValues->get($sectionFieldValue['id']);/**add last-updated time */
                                 $sdFieldValues->patchEntity($sdFieldValueEntity,$sectionFieldValue);
                                 if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in updating!" ;
                             }elseif(!empty($sectionFieldValue['field_value'])){
@@ -85,24 +85,24 @@
                                 if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in adding!" ;
                             }
                         }
-                    }; 
-                }      
-   
+                    };
+                }
+
                 $this->set(compact('sdSections','tabid'));
             }
             /**
-             * 
+             *
              * build_sorter method
-             * 
-             * 
-             * 
+             *
+             *
+             *
              */
             public function build_sorter($key) {
                 return function ($a, $b) use ($key) {
                     return strnatcmp($a[$key], $b[$key]);
                 };
             }
-            
+
             /**
             * View method
             *
@@ -182,12 +182,14 @@
                 return $this->redirect(['action' => 'index']);
             }
             /**
-            * 
-            * 
+            *
+            *
             */
             public function tabnavbar(){
                 $sdTabs = $this->SdTabs->find()->select(['tab_name','display_order'])->where(['status'=>1])->order(['display_order' => 'ASC']);
                 $this->set(compact('sdTabs'));
             }
+
+
 
         }
