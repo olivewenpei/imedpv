@@ -103,6 +103,8 @@ echo $this->element('widget');
      echo $sectionNavCell;
      $WhoddCell = $this->cell('Whodd');
      echo $WhoddCell;
+     $MeddraCell = $this->cell('Meddra');
+     echo $MeddraCell;
 ?>
 
 <!-- Data Entry Body -->
@@ -180,7 +182,7 @@ function displaySingleSection($section, $setNo, $sectionKey){
         if($section->is_addable == 1)
         {
             echo "<div id=\"pagination-l2-section-".$section->id."\">";
-            echo "<div role=\"button\" id=\"delete_section-".$section->id."\"  class=\"float-right px-3 mx-3 btn btn-outline-info\" onclick=\"l2deleteSection(".$section->id.")\" >Delete</div>";
+            echo "<div role=\"button\" id=\"delete_section-".$section->id."\"  class=\"float-right px-3 mx-3 btn btn-outline-info\" onclick=\"l2deleteSection(".$section->id.")\" style=\"display:none\">Delete</div>";
             echo "<div role=\"button\" id=\"child_section-";
             $child_array = explode(",",$section->child_section);
             foreach($child_array as $Key => $sdSectionKey) echo "[".$sdSectionKey."]";
@@ -304,19 +306,18 @@ function displaySingleSection($section, $setNo, $sectionKey){
         echo "</div>";
         echo "<div class=\"header-section\">";
         echo "<h3 id=\"section_label-".$section->id."\"class=\"secspace\">".$section->section_name;
-        echo"<a role=\"button\" id=\"save-btn".$section->id."-".$sectionKey."\" onclick=\"saveSection(".$section->id.")\" class=\"float-right px-5 btn btn-outline-secondary\" aria-pressed=\"true\">Save</a>";
-        echo "<a role=\"button\" id=\"delete-btn".$section->id."-".$sectionKey."\" onclick=\"deleteSection(".$section->id.")\" class=\"float-right px-5 btn btn-outline-secondary\" aria-pressed=\"true\">delete</a>";
-        // Pagination
+        echo"<a role=\"button\" id=\"save-btn".$section->id."-".$sectionKey."\" onclick=\"saveSection(".$section->id.")\" class=\"ml-3 px-5 btn btn-outline-secondary\" aria-pressed=\"true\" style=\"display:none\">Save</a>";        // Pagination
         echo "</h3>";
-        echo "<div id=\"addbtnalert-".$section->id."\" class=\"addbtnalert mx-3 alert alert-danger\" role=\"alert\" style=\"display:none;\">You are adding a new record</div>";
         if($section->is_addable == 1)
         {
-            echo "<div id=\"pagination-section-".$section->id."\"";
-            echo ">";
+            echo "<div id=\"pagination-section-".$section->id."\">";
+            if($max_set_No != 0)
+            echo "<a role=\"button\" id=\"delete-btn".$section->id."-".$sectionKey."\" onclick=\"deleteSection(".$section->id.")\" class=\"ml-3 px-5 btn btn-outline-secondary\" aria-pressed=\"true\">delete</a>";
+
             echo "<div role=\"button\" id=\"add_set-".$section->id."-sectionKey-".$sectionKey."-setNo-".$max_set_No."\" onclick=\"setPageChange(".$section->id.",1,1)\" class=\"float-right px-3 mx-3 btn btn-outline-info\" title=\"Add new\"";
             if($max_set_No == 0) echo "style=\"display:none\"";
             echo ">Add</div>";
-            echo "<nav class=\"float-right\" title=\"Pagination\" aria-label=\"Page navigation example\">";
+            echo "<nav class=\"float-right ml-3\" title=\"Pagination\" aria-label=\"Page navigation example\">";
             echo "<ul class=\"pagination mb-0\">";
             echo    "<li class=\"page-item\" id=\"left_set-".$section->id."-sectionKey-".$sectionKey."-setNo-1\" onclick=\"setPageChange(".$section->id.",0)\">";
             echo    "<a class=\"page-link\" aria-label=\"Previous\">";
@@ -342,6 +343,7 @@ function displaySingleSection($section, $setNo, $sectionKey){
             echo "</nav>";
             echo"</div>";
         }
+        echo "<div id=\"addbtnalert-".$section->id."\" class=\"addbtnalert mx-3 alert alert-danger\" role=\"alert\" style=\"display:none;\">You are adding a new record</div>";
         echo"</div>";
     }
 }

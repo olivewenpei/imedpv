@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg" style="position:absolute !important;"><i class="fas fa-search"></i></button>
+<button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg" style="position:absolute !important;"><i class="fas fa-search"></i> WHODD Browser</button>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document" style="max-width: 1175px !important;">

@@ -473,7 +473,10 @@ function paginationReady(){
         if (max_set_no==0) {
             $("[id^=child_section][id$=section-"+hsectionid+"]").hide();
             max_set_no = 1;
-        }else $("[id^=child_section][id$=section-"+hsectionid+"]").show();
+        }else {
+            $("[id^=child_section][id$=section-"+hsectionid+"]").show();
+            $("[id=delete_section-"+hsectionid+"]").show();
+        }
         var text= "";
         text += "<nav class=\"d-inline-block float-right\" title=\"Pagination\" aria-label=\"Page navigation example\">";
         text += "<ul class=\"pagination mb-0\">";
