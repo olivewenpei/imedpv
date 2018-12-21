@@ -42,7 +42,7 @@ jQuery(function($) {
 });
 
 
-// Files Export
+// Files Export: just test
 function genPDF() {
     var doc = new jsPDF();
 
