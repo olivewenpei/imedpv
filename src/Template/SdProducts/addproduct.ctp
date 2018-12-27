@@ -271,7 +271,32 @@
                             </div>
 
                             <div class="d-block mt-3">
-                            <div id="" class="btn btn-primary w-25 mx-auto" type="submit">Add CROs</div>
+                            <div id="" class="btn btn-primary w-25 mx-auto my-3" type="submit">Add CROs</div>
+
+                            <!-- CROs Resources List -->
+                            <h3 class="mt-3">CROs Resources List</h3>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">CRO Company</th>
+                                        <th scope="col">Workflow Manager</th>
+                                        <th scope="col">Team Resources</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">CRO A</th>
+                                        <td>Mark, Jim</td>
+                                        <td>Otto, David</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">CRO B</th>
+                                        <td>Jacob, Alice, Bob, Lucy</td>
+                                        <td>Thornton, Elon, Michael, Elon, Michael</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>
