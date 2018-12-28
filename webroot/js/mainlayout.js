@@ -293,7 +293,9 @@ function level2setPageChange(section_id, pageNo, addFlag=null){
 }
 
 function setPageChange(section_id, pageNo, addFlag=null, pFlag) {
+    $("[id^=save-btn"+section_id+"]").hide();
     if($("[id^=right_set-"+section_id+"]").length){
+        
         var sectionIdOriginal =  $("[id^=right_set-"+section_id+"]").attr('id');
         var sectionId = sectionIdOriginal.split('-');
         var setNo = sectionId[5];
