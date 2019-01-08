@@ -27,6 +27,7 @@
                 $this->set(compact('sdTabs'));
             }
 
+
             /**
              * Case number generator function
              *
@@ -50,7 +51,7 @@
                 $sdTabs = $this->SdTabs->find()->select(['tab_name','display_order'])->where(['status'=>1])->order(['display_order' => 'ASC']);
                 $this->viewBuilder()->layout('main_layout');
                 $associated = ['SdSectionStructures','SdSectionStructures'=>['SdFields'=>['SdElementTypes','SdFieldValues']]];
-                $sdTab = TableRegistry::get('SdSections',['contain'=>$associated]);
+                $sdTab = TableRegistry::get('SdSections');
                 $sdSections = $sdTab ->find()->where(['sd_tab_id'=>$tabid,'status'=>true])
                                     ->order(['SdSections.section_level'=>'DESC','SdSections.display_order'=>'ASC'])
                                     ->contain(['SdSectionStructures'=>function($q)use($caseNo){
@@ -190,6 +191,65 @@
                 $this->set(compact('sdTabs'));
             }
 
+            /**
+            *  Generate PDF files
+            *
+            */
+            public function genFDApdf($caseNo)
+            {
+                // $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
+                // $sdFieldValues = $sdFieldTable ->find()->where(['sd_case_id'=>$caseNo,'status'=>true])
+                //                     ->order(['id'=>'ASC','set_number'=>'ASC'])
+                //                     ->leftJoinWith('SdFields',function($q){
+                //                         return $q->where(['SdFields.id'=>'SdFieldValues.id'])
+                //                                 ->contain(['SdFields.SdFieldValueLookUps','SdFields.SdElementTypes'=> function($q){
+                //                                 return $q->select('type_name')->where(['SdElementTypes.status'=>true]);
+                //                                     }]);
+                //                     })
+                //                     ->group('id');
+
+
+                // Require composer autoload
+                //require_once __DIR__ . '../vendor/autoload.php';
+
+                $mpdf = new \Mpdf\Mpdf();
+
+                $mpdf->CSSselectMedia='mpdf';
+                $mpdf->SetTitle('FDA-MEDWATCH');
+
+                $medwatchdata = $this->SdTabs->find();
+
+
+                $mpdf->SetImportUse();
+                $mpdf->SetDocTemplate('export_template/MEDWATCH.pdf',true);
+
+                // If needs to link external css file, uncomment the next 2 lines
+                // $stylesheet = file_get_contents('css/genpdf.css');
+                // $mpdf->WriteHTML($stylesheet,1);
+
+
+                $test1 = ' <style> p {position: absolute;}  </style>
+                        <p style="top: 210px; left: 550px; width: 80px;  height: 15px; color:red;">2019-01-01</p>
+                        <p style="top: 203px; left: 230px; width: 30px;  height: 15px;">2019</p>
+                        <p style="top: 998px; left: 473px; width: 8px;   height: 10px;">X</p>';
+                $mpdf->WriteHTML($test1);
+
+                $mpdf->AddPage();
+                //$test2 = '<img src="img/pdficon.png" />';
+                //$mpdf->WriteHTML($test2);
+
+                $mpdf->AddPage();
+                //$test3 = '<h1 class="test1">Hello World</h1>';
+                //$mpdf->WriteHTML($test3);
+
+                $mpdf->Output();
+                // Download a PDF file directly to LOCAL, uncomment while in real useage
+                // $mpdf->Output('TEST.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+
+
+                $this->set(compact('sdFieldValues'));
+
+            }
 
 
         }
