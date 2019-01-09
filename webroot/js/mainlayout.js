@@ -100,31 +100,53 @@ jQuery(function($) {
                 $(this).find('input, textarea').val('');
             }
         });
+
+
+        // CRO Droppable Area
+        $(".personnel").draggable({
+            cursor: "pointer",
+            helper: "clone",
+            opacity: 0.6,
+            revert: "invalid",
+            zIndex: 100
+        });
+
+        $("#personnelDraggable").droppable({
+            tolerance: "intersect",
+            accept: ".personnel",
+            activeClass: "ui-state-default",
+            hoverClass: "ui-state-hover",
+            drop: function(event, ui) {
+                $("#personnelDraggable").append($(ui.draggable));
+            }
+        });
+
+        $(".stackDrop1").droppable({
+            tolerance: "intersect",
+            accept: ".personnel",
+            activeClass: "ui-state-default",
+            hoverClass: "ui-state-hover",
+            drop: function(event, ui) {
+                $(this).append($(ui.draggable));
+            }
+        });
+
+        $(".stackDrop2").droppable({
+            tolerance: "intersect",
+            accept: ".personnel",
+            activeClass: "ui-state-default",
+            hoverClass: "ui-state-hover",
+            drop: function(event, ui) {
+                $(this).append($(ui.draggable));
+            }
+        });
+
+
       });
 
 // Custworkflow Close icon
     $('.close').click(function() {
         $(this).parents('li.custworkflowstep').fadeOut();
-    });
-
-
-/*  TO DO: Assign people to table */
-
-    $('input[type=checkbox]').change(function() {
-        var vals = $('input[type=checkbox]:checked').map(function() {
-            return $(this).val();
-        }).get().join('<br>');
-        var unvals = $('input[type=checkbox]:not(checked)').is(function () {
-            if($('input[type=checkbox]:checked').map(function() {
-                return $(this).val();
-            }));
-         });
-        if( $('#worman').click(function(){
-            $('.worman').html(vals);
-        }));
-        if( $('#teres').click(function(){
-            $('.teres').html(unvals);
-        }));
     });
 
 // "Complete" button message
@@ -240,20 +262,22 @@ jQuery(function($) {
     });
 
 
-    // Assign human to CROs
     $(document).ready(paginationReady());
-    $(document).ready(function($){
-        $('#worman,#teres').click(function() {
-            if($(".checkboxstyle").is(":checked")) {
-                $(".checkboxstyle:checked").prop("disabled",true);
-                $("input:disabled").parent().find(".undo").attr('style', 'display: block !important');
-            };
-        });
-        $(".undo").click(function() {
-            $(this).prevAll().prop("checked",false).prop("disabled",false);
-            $(this).attr('style', 'display: none !important');
-        });
-    });
+
+    // Assign human to CROs
+    // $(document).ready(function($){
+    //     $('#worman,#teres').click(function() {
+    //         if($(".checkboxstyle").is(":checked")) {
+    //             $(".checkboxstyle:checked").prop("disabled",true);
+    //             $("input:disabled").parent().find(".undo").attr('style', 'display: block !important');
+    //         };
+    //     });
+    //     $(".undo").click(function() {
+    //         $(this).prevAll().prop("checked",false).prop("disabled",false);
+    //         $(this).attr('style', 'display: none !important');
+    //     });
+    // });
+
     $(".js-example-responsive").select2({
         width: 'resolve'
     });
@@ -295,7 +319,7 @@ function level2setPageChange(section_id, pageNo, addFlag=null){
 function setPageChange(section_id, pageNo, addFlag=null, pFlag) {
     $("[id^=save-btn"+section_id+"]").hide();
     if($("[id^=right_set-"+section_id+"]").length){
-        
+
         var sectionIdOriginal =  $("[id^=right_set-"+section_id+"]").attr('id');
         var sectionId = sectionIdOriginal.split('-');
         var setNo = sectionId[5];
