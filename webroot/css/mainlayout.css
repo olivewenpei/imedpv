@@ -344,3 +344,34 @@ hr.wfhr {
     height: 37px !important;
     border-color: lightgrey !important;
 }
+
+/* Assign Personnel */
+#dropZone {
+    width: 58%;
+}
+.personnelarea {
+    width: 37%;
+    min-height: 407px;
+}
+.personnel {
+    width: 75px;
+    padding: 5px 10px;
+    margin:5px;
+    border:1px solid #ccc;
+    background-color: #eaeaea;
+    display: inline-grid;
+}
+.stack {
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    margin: 20px;
+}
+.stackHdr {
+    background-color: #eaeaea;
+    border: 1px solid #fff;
+    padding: 5px
+}
+.stackDrop1, .stackDrop2 {
+    min-height:100px;
+    padding: 15px;
+}

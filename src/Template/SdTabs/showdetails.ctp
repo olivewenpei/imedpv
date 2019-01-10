@@ -5,6 +5,7 @@
 
 // Call to use widget
 echo $this->element('widget');
+echo $this->element('generatepdf');
 ?>
 <script type="text/javascript">
     var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
@@ -22,8 +23,6 @@ echo $this->element('widget');
 <head>
     <!-- For checking unsaved contents JS link -->
     <?= $this->Html->script('specific.js') ?>
-    <!-- For export pdf -->
-    <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js') ?>
     <!-- For select add input  -->
     <?= $this->Html->css('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css') ?>
     <?= $this->Html->script("https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js") ?>
@@ -65,7 +64,7 @@ echo $this->element('widget');
         </a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="#">CIOMS</a>
-            <a class="dropdown-item" href="#">FDA</a>
+            <a class="dropdown-item" target="_blank" href="/sd-tabs/genFDApdf/<?php echo $this->request->getQuery('caseNo') ?>">FDA</a>
             <!-- Add this if location had details
             <div role="separator" class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
@@ -80,7 +79,7 @@ echo $this->element('widget');
         </a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="#">CIOMS</a>
-            <a class="dropdown-item" href="javascript: genPDF()">FDA</a>
+            <a class="dropdown-item" href="#">FDA</a>
             <a class="dropdown-item" href="#">XML</a>
             <!-- Add this if location had details
             <div role="separator" class="dropdown-divider"></div>
@@ -106,7 +105,6 @@ echo $this->element('widget');
 ?>
 
 <!-- Data Entry Body -->
-<!-- General Tab -->
 <div class="dataentry">
     <?= $this->Form->create($sdSections);?>
     <?php
@@ -124,7 +122,7 @@ echo $this->element('widget');
 
     ?>
 
-    <button type="submit" class="completeBtn btn btn-success">Complete "General Tab"</button>
+    <button type="submit" class="completeBtn btn btn-success">Complete</button>
     <hr class="d-inline-block w-100">
     <?= $this->Form->end() ?>
     <?php

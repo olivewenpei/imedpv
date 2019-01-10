@@ -228,7 +228,43 @@
                                         <div class="modal-body">
                                             <p>Assign people as manager or team members.</p>
                                             <!-- Choose Personnels -->
-                                            <div class="m-3">
+                                            <div class="card bg-light mb-3 float-left personnelarea">
+                                                <div class="card-header">Candidates of Team Resources</div>
+                                                <div id="personnelDraggable" class="card-body p-2">
+                                                    <div class="personnel">Tom</div>
+                                                    <div class="personnel">Jim</div>
+                                                    <div class="personnel">Alice</div>
+                                                    <div class="personnel">Ziaget</div>
+                                                    <div class="personnel">David</div>
+                                                    <div class="personnel">David</div>
+                                                    <div class="personnel">David</div>
+                                                    <div class="personnel">David</div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Droppable Area -->
+                                            <div id="dropZone" class="card bg-light mx-3 mb-3 float-right">
+                                                <div class="card-header">Drag Candidates Here for Assignment</div>
+                                                <div class="stack border-success">
+                                                    <div class="stackHdr">
+                                                        Assign as workflow manager
+                                                    </div>
+                                                    <div class="stackDrop1">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="stack border-info">
+                                                    <div class="stackHdr">
+                                                        Assign as team resources
+                                                    </div>
+                                                    <div class="stackDrop2">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- <div class="m-3">
                                                 <h6 class="text-uppercase text-left">Team A</h6>  <hr class="my-1">
                                                 <div class="form-row">
                                                     <div class="pername custom-control custom-radio custom-control-inline col-md-2">
@@ -258,13 +294,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Personnels Table -->
                                             <ul>Workflow Manager:<div class="worman"> </div></ul>
-                                            <ul>Team Resources:<div class="teres"> </div></ul>
+                                            <ul>Team Resources:<div class="teres"> </div></ul> -->
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="worman" class="btn btn-outline-success" type="submit">Assign as workflow manager</button>
-                                            <button id="teres" class="btn btn-outline-success" type="submit">Assign as team resources</button>
+                                            <button id="#" class="btn btn-outline-success" type="submit">Confirm Assignment</button>
                                         </div>
                                     </div>
                                 </div>

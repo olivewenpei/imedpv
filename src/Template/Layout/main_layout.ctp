@@ -5,7 +5,7 @@
     <!-- <title>Dashboard</title> -->
 
     <!-- For local jQuery link, Bootstrap required -->
-    <?= $this->Html->script('bootstrap/jquery-3.2.1.slim.min.js') ?>
+    <?= $this->Html->script('bootstrap/jquery-3.3.1.min.js') ?>
     <?= $this->Html->script('bootstrap/popper.min.js') ?>
 
     <!-- For local Font Awesome icon link -->

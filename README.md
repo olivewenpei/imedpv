@@ -1,6 +1,6 @@
 # Note: For security reasons, the app.php file had been removed so that it will not work if you clone the whole project directly.
 
-# CakePHP Application Skeleton 
+# CakePHP Application Skeleton
 #############################
 
 [![Build Status](https://img.shields.io/travis/cakephp/app/master.svg?style=flat-square)](https://travis-ci.org/cakephp/app)
@@ -54,13 +54,7 @@ framework by default. You can, however, replace it with any other library or
 custom styles.
 
 # This line below was made by WENPEI
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> cf687b8773c4234ef5198ed1b7288f9000c7694b
-=======
->>>>>>> 063db0bff89a7f7420eeb8b6b68f94653f2ccd38
 ## Database Connection
 After installed the framework, the next thing you need to do that is connectinng the database. In `'app.php'` you can change the user name and password to yours.
 ![](https://ws1.sinaimg.cn/large/613e8384ly1fx9jvkvizvj20r80b5jsj.jpg)
@@ -71,18 +65,9 @@ Based on the MySQL database, the cakephp would "bake" the controller, model and 
 bin/cake bake all users
 ```
 
-## View Pages 
+## View Pages
 View pages in cakephp was called "Template" which located in `src\Template`. All the pages would be introduced in the following sections.
 
 All the pages we make would apply a layout and these files located in `src\Template\Layout`. Then each page we create will use one of the layout. And the js and css etc. files were indicated in layout as well.
 
 Similarly, some components we usually used would also be encapsulated in `'src\Template\Element'`. For example, the 'Go Top' button we often need would sealed into this place.
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-## TODO List 2018/11/16
-=======
->>>>>>> cf687b8773c4234ef5198ed1b7288f9000c7694b
-=======
->>>>>>> 063db0bff89a7f7420eeb8b6b68f94653f2ccd38
-
