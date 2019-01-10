@@ -1,3 +1,12 @@
+// Highlight the section you choose in navmenu
+$(function(){
+    $('.navMenu > li > a').each(function(){
+        if ($(this).prop('href') == window.location.href) {
+            $(this).addClass('active');
+        }
+    });
+});
+
 // Datepicker Script
 $( function() {
     $( "[id*=date]" ).datepicker({
@@ -252,9 +261,11 @@ jQuery(function($) {
     $(document).ready(function($){
         $('#addpro').click(function() {
             $('#choosecon').show();
-        })
+            $("#addpro > div > input").prop("disabled", true);
+        });
         $('#submitchocountry').click(function() {
             $('#choosewf').show();
+            $("#choosecon > div > div > select").prop("disabled", true);
         });
         $('#submitworkflow').click(function() {
             $('#choosecro').show();

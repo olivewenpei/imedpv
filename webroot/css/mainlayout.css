@@ -375,3 +375,7 @@ hr.wfhr {
     min-height:100px;
     padding: 15px;
 }
+
+.active {
+    font-weight: 500;
+}
