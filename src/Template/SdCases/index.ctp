@@ -3,13 +3,21 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\SdCase[]|\Cake\Collection\CollectionInterface $sdCases
  */
-?>
+?>            
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Sd Case'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Activities'), ['controller' => 'SdActivities', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Activity'), ['controller' => 'SdActivities', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Users'), ['controller' => 'SdUsers', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Case General Infos'), ['controller' => 'SdCaseGeneralInfos', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Case General Info'), ['controller' => 'SdCaseGeneralInfos', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Field Values'), ['controller' => 'SdFieldValues', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Field Value'), ['controller' => 'SdFieldValues', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdCases index large-9 medium-8 columns content">
@@ -30,11 +38,11 @@
             <?php foreach ($sdCases as $sdCase): ?>
             <tr>
                 <td><?= $this->Number->format($sdCase->id) ?></td>
-                <td><?= $this->Number->format($sdCase->sd_product_workflow_id) ?></td>
+                <td><?= $sdCase->has('sd_product_workflow') ? $this->Html->link($sdCase->sd_product_workflow->id, ['controller' => 'SdProductWorkflows', 'action' => 'view', $sdCase->sd_product_workflow->id]) : '' ?></td>
                 <td><?= h($sdCase->caseNo) ?></td>
-                <td><?= $this->Number->format($sdCase->sd_activity_id) ?></td>
+                <td><?= $sdCase->has('sd_activity') ? $this->Html->link($sdCase->sd_activity->id, ['controller' => 'SdActivities', 'action' => 'view', $sdCase->sd_activity->id]) : '' ?></td>
                 <td><?= $this->Number->format($sdCase->status) ?></td>
-                <td><?= $this->Number->format($sdCase->sd_user_id) ?></td>
+                <td><?= $sdCase->has('sd_user') ? $this->Html->link($sdCase->sd_user->title, ['controller' => 'SdUsers', 'action' => 'view', $sdCase->sd_user->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdCase->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sdCase->id]) ?>

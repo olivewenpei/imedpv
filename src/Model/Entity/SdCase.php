@@ -15,8 +15,11 @@ use Cake\ORM\Entity;
  * @property int $status
  * @property int $sd_user_id
  *
- * @property \App\Model\Entity\SdProduct $sd_product
- * @property \App\Model\Entity\SdPhase $sd_phase
+ * @property \App\Model\Entity\SdProductWorkflow $sd_product_workflow
+ * @property \App\Model\Entity\SdActivity $sd_activity
+ * @property \App\Model\Entity\SdUser $sd_user
+ * @property \App\Model\Entity\SdCaseGeneralInfo[] $sd_case_general_infos
+ * @property \App\Model\Entity\SdFieldValue[] $sd_field_values
  */
 class SdCase extends Entity
 {
@@ -38,7 +41,10 @@ class SdCase extends Entity
         'end_date' => true,
         'status' => true,
         'sd_user_id' => true,
-        'sd_product' => true,
-        'sd_phase' => true
+        'sd_product_workflow' => true,
+        'sd_activity' => true,
+        'sd_user' => true,
+        'sd_case_general_infos' => true,
+        'sd_field_values' => true
     ];
 }

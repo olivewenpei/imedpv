@@ -21,7 +21,7 @@ class SdCasesController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['SdProducts', 'SdPhases']
+            'contain' => ['SdProductWorkflows', 'SdActivities', 'SdUsers']
         ];
         $sdCases = $this->paginate($this->SdCases);
 
@@ -38,7 +38,7 @@ class SdCasesController extends AppController
     public function view($id = null)
     {
         $sdCase = $this->SdCases->get($id, [
-            'contain' => ['SdProducts', 'SdPhases']
+            'contain' => ['SdProductWorkflows', 'SdActivities', 'SdUsers', 'SdCaseGeneralInfos', 'SdFieldValues']
         ]);
 
         $this->set('sdCase', $sdCase);
@@ -61,9 +61,10 @@ class SdCasesController extends AppController
             }
             $this->Flash->error(__('The sd case could not be saved. Please, try again.'));
         }
-        $sdProducts = $this->SdCases->SdProducts->find('list', ['limit' => 200]);
-        $sdPhases = $this->SdCases->SdPhases->find('list', ['limit' => 200]);
-        $this->set(compact('sdCase', 'sdProducts', 'sdPhases'));
+        $sdProductWorkflows = $this->SdCases->SdProductWorkflows->find('list', ['limit' => 200]);
+        $sdActivities = $this->SdCases->SdActivities->find('list', ['limit' => 200]);
+        $sdUsers = $this->SdCases->SdUsers->find('list', ['limit' => 200]);
+        $this->set(compact('sdCase', 'sdProductWorkflows', 'sdActivities', 'sdUsers'));
     }
 
     /**
@@ -87,9 +88,10 @@ class SdCasesController extends AppController
             }
             $this->Flash->error(__('The sd case could not be saved. Please, try again.'));
         }
-        $sdProducts = $this->SdCases->SdProducts->find('list', ['limit' => 200]);
-        $sdPhases = $this->SdCases->SdPhases->find('list', ['limit' => 200]);
-        $this->set(compact('sdCase', 'sdProducts', 'sdPhases'));
+        $sdProductWorkflows = $this->SdCases->SdProductWorkflows->find('list', ['limit' => 200]);
+        $sdActivities = $this->SdCases->SdActivities->find('list', ['limit' => 200]);
+        $sdUsers = $this->SdCases->SdUsers->find('list', ['limit' => 200]);
+        $this->set(compact('sdCase', 'sdProductWorkflows', 'sdActivities', 'sdUsers'));
     }
 
     /**
