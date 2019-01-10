@@ -7,15 +7,11 @@ jQuery(function($) {
             unsaved = true;
         });
 
-        function unloadPage(){
+        window.onbeforeunload = function (){
             if(unsaved){
                 return 'Your data is changed, are you sure you want to complete?';
             }
-        }
-        $('button[type=submit]').click(function() {
-            break ;
-        });
-        window.onbeforeunload = unloadPage;
+        };
     });
 
     // Show "Save" button when any input change

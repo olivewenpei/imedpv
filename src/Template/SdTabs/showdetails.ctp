@@ -101,8 +101,6 @@ echo $this->element('widget');
 <?php
      $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseNo = $this->request->getQuery('caseNo')]);
      echo $sectionNavCell;
-     $WhoddCell = $this->cell('Whodd');
-     echo $WhoddCell;
      $MeddraCell = $this->cell('Meddra');
      echo $MeddraCell;
 ?>
@@ -121,7 +119,7 @@ echo $this->element('widget');
         foreach($sdSections as $sdSectionKey => $sdSection_detail){
 
 
-            $exsitSectionNo = displaySection($sdSection_detail, $exsitSectionNo, $sdSections, $setNo);
+            $exsitSectionNo = displaySection($sdSection_detail, $exsitSectionNo, $sdSections, $setNo, $this);
         }
 
     ?>
@@ -154,18 +152,18 @@ echo $this->element('widget');
 </div>
 
 <?php
-function displaySection($section, $exsitSectionNo, $sdSections, $setNo){
+function displaySection($section, $exsitSectionNo, $sdSections, $setNo, $html){
     if(empty($exsitSectionNo)) return null;
     if(in_array($section->id,$exsitSectionNo)){
         $sectionKey = array_search($section->id,$exsitSectionNo);
         echo"<div class=\"secdiff\" id=\"secdiff-".$section->id."\">";
-        displaySingleSection($section, $setNo, $sectionKey);
+        displaySingleSection($section, $setNo, $sectionKey, $html);
         echo"</div>";
         $exsitSectionNo[$sectionKey]= null;
         if(!empty($section->child_section)){
             $child_array = explode(",",$section->child_section);
             foreach($child_array as $Key => $sdSectionKey){
-                $exsitSectionNo=displaySection($sdSections[array_search($sdSectionKey,$exsitSectionNo)],$exsitSectionNo,$sdSections, $setNo);
+                $exsitSectionNo=displaySection($sdSections[array_search($sdSectionKey,$exsitSectionNo)],$exsitSectionNo,$sdSections, $setNo, $html);
 
             }
         }
@@ -175,7 +173,7 @@ function displaySection($section, $exsitSectionNo, $sdSections, $setNo){
     return $exsitSectionNo;
 }
 
-function displaySingleSection($section, $setNo, $sectionKey){
+function displaySingleSection($section, $setNo, $sectionKey, $html){
     $i = 0;
     if($section->section_level == 2){
         echo "<div id=\"section_label-".$section->id."\" class=\"subtabtitle col-md-12\">".$section->section_name."</div>";
@@ -220,8 +218,9 @@ function displaySingleSection($section, $setNo, $sectionKey){
             }
             if ($j==-1) $j = $jflag;
             echo "<div id=\"section-".$section->id."-field-".$sd_section_structure_detail->sd_field->id."\" class=\"form-group col-md-".$sd_section_structure_detail->field_length." offset-md-".($sd_section_structure_detail->field_start_at-$length_taken)."\">";
-            echo "<label id= \"section-".$section->id."-field_label-".$sd_section_structure_detail->sd_field->id."\" >".$sd_section_structure_detail->sd_field->field_label;
-            echo " <a id=\"field_helper-".$sd_section_structure_detail->sd_field->id."\" tabindex=\"0\" role=\"button\" data-toggle=\"popover\" title=\"Field Helper\" data-content=\"<div>".$sd_section_structure_detail->sd_field->comment."</div>\"><i class=\"qco fas fa-info-circle\"></i></a></label>";
+            echo "<label id= \"section-".$section->id."-field_label-".$sd_section_structure_detail->sd_field->id."\" >".$sd_section_structure_detail->sd_field->field_label."</label>";
+            if(!empty($sd_section_structure_detail->sd_field->comment))
+            echo " <a id=\"field_helper-".$sd_section_structure_detail->sd_field->id."\" tabindex=\"0\" role=\"button\" data-toggle=\"popover\" title=\"Field Helper\" data-content=\"<div>".$sd_section_structure_detail->sd_field->comment."</div>\"><i class=\"qco fas fa-info-circle\"></i></a>";
             // if(!empty($sd_section_structure_detail->sd_section_values)) print_r($section->sd_section_sets[0]->set_no);
                 $id_idHolder = 'section-'.$section->id.'-sd_section_structures-'.$i.'-sd_field_values-'.$j.'-id';
                 $id_nameHolder = 'sd_field_values['.$section->id.']['.$sd_section_structureK.'][id]';
@@ -297,6 +296,21 @@ function displaySingleSection($section, $setNo, $sectionKey){
                             echo "<input type=\"text\" class=\"form-control\" name=".$field_value_nameHolder." id=\"section-".$section->id."-date-".$sd_section_structure_detail->sd_field->id."\" value=";
                             echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
                             echo ">";
+                            continue;
+                        case 'whodra browser':
+                            $WhoddCell = $html->cell('Whodd',[$sd_section_structure_detail->sd_field->id]);
+                            echo "<input id=\"section-".$section->id."-whodracode-".$sd_section_structure_detail->sd_field->id."\" class=\"col-md-5 form-control\" name=".$field_value_nameHolder." type=\"text\"";
+                            echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=".$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
+                            echo " >";
+                            echo $WhoddCell;
+                            continue;
+                        case 'whodra show':
+                            echo "<input id=\"section-".$section->id."-whodraname-".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder." type=\"text\"";
+                            echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=".$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
+                            echo " disabled>";
+                            continue;
+                            // $WhoddCell = $this->cell('Whodd',[$sd_section_structure_detail->sd_field->id]);
+                            // echo $WhoddCell;
                     }
                 echo"</div>";
             $i++;
