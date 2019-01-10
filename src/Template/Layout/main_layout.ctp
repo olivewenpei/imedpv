@@ -22,10 +22,13 @@
     <?= $this->Html->css('bootstrap/bootstrap-grid.min.css') ?>
     <?= $this->Html->css('bootstrap/bootstrap-reboot.min.css') ?>
     <?= $this->Html->css('bootstrap/bootstrap.min.css') ?>
-
+    <?= $this->Html->css('datatable/datatables.css') ?>
+    <?= $this->Html->css('datatable/datatables.min.css') ?>
     <!-- For local Bootstrap/JS link -->
     <?= $this->Html->script('bootstrap/bootstrap.bundle.min.js') ?>
     <?= $this->Html->script('bootstrap/bootstrap.min.js') ?>
+    <?= $this->Html->script('datatable/datatables.js') ?>
+    <?= $this->Html->script('datatable/datatables.min.js') ?>
 </head>
 <body>
 <nav class="topNav navbar navbar-light">

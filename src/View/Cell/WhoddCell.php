@@ -2,7 +2,6 @@
 namespace App\View\Cell;
 
 use Cake\View\Cell;
-use Cake\Datasource\ConnectionManger;
 
 /**
  * Whodd cell
@@ -32,22 +31,14 @@ class WhoddCell extends Cell
      *
      * @return void
      */
-    public function display()
+    public function display($fieldId=null)
     {
+        $this->loadModel('Ccode');
+        $contryList = $this->Ccode->find();
+        $this->set(compact('fieldId','contryList'));
     }
 
     public function WhoddBrowser() {
-        $userinfo = $this->request->session()->read('Auth.user');
-        if($this->request->is('POST')){
-            $this->autoRender = false;
-            $searchKey = $this->request->getData();
-            $conn = ConnectionManager::get('default');
-            $query = $conn->mewQuery();
-            $query = select('*')->from('ccode');
-            print_r($query);    
-            $this->set('query');
-        }
-
     }
 }
 // <?php

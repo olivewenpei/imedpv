@@ -57,7 +57,7 @@
                                     ->contain(['SdSectionStructures'=>function($q)use($caseNo){
                                         return $q->order(['SdSectionStructures.row_no'=>'ASC','SdSectionStructures.field_start_at'=>'ASC'])
                                             ->contain(['SdFields'=>['SdFieldValueLookUps','SdFieldValues'=> function ($q)use($caseNo) {
-                                                return $q->where(['SdFieldValues.sd_case_id'=>$caseNo]);
+                                                return $q->where(['SdFieldValues.sd_case_id'=>$caseNo, 'SdFieldValues.status'=>true]);
                                             }, 'SdElementTypes'=> function($q){
                                             return $q->select('type_name')->where(['SdElementTypes.status'=>true]);
                                                 }]]);

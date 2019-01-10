@@ -259,6 +259,7 @@ jQuery(function($) {
 
 // Add Product card
     $(document).ready(function($){
+        $('#whodrahint').html($('#whodrabrowser').html());
         $('#addpro').click(function() {
             $('#choosecon').show();
             $("#addpro > div > input").prop("disabled", true);
@@ -366,7 +367,6 @@ function setPageChange(section_id, pageNo, addFlag=null, pFlag) {
                     }
                     maxindex = maxindex+1;
                 });
-
             }
             if(valueFlag == false) {
                 $(this).val(null);
@@ -386,7 +386,7 @@ function setPageChange(section_id, pageNo, addFlag=null, pFlag) {
             if (section[sectionId[3]].sd_section_structures[sectionStructureK].sd_field.sd_field_values.length>=1){
                 $.each(section[sectionId[3]].sd_section_structures[sectionStructureK].sd_field.sd_field_values, function(index, value){
                     if ((typeof value != 'undefined')&&(value.set_number== pageNo)){
-                        if(thisElement.attr('id').split('-')[2] == 'date'||thisElement.attr('id').split('-')[2] == 'select'||thisElement.attr('id').split('-')[2] == 'text'||thisElement.attr('id').split('-')[2] == 'textarea'){
+                        if(thisElement.attr('id').split('-')[2] == 'date'||thisElement.attr('id').split('-')[2] == 'select'||thisElement.attr('id').split('-')[2] == 'whodraname'||thisElement.attr('id').split('-')[2] == 'whodracode'||thisElement.attr('id').split('-')[2] == 'text'||thisElement.attr('id').split('-')[2] == 'textarea'){
                             thisElement.val(value.field_value);
                             valueFlag = true;
                         }else{
@@ -478,6 +478,36 @@ function onQueryClicked(){
             text +="</tbody>";
             text +="</table>";
             $("#textHint").html(text);
+        },
+        error:function(response){
+                console.log(response.responseText);
+
+            $("#textHint").html("Sorry, no case matches");
+
+        }
+    });
+}
+function searchWhoDra(){
+    var request = {
+        'atc-code': $("#atc").val(),
+        'drug-code':$("#drugcode").val(),
+        'medicinal-prod-id':$('#medicalProd').val(),
+        'trade-name':$('#tradename').val(),
+        'ingredient':$('#ingredient').val(),
+        'formulation':$('#formulation').val(),
+        'country':$('#inputState').val(),
+    };
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/who-dra/search',
+        data:request,
+        success:function(response){
+            console.log(response);
+
         },
         error:function(response){
                 console.log(response.responseText);
@@ -611,14 +641,12 @@ function deleteSection(sectionId, pcontrol=false){
                 });
             }
             if (max_set_no!=0){
-            $("[id^=right_set-"+sectionId+"]").prev().remove();
-            var previousPageNo = $("[id^=right_set-"+sectionId+"]").prev().attr('id').split('-page_number-')[1];
-            if(setNum>max_set_no) setNum = max_set_no;
-            if(pcontrol=false)
-            setPageChange(sectionId,setNum);
+                $("[id^=right_set-"+sectionId+"]").prev().remove();
+                var previousPageNo = $("[id^=right_set-"+sectionId+"]").prev().attr('id').split('-page_number-')[1];
+                if(setNum>max_set_no) setNum = max_set_no;
+                if(pcontrol==false) setPageChange(sectionId,setNum);
             }else{
-                if(pcontrol=false)
-                setPageChange(sectionId, 1, 1);
+                if(pcontrol==false) setPageChange(sectionId, 1, 1);
             }
             $addId = $("[id^=add_set-"+sectionId+"]").attr('id').split('-setNo-');
             if(typeof previousPageNo !='undefined'){
@@ -695,22 +723,23 @@ function saveSection(sectionId){
              console.log(response);
             var sectionIdOriginal =  $("[id^=save-btn"+sectionId+"]").attr('id');
             var section_Id = sectionIdOriginal.split('-');
-            var newPageFlag = 0;
-
+            var max_set_no  = 0
             for(var k in savedArray){
                 var sectionStructureK = $("[id^=section-"+sectionId+"-set_number-"+k+"]").attr('name').split(/[\[\]]/)[3];
                 var fieldvalueK = $("[id$=field-"+k+"]").children("[id^=section-"+sectionId+"-sd_section_structures]").attr('id').split('-')[5];
                 var setNum = $("[id$=field-"+k+"]").children("[id^=section-"+sectionId+"-set_number]").val();
-                var max_set_no  = 0
-                $(section[section_Id[2]].sd_section_structures[sectionStructureK].sd_field.sd_field_values).each(function(k,v){
-                    if(typeof v != 'undefined')
-                    max_set_no = Math.max(v.set_number, max_set_no);
-                });
-                if(max_set_no<setNum) newPageFlag=1;
-                section[section_Id[2]].sd_section_structures[sectionStructureK].sd_field.sd_field_values = savedArray[k];
+                if(savedArray[k]!=''){
+                    
+                    $(section[section_Id[2]].sd_section_structures[sectionStructureK].sd_field.sd_field_values).each(function(k,v){
+                        if(typeof v != 'undefined')
+                        max_set_no = Math.max(v.set_number, max_set_no);
+                    });
+                    section[section_Id[2]].sd_section_structures[sectionStructureK].sd_field.sd_field_values = savedArray[k];
+                }
             }
+            console.log(max_set_no);console.log(setNum);
             setPageChange(sectionId,setNum);
-            if(newPageFlag){
+            if(max_set_no<setNum){
                 pageNew = 0;
                 if($("[id^=add_set-"+sectionId+"]").length){
                     add_set_id = $("[id^=add_set-"+sectionId+"]").attr('id').split('-');
@@ -725,7 +754,8 @@ function saveSection(sectionId){
                 paginationReady();
                 $("[id=section-"+sectionId+"-page_number-"+pageNew+"]").css('font-weight', 'bold');
                 $("[id^=l2section]").find("[id$=page_number-"+pageNew+"]").css('font-weight', 'bold');
-            }
+            };
+            $("[id=addbtnalert-"+sectionId+"]").hide();
         },
         error:function(response){
             console.log(response.responseText);
