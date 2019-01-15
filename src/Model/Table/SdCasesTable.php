@@ -9,11 +9,11 @@ use Cake\Validation\Validator;
 /**
  * SdCases Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $SdProductWorkflows
- * @property |\Cake\ORM\Association\BelongsTo $SdActivities
- * @property |\Cake\ORM\Association\BelongsTo $SdUsers
- * @property |\Cake\ORM\Association\HasMany $SdCaseGeneralInfos
- * @property |\Cake\ORM\Association\HasMany $SdFieldValues
+ * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\BelongsTo $SdProductWorkflows
+ * @property |\Cake\ORM\Association\BelongsTo $SdWorkflowActivities
+ * @property \App\Model\Table\SdUsersTable|\Cake\ORM\Association\BelongsTo $SdUsers
+ * @property \App\Model\Table\SdCaseGeneralInfosTable|\Cake\ORM\Association\HasMany $SdCaseGeneralInfos
+ * @property \App\Model\Table\SdFieldValuesTable|\Cake\ORM\Association\HasMany $SdFieldValues
  *
  * @method \App\Model\Entity\SdCase get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdCase newEntity($data = null, array $options = [])
@@ -45,8 +45,8 @@ class SdCasesTable extends Table
             'foreignKey' => 'sd_product_workflow_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('SdActivities', [
-            'foreignKey' => 'sd_activity_id',
+        $this->belongsTo('SdWorkflowActivities', [
+            'foreignKey' => 'sd_workflow_activity_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('SdUsers', [
@@ -107,7 +107,7 @@ class SdCasesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['sd_product_workflow_id'], 'SdProductWorkflows'));
-        $rules->add($rules->existsIn(['sd_activity_id'], 'SdActivities'));
+        $rules->add($rules->existsIn(['sd_workflow_activity_id'], 'SdWorkflowActivities'));
         $rules->add($rules->existsIn(['sd_user_id'], 'SdUsers'));
 
         return $rules;
