@@ -207,16 +207,42 @@
 
                         <!-- Choose CROs -->
                         <div id="choosecro" class="prodiff text-center">
-                            <h3 class="mt-5">Choose CROs</h3>
+                            <h3 class="mt-5">Add CROs</h3>
                             <hr>
-                            <p class="card-text">Click the CRO which you want to assign personnels</p>
-                            <div class="btn-group-vertical w-25">
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">A CRO</button>
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">B CRO</button>
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">C CRO</button>
+                            <p class="card-text">Add the CRO here and assign personnels</p>
+                            <button type="button" class="btn btn-primary w-25 mx-auto mb-3" data-toggle="modal" data-target="#addcromodal">Add CROs</button>
+                            <div class="modal fade" id="addcromodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add CRO</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label for="">Add CRO</label>
+                                        <select class="custom-select" id="croname">
+                                            <option value="1">Johnson</option>
+                                            <option value="2">BMS</option>
+                                            <option value="3">G2</option>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button id="croadd"  class="btn btn-primary"  data-dismiss="modal">ADD</button>
+                                    </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <!-- <div id="addcroarea" class="btn-group-vertical w-25">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">A CRO</button>
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">B CRO</button>
+                                <button type="button" class="btn btn-outline-primary" id ="0" data-toggle="modal" data-target=".bd-example-modal-lg">C CRO</button>
+                            </div> -->
+
+                            <div class="modal fade bd-example-modal-lg" id="addper" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -246,66 +272,24 @@
                                             <div id="dropZone" class="card bg-light mx-3 mb-3 float-right">
                                                 <div class="card-header">Drag Candidates Here for Assignment</div>
                                                 <div class="stack border-success">
-                                                    <div class="stackHdr">
-                                                        Assign as workflow manager
-                                                    </div>
-                                                    <div class="stackDrop1">
-
-                                                    </div>
+                                                    <div class="stackHdr">Assign as workflow manager</div>
+                                                    <div class="stackDrop1"></div>
                                                 </div>
-
                                                 <div class="stack border-info">
-                                                    <div class="stackHdr">
-                                                        Assign as team resources
-                                                    </div>
-                                                    <div class="stackDrop2">
-
-                                                    </div>
+                                                    <div class="stackHdr">Assign as team resources</div>
+                                                    <div class="stackDrop2"></div>
                                                 </div>
                                             </div>
-
-                                            <!-- <div class="m-3">
-                                                <h6 class="text-uppercase text-left">Team A</h6>  <hr class="my-1">
-                                                <div class="form-row">
-                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a1" class="checkboxstyle" name="a1" value="Alice" type="checkbox">
-                                                        <label for="a1">Alice</label>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                    </div>
-                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a2" class="checkboxstyle" name="a1" value="John" type="checkbox">
-                                                        <label for="a2">John</label>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="m-3">
-                                                <h6 class="text-uppercase text-left">Team B</h6>  <hr class="my-1">
-                                                <div class="form-row">
-                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a3" class="checkboxstyle" name="a1" value="Tom" type="checkbox">
-                                                        <label for="a3">Tom</label>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                    </div>
-                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a4" class="checkboxstyle" name="a1" value="Tommy" type="checkbox">
-                                                        <label for="a4">Tommy</label>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <ul>Workflow Manager:<div class="worman"> </div></ul>
-                                            <ul>Team Resources:<div class="teres"> </div></ul> -->
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="#" class="btn btn-outline-success" type="submit">Confirm Assignment</button>
+                                            <button id="conass" class="btn btn-outline-success" type="submit" data-dismiss="modal">Confirm Assignment</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="d-block mt-3">
-                            <div id="" class="btn btn-primary w-25 mx-auto my-3" type="submit">Add CROs</div>
+
 
                             <!-- CROs Resources List -->
                             <h3 class="mt-3">CROs Resources List</h3>
@@ -315,19 +299,10 @@
                                         <th scope="col">CRO Company</th>
                                         <th scope="col">Workflow Manager</th>
                                         <th scope="col">Team Resources</th>
+                                        <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">CRO A</th>
-                                        <td>Mark, Jim</td>
-                                        <td>Otto, David</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">CRO B</th>
-                                        <td>Jacob, Alice, Bob, Lucy</td>
-                                        <td>Thornton, Elon, Michael, Elon, Michael</td>
-                                    </tr>
+                                <tbody id="crotable">
                                 </tbody>
                             </table>
 

@@ -40,7 +40,51 @@ $popover(document).ready(function(){
     });
 });
 
+function selectCro(id){
+    $('[id^=conass]').attr('id', 'conass-'+id);
+}
+
+function removeCro(id){
+    var crocaption = $('#crocompany-' + id).text();
+    $('#crocompany-' + id).closest('tr').remove();
+    $("#croname").append($("<option></option>").attr("value",id).text(crocaption));
+}
+
 jQuery(function($) {  // In case of jQuery conflict
+    // Add CRO, triggered by "Add" button for adding CRO button and CRO resource list
+    $('#croadd').click(function() {
+        var cro_name = $('#croname option:selected').text();
+        var cro_id = $("#croname").val();
+        // var newcro = $('<button type="button"class="btn btn-outline-primary"  onclick="selectCro(' + cro_id + ')" data-toggle="modal" data-target=".bd-example-modal-lg">' + cro_name + '</button>');
+        $('#crotable').append('<tr id="cro_id_list-'+cro_id+' "><th id = "crocompany-'+cro_id+'">' + cro_name + '</th><td id = "cromanager-'+cro_id+'"></td><td id = "crostaff-'+cro_id+'"></td><td><button class="btn btn-sm btn-outline-info" onclick="selectCro(' + cro_id + ')" data-toggle="modal" data-target="#addper">Edit</button><button class="btn btn-sm btn-danger ml-3" id="removeCRO-' + cro_id + '" onclick="removeCro(' + cro_id + ')">Delete</button></td></tr>');
+        // $('#addcroarea').append(newcro);
+     });
+
+    // Select workflow manager and staff to CRO
+    $('[id^=conass]').click(function() {
+        var cro_id = $(this).attr('id').split('-')[1];
+        var textmanager  = "";
+        var textstaff = "";
+        var managerChosed = $(".stackDrop1 > .personnel").text().match(/[A-Z][a-z]+/g);
+        var staffChosed = $(".stackDrop2 > .personnel").text().match(/[A-Z][a-z]+/g);
+        $.each(managerChosed, function(k,manager){
+            textmanager += manager + "; ";
+        });
+        $("#cromanager-"+cro_id).html(textmanager);
+        $.each(staffChosed, function(k,staff){
+            textstaff += staff + "; ";
+        });
+        $("#crostaff-"+cro_id).html(textstaff);
+
+    });
+
+    // Disable selected option if chosed
+    $(document).ready(function(){
+        $("#croadd").click(function(){
+            $("#croname option:selected").remove();
+        });
+    });
+
 
   // TO DO: This line should have deleted, BUT will not work if delete directly
 // Date Input Validation ("Latest received date (A.1.7.b)" MUST Greater than "Initial Received date (A.1.6.b)")
@@ -158,24 +202,12 @@ jQuery(function($) {
         $(this).parents('li.custworkflowstep').fadeOut();
     });
 
-// "Complete" button message
-    $('button[type=submit]').click(function() {
+// "Confirm Assignment" button message
+    $('#conass').click(function() {
         swal({
-            title: "Are you sure?",
-            text: "Your data is changed, are you sure to complete?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
+            title: "Your Assignment has been saved!",
+            icon: "success"
           })
-          .then((willDelete) => {
-            if (willDelete) {
-              swal("All the data has been saved", {
-                icon: "success",
-              });
-            } else {
-              swal("All the input data is safe!");
-            }
-          });
     })
 
 });
@@ -273,27 +305,11 @@ jQuery(function($) {
         });
     });
 
-
     $(document).ready(paginationReady());
-
-    // Assign human to CROs
-    // $(document).ready(function($){
-    //     $('#worman,#teres').click(function() {
-    //         if($(".checkboxstyle").is(":checked")) {
-    //             $(".checkboxstyle:checked").prop("disabled",true);
-    //             $("input:disabled").parent().find(".undo").attr('style', 'display: block !important');
-    //         };
-    //     });
-    //     $(".undo").click(function() {
-    //         $(this).prevAll().prop("checked",false).prop("disabled",false);
-    //         $(this).attr('style', 'display: none !important');
-    //     });
-    // });
-
-    $(".js-example-responsive").select2({
-        width: 'resolve'
-    });
 });
+
+
+
 function level2setPageChange(section_id, pageNo, addFlag=null){
     var child_section =  $("[id^=child_section][id$=section-"+section_id+"]").attr('id').split('-');
     child_section_id = child_section[1].split(/[\[\]]/);
@@ -718,7 +734,13 @@ function saveSection(sectionId){
         url:'/sd-sections/saveSection/'+caseNo,
         data:request,
         success:function(response){
-            alert("This section has been saved");
+            // alert("This section has been saved");
+            swal({
+                title: "This section has been saved",
+                // text: "This section has been saved",
+                icon: "success",
+                button: "OK",
+              });
              savedArray = $.parseJSON(response);
              console.log(response);
             var sectionIdOriginal =  $("[id^=save-btn"+sectionId+"]").attr('id');
@@ -729,7 +751,7 @@ function saveSection(sectionId){
                 var fieldvalueK = $("[id$=field-"+k+"]").children("[id^=section-"+sectionId+"-sd_section_structures]").attr('id').split('-')[5];
                 var setNum = $("[id$=field-"+k+"]").children("[id^=section-"+sectionId+"-set_number]").val();
                 if(savedArray[k]!=''){
-                    
+
                     $(section[section_Id[2]].sd_section_structures[sectionStructureK].sd_field.sd_field_values).each(function(k,v){
                         if(typeof v != 'undefined')
                         max_set_no = Math.max(v.set_number, max_set_no);
