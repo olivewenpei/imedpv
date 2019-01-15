@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * SdProducts Model
  *
+ * @property \App\Model\Table\SdProductTypesTable|\Cake\ORM\Association\BelongsTo $SdProductTypes
+ * @property \App\Model\Table\SdSponsorCompaniesTable|\Cake\ORM\Association\BelongsTo $SdSponsorCompanies
  * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
  * @method \App\Model\Entity\SdProduct get($primaryKey, $options = [])
@@ -37,6 +39,14 @@ class SdProductsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('SdProductTypes', [
+            'foreignKey' => 'sd_product_type_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('SdSponsorCompanies', [
+            'foreignKey' => 'sd_sponsor_company_id',
+            'joinType' => 'INNER'
+        ]);
         $this->hasMany('SdProductWorkflows', [
             'foreignKey' => 'sd_product_id'
         ]);
@@ -55,9 +65,10 @@ class SdProductsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('product_type')
-            ->requirePresence('product_type', 'create')
-            ->notEmpty('product_type');
+            ->scalar('product_name')
+            ->maxLength('product_name', 255)
+            ->requirePresence('product_name', 'create')
+            ->notEmpty('product_name');
 
         $validator
             ->scalar('study_no')
@@ -65,15 +76,25 @@ class SdProductsTable extends Table
             ->notEmpty('study_no');
 
         $validator
-            ->integer('sponsor_company')
-            ->requirePresence('sponsor_company', 'create')
-            ->notEmpty('sponsor_company');
-
-        $validator
             ->integer('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['sd_product_type_id'], 'SdProductTypes'));
+        $rules->add($rules->existsIn(['sd_sponsor_company_id'], 'SdSponsorCompanies'));
+
+        return $rules;
     }
 }
