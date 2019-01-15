@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\SdProductsTable;
+use App\Model\Table\SdWorkflowActivitiesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\SdProductsTable Test Case
+ * App\Model\Table\SdWorkflowActivitiesTable Test Case
  */
-class SdProductsTableTest extends TestCase
+class SdWorkflowActivitiesTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\SdProductsTable
+     * @var \App\Model\Table\SdWorkflowActivitiesTable
      */
-    public $SdProducts;
+    public $SdWorkflowActivities;
 
     /**
      * Fixtures
@@ -24,10 +24,9 @@ class SdProductsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.sd_products',
-        'app.sd_product_types',
-        'app.sd_sponsor_companies',
-        'app.sd_product_workflows'
+        'app.sd_workflow_activities',
+        'app.sd_workflows',
+        'app.sd_cases'
     ];
 
     /**
@@ -38,8 +37,8 @@ class SdProductsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('SdProducts') ? [] : ['className' => SdProductsTable::class];
-        $this->SdProducts = TableRegistry::getTableLocator()->get('SdProducts', $config);
+        $config = TableRegistry::getTableLocator()->exists('SdWorkflowActivities') ? [] : ['className' => SdWorkflowActivitiesTable::class];
+        $this->SdWorkflowActivities = TableRegistry::getTableLocator()->get('SdWorkflowActivities', $config);
     }
 
     /**
@@ -49,7 +48,7 @@ class SdProductsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->SdProducts);
+        unset($this->SdWorkflowActivities);
 
         parent::tearDown();
     }

@@ -11,6 +11,10 @@
         <li><?= $this->Form->postLink(__('Delete Sd Product'), ['action' => 'delete', $sdProduct->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdProduct->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Sd Products'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Product'), ['action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Product Types'), ['controller' => 'SdProductTypes', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Product Type'), ['controller' => 'SdProductTypes', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Sponsor Companies'), ['controller' => 'SdSponsorCompanies', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Sponsor Company'), ['controller' => 'SdSponsorCompanies', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?> </li>
     </ul>
@@ -19,16 +23,20 @@
     <h3><?= h($sdProduct->id) ?></h3>
     <table class="vertical-table">
         <tr>
+            <th scope="row"><?= __('Product Name') ?></th>
+            <td><?= h($sdProduct->product_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Product Type') ?></th>
+            <td><?= $sdProduct->has('sd_product_type') ? $this->Html->link($sdProduct->sd_product_type->id, ['controller' => 'SdProductTypes', 'action' => 'view', $sdProduct->sd_product_type->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Sponsor Company') ?></th>
+            <td><?= $sdProduct->has('sd_sponsor_company') ? $this->Html->link($sdProduct->sd_sponsor_company->id, ['controller' => 'SdSponsorCompanies', 'action' => 'view', $sdProduct->sd_sponsor_company->id]) : '' ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($sdProduct->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Product Type') ?></th>
-            <td><?= $this->Number->format($sdProduct->product_type) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Sponsor Company') ?></th>
-            <td><?= $this->Number->format($sdProduct->sponsor_company) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Status') ?></th>

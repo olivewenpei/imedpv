@@ -1,5 +1,7 @@
 <title>Product</title>
-
+<script type="text/javascript">
+    var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+</script>
 <div class="container">
 
     <div class="row my-3">
@@ -11,20 +13,41 @@
                 <div class="card-body">
                     <div class="text-center">
                         <!-- Add Product -->
+                        <span id="errorMsg" class="alert alert-danger" role="alert" style="display:none"></span>
                         <div id="addpro" class="prodiff form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label>Product Name</label>
-                                <input type="text" class="form-control" id="#" placeholder="Product Name">
+                                <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Product Name">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
+                                <label>Sponsor Company</label>
+                                <select id="sd_sponsor_company_id" name="sd_sponsor_company_id">
+                                <?php
+                                    foreach ($sdSponsors as $eachType)
+                                    {
+                                        echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']."</option>";
+                                    }
+                                ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label>Study Number</label>
-                                <input type="text" class="form-control" id="#" placeholder="Study Number">
+                                <input type="text" class="form-control" id="study_no" name="study_no" placeholder="Study Number">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label>Product Type</label>
-                                <input type="text" class="form-control" id="#" placeholder="Product Type">
+                                <select name="sd_product_type_id" id="sd_product_type_id">
+                                <?php
+                                    foreach ($sdProductTypes as $eachType)
+                                    {
+                                        echo "<option value=\"".$eachType['id']."\">".$eachType['type_name']."</option>";
+                                    }
+                                ?>
+                                </select>
+                                <input type="hidden" id="status" name="status" value="1">
                             </div>
-                            <div id="addpro" class="btn btn-primary w-25 mt-3 mx-auto">Submit</div>
+                            <div id="addprobtn" class="btn btn-primary w-25 mt-3 mx-auto">Submit</div>
+                            <input type="hidden" id="product_id" name="product_id" value="">
                         </div>
 
                         <!-- Choose Country -->
@@ -34,10 +57,10 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label>Choose Country</label>
-                                    <select class="form-control" id="">
-                                    <option>Global</option>
-                                    <option>Europe</option>
-                                    <option>Japan</option>
+                                    <select class="form-control" id="country" name="country">
+                                    <option value="Global">Global</option>
+                                    <option value="Europe">Europe</option>
+                                    <option value="Japan">Japan</option>
                                     </select>
                                 </div>
                             </div>
@@ -50,12 +73,12 @@
                             <hr>
                             <div class="row">
                                 <!-- Default Workflow -->
-                                <div class="col">
+                                <div class="col" id="defworkflow">
                                     <button type="button" id="defbtn" class="btn btn-success btn-sm workflow"><span>Default Workflow</span></button>
                                     <hr class="wfhr">
                                     <ol class="defworkflow">
                                         <p>This is default workflow and cannot be changed</p>
-                                        <li class="custworkflowstep">
+                                        <li class="defworkflowstep">
                                             <div class="card w-100 h-25 my-2">
                                                 <div class="card-body p-3">
                                                     <h5 class="card-title"><b> Triage</b></h5>
@@ -64,7 +87,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="custworkflowstep">
+                                        <li class="defworkflowstep">
                                             <div class="card w-100 h-25 my-2">
                                                 <div class="card-body p-3">
                                                     <h5 class="card-title"> <b> Data Entry</b></h5>
@@ -73,7 +96,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="custworkflowstep">
+                                        <li class="defworkflowstep">
                                             <div class="card w-100 h-25 my-2">
                                                 <div class="card-body p-3">
                                                     <h5 class="card-title"> <b> Quality Check</b></h5>
@@ -82,7 +105,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="custworkflowstep">
+                                        <li class="defworkflowstep">
                                             <div class="card w-100 h-25 my-2">
                                                 <div class="card-body p-3">
                                                     <h5 class="card-title"> <b> Medical Review</b></h5>
@@ -91,7 +114,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="custworkflowstep">
+                                        <li class="defworkflowstep">
                                             <div class="card w-100 h-25 my-2">
                                                 <div class="card-body p-3">
                                                     <h5 class="card-title"><b> Generate Report</b></h5>
@@ -100,7 +123,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="custworkflowstep">
+                                        <li class="defworkflowstep">
                                             <div class="card w-100 h-25 my-2">
                                                 <div class="card-body p-3">
                                                     <h5 class="card-title"><b> Complete</b></h5>
@@ -116,7 +139,8 @@
                                 <div class="col">
                                     <button type="button" id="custbtn" class="btn btn-success btn-sm workflow"><span>Customize Your Workflow</span></button>
                                     <hr class="wfhr">
-                                    <div class="custworkflow">
+                                    <div class="custworkflow" id="customworkflow">
+                                        <div >Name: <input id="custworkflowname" name="custworkflowname" value=""/></div>
                                         <p>You can edit the workflow here and please drag the yellow box to anywhere in the workflow for customization</p>
                                         <ul>
                                             <li id="draggable" class="custworkflowstep">
@@ -128,7 +152,7 @@
                                                 </div>
                                             </li>
                                         </ul>
-                                        <ol id="sortable">
+                                        <ol id="sortable" class="cust">
                                             <li class="custworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
@@ -202,6 +226,7 @@
 
                             <div class="d-block mt-3">
                                 <div type="submit" id="submitworkflow" class="btn btn-primary w-25">Countinue</div>
+                                <input type="hidden" id="workflow_id" name="workflow_id" value="">
                             </div>
                         </div>
 

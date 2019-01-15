@@ -1,13 +1,13 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\SdProductsController;
+use App\Controller\SdWorkflowActivitiesController;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
- * App\Controller\SdProductsController Test Case
+ * App\Controller\SdWorkflowActivitiesController Test Case
  */
-class SdProductsControllerTest extends IntegrationTestCase
+class SdWorkflowActivitiesControllerTest extends IntegrationTestCase
 {
 
     /**
@@ -16,10 +16,9 @@ class SdProductsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.sd_products',
-        'app.sd_product_types',
-        'app.sd_sponsor_companies',
-        'app.sd_product_workflows'
+        'app.sd_workflow_activities',
+        'app.sd_workflows',
+        'app.sd_cases'
     ];
 
     /**

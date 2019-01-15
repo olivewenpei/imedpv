@@ -8,6 +8,10 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Sd Product'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Product Types'), ['controller' => 'SdProductTypes', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Product Type'), ['controller' => 'SdProductTypes', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Sponsor Companies'), ['controller' => 'SdSponsorCompanies', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Sponsor Company'), ['controller' => 'SdSponsorCompanies', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?></li>
     </ul>
@@ -18,8 +22,9 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('product_type') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sponsor_company') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('product_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_product_type_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_sponsor_company_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -28,8 +33,9 @@
             <?php foreach ($sdProducts as $sdProduct): ?>
             <tr>
                 <td><?= $this->Number->format($sdProduct->id) ?></td>
-                <td><?= $this->Number->format($sdProduct->product_type) ?></td>
-                <td><?= $this->Number->format($sdProduct->sponsor_company) ?></td>
+                <td><?= h($sdProduct->product_name) ?></td>
+                <td><?= $sdProduct->has('sd_product_type') ? $this->Html->link($sdProduct->sd_product_type->id, ['controller' => 'SdProductTypes', 'action' => 'view', $sdProduct->sd_product_type->id]) : '' ?></td>
+                <td><?= $sdProduct->has('sd_sponsor_company') ? $this->Html->link($sdProduct->sd_sponsor_company->id, ['controller' => 'SdSponsorCompanies', 'action' => 'view', $sdProduct->sd_sponsor_company->id]) : '' ?></td>
                 <td><?= $this->Number->format($sdProduct->status) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdProduct->id]) ?>
