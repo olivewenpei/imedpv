@@ -259,24 +259,130 @@ jQuery(function($) {
 
 // Add Product card
     $(document).ready(function($){
-        $('#whodrahint').html($('#whodrabrowser').html());
-        $('#addpro').click(function() {
-            $('#choosecon').show();
-            $("#addpro > div > input").prop("disabled", true);
+        $('#addprobtn').click(function() {
+            var request = {'product_name': $("#product_name").val(), 'study_no':$("#study_no").val(), 
+                    'sd_sponsor_company_id':$("#sd_sponsor_company_id").val(), 
+                    'sd_product_type_id':$("#sd_product_type_id").val(),
+                    'status':$("#status").val()            
+                };
+            console.log(request);
+            
+            $.ajax({
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                type:'POST',
+                url:'/sd-products/create',
+                data:request,
+                success:function(response){
+                    console.log(response);
+                    var result = $.parseJSON(response);
+                    console.log(result);
+                    if (result.result == 1)
+                    {
+                        $('#product_id').val(result.product_id);
+                        $('#choosecon').show();
+                        $("#addpro > div > input").prop("disabled", true);
+                    }
+                    else{
+                        $("#errorMsg").show();
+                        $("#errorMsg").html("Failed to add a new product!");
+                    }
+                    
+                },
+                error:function(response){
+                        console.log(response);
+                }
+            });
+        
+           
         });
         $('#submitchocountry').click(function() {
             $('#choosewf').show();
             $("#choosecon > div > div > select").prop("disabled", true);
         });
         $('#submitworkflow').click(function() {
+            var workflowname;
+            //Make sure which workflow is selected
+            if ($('.defworkflow').is(':visible') && $('.custworkflow').is(':hidden'))
+            {
+                alert("default workflow selected");
+                workflowname = "Default Workflow";
+                var wkflsteps = iterateWorkflow("defworkflow");
+            }
+            if (($('.defworkflow').is(':hidden') && $('.custworkflow').is(':visible')))
+            {
+                //alert("custworkflow selected");
+                workflowname = $('#custworkflowname').val();
+                if(workflowname.length == 0){
+                    $('#custworkflowname').after('<div id="errWorkflow" class="alert alert-danger" role="alert">Workflow name is required!</div>');
+                    return false;
+                }
+                else {
+                    $('#custworkflowname').next('#errWorkflow').remove(); // *** this line have been added ***
+                    var wkflsteps = iterateWorkflow("cust");
+                }
+            }
+            console.log(wkflsteps);
+            var request = {'product_id': $("#product_id").val(),'country':$("#country").val(),
+                    'workflow_name':workflowname,
+                    'workflow_steps':wkflsteps           
+            };
+            console.log(request);
+            //add into product workflow 
+            $.ajax({
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                type:'POST',
+                url:'/sd-workflow-activities/create',
+                data:request,
+                success:function(response){
+                    console.log(response);
+                    var result = $.parseJSON(response);
+                    console.log(result);
+                    if (result.result == 1)
+                    {
+                        $('#workflow_id').val(result.sd_workflow_id);
+                        $('#choosecon').show();
+                    }
+                    else{
+                        $("#errorMsg").show();
+                        $("#errorMsg").html("Failed to add the workflow!");
+                    }
+                    
+                },
+                error:function(response){
+                        console.log(response);
+                }
+            });
+            
             $('#choosecro').show();
         });
     });
 
-
-    $(document).ready(paginationReady());
+    function iterateWorkflow(wkfl_name)
+    {
+        var steps = [];
+        var listItems = $("."+wkfl_name+" li");
+        //console.log(listItems);
+        listItems.each(function(idx, li) {
+            var display_order = idx+1;
+            var step_name = $(li).find("h5").text().replace(/ /g,'');
+            steps.push({
+                display_order: display_order,
+                step_name: step_name
+            });
+            //console.log(display_order);
+            //console.log(step_name);
+            
+        })
+        //console.log(steps);
+        return steps;
+    }
 
     // Assign human to CROs
+    $(document).ready(paginationReady());
     // $(document).ready(function($){
     //     $('#worman,#teres').click(function() {
     //         if($(".checkboxstyle").is(":checked")) {
@@ -289,7 +395,6 @@ jQuery(function($) {
     //         $(this).attr('style', 'display: none !important');
     //     });
     // });
-
     $(".js-example-responsive").select2({
         width: 'resolve'
     });
@@ -331,7 +436,7 @@ function level2setPageChange(section_id, pageNo, addFlag=null){
 function setPageChange(section_id, pageNo, addFlag=null, pFlag) {
     $("[id^=save-btn"+section_id+"]").hide();
     if($("[id^=right_set-"+section_id+"]").length){
-
+        
         var sectionIdOriginal =  $("[id^=right_set-"+section_id+"]").attr('id');
         var sectionId = sectionIdOriginal.split('-');
         var setNo = sectionId[5];
@@ -641,10 +746,10 @@ function deleteSection(sectionId, pcontrol=false){
                 });
             }
             if (max_set_no!=0){
-                $("[id^=right_set-"+sectionId+"]").prev().remove();
-                var previousPageNo = $("[id^=right_set-"+sectionId+"]").prev().attr('id').split('-page_number-')[1];
-                if(setNum>max_set_no) setNum = max_set_no;
-                if(pcontrol==false) setPageChange(sectionId,setNum);
+            $("[id^=right_set-"+sectionId+"]").prev().remove();
+            var previousPageNo = $("[id^=right_set-"+sectionId+"]").prev().attr('id').split('-page_number-')[1];
+            if(setNum>max_set_no) setNum = max_set_no;
+            if(pcontrol==false) setPageChange(sectionId,setNum);
             }else{
                 if(pcontrol==false) setPageChange(sectionId, 1, 1);
             }
