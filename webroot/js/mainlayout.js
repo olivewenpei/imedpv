@@ -45,9 +45,27 @@ function selectCro(id){
 }
 
 function removeCro(id){
-    var crocaption = $('#crocompany-' + id).text();
-    $('#crocompany-' + id).closest('tr').remove();
-    $("#croname").append($("<option></option>").attr("value",id).text(crocaption));
+    swal({
+        title: "Are you sure?",
+        text: "This record would be removed permanently once deleted",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+            var crocaption = $('#crocompany-' + id).text();
+            $('#crocompany-' + id).closest('tr').remove();
+            $("#croname").append($("<option></option>").attr("value",id).text(crocaption));
+            swal("This record has been deleted!", {
+                icon: "success",
+            });
+        } else {
+          swal("This record is safe!", {
+            icon: "success",
+        });
+        }
+      });
 }
 
 jQuery(function($) {  // In case of jQuery conflict
@@ -110,12 +128,17 @@ jQuery(function($) {
     $('#defbtn').click(function() {
         $('.defworkflow').slideDown();
         $('.custworkflow').slideUp();
-    })
+    });
 
     $('#custbtn').click(function() {
         $('.custworkflow').slideDown();
         $('.defworkflow').slideUp();
     });
+
+    // Close customworkflow step
+    $('.closewf').click(function() {
+        $(this).closest('li').remove();
+    })
 
 
 // Custworkflow draggable effect
@@ -146,7 +169,8 @@ jQuery(function($) {
             },
             // Add "close icon" when drag into new place
             create :  function (event, ui) {
-                    $(this).find('.card-body').prepend( '<button type="button" class="close" aria-label="Close">' + '<span aria-hidden="true">' + '&times;' + '</span>' + '</button>');
+                    $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
+                    // $(this).find('input').replaceWith('<h5>' + $('#draggable').find('input').val() + '</h5>');
                     },
             // Remove all inputs in original when drag into new place
             stop : function (event,ui) {
@@ -314,11 +338,17 @@ jQuery(function($) {
                     {
                         $('#product_id').val(result.product_id);
                         $('#choosecon').show();
-                        $("#addpro > div > input").prop("disabled", true);
+                        $("#addpro > div > input, #addpro > div > select").prop("disabled", true);
                     }
                     else{
-                        $("#errorMsg").show();
-                        $("#errorMsg").html("Failed to add a new product!");
+                        swal({
+                            title: "Failed to add a new product",
+                            text: "All the Fields are REQUIRED",
+                            icon: "warning",
+                            button: "OK",
+                          });
+                        // $("#errorMsg").show();
+                        // $("#errorMsg").html("Failed to add a new product!");
                     }
 
                 },
@@ -338,7 +368,12 @@ jQuery(function($) {
             //Make sure which workflow is selected
             if ($('.defworkflow').is(':visible') && $('.custworkflow').is(':hidden'))
             {
-                alert("default workflow selected");
+                // alert("default workflow selected");
+                swal({
+                    title: "Default Workflow SET",
+                    icon: "success",
+                    button: "OK",
+                  });
                 workflowname = "Default Workflow";
                 var wkflsteps = iterateWorkflow("defworkflow");
             }
@@ -346,8 +381,21 @@ jQuery(function($) {
             {
                 //alert("custworkflow selected");
                 workflowname = $('#custworkflowname').val();
+                swal({
+                    title: "Customization Workflow Selected",
+                    text: "The Workflow Name is: " + workflowname,
+                    icon: "success",
+                    button: "OK",
+                  });
                 if(workflowname.length == 0){
-                    $('#custworkflowname').after('<div id="errWorkflow" class="alert alert-danger" role="alert">Workflow name is required!</div>');
+                    // $('#custworkflowname').after('<div id="errWorkflow" class="alert alert-danger" role="alert">Workflow name is required!</div>');
+                    $('#custworkflowname').after($("#errWorkflow").show());
+                    swal({
+                        title: "Failed to choose Workflow",
+                        text: "Workflow name is REQUIRED",
+                        icon: "warning",
+                        button: "OK",
+                      });
                     return false;
                 }
                 else {
@@ -379,8 +427,14 @@ jQuery(function($) {
                         $('#choosecon').show();
                     }
                     else{
-                        $("#errorMsg").show();
-                        $("#errorMsg").html("Failed to add the workflow!");
+                        swal({
+                            title: "Failed to add the workflow",
+                            text: "All the Fields are REQUIRED",
+                            icon: "warning",
+                            button: "OK",
+                          });
+                        // $("#errorMsg").show();
+                        // $("#errorMsg").html("Failed to add the workflow!");
                     }
 
                 },
@@ -413,23 +467,8 @@ jQuery(function($) {
         return steps;
     }
 
-    // Assign human to CROs
     $(document).ready(paginationReady());
-    // $(document).ready(function($){
-    //     $('#worman,#teres').click(function() {
-    //         if($(".checkboxstyle").is(":checked")) {
-    //             $(".checkboxstyle:checked").prop("disabled",true);
-    //             $("input:disabled").parent().find(".undo").attr('style', 'display: block !important');
-    //         };
-    //     });
-    //     $(".undo").click(function() {
-    //         $(this).prevAll().prop("checked",false).prop("disabled",false);
-    //         $(this).attr('style', 'display: none !important');
-    //     });
-    // });
-    $(".js-example-responsive").select2({
-        width: 'resolve'
-    });
+
 });
 
 

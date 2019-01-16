@@ -246,7 +246,10 @@
 
             public function test() {
                 $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
-                $sdFieldValues = $sdFieldValuesTable->find()->select(['field_value'])->where(['status'=>1,'sd_case_id'=>1,'sd_field_id'=>79])->first();
+                $sdFieldValues = $sdFieldValuesTable->find()
+                                ->select(['field_value'])
+                                ->where(['status'=>1,'sd_case_id'=>1,'sd_field_id'=>79])
+                                ->first();
                 $this->set(compact('sdFieldValues'));
 
                 $sdFieldsTable = TableRegistry::get('sdFields');

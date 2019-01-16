@@ -1,3 +1,6 @@
+<?php
+//debug($sdProductTypes);
+?>
 <title>Product</title>
 <script type="text/javascript">
     var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
@@ -21,11 +24,12 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Sponsor Company</label>
-                                <select id="sd_sponsor_company_id" name="sd_sponsor_company_id">
+                                <select class="form-control" id="sd_sponsor_company_id" name="sd_sponsor_company_id">
                                 <?php
                                     foreach ($sdSponsors as $eachType)
                                     {
-                                        echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']."</option>";
+                                        //echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']."</option>";
+                                        echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']. " 'Country: " .$eachType['country']. "' " . "</option>";
                                     }
                                 ?>
                                 </select>
@@ -36,7 +40,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Product Type</label>
-                                <select name="sd_product_type_id" id="sd_product_type_id">
+                                <select class="form-control" name="sd_product_type_id" id="sd_product_type_id">
                                 <?php
                                     foreach ($sdProductTypes as $eachType)
                                     {
@@ -140,7 +144,10 @@
                                     <button type="button" id="custbtn" class="btn btn-success btn-sm workflow"><span>Customize Your Workflow</span></button>
                                     <hr class="wfhr">
                                     <div class="custworkflow" id="customworkflow">
-                                        <div >Name: <input id="custworkflowname" name="custworkflowname" value=""/></div>
+                                        <label>Workflow Name: </label >
+                                        <input id="custworkflowname" name="custworkflowname" value=""/>
+                                        <div id="errWorkflow" class="invalid-feedback" style="display:none;">Workflow name is required!</div>
+
                                         <p>You can edit the workflow here and please drag the yellow box to anywhere in the workflow for customization</p>
                                         <ul>
                                             <li id="draggable" class="custworkflowstep">
@@ -156,9 +163,7 @@
                                             <li class="custworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                        <button class="close closewf">&times;</button>
                                                         <h5 class="card-title"> <b> Triage</b></h5>
                                                         <p class="card-text">Capture the initial Case information.</p>
                                                     </div>
@@ -167,9 +172,7 @@
                                             <li class="custworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                        <button class="close closewf">&times;</button>
                                                         <h5 class="card-title"><b> Data Entry</b></h5>
                                                         <p class="card-text">Entry initial data from call center</p>
                                                     </div>
@@ -178,9 +181,7 @@
                                             <li class="custworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                        <button class="close closewf">&times;</button>
                                                         <h5 class="card-title"> <b> Quality Check</b></h5>
                                                         <p class="card-text">Check the validation of cases</p>
                                                     </div>
@@ -189,9 +190,7 @@
                                             <li class="custworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                        <button class="close closewf">&times;</button>
                                                         <h5 class="card-title"> <b> Medical Review</b></h5>
                                                         <p class="card-text">Review cases by doctors.</p>
                                                     </div>
@@ -200,9 +199,7 @@
                                             <li class="custworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                        <button class="close closewf">&times;</button>
                                                         <h5 class="card-title"> <b> Generate Report</b></h5>
                                                         <p class="card-text">Output a report from system</p>
                                                     </div>
@@ -211,9 +208,7 @@
                                             <li class="custworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                        <button class="close closewf">&times;</button>
                                                         <h5 class="card-title"> <b> Complete</b></h5>
                                                         <p class="card-text">Case information gathered and reviewed.</p>
                                                     </div>
@@ -225,12 +220,12 @@
                             </div>
 
                             <div class="d-block mt-3">
-                                <div type="submit" id="submitworkflow" class="btn btn-primary w-25">Countinue</div>
+                                <div id="submitworkflow" class="btn btn-primary w-25">Countinue</div>
                                 <input type="hidden" id="workflow_id" name="workflow_id" value="">
                             </div>
                         </div>
 
-                        <!-- Choose CROs -->
+                        <!-- Add CROs -->
                         <div id="choosecro" class="prodiff text-center">
                             <h3 class="mt-5">Add CROs</h3>
                             <hr>

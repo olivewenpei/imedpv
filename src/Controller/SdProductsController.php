@@ -151,11 +151,11 @@ class SdProductsController extends AppController
         $product_types = TableRegistry::get("sd_product_types");
         $query = $product_types->find()
                         ->order(['id' => 'ASC']);
-        
+
         foreach ($query as $product_type){
             $result[] = array("id"=>$product_type->id, "type_name"=>$product_type->type_name);
         }
-        
+
         return $result;
     }
 
@@ -165,12 +165,17 @@ class SdProductsController extends AppController
         $sponsor_companies = TableRegistry::get("sd_sponsor_companies");
         $query = $sponsor_companies->find()
                         ->order(['company_name' => 'ASC']);
-        
+
         foreach ($query as $sponsor_company){
-            $result[] = array("id"=>$sponsor_company->id, "company_name"=>$sponsor_company->company_name);
+            $result[] = array("id"=>$sponsor_company->id, "company_name"=>$sponsor_company->company_name, "country"=>$sponsor_company->country);
         }
-        
+
         return $result;
     }
-}
 
+    public function loadCroPeople()
+    {
+        $result = array();
+        $cro_people = TableRegistry::get("a");
+    }
+}
