@@ -29,7 +29,7 @@
                                     foreach ($sdSponsors as $eachType)
                                     {
                                         //echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']."</option>";
-                                        echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']. " 'Country: " .$eachType['country']. "' " . "</option>";
+                                        echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']. ", " .$eachType['country']. "</option>";
                                     }
                                 ?>
                                 </select>

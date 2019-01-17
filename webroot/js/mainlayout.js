@@ -154,7 +154,7 @@ jQuery(function($) {
             // Remove Custworkflow Step
             update: function (event,ui) {
                 $('.close').click(function() {
-                    $(this).parents('li.custworkflowstep').fadeOut();
+                    $(this).parents('li.custworkflowstep').remove();
                 });
             }
         });
@@ -166,11 +166,14 @@ jQuery(function($) {
             revert: "invalid",
             start  : function(event, ui){
                     $(ui.helper).addClass("w-100 h-75");
+                    $(this).find('h5').replaceWith('<h5><input type="text" placeholder="Type your step name here" class="font-weight-bold" /></h5>');
             },
             // Add "close icon" when drag into new place
             create :  function (event, ui) {
                     $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
-                    // $(this).find('input').replaceWith('<h5>' + $('#draggable').find('input').val() + '</h5>');
+                    $(this).change(function() {
+                        $(this).find('input').replaceWith('<h5>' + $('#draggable').find('input').val() + '</h5>');
+                    });
                     },
             // Remove all inputs in original when drag into new place
             stop : function (event,ui) {

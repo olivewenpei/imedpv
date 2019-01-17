@@ -58,8 +58,12 @@
       <li class="nav-item">
         <a class="nav-link" href="/Dashboards/index">Dashboard <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/sd-products/addproduct">Product</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="/sd-products/search" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/sd-products/search">Search Product</a>
+          <a class="dropdown-item" href="/sd-products/addproduct">Add Product</a>
+        </div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ICSR</a>

@@ -134,9 +134,20 @@ class SdProductsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    public function search()
+    {
+        $this->viewBuilder()->layout('main_layout');
+        $product_types = $this->loadProductTypes();
+        $sponsors = $this->loadSponsorCompanies();
+        $this->set('sdProductTypes', $product_types);
+        $this->set('sdSponsors', $sponsors);
+
+    }
+
     public function addproduct()
     {
         $this->viewBuilder()->layout('main_layout');
+        $sd_products = $this->loadProducts();
         $product_types = $this->loadProductTypes();
         $sponsors = $this->loadSponsorCompanies();
         $this->set('sdProductTypes', $product_types);
@@ -168,6 +179,20 @@ class SdProductsController extends AppController
 
         foreach ($query as $sponsor_company){
             $result[] = array("id"=>$sponsor_company->id, "company_name"=>$sponsor_company->company_name, "country"=>$sponsor_company->country);
+        }
+
+        return $result;
+    }
+
+    public function loadProducts()
+    {
+        $result = array();
+        $products = TableRegistry::get("sd_products");
+        $query = $products->find()
+                        ->order(['id' => 'ASC']);
+
+        foreach ($query as $products){
+            $result[] = array("id"=>$products->id, "product_name"=>$products->product_name, "country"=>$products->country);
         }
 
         return $result;
