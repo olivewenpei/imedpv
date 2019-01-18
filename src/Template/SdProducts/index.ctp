@@ -10,6 +10,8 @@
         <li><?= $this->Html->link(__('New Sd Product'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Product Types'), ['controller' => 'SdProductTypes', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product Type'), ['controller' => 'SdProductTypes', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Study Types'), ['controller' => 'SdStudyTypes', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Study Type'), ['controller' => 'SdStudyTypes', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Sponsor Companies'), ['controller' => 'SdSponsorCompanies', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Sponsor Company'), ['controller' => 'SdSponsorCompanies', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
@@ -24,7 +26,19 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('product_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_product_type_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('study_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_study_type_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_sponsor_company_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('short_desc') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('product_desc') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('blinding_tech') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_product_flag_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('WHODD_code') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('WHODD_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('mfr_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('start_date') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('end_date') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('call_center') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -35,7 +49,19 @@
                 <td><?= $this->Number->format($sdProduct->id) ?></td>
                 <td><?= h($sdProduct->product_name) ?></td>
                 <td><?= $sdProduct->has('sd_product_type') ? $this->Html->link($sdProduct->sd_product_type->id, ['controller' => 'SdProductTypes', 'action' => 'view', $sdProduct->sd_product_type->id]) : '' ?></td>
+                <td><?= h($sdProduct->study_name) ?></td>
+                <td><?= $sdProduct->has('sd_study_type') ? $this->Html->link($sdProduct->sd_study_type->id, ['controller' => 'SdStudyTypes', 'action' => 'view', $sdProduct->sd_study_type->id]) : '' ?></td>
                 <td><?= $sdProduct->has('sd_sponsor_company') ? $this->Html->link($sdProduct->sd_sponsor_company->id, ['controller' => 'SdSponsorCompanies', 'action' => 'view', $sdProduct->sd_sponsor_company->id]) : '' ?></td>
+                <td><?= h($sdProduct->short_desc) ?></td>
+                <td><?= h($sdProduct->product_desc) ?></td>
+                <td><?= h($sdProduct->blinding_tech) ?></td>
+                <td><?= $this->Number->format($sdProduct->sd_product_flag_id) ?></td>
+                <td><?= h($sdProduct->WHODD_code) ?></td>
+                <td><?= h($sdProduct->WHODD_name) ?></td>
+                <td><?= h($sdProduct->mfr_name) ?></td>
+                <td><?= h($sdProduct->start_date) ?></td>
+                <td><?= h($sdProduct->end_date) ?></td>
+                <td><?= h($sdProduct->call_center) ?></td>
                 <td><?= $this->Number->format($sdProduct->status) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdProduct->id]) ?>

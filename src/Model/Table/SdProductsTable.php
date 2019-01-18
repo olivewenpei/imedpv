@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * SdProducts Model
  *
  * @property \App\Model\Table\SdProductTypesTable|\Cake\ORM\Association\BelongsTo $SdProductTypes
+ * @property \App\Model\Table\SdStudyTypesTable|\Cake\ORM\Association\BelongsTo $SdStudyTypes
  * @property \App\Model\Table\SdSponsorCompaniesTable|\Cake\ORM\Association\BelongsTo $SdSponsorCompanies
  * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
@@ -41,6 +42,10 @@ class SdProductsTable extends Table
 
         $this->belongsTo('SdProductTypes', [
             'foreignKey' => 'sd_product_type_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('SdStudyTypes', [
+            'foreignKey' => 'sd_study_type_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('SdSponsorCompanies', [
@@ -76,6 +81,71 @@ class SdProductsTable extends Table
             ->notEmpty('study_no');
 
         $validator
+            ->scalar('study_name')
+            ->maxLength('study_name', 100)
+            ->requirePresence('study_name', 'create')
+            ->notEmpty('study_name');
+
+        $validator
+            ->scalar('short_desc')
+            ->maxLength('short_desc', 255)
+            ->requirePresence('short_desc', 'create')
+            ->notEmpty('short_desc');
+
+        $validator
+            ->scalar('product_desc')
+            ->maxLength('product_desc', 90)
+            ->requirePresence('product_desc', 'create')
+            ->notEmpty('product_desc');
+
+        $validator
+            ->scalar('blinding_tech')
+            ->maxLength('blinding_tech', 50)
+            ->requirePresence('blinding_tech', 'create')
+            ->notEmpty('blinding_tech');
+
+        $validator
+            ->integer('sd_product_flag')
+            ->requirePresence('sd_product_flag', 'create')
+            ->notEmpty('sd_product_flag');
+
+        $validator
+            ->scalar('WHODD_code')
+            ->maxLength('WHODD_code', 50)
+            ->requirePresence('WHODD_code', 'create')
+            ->notEmpty('WHODD_code');
+
+        $validator
+            ->scalar('WHODD_name')
+            ->maxLength('WHODD_name', 100)
+            ->requirePresence('WHODD_name', 'create')
+            ->notEmpty('WHODD_name');
+
+        $validator
+            ->scalar('mfr_name')
+            ->maxLength('mfr_name', 100)
+            ->requirePresence('mfr_name', 'create')
+            ->notEmpty('mfr_name');
+
+        $validator
+            ->scalar('start_date')
+            ->maxLength('start_date', 10)
+            ->requirePresence('start_date', 'create')
+            ->notEmpty('start_date');
+
+        $validator
+            ->scalar('end_date')
+            ->maxLength('end_date', 10)
+            ->requirePresence('end_date', 'create')
+            ->notEmpty('end_date');
+
+        $validator
+            ->scalar('call_center')
+            ->maxLength('call_center', 100)
+            ->requirePresence('call_center', 'create')
+            ->notEmpty('call_center');
+
+        $validator
             ->integer('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
@@ -93,6 +163,7 @@ class SdProductsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['sd_product_type_id'], 'SdProductTypes'));
+        $rules->add($rules->existsIn(['sd_study_type_id'], 'SdStudyTypes'));
         $rules->add($rules->existsIn(['sd_sponsor_company_id'], 'SdSponsorCompanies'));
 
         return $rules;

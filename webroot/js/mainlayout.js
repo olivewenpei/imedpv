@@ -38,7 +38,29 @@ $popover(document).ready(function(){
         trigger: 'hover focus',
         delay: { show: 100, hide: 500 }
     });
+
+    $('#addNewWL').click(function() {
+        $(this).hide();
+        $('#workflowlist').slideUp();
+        $('#choworkflow').slideDown();
+        swal({
+            title: "You are adding a New Workflow",
+            icon: "success",
+          })
+    });
+
+    $('#confirmWFlist').click(function() {
+        $('#addNewWL').show();
+        $('#choworkflow, #choosecro').slideUp();
+        $('#workflowlist').slideDown();
+        swal({
+            title: "Your New Workflow has been SET",
+            icon: "success",
+          })
+    });
+
 });
+
 
 function selectCro(id){
     $('[id^=conass]').attr('id', 'conass-'+id);
@@ -125,12 +147,15 @@ jQuery(function($) {
     });
 
 // Defaultworkflow and Custworkflow button control
+
     $('#defbtn').click(function() {
+        $('#submitworkflow').show();
         $('.defworkflow').slideDown();
         $('.custworkflow').slideUp();
     });
 
     $('#custbtn').click(function() {
+        $('#submitworkflow').show();
         $('.custworkflow').slideDown();
         $('.defworkflow').slideUp();
     });
@@ -363,14 +388,32 @@ jQuery(function($) {
 
         });
         $('#submitchocountry').click(function() {
+            $(this).hide();
+            $('#undochocon').show();
+            $("#country, #callCen").prop("disabled", true);
             $('#choosewf').show();
-            $("#choosecon > div > div > select").prop("disabled", true);
+        });
+        $('#undochocon').click(function() {
+            $(this).hide();
+            $('#choosewf, #choosecro').hide();
+            $('#submitchocountry, #submitworkflow').show();
+            $("#country, #callCen").prop("disabled", false);
         });
         $('#submitworkflow').click(function() {
             var workflowname;
             //Make sure which workflow is selected
             if ($('.defworkflow').is(':visible') && $('.custworkflow').is(':hidden'))
             {
+                $(this).hide();
+                $('#cusworkflow, #defbtn').hide();
+                $('#defT, #undochoWF').show();
+                $('#ifdef').addClass("mx-auto w-50");
+                $('#undochoWF').click(function() {
+                    $(this).hide();
+                    $('#defT').hide();
+                    $('#submitworkflow, #cusworkflow, #defbtn').show();
+                    $('#ifdef').removeClass("mx-auto w-50");
+                })
                 // alert("default workflow selected");
                 swal({
                     title: "Default Workflow SET",
@@ -382,6 +425,16 @@ jQuery(function($) {
             }
             if (($('.defworkflow').is(':hidden') && $('.custworkflow').is(':visible')))
             {
+                $(this).hide();
+                $('#defworkflow, #custbtn').hide();
+                $('#cusT, #undochoWF').show();
+                $('#sortable, #draggable').addClass("mx-auto w-50");
+                $('#undochoWF').click(function() {
+                    $(this).hide();
+                    $('#cusT').hide();
+                    $('#submitworkflow,#defworkflow, #custbtn').show();
+                    $('#sortable, #draggable').removeClass("mx-auto w-50");
+                })
                 //alert("custworkflow selected");
                 workflowname = $('#custworkflowname').val();
                 swal({
@@ -391,6 +444,7 @@ jQuery(function($) {
                     button: "OK",
                   });
                 if(workflowname.length == 0){
+                    $(this).show();
                     // $('#custworkflowname').after('<div id="errWorkflow" class="alert alert-danger" role="alert">Workflow name is required!</div>');
                     $('#custworkflowname').after($("#errWorkflow").show());
                     swal({
@@ -402,6 +456,7 @@ jQuery(function($) {
                     return false;
                 }
                 else {
+                    $(this).hide();
                     $('#custworkflowname').next('#errWorkflow').remove(); // *** this line have been added ***
                     var wkflsteps = iterateWorkflow("cust");
                 }

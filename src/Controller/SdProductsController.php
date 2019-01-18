@@ -67,7 +67,7 @@ class SdProductsController extends AppController
         $this->set(compact('sdProduct', 'sdProductTypes', 'sdSponsorCompanies'));
     }
 
-    /**
+        /**
      * Create new product method
      *
      * @return \Cake\Http\Response|null Redirects on successful create, renders view otherwise.
@@ -134,6 +134,7 @@ class SdProductsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+
     public function search()
     {
         $this->viewBuilder()->layout('main_layout');
@@ -147,13 +148,27 @@ class SdProductsController extends AppController
     public function addproduct()
     {
         $this->viewBuilder()->layout('main_layout');
-        $sd_products = $this->loadProducts();
         $product_types = $this->loadProductTypes();
         $sponsors = $this->loadSponsorCompanies();
         $this->set('sdProductTypes', $product_types);
         $this->set('sdSponsors', $sponsors);
         //debug($sponsors);
         //debug($product_types);
+
+        $sdProduct = $this->SdProducts->newEntity();
+        if ($this->request->is('post')) {
+            $sdProduct = $this->SdProducts->patchEntity($sdProduct, $this->request->getData());
+            //debug($sdProduct);
+            if ($this->SdProducts->save($sdProduct)) {
+                $this->Flash->success(__('The sd product has been saved.'));
+
+                return $this->redirect(['action' => 'search']);
+            }
+            $this->Flash->error(__('The sd product could not be saved. Please, try again.'));
+        }
+        $sdProductTypes = $this->SdProducts->SdProductTypes->find('list', ['limit' => 200]);
+        $sdSponsorCompanies = $this->SdProducts->SdSponsorCompanies->find('list', ['limit' => 200]);
+        $this->set(compact('sdProduct', 'sdSponsorCompanies'));
     }
 
     public function loadProductTypes()
@@ -184,23 +199,10 @@ class SdProductsController extends AppController
         return $result;
     }
 
-    public function loadProducts()
-    {
-        $result = array();
-        $products = TableRegistry::get("sd_products");
-        $query = $products->find()
-                        ->order(['id' => 'ASC']);
-
-        foreach ($query as $products){
-            $result[] = array("id"=>$products->id, "product_name"=>$products->product_name, "country"=>$products->country);
-        }
-
-        return $result;
-    }
-
     public function loadCroPeople()
     {
         $result = array();
         $cro_people = TableRegistry::get("a");
     }
+
 }

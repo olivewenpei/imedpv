@@ -13,6 +13,8 @@
         <li><?= $this->Html->link(__('New Sd Product'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Product Types'), ['controller' => 'SdProductTypes', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Product Type'), ['controller' => 'SdProductTypes', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Study Types'), ['controller' => 'SdStudyTypes', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Study Type'), ['controller' => 'SdStudyTypes', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Sponsor Companies'), ['controller' => 'SdSponsorCompanies', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Sponsor Company'), ['controller' => 'SdSponsorCompanies', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?> </li>
@@ -31,16 +33,64 @@
             <td><?= $sdProduct->has('sd_product_type') ? $this->Html->link($sdProduct->sd_product_type->id, ['controller' => 'SdProductTypes', 'action' => 'view', $sdProduct->sd_product_type->id]) : '' ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Study Name') ?></th>
+            <td><?= h($sdProduct->study_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Study Type') ?></th>
+            <td><?= $sdProduct->has('sd_study_type') ? $this->Html->link($sdProduct->sd_study_type->id, ['controller' => 'SdStudyTypes', 'action' => 'view', $sdProduct->sd_study_type->id]) : '' ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Sd Sponsor Company') ?></th>
             <td><?= $sdProduct->has('sd_sponsor_company') ? $this->Html->link($sdProduct->sd_sponsor_company->id, ['controller' => 'SdSponsorCompanies', 'action' => 'view', $sdProduct->sd_sponsor_company->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Short Desc') ?></th>
+            <td><?= h($sdProduct->short_desc) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Product Desc') ?></th>
+            <td><?= h($sdProduct->product_desc) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Blinding Tech') ?></th>
+            <td><?= h($sdProduct->blinding_tech) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('WHODD Code') ?></th>
+            <td><?= h($sdProduct->WHODD_code) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('WHODD Name') ?></th>
+            <td><?= h($sdProduct->WHODD_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Mfr Name') ?></th>
+            <td><?= h($sdProduct->mfr_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Call Center') ?></th>
+            <td><?= h($sdProduct->call_center) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($sdProduct->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Sd Product Flag Id') ?></th>
+            <td><?= $this->Number->format($sdProduct->sd_product_flag_id) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Status') ?></th>
             <td><?= $this->Number->format($sdProduct->status) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Start Date') ?></th>
+            <td><?= h($sdProduct->start_date) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('End Date') ?></th>
+            <td><?= h($sdProduct->end_date) ?></td>
         </tr>
     </table>
     <div class="row">

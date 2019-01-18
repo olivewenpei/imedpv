@@ -93,6 +93,10 @@ ul.topbar > li.nav-item {
     left: 20px;
 }
 
+#searchBtn, #advsearch, .clearsearch {
+    font-size: 20px !important;
+}
+
 /*
 @media screen and (max-width: 1441px) {}
 */
