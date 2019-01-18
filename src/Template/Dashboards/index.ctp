@@ -155,10 +155,10 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
         </div>
 
         <div class="form-row justify-content-center">
-            <div class="form-group col-lg-2">
+            <div class="form-group col-lg-3">
                 <div id="searchBtn" onclick="onQueryClicked()" class="form-control-lg btn btn-primary w-100 py-2"><i class="fas fa-search"></i> Search</div>
             </div>
-            <div class="form-group col-lg-1">
+            <div class="form-group col-lg-2">
                 <div id="advsearch" class="form-control-lg btn btn-outline-info w-100 py-2"><i class="fas fa-keyboard"></i> Advance</div>
             </div>
             <div class="form-group col-lg-1">

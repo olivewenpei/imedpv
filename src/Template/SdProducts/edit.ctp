@@ -14,6 +14,12 @@
             )
         ?></li>
         <li><?= $this->Html->link(__('List Sd Products'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Product Types'), ['controller' => 'SdProductTypes', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Product Type'), ['controller' => 'SdProductTypes', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Study Types'), ['controller' => 'SdStudyTypes', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Study Type'), ['controller' => 'SdStudyTypes', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Sponsor Companies'), ['controller' => 'SdSponsorCompanies', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Sponsor Company'), ['controller' => 'SdSponsorCompanies', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?></li>
     </ul>

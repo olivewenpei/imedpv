@@ -25,6 +25,10 @@ use Cake\ORM\Entity;
  * @property string $call_center
  * @property int $status
  *
+ * @property \App\Model\Entity\SdProductFlag $sd_product_flag
+ * @property \App\Model\Entity\SdProductType $sd_product_type
+ * @property \App\Model\Entity\SdStudyType $sd_study_type
+ * @property \App\Model\Entity\SdSponsorCompany $sd_sponsor_company
  * @property \App\Model\Entity\SdProductWorkflow[] $sd_product_workflows
  */
 class SdProduct extends Entity
@@ -57,6 +61,9 @@ class SdProduct extends Entity
         'end_date' => true,
         'call_center' => true,
         'status' => true,
+        'sd_product_type' => true,
+        'sd_study_type' => true,
+        'sd_sponsor_company' => true,
         'sd_product_workflows' => true
     ];
 }

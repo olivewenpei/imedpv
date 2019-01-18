@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\BelongsTo $SdProductWorkflows
  * @property \App\Model\Table\SdActivitiesTable|\Cake\ORM\Association\BelongsTo $SdActivities
+ * @property |\Cake\ORM\Association\BelongsTo $SdWorkflowActivities
  * @property \App\Model\Table\SdUsersTable|\Cake\ORM\Association\BelongsTo $SdUsers
  * @property \App\Model\Table\SdCaseGeneralInfosTable|\Cake\ORM\Association\HasMany $SdCaseGeneralInfos
  * @property \App\Model\Table\SdFieldValuesTable|\Cake\ORM\Association\HasMany $SdFieldValues
@@ -45,8 +46,8 @@ class SdCasesTable extends Table
             'foreignKey' => 'sd_product_workflow_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('SdActivities', [
-            'foreignKey' => 'sd_activity_id',
+        $this->belongsTo('SdWorkflowActivities', [
+            'foreignKey' => 'sd_workflow_activity_id',
             'joinType' => 'LEFT'
         ]);
         $this->belongsTo('SdUsers', [

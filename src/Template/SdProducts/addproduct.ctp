@@ -1,5 +1,10 @@
+<?php
+//debug($sdProductTypes);
+?>
 <title>Product</title>
-
+<script type="text/javascript">
+    var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+</script>
 <div class="container">
 
     <div class="row my-3">
@@ -8,215 +13,408 @@
                 <div class="card-header text-center">
                     <h3>Add Product</h3>
                 </div>
-                <div class="card-body">
+                <div class="prodiff card-body">
                     <div class="text-center">
                         <!-- Add Product -->
-                        <div id="addpro" class="prodiff form-row">
-                            <div class="form-group col-md-4">
+                        <span id="errorMsg" class="alert alert-danger" role="alert" style="display:none"></span>
+                        <?= $this->Form->create();?>
+                        <div id="addpro" class="form-row">
+                            <div class="form-group col-md-3">
                                 <label>Product Name</label>
-                                <input type="text" class="form-control" id="#" placeholder="Product Name">
+                                <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Product Name">
                             </div>
-                            <div class="form-group col-md-4">
-                                <label>Study Number</label>
-                                <input type="text" class="form-control" id="#" placeholder="Study Number">
-                            </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label>Product Type</label>
-                                <input type="text" class="form-control" id="#" placeholder="Product Type">
+                                <select class="form-control" name="sd_product_type_id" id="sd_product_type_id">
+                                <?php
+                                    foreach ($sdProductTypes as $eachType)
+                                    {
+                                        echo "<option value=\"".$eachType['id']."\">".$eachType['type_name']."</option>";
+                                    }
+                                ?>
+                                </select>
+                                <input type="hidden" id="status" name="status" value="1">
                             </div>
-                            <div id="addpro" class="btn btn-primary w-25 mt-3 mx-auto">Submit</div>
+                            <div class="form-group col-md-3">
+                                <label>Sponsor Company</label>
+                                <select class="form-control" id="sd_sponsor_company_id" name="sd_sponsor_company_id">
+                                <?php
+                                    foreach ($sdSponsors as $eachType)
+                                    {
+                                        //echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']."</option>";
+                                        echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']. ", " .$eachType['country']. "</option>";
+                                    }
+                                ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Product flag (B.4.k.1)</label>
+                                <select class="form-control" id="sd_product_flag" name="sd_product_flag">
+                                    <option value="1">Suspect</option>
+                                    <option value="2">Concomitant</option>
+                                    <option value="3">Interacting</option>
+                                </select>
+                            </div>
+
                         </div>
 
-                        <!-- Choose Country -->
-                        <div id="choosecon" class="prodiff text-center mt-5">
-                            <h3>Choose Country</h3>
-                            <hr>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label>Choose Country</label>
-                                    <select class="form-control" id="">
-                                    <option>Global</option>
-                                    <option>Europe</option>
-                                    <option>Japan</option>
-                                    </select>
-                                </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label>Study Name</label>
+                                <input type="text" class="form-control" id="study_name" name="study_name" placeholder="Study Name">
                             </div>
-                            <div id="submitchocountry" class="btn btn-primary w-25 mt-3">Countinue</div>
+                            <div class="form-group col-md-3">
+                                <label>Study Number</label>
+                                <input type="text" class="form-control" id="study_no" name="study_no" placeholder="Study Number">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Mfr. name</label>
+                                <input type="text" class="form-control" id="mfr_name" name="mfr_name" placeholder="Mfr. name">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Study type (A.2.3.3)</label>
+                                <select class="form-control" id="sd_study_type_id" name="sd_study_type_id">
+                                    <option value="1">Clinical trials</option>
+                                    <option value="2">Individual patient use</option>
+                                    <option value="3">Other studies</option>
+                                </select>
+                            </div>
                         </div>
 
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label>Blinding technique</label>
+                                <select class="form-control" id="blinding_tech" name="blinding_tech">
+                                    <option value="1">Single blind</option>
+                                    <option value="2">Open-label</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>WHODD Code</label>
+                                <input type="text" class="form-control" id="WHODD_code" name="WHODD_code" placeholder="WHODD Code">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>WHODD Name</label>
+                                <input type="text" class="form-control" id="WHODD_name" name="WHODD_name" placeholder="WHODD Name">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Preferred WHO DD decode</label>
+                                <input type="text" class="form-control" id="decode" name="decode" placeholder="Preferred WHO DD decode">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label>Start Date</label>
+                                <input type="text" class="form-control" name="start_date" id="start_date">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>End Date</label>
+                                <input type="text" class="form-control" name="end_date" id="end_date">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Status</label>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="1">Active</option>
+                                    <option value="2">Close</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Call Center</label>
+                                <select class="form-control" id="call_center" name="call_center">
+                                    <option value="1">BeeTel Communications</option>
+                                    <option value="2">Support Provider</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Short Description</label>
+                                <input type="text" class="form-control" id="short_desc" name="short_desc" placeholder="Short Description">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Product Description (B.4.k.2.1)</label>
+                                <input type="text" class="form-control" id="product_desc" name="product_desc" placeholder="Product Description">
+                            </div>
+                        </div>
+
+                        <!-- Workflow List and Add New -->
+                        <button id="addNewWL" type="button" class="btn btn-outline-info float-right">Add New <i class="far fa-plus-square"></i></button>
+
+                        <!-- Hide this when triggered "Add New" -->
+                        <div id="workflowlist" class="mt-3">
+                            <h3>Workflow List</h3>
+
+                            <table class="table table-hover mb-3">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Workflow Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Call Center</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Company</th>
+                                    <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        <input type="submit" class="btn btn-success w-25 mt-3 mx-auto">
+                        <input type="hidden" id="product_id" name="product_id" value="">
+                        <?= $this->Form->end() ?>
+
+                        </div>
+
+                        <!-- Show this when triggered "Add New" -->
                         <!-- Choose Workflow -->
-                        <div id="choosewf" class="prodiff text-center mt-5">
-                            <h3>Choose Workflow</h3>
-                            <hr>
-                            <div class="row">
-                                <!-- Default Workflow -->
-                                <div class="col">
-                                    <button type="button" id="defbtn" class="btn btn-success btn-sm workflow"><span>Default Workflow</span></button>
-                                    <hr class="wfhr">
-                                    <ol class="defworkflow">
-                                        <p>This is default workflow and cannot be changed</p>
-                                        <li class="custworkflowstep">
-                                            <div class="card w-100 h-25 my-2">
-                                                <div class="card-body p-3">
-                                                    <h5 class="card-title"><b> Triage</b></h5>
-                                                    <p class="card-text">Capture the initial Case information.</p>
-                                                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="custworkflowstep">
-                                            <div class="card w-100 h-25 my-2">
-                                                <div class="card-body p-3">
-                                                    <h5 class="card-title"> <b> Data Entry</b></h5>
-                                                    <p class="card-text">Entry initial data from call center</p>
-                                                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="custworkflowstep">
-                                            <div class="card w-100 h-25 my-2">
-                                                <div class="card-body p-3">
-                                                    <h5 class="card-title"> <b> Quality Check</b></h5>
-                                                    <p class="card-text">Check the validation of cases</p>
-                                                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="custworkflowstep">
-                                            <div class="card w-100 h-25 my-2">
-                                                <div class="card-body p-3">
-                                                    <h5 class="card-title"> <b> Medical Review</b></h5>
-                                                    <p class="card-text">Review cases by doctors.</p>
-                                                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="custworkflowstep">
-                                            <div class="card w-100 h-25 my-2">
-                                                <div class="card-body p-3">
-                                                    <h5 class="card-title"><b> Generate Report</b></h5>
-                                                    <p class="card-text">Output a report from system</p>
-                                                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="custworkflowstep">
-                                            <div class="card w-100 h-25 my-2">
-                                                <div class="card-body p-3">
-                                                    <h5 class="card-title"><b> Complete</b></h5>
-                                                    <p class="card-text">Case information gathered and reviewed.</p>
-                                                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ol>
+                        <div id="choworkflow" class="prodiff text-center mt-1" style="display:none;">
+                        <!-- Title for "Add New" -->
+                            <div class="jumbotron jumbotron-fluid bg-warning">
+                                <div class="container">
+                                    <h1 class="display-4">Add New Workflow</h1>
+                                    <p class="lead">You can edit the specific info in the following steps</p>
                                 </div>
-
-                                <!-- Customize Workflow -->
-                                <div class="col">
-                                    <button type="button" id="custbtn" class="btn btn-success btn-sm workflow"><span>Customize Your Workflow</span></button>
-                                    <hr class="wfhr">
-                                    <div class="custworkflow">
-                                        <p>You can edit the workflow here and please drag the yellow box to anywhere in the workflow for customization</p>
-                                        <ul>
-                                            <li id="draggable" class="custworkflowstep">
+                            </div>
+                            <!-- Choose Country  id="choosecon"-->
+                            <div class="prodiff text-center mt-1">
+                                <h3>Choose Country and Call Center</h3>
+                                <hr>
+                                <div class="form-row justify-content-md-center">
+                                    <div class="form-group col-md-3">
+                                    <label for="">Select Country</label>
+                                        <select class="form-control" id="country" name="country">
+                                        <option value="Global">Global</option>
+                                        <option value="Europe">Europe</option>
+                                        <option value="Japan">Japan</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                    <label for="">Select Call Center</label>
+                                        <select class="form-control" id="callCen" name="callCen">
+                                        <option value="Global">Global</option>
+                                        <option value="Europe">Europe</option>
+                                        <option value="Japan">Japan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button id="undochocon" type="button" class="btn btn-secondary" style="display:none;">Reselect</button>
+                                <div id="submitchocountry" class="btn btn-primary w-25">Countinue</div>
+                            </div>
+                            <div id="choosewf">
+                                <div class="row" style="min-height: 740px;">
+                                    <!-- Default Workflow -->
+                                    <div class="col" id="defworkflow">
+                                        <button type="button" id="defbtn" class="btn btn-success btn-sm workflow"><span>Default Workflow</span></button>
+                                        <h3 id="defT" style="display:none;">Default Workflow</h3>
+                                        <hr class="wfhr">
+                                        <ol id="ifdef" class="defworkflow">
+                                            <p>This is default workflow and cannot be changed</p>
+                                            <li class="defworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <h5 class="card-title"><input type="text" placeholder="Type your step name here" class="font-weight-bold" /> </h5>
-                                                        <p class="card-text"><textarea type="text"  class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ol id="sortable">
-                                            <li class="custworkflowstep">
-                                                <div class="card w-100 h-25 my-2">
-                                                    <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h5 class="card-title"> <b> Triage</b></h5>
+                                                        <h5 class="card-title"><b> Triage</b></h5>
                                                         <p class="card-text">Capture the initial Case information.</p>
+                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="custworkflowstep">
+                                            <li class="defworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h5 class="card-title"><b> Data Entry</b></h5>
+                                                        <h5 class="card-title"> <b> Data Entry</b></h5>
                                                         <p class="card-text">Entry initial data from call center</p>
+                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="custworkflowstep">
+                                            <li class="defworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
                                                         <h5 class="card-title"> <b> Quality Check</b></h5>
                                                         <p class="card-text">Check the validation of cases</p>
+                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="custworkflowstep">
+                                            <li class="defworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
                                                         <h5 class="card-title"> <b> Medical Review</b></h5>
                                                         <p class="card-text">Review cases by doctors.</p>
+                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="custworkflowstep">
+                                            <li class="defworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h5 class="card-title"> <b> Generate Report</b></h5>
+                                                        <h5 class="card-title"><b> Generate Report</b></h5>
                                                         <p class="card-text">Output a report from system</p>
+                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="custworkflowstep">
+                                            <li class="defworkflowstep">
                                                 <div class="card w-100 h-25 my-2">
                                                     <div class="card-body p-3">
-                                                        <button type="button" class="close" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <h5 class="card-title"> <b> Complete</b></h5>
+                                                        <h5 class="card-title"><b> Complete</b></h5>
                                                         <p class="card-text">Case information gathered and reviewed.</p>
+                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                                     </div>
                                                 </div>
                                             </li>
                                         </ol>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="d-block mt-3">
-                                <div type="submit" id="submitworkflow" class="btn btn-primary w-25">Countinue</div>
+                                    <!-- Customize Workflow -->
+                                    <div class="col" id="cusworkflow">
+                                        <button type="button" id="custbtn" class="btn btn-success btn-sm workflow"><span>Customize Your Workflow</span></button>
+                                        <h3 id="cusT" style="display:none;">Customize Workflow</h3>
+                                        <hr class="wfhr">
+                                        <div class="custworkflow" id="cusworkflow">
+                                            <label>Workflow Name: </label >
+                                            <input id="custworkflowname" name="custworkflowname" value=""/>
+                                            <div id="errWorkflow" class="invalid-feedback" style="display:none;">Workflow name is required!</div>
+
+                                            <p>You can edit the workflow here and please drag the yellow box to anywhere in the workflow for customization</p>
+                                            <ul>
+                                                <li id="draggable" class="custworkflowstep">
+                                                    <div class="card w-100 h-25 my-2">
+                                                        <div class="card-body p-3">
+                                                            <h5 class="card-title"><input type="text" placeholder="Type your step name here" class="font-weight-bold" /> </h5>
+                                                            <p class="card-text"><textarea type="text"  class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ol id="sortable" class="cust">
+                                                <li class="custworkflowstep">
+                                                    <div class="card w-100 h-25 my-2">
+                                                        <div class="card-body p-3">
+                                                            <button class="close closewf">&times;</button>
+                                                            <h5 class="card-title"> <b> Triage</b></h5>
+                                                            <p class="card-text">Capture the initial Case information.</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="custworkflowstep">
+                                                    <div class="card w-100 h-25 my-2">
+                                                        <div class="card-body p-3">
+                                                            <button class="close closewf">&times;</button>
+                                                            <h5 class="card-title"><b> Data Entry</b></h5>
+                                                            <p class="card-text">Entry initial data from call center</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="custworkflowstep">
+                                                    <div class="card w-100 h-25 my-2">
+                                                        <div class="card-body p-3">
+                                                            <button class="close closewf">&times;</button>
+                                                            <h5 class="card-title"> <b> Quality Check</b></h5>
+                                                            <p class="card-text">Check the validation of cases</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="custworkflowstep">
+                                                    <div class="card w-100 h-25 my-2">
+                                                        <div class="card-body p-3">
+                                                            <button class="close closewf">&times;</button>
+                                                            <h5 class="card-title"> <b> Medical Review</b></h5>
+                                                            <p class="card-text">Review cases by doctors.</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="custworkflowstep">
+                                                    <div class="card w-100 h-25 my-2">
+                                                        <div class="card-body p-3">
+                                                            <button class="close closewf">&times;</button>
+                                                            <h5 class="card-title"> <b> Generate Report</b></h5>
+                                                            <p class="card-text">Output a report from system</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="custworkflowstep">
+                                                    <div class="card w-100 h-25 my-2">
+                                                        <div class="card-body p-3">
+                                                            <button class="close closewf">&times;</button>
+                                                            <h5 class="card-title"> <b> Complete</b></h5>
+                                                            <p class="card-text">Case information gathered and reviewed.</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-block mt-3">
+                                    <div id="submitworkflow" class="btn btn-primary w-25" style="display:none;">Countinue</div>
+                                    <button id="undochoWF" type="button" class="btn btn-secondary" style="display:none;">Reselect</button>
+                                    <input type="hidden" id="workflow_id" name="workflow_id" value="">
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Choose CROs -->
+                        <!-- Add CROs -->
                         <div id="choosecro" class="prodiff text-center">
-                            <h3 class="mt-5">Choose CROs</h3>
+                            <h3 class="mt-2">Add CROs</h3>
                             <hr>
-                            <p class="card-text">Click the CRO which you want to assign personnels</p>
-                            <div class="btn-group-vertical w-25">
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">A CRO</button>
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">B CRO</button>
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">C CRO</button>
+                            <p class="card-text">Add the CRO here and assign personnels</p>
+                            <button type="button" class="btn btn-outline-info w-25 mx-auto mb-3" data-toggle="modal" data-target="#addcromodal">Add CROs</button>
+                            <div class="modal fade" id="addcromodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add CRO</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label for="">Add CRO</label>
+                                        <select class="custom-select" id="croname">
+                                            <option value="1">Johnson</option>
+                                            <option value="2">BMS</option>
+                                            <option value="3">G2</option>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button id="croadd"  class="btn btn-primary"  data-dismiss="modal">ADD</button>
+                                    </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <!-- <div id="addcroarea" class="btn-group-vertical w-25">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">A CRO</button>
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg">B CRO</button>
+                                <button type="button" class="btn btn-outline-primary" id ="0" data-toggle="modal" data-target=".bd-example-modal-lg">C CRO</button>
+                            </div> -->
+
+                            <div class="modal fade bd-example-modal-lg" id="addper" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -246,66 +444,24 @@
                                             <div id="dropZone" class="card bg-light mx-3 mb-3 float-right">
                                                 <div class="card-header">Drag Candidates Here for Assignment</div>
                                                 <div class="stack border-success">
-                                                    <div class="stackHdr">
-                                                        Assign as workflow manager
-                                                    </div>
-                                                    <div class="stackDrop1">
-
-                                                    </div>
+                                                    <div class="stackHdr">Assign as workflow manager</div>
+                                                    <div class="stackDrop1"></div>
                                                 </div>
-
                                                 <div class="stack border-info">
-                                                    <div class="stackHdr">
-                                                        Assign as team resources
-                                                    </div>
-                                                    <div class="stackDrop2">
-
-                                                    </div>
+                                                    <div class="stackHdr">Assign as team resources</div>
+                                                    <div class="stackDrop2"></div>
                                                 </div>
                                             </div>
-
-                                            <!-- <div class="m-3">
-                                                <h6 class="text-uppercase text-left">Team A</h6>  <hr class="my-1">
-                                                <div class="form-row">
-                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a1" class="checkboxstyle" name="a1" value="Alice" type="checkbox">
-                                                        <label for="a1">Alice</label>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                    </div>
-                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a2" class="checkboxstyle" name="a1" value="John" type="checkbox">
-                                                        <label for="a2">John</label>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="m-3">
-                                                <h6 class="text-uppercase text-left">Team B</h6>  <hr class="my-1">
-                                                <div class="form-row">
-                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a3" class="checkboxstyle" name="a1" value="Tom" type="checkbox">
-                                                        <label for="a3">Tom</label>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                    </div>
-                                                    <div class="pername custom-control custom-radio custom-control-inline col-md-2">
-                                                        <input id="a4" class="checkboxstyle" name="a1" value="Tommy" type="checkbox">
-                                                        <label for="a4">Tommy</label>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm undo">Undo</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <ul>Workflow Manager:<div class="worman"> </div></ul>
-                                            <ul>Team Resources:<div class="teres"> </div></ul> -->
                                         </div>
                                         <div class="modal-footer">
-                                            <button id="#" class="btn btn-outline-success" type="submit">Confirm Assignment</button>
+                                            <button id="conass" class="btn btn-outline-success" type="submit" data-dismiss="modal">Confirm Assignment</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="d-block mt-3">
-                            <div id="" class="btn btn-primary w-25 mx-auto my-3" type="submit">Add CROs</div>
+
 
                             <!-- CROs Resources List -->
                             <h3 class="mt-3">CROs Resources List</h3>
@@ -315,21 +471,16 @@
                                         <th scope="col">CRO Company</th>
                                         <th scope="col">Workflow Manager</th>
                                         <th scope="col">Team Resources</th>
+                                        <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">CRO A</th>
-                                        <td>Mark, Jim</td>
-                                        <td>Otto, David</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">CRO B</th>
-                                        <td>Jacob, Alice, Bob, Lucy</td>
-                                        <td>Thornton, Elon, Michael, Elon, Michael</td>
-                                    </tr>
+                                <tbody id="crotable">
                                 </tbody>
                             </table>
+
+                        <button id="confirmWFlist" type="button" class="btn btn-primary w-25 mt-3 mx-auto">Confirm</button>
+
+
 
                         </div>
                     </div>

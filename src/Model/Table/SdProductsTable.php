@@ -9,8 +9,9 @@ use Cake\Validation\Validator;
 /**
  * SdProducts Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $SdProductTypes
- * @property |\Cake\ORM\Association\BelongsTo $SdSponsorCompanies
+ * @property \App\Model\Table\SdProductTypesTable|\Cake\ORM\Association\BelongsTo $SdProductTypes
+ * @property \App\Model\Table\SdStudyTypesTable|\Cake\ORM\Association\BelongsTo $SdStudyTypes
+ * @property \App\Model\Table\SdSponsorCompaniesTable|\Cake\ORM\Association\BelongsTo $SdSponsorCompanies
  * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
  * @method \App\Model\Entity\SdProduct get($primaryKey, $options = [])
@@ -41,6 +42,10 @@ class SdProductsTable extends Table
 
         $this->belongsTo('SdProductTypes', [
             'foreignKey' => 'sd_product_type_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('SdStudyTypes', [
+            'foreignKey' => 'sd_study_type_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('SdSponsorCompanies', [

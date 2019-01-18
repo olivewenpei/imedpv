@@ -93,6 +93,10 @@ ul.topbar > li.nav-item {
     left: 20px;
 }
 
+#searchBtn, #advsearch, .clearsearch {
+    font-size: 20px !important;
+}
+
 /*
 @media screen and (max-width: 1441px) {}
 */
@@ -186,13 +190,6 @@ li.nav-item:hover > .dropdown-menu {
     min-width: 85px;
 }
 
-.checkboxstyle {
-    position: inherit;
-    top: 2px;
-    margin-right: 8px;
-    zoom: 160%;
-}
-
 .selval {
     background-color: #277fe1;
 }
@@ -248,13 +245,6 @@ tbody > tr {
 
 #choosecon, #choosewf, #choosecro, .defworkflow {
     display: none;
-}
-
-.undo {
-    display: none !important;
-    height: 22px;
-    padding: 1px !important;
-    margin-left: 10px;
 }
 
 .custworkflow {
@@ -374,4 +364,8 @@ hr.wfhr {
 .stackDrop1, .stackDrop2 {
     min-height:100px;
     padding: 15px;
+}
+
+.active {
+    font-weight: 500;
 }

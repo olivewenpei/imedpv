@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * SdProductWorkflows Controller
@@ -65,6 +67,29 @@ class SdProductWorkflowsController extends AppController
         $sdWorkflows = $this->SdProductWorkflows->SdWorkflows->find('list', ['limit' => 200]);
         $sdUsers = $this->SdProductWorkflows->SdUsers->find('list', ['limit' => 200]);
         $this->set(compact('sdProductWorkflow', 'sdProducts', 'sdWorkflows', 'sdUsers'));
+    }
+
+    /*
+     * Create a new entry for product-workflow
+     */
+    public function create()
+    {
+        $this->autoRender = false;
+        if ($this->request->is('post')) {            
+            $product_workflow_data = $this->request->getData();
+            $product_workflow_data['sd_workflow_id'] = $sd_workflow_id;
+            $product_workflow_data['sd_product_id'] = $postedData['product_id'];
+            $product_workflow_data['sd_user_id'] = 2;
+            debug($product_workflow_data);
+            $sdProductWorkflow = $this->SdProductWorkflows->newEntity();
+            $sdProductWorkflow = $this->SdProductWorkflows->patchEntity($sdProductWorkflow, $product_workflow_data);
+            
+            if ($this->SdProductWorkflows->save($sdProductWorkflow)) {
+                echo "All data were saved!";
+            }
+            else
+                echo "Something is wrong";
+        }
     }
 
     /**

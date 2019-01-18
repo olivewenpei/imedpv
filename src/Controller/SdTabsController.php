@@ -197,6 +197,9 @@
                 //                                     }]);
                 //                     })
                 //                     ->group('id');
+                $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
+                $sdFieldValues = $sdFieldValuesTable ->find()->where(['sd_case_id'=>$caseNo,'status'=>true])
+                                ->toList();
 
 
                 // Require composer autoload
@@ -219,7 +222,7 @@
 
 
                 $test1 = ' <style> p {position: absolute;}  </style>
-                        <p style="top: 210px; left: 550px; width: 80px;  height: 15px; color:red;">2019-01-01</p>
+                        <p style="top: 210px; left: 550px; width: 80px;  height: 15px; color:red;">s</p>
                         <p style="top: 203px; left: 230px; width: 30px;  height: 15px;">2019</p>
                         <p style="top: 998px; left: 473px; width: 8px;   height: 10px;">X</p>';
                 $mpdf->WriteHTML($test1);
@@ -239,6 +242,19 @@
 
                 $this->set(compact('sdFieldValues'));
 
+            }
+
+            public function test() {
+                $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
+                $sdFieldValues = $sdFieldValuesTable->find()
+                                ->select(['field_value'])
+                                ->where(['status'=>1,'sd_case_id'=>1,'sd_field_id'=>79])
+                                ->first();
+                $this->set(compact('sdFieldValues'));
+
+                $sdFieldsTable = TableRegistry::get('sdFields');
+                $testValue = $sdFieldsTable->find()->select(['field_label'])->where(['id'=>1])->first();
+                $this->set(compact('testValue'));
             }
 
 

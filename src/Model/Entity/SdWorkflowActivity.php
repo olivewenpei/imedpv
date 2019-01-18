@@ -4,19 +4,19 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * SdProductWorkflow Entity
+ * SdWorkflowActivity Entity
  *
  * @property int $id
- * @property int $sd_product_id
  * @property int $sd_workflow_id
- * @property int $sd_user_id
+ * @property int $order_no
+ * @property int $step_forward
+ * @property int $step_backward
+ * @property string $activity_name
  *
- * @property \App\Model\Entity\SdProduct $sd_product
  * @property \App\Model\Entity\SdWorkflow $sd_workflow
- * @property \App\Model\Entity\SdUser $sd_user
  * @property \App\Model\Entity\SdCase[] $sd_cases
  */
-class SdProductWorkflow extends Entity
+class SdWorkflowActivity extends Entity
 {
 
     /**
@@ -29,12 +29,12 @@ class SdProductWorkflow extends Entity
      * @var array
      */
     protected $_accessible = [
-        'sd_product_id' => true,
         'sd_workflow_id' => true,
-        'sd_user_id' => true,
-        'sd_product' => true,
+        'order_no' => true,
+        'step_forward' => true,
+        'step_backward' => true,
+        'activity_name' => true,
         'sd_workflow' => true,
-        'sd_user' => true,
-        'sd_cases' => false
+        'sd_cases' => true
     ];
 }
