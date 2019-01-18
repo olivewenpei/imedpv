@@ -21,7 +21,7 @@ class SdProductWorkflowsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['SdWorkflows', 'SdUsers']
+            'contain' => ['SdProducts', 'SdWorkflows', 'SdUsers']
         ];
         $sdProductWorkflows = $this->paginate($this->SdProductWorkflows);
 
@@ -38,7 +38,7 @@ class SdProductWorkflowsController extends AppController
     public function view($id = null)
     {
         $sdProductWorkflow = $this->SdProductWorkflows->get($id, [
-            'contain' => ['SdWorkflows', 'SdUsers', 'SdProducts', 'SdCases']
+            'contain' => ['SdProducts', 'SdWorkflows', 'SdUsers', 'SdCases']
         ]);
 
         $this->set('sdProductWorkflow', $sdProductWorkflow);
@@ -61,9 +61,10 @@ class SdProductWorkflowsController extends AppController
             }
             $this->Flash->error(__('The sd product workflow could not be saved. Please, try again.'));
         }
+        $sdProducts = $this->SdProductWorkflows->SdProducts->find('list', ['limit' => 200]);
         $sdWorkflows = $this->SdProductWorkflows->SdWorkflows->find('list', ['limit' => 200]);
         $sdUsers = $this->SdProductWorkflows->SdUsers->find('list', ['limit' => 200]);
-        $this->set(compact('sdProductWorkflow', 'sdWorkflows', 'sdUsers'));
+        $this->set(compact('sdProductWorkflow', 'sdProducts', 'sdWorkflows', 'sdUsers'));
     }
 
     /**
@@ -87,9 +88,10 @@ class SdProductWorkflowsController extends AppController
             }
             $this->Flash->error(__('The sd product workflow could not be saved. Please, try again.'));
         }
+        $sdProducts = $this->SdProductWorkflows->SdProducts->find('list', ['limit' => 200]);
         $sdWorkflows = $this->SdProductWorkflows->SdWorkflows->find('list', ['limit' => 200]);
         $sdUsers = $this->SdProductWorkflows->SdUsers->find('list', ['limit' => 200]);
-        $this->set(compact('sdProductWorkflow', 'sdWorkflows', 'sdUsers'));
+        $this->set(compact('sdProductWorkflow', 'sdProducts', 'sdWorkflows', 'sdUsers'));
     }
 
     /**

@@ -29,42 +29,32 @@
 
 
             /**
-             * Case number generator function
-             *
-             * @return string case number
-             *
-             */
-            private function caseNoGenerator(){
-
-            }
-
-            /**
              * ShowDetail method
              *
              * @return \Cake\Http\Response|void
              */
             public function showdetails($tabid = 1  )
             {
-                $caseNo = $this->request->getQuery('caseNo');
-                $setNo = $this->request->getQuery('setNo');
-                if(empty($setNo)) $setNo = "1";
+                $userinfo = $this->request->session()->read('Auth.user');
+                //TODO Permission related
+                $caseId = $this->request->getQuery('caseId');
                 $sdTabs = $this->SdTabs->find()->select(['tab_name','display_order'])->where(['status'=>1])->order(['display_order' => 'ASC']);
                 $this->viewBuilder()->layout('main_layout');
                 $associated = ['SdSectionStructures','SdSectionStructures'=>['SdFields'=>['SdElementTypes','SdFieldValues']]];
                 $sdTab = TableRegistry::get('SdSections');
                 $sdSections = $sdTab ->find()->where(['sd_tab_id'=>$tabid,'status'=>true])
                                     ->order(['SdSections.section_level'=>'DESC','SdSections.display_order'=>'ASC'])
-                                    ->contain(['SdSectionStructures'=>function($q)use($caseNo){
+                                    ->contain(['SdSectionStructures'=>function($q)use($caseId){
                                         return $q->order(['SdSectionStructures.row_no'=>'ASC','SdSectionStructures.field_start_at'=>'ASC'])
-                                            ->contain(['SdFields'=>['SdFieldValueLookUps','SdFieldValues'=> function ($q)use($caseNo) {
-                                                return $q->where(['SdFieldValues.sd_case_id'=>$caseNo, 'SdFieldValues.status'=>true]);
+                                            ->contain(['SdFields'=>['SdFieldValueLookUps','SdFieldValues'=> function ($q)use($caseId) {
+                                                return $q->where(['SdFieldValues.sd_case_id'=>$caseId, 'SdFieldValues.status'=>true]);
                                             }, 'SdElementTypes'=> function($q){
                                             return $q->select('type_name')->where(['SdElementTypes.status'=>true]);
                                                 }]]);
                                     }]);
                 if ($this->request->is(['patch', 'post', 'put'])) {
                     $requstData = $this->request->getData();
-                    $sdFieldValues = TableRegistry::get('SdFieldValues',['contain'=>'SdElementTypes']);
+                    $sdFieldValues = TableRegistry::get('SdFieldValues');
                     foreach($requstData['sd_field_values'] as $sectionValueK => $sectionValue) {
                         foreach($sectionValue as $sectionFieldK =>$sectionFieldValue){
                             if($sectionFieldValue['id']!=null){//add judging whether updateing Using Validate
@@ -74,7 +64,7 @@
                             }elseif(!empty($sectionFieldValue['field_value'])){
                                 $sdFieldValueEntity = $sdFieldValues->newEntity();
                                 $dataSet = [
-                                    'sd_case_id' => $caseNo,
+                                    'sd_case_id' => $caseId,
                                     'version_no' => '1',
                                     'sd_field_id' => $sectionFieldValue['sd_field_id'],
                                     'set_number' => $sectionFieldValue['set_number'],
@@ -195,10 +185,10 @@
             *  Generate PDF files
             *
             */
-            public function genFDApdf($caseNo)
+            public function genFDApdf($caseId)
             {
                 // $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
-                // $sdFieldValues = $sdFieldTable ->find()->where(['sd_case_id'=>$caseNo,'status'=>true])
+                // $sdFieldValues = $sdFieldTable ->find()->where(['sd_case_id'=>$caseId,'status'=>true])
                 //                     ->order(['id'=>'ASC','set_number'=>'ASC'])
                 //                     ->leftJoinWith('SdFields',function($q){
                 //                         return $q->where(['SdFields.id'=>'SdFieldValues.id'])

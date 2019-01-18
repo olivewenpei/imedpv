@@ -11,12 +11,12 @@
         <li><?= $this->Form->postLink(__('Delete Sd Product Workflow'), ['action' => 'delete', $sdProductWorkflow->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdProductWorkflow->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Workflows'), ['controller' => 'SdWorkflows', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Workflow'), ['controller' => 'SdWorkflows', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Users'), ['controller' => 'SdUsers', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Cases'), ['controller' => 'SdCases', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Case'), ['controller' => 'SdCases', 'action' => 'add']) ?> </li>
     </ul>
@@ -24,6 +24,10 @@
 <div class="sdProductWorkflows view large-9 medium-8 columns content">
     <h3><?= h($sdProductWorkflow->id) ?></h3>
     <table class="vertical-table">
+        <tr>
+            <th scope="row"><?= __('Sd Product') ?></th>
+            <td><?= $sdProductWorkflow->has('sd_product') ? $this->Html->link($sdProductWorkflow->sd_product->id, ['controller' => 'SdProducts', 'action' => 'view', $sdProductWorkflow->sd_product->id]) : '' ?></td>
+        </tr>
         <tr>
             <th scope="row"><?= __('Sd Workflow') ?></th>
             <td><?= $sdProductWorkflow->has('sd_workflow') ? $this->Html->link($sdProductWorkflow->sd_workflow->name, ['controller' => 'SdWorkflows', 'action' => 'view', $sdProductWorkflow->sd_workflow->id]) : '' ?></td>
@@ -36,40 +40,7 @@
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($sdProductWorkflow->id) ?></td>
         </tr>
-        <tr>
-            <th scope="row"><?= __('Sd Product Id') ?></th>
-            <td><?= $this->Number->format($sdProductWorkflow->sd_product_id) ?></td>
-        </tr>
     </table>
-    <div class="related">
-        <h4><?= __('Related Sd Products') ?></h4>
-        <?php if (!empty($sdProductWorkflow->sd_products)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Product Type') ?></th>
-                <th scope="col"><?= __('Study No') ?></th>
-                <th scope="col"><?= __('Sponsor Company') ?></th>
-                <th scope="col"><?= __('Status') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($sdProductWorkflow->sd_products as $sdProducts): ?>
-            <tr>
-                <td><?= h($sdProducts->id) ?></td>
-                <td><?= h($sdProducts->product_type) ?></td>
-                <td><?= h($sdProducts->study_no) ?></td>
-                <td><?= h($sdProducts->sponsor_company) ?></td>
-                <td><?= h($sdProducts->status) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'SdProducts', 'action' => 'view', $sdProducts->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdProducts', 'action' => 'edit', $sdProducts->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdProducts', 'action' => 'delete', $sdProducts->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdProducts->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
-    </div>
     <div class="related">
         <h4><?= __('Related Sd Cases') ?></h4>
         <?php if (!empty($sdProductWorkflow->sd_cases)): ?>
@@ -79,10 +50,13 @@
                 <th scope="col"><?= __('Sd Product Workflow Id') ?></th>
                 <th scope="col"><?= __('CaseNo') ?></th>
                 <th scope="col"><?= __('Sd Activity Id') ?></th>
-                <th scope="col"><?= __('Start Date') ?></th>
-                <th scope="col"><?= __('End Date') ?></th>
                 <th scope="col"><?= __('Status') ?></th>
                 <th scope="col"><?= __('Sd User Id') ?></th>
+                <th scope="col"><?= __('Priority') ?></th>
+                <th scope="col"><?= __('Activity Due Date') ?></th>
+                <th scope="col"><?= __('Submission Due Date') ?></th>
+                <th scope="col"><?= __('Product Type') ?></th>
+                <th scope="col"><?= __('Classification') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($sdProductWorkflow->sd_cases as $sdCases): ?>
@@ -91,10 +65,13 @@
                 <td><?= h($sdCases->sd_product_workflow_id) ?></td>
                 <td><?= h($sdCases->caseNo) ?></td>
                 <td><?= h($sdCases->sd_activity_id) ?></td>
-                <td><?= h($sdCases->start_date) ?></td>
-                <td><?= h($sdCases->end_date) ?></td>
                 <td><?= h($sdCases->status) ?></td>
                 <td><?= h($sdCases->sd_user_id) ?></td>
+                <td><?= h($sdCases->priority) ?></td>
+                <td><?= h($sdCases->activity_due_date) ?></td>
+                <td><?= h($sdCases->submission_due_date) ?></td>
+                <td><?= h($sdCases->product_type) ?></td>
+                <td><?= h($sdCases->classification) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'SdCases', 'action' => 'view', $sdCases->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'SdCases', 'action' => 'edit', $sdCases->id]) ?>

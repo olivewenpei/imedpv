@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\SdCase[]|\Cake\Collection\CollectionInterface $sdCases
  */
-?>            
+?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
@@ -31,6 +31,11 @@
                 <th scope="col"><?= $this->Paginator->sort('sd_activity_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('priority') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('activity_due_date') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('submission_due_date') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('product_type') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('classification') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -43,6 +48,11 @@
                 <td><?= $sdCase->has('sd_activity') ? $this->Html->link($sdCase->sd_activity->id, ['controller' => 'SdActivities', 'action' => 'view', $sdCase->sd_activity->id]) : '' ?></td>
                 <td><?= $this->Number->format($sdCase->status) ?></td>
                 <td><?= $sdCase->has('sd_user') ? $this->Html->link($sdCase->sd_user->title, ['controller' => 'SdUsers', 'action' => 'view', $sdCase->sd_user->id]) : '' ?></td>
+                <td><?= $this->Number->format($sdCase->priority) ?></td>
+                <td><?= h($sdCase->activity_due_date) ?></td>
+                <td><?= h($sdCase->submission_due_date) ?></td>
+                <td><?= $this->Number->format($sdCase->product_type) ?></td>
+                <td><?= h($sdCase->classification) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdCase->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sdCase->id]) ?>

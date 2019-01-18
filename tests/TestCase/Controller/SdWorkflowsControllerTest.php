@@ -17,8 +17,8 @@ class SdWorkflowsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.sd_workflows',
-        'app.sd_phases',
-        'app.sd_products'
+        'app.sd_activities',
+        'app.sd_product_workflows'
     ];
 
     /**

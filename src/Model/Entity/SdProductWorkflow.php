@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $sd_workflow_id
  * @property int $sd_user_id
  *
- * @property \App\Model\Entity\SdProduct[] $sd_products
+ * @property \App\Model\Entity\SdProduct $sd_product
  * @property \App\Model\Entity\SdWorkflow $sd_workflow
  * @property \App\Model\Entity\SdUser $sd_user
  * @property \App\Model\Entity\SdCase[] $sd_cases
@@ -32,7 +32,7 @@ class SdProductWorkflow extends Entity
         'sd_product_id' => true,
         'sd_workflow_id' => true,
         'sd_user_id' => true,
-        'sd_products' => true,
+        'sd_product' => true,
         'sd_workflow' => true,
         'sd_user' => true,
         'sd_cases' => true

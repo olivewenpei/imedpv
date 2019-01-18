@@ -18,13 +18,13 @@
                     foreach($sourceFields as $setNo => $setValue){
                         echo "<tr>";
                         echo "<td scope=\"row\">";
-                        echo (!empty($setValue['6']))?$sdFieldLookUps[0][$setValue['6']]:null;
+                        echo (!empty($setValue['6']))?$sdFieldLookUps['0'][$setValue['6']]:null;
                         echo "</td>";
                         echo "<td scope=\"col\">";
                         echo (!empty($setValue['362']))?$setValue['362']:null;
                         echo "</td>";
                         echo "<td scope=\"col\">";
-                        echo (!empty($setValue['12']))?$setValue['12']:null;
+                        echo (!empty($setValue['380']))?$setValue['380']:null;
                         echo "</td>";
                         echo "<td scope=\"col\">";
                         echo (!empty($setValue['363']))?$setValue['363']:null;

@@ -142,7 +142,7 @@ class WhoDraController extends AppController
             // ];
 
             try{
-                $qptb->select('test3.*, GROUP_CONCAT(DISTINCT atc.ATCText)')->from("test3");
+                $qptb->select(['test3.*, GROUP_CONCAT(DISTINCT atc.ATCText)'])->from("test3");
                 // $qptb->select($columns);
                 // $qptb->from("mpdata");
                 $qptb->join([

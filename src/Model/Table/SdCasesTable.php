@@ -47,11 +47,11 @@ class SdCasesTable extends Table
         ]);
         $this->belongsTo('SdActivities', [
             'foreignKey' => 'sd_activity_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('SdUsers', [
             'foreignKey' => 'sd_user_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->hasMany('SdCaseGeneralInfos', [
             'foreignKey' => 'sd_case_id'
@@ -80,19 +80,35 @@ class SdCasesTable extends Table
             ->notEmpty('caseNo');
 
         $validator
-            ->scalar('start_date')
-            ->requirePresence('start_date', 'create')
-            ->notEmpty('start_date');
-
-        $validator
-            ->scalar('end_date')
-            ->requirePresence('end_date', 'create')
-            ->notEmpty('end_date');
-
-        $validator
             ->integer('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
+
+        $validator
+            ->integer('priority')
+            ->requirePresence('priority', 'create')
+            ->notEmpty('priority');
+
+        $validator
+            ->date('activity_due_date')
+            ->requirePresence('activity_due_date', 'create')
+            ->notEmpty('activity_due_date');
+
+        $validator
+            ->date('submission_due_date')
+            ->requirePresence('submission_due_date', 'create')
+            ->notEmpty('submission_due_date');
+
+        $validator
+            ->integer('product_type')
+            ->requirePresence('product_type', 'create')
+            ->notEmpty('product_type');
+
+        $validator
+            ->scalar('classification')
+            ->maxLength('classification', 6)
+            ->requirePresence('classification', 'create')
+            ->notEmpty('classification');
 
         return $validator;
     }
@@ -107,8 +123,6 @@ class SdCasesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['sd_product_workflow_id'], 'SdProductWorkflows'));
-        $rules->add($rules->existsIn(['sd_activity_id'], 'SdActivities'));
-        $rules->add($rules->existsIn(['sd_user_id'], 'SdUsers'));
 
         return $rules;
     }

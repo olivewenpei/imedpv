@@ -28,10 +28,13 @@
             echo $this->Form->control('sd_product_workflow_id', ['options' => $sdProductWorkflows]);
             echo $this->Form->control('caseNo');
             echo $this->Form->control('sd_activity_id', ['options' => $sdActivities]);
-            echo $this->Form->control('start_date');
-            echo $this->Form->control('end_date');
             echo $this->Form->control('status');
             echo $this->Form->control('sd_user_id', ['options' => $sdUsers]);
+            echo $this->Form->control('priority');
+            echo $this->Form->control('activity_due_date');
+            echo $this->Form->control('submission_due_date');
+            echo $this->Form->control('product_type');
+            echo $this->Form->control('classification');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

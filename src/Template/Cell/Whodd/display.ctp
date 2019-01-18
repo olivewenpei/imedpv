@@ -1,6 +1,5 @@
 <div id="whodrabrowser">
 <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-search"></i> WHODD Browser</button>
-
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document" style="max-width: 1175px !important;">
     <div class="modal-content">
@@ -15,10 +14,10 @@
             <div class="container">
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" id="atc" name="atc" placeholder="ATC code">
+                        <input type="text" class="form-control" id="atc" placeholder="ATC code">
                     </div>
                     <div class="form-group col-md-3">
-                        <input type="text" class="form-control" id="drugcode" name="drugcode" placeholder="Drug code">
+                        <input type="text" class="form-control" id="drugcode" placeholder="Drug code">
                     </div>
                     <div class="form-group col-md-3">
                         <input type="text" class="form-control" id="medicalProd" placeholder="Medicinal Prod ID">
@@ -57,7 +56,7 @@
             </div>
 
             <!-- Table field (Should be hidden before search) -->
-            <div id="whoddtable"></div>
+            <div id="whodd_result"></div>
 
 
             <!-- Detail field (Should be hidden before search) -->
@@ -101,7 +100,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="selectButton(<?php echo $fieldId?>)" data-dismiss="modal">Select</button>
+        <button type="button" class="btn btn-primary" onclick="selectWhoDDButton(<?php echo $fieldId?>)" data-dismiss="modal">Select</button>
       </div>
     </div>
   </div>
@@ -109,8 +108,8 @@
 </div>
 
 
-<script>
-function selectButton(fieldId){
+<script type="text/javascript">
+function selectWhoDDButton(fieldId){
     console.log($('#whodrug-code'+fieldId));
     $('[id$=whodracode-'+fieldId+']').val($('#select-drug-code').val());
     $('[id*=whodraname]').val($('#select-trade-name').val());
@@ -152,7 +151,7 @@ function searchWhoDra(){
 
         var text = "";
         text +="<h4 class=\"text-center\">Search Results</h4>";
-        text +="<table class=\"table table-hover table-striped\" id=\"demo\">";
+        text +="<table class=\"table table-hover table-striped\" id=\"whodd_table\">";
 
         text += "<thead>";
         text +="<tr class=\"table-secondary\">";
@@ -170,13 +169,13 @@ function searchWhoDra(){
             text += "<td>" + v[12]+" / " + v[13] + "</td>";
             text += "<td>" + v[14] + "</td>";
             text += "<td>" + v[8] + "</td>";
-            text += "<td id=\"drugdetail"+k+"\" style=\"display:none\">"+JSON.stringify(v)+"</td>";
+            text += "<div id=\"drugdetail"+k+"\" hidden>"+JSON.stringify(v)+"</div> ";
             text += "</tr>";
         })
         text +="</tbody>";
         text +="</table>";
-        $("#whoddtable").html(text);
-        $('#demo').DataTable();
+        $("#whodd_result").html(text);
+        $('#whodd_table').DataTable();
         },
         error:function(response){
                 console.log(response.responseText);
@@ -187,7 +186,7 @@ function searchWhoDra(){
     });
 }
 // function dataTable(){
-//     $('#demo').each(function() {
+//     $('#whodd_table').each(function() {
 //         var currentPage = 0;
 //         var numPerPage = 10;
 //         var $table = $(this);

@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * SdCases Controller
@@ -112,5 +113,76 @@ class SdCasesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Register SAE method / Add case
+     * 
+     * 
+     */
+    public function saeregistration()
+    {   
+        $this->viewBuilder()->layout('main_layout');
+        $userinfo = $this->request->session()->read('Auth.user');
+        //TODO Permission related
+        $productInfo = TableRegistry::get('SdProducts')
+            ->find()
+            ->select(['id','study_no'])    
+            ->contain(['SdProductWorkflows.SdWorkflows'=>['fields'=>['SdWorkflows.name']]])
+            ->group(['SdProducts.id']);
+        $randNo = $this->caseNoGenerator();
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $requestData = $this->request->getData();
+            $sdFieldValueTable = TableRegistry::get('SdFieldValues');
+            $requestDataField = $requestData['field_value'];
+            /**
+             * save case
+             */
+            $requestDataCase = $requestData['case'];
+            foreach($requestDataCase['caseNo'] as $key =>$value){
+                $sdCase = $this->SdCases->newEntity();
+                $savedData = $requestDataCase;
+                $savedData['caseNo'] = $value;
+                $savedData['status'] = "1";
+                $sdCase = $this->SdCases->patchEntity($sdCase, $savedData);
+                $savedCase=$this->SdCases->save($sdCase);
+                if (!$savedCase) {
+                    echo"problem in saving sdCase";
+                    return null;
+                }
+                foreach($requestDataField as $field_id =>$field_value)
+                {
+                    $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                    $dataSet = [
+                        'sd_case_id' => $savedCase->id,
+                        'version_no' => '1',
+                        'sd_field_id' => $field_id,
+                        'set_number' => '1',
+                        'created_time' =>date("Y-m-d H:i:s"),
+                        'field_value' =>$field_value,
+                        'status' =>'1',
+                    ];
+                    $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                    if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving sdfields";
+                }
+            }
+            /**
+             * 
+             * save field into these cases
+             */
+        }
+        $this->set(compact('productInfo','randNo'));  
+    }
+
+     /**
+     * Case number generator function
+     *
+     * @return string case number
+     *
+     */
+    private function caseNoGenerator(){
+        do{$rand_str = rand(0, 99999);
+        }while($this->SdCases->find()->where(['caseNo LIKE '=>'%'.$rand_str.'%'])->first()!=null);
+        return $rand_str;
     }
 }

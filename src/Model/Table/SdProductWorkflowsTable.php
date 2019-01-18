@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\SdWorkflowsTable|\Cake\ORM\Association\BelongsTo $SdWorkflows
  * @property \App\Model\Table\SdUsersTable|\Cake\ORM\Association\BelongsTo $SdUsers
  * @property \App\Model\Table\SdCasesTable|\Cake\ORM\Association\HasMany $SdCases
+ * @property |\Cake\ORM\Association\HasMany $SdUserAssignments
  *
  * @method \App\Model\Entity\SdProductWorkflow get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdProductWorkflow newEntity($data = null, array $options = [])
@@ -53,6 +54,9 @@ class SdProductWorkflowsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('SdCases', [
+            'foreignKey' => 'sd_product_workflow_id'
+        ]);
+        $this->hasMany('SdUserAssignments', [
             'foreignKey' => 'sd_product_workflow_id'
         ]);
     }

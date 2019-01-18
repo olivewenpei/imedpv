@@ -12,7 +12,7 @@ echo $this->element('generatepdf');
     var section = <?php $sdSections =$sdSections->toList();
 
     echo json_encode($sdSections)?>;
-    var caseNo = <?= json_encode($this->request->getQuery('caseNo')) ?>;
+    var caseId = <?= json_encode($this->request->getQuery('caseId')) ?>;
     jQuery(function($) {
         $(document).ready(function () {
             $("[id$=page_number-1]").css('font-weight', 'bold');
@@ -23,6 +23,7 @@ echo $this->element('generatepdf');
 <head>
     <!-- For checking unsaved contents JS link -->
     <?= $this->Html->script('specific.js') ?>
+    <?= $this->Html->script('dataentry/dataEntryMain.js') ?>
     <!-- For select add input  -->
     <?= $this->Html->css('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css') ?>
     <?= $this->Html->script("https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js") ?>
@@ -64,7 +65,7 @@ echo $this->element('generatepdf');
         </a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="#">CIOMS</a>
-            <a class="dropdown-item" target="_blank" href="/sd-tabs/genFDApdf/<?php echo $this->request->getQuery('caseNo') ?>">FDA</a>
+            <a class="dropdown-item" target="_blank" href="/sd-tabs/genFDApdf/<?php echo $this->request->getQuery('caseId') ?>">FDA</a>
             <!-- Add this if location had details
             <div role="separator" class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
@@ -98,10 +99,8 @@ echo $this->element('generatepdf');
 
 <div class="maintab container-fluid">
 <?php
-     $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseNo = $this->request->getQuery('caseNo')]);
+     $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseId = $this->request->getQuery('caseId')]);
      echo $sectionNavCell;
-     $MeddraCell = $this->cell('Meddra');
-     echo $MeddraCell;
 ?>
 
 <!-- Data Entry Body -->
@@ -127,23 +126,23 @@ echo $this->element('generatepdf');
     <?= $this->Form->end() ?>
     <?php
         if($tabid==1){
-            $sectionTableCell = $this->cell('SectionTable::general', [$caseNo = $this->request->getQuery('caseNo')]);
+            $sectionTableCell = $this->cell('SectionTable::general', [$caseId = $this->request->getQuery('caseId')]);
             echo $sectionTableCell;
         }elseif($tabid==2)
         {
-            $sectionTableCell = $this->cell('SectionTable::reporter', [$caseNo = $this->request->getQuery('caseNo')]);
+            $sectionTableCell = $this->cell('SectionTable::reporter', [$caseId = $this->request->getQuery('caseId')]);
             echo $sectionTableCell;
         }elseif($tabid==3)
         {
-            $sectionTableCell = $this->cell('SectionTable::patient', [$caseNo = $this->request->getQuery('caseNo')]);
+            $sectionTableCell = $this->cell('SectionTable::patient', [$caseId = $this->request->getQuery('caseId')]);
             echo $sectionTableCell;
         }elseif($tabid==4)
         {
-            $sectionTableCell = $this->cell('SectionTable::product', [$caseNo = $this->request->getQuery('caseNo')]);
+            $sectionTableCell = $this->cell('SectionTable::product', [$caseId = $this->request->getQuery('caseId')]);
             echo $sectionTableCell;
         }elseif($tabid==5)
         {
-            $sectionTableCell = $this->cell('SectionTable::event', [$caseNo = $this->request->getQuery('caseNo')]);
+            $sectionTableCell = $this->cell('SectionTable::event', [$caseId = $this->request->getQuery('caseId')]);
             echo $sectionTableCell;
         }
     ?>
@@ -296,19 +295,26 @@ function displaySingleSection($section, $setNo, $sectionKey, $html){
                             echo ">";
                             continue;
                         case 'whodra browser':
-                            $WhoddCell = $html->cell('Whodd',[$sd_section_structure_detail->sd_field->id]);
-                            echo "<input id=\"section-".$section->id."-whodracode-".$sd_section_structure_detail->sd_field->id."\" class=\"col-md-5 form-control\" name=".$field_value_nameHolder." type=\"text\"";
+                            $whoddCell = $html->cell('Whodd',[$sd_section_structure_detail->sd_field->id]);
+                            echo $whoddCell;
+                            echo "<input style=\"float:left\" id=\"section-".$section->id."-whodracode-".$sd_section_structure_detail->sd_field->id."\" class=\"col-md-5 form-control\" name=".$field_value_nameHolder." type=\"text\"";
                             echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=".$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
                             echo " >";
-                            echo $WhoddCell;
                             continue;
                         case 'whodra show':
                             echo "<input id=\"section-".$section->id."-whodraname-".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder." type=\"text\"";
                             echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=".$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
-                            echo " disabled>";
+                            echo " readonly=\"readonly\">";
                             continue;
-                            // $WhoddCell = $this->cell('Whodd',[$sd_section_structure_detail->sd_field->id]);
-                            // echo $WhoddCell;
+                        case 'Meddra browser':
+                            $meddraCell = $html->cell('Meddra',[$sd_section_structure_detail->sd_field->id]);
+                            echo $meddraCell;
+                            continue;
+                        case 'Meddra show':
+                            echo "<input id=\"section-".$section->id."-".$sd_section_structure_detail->sd_field->descriptor."-".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder." type=\"text\"";
+                            echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=".$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
+                            echo " readonly=\"readonly\">";
+                            continue;
                     }
                 echo"</div>";
             $i++;

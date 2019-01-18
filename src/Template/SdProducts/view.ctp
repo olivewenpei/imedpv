@@ -19,16 +19,68 @@
     <h3><?= h($sdProduct->id) ?></h3>
     <table class="vertical-table">
         <tr>
+            <th scope="row"><?= __('Product Name') ?></th>
+            <td><?= h($sdProduct->product_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Study Name') ?></th>
+            <td><?= h($sdProduct->study_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Short Desc') ?></th>
+            <td><?= h($sdProduct->short_desc) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Product Desc') ?></th>
+            <td><?= h($sdProduct->product_desc) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Blinding Tech') ?></th>
+            <td><?= h($sdProduct->blinding_tech) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('WHODD Code') ?></th>
+            <td><?= h($sdProduct->WHODD_code) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('WHODD Name') ?></th>
+            <td><?= h($sdProduct->WHODD_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Mfr Name') ?></th>
+            <td><?= h($sdProduct->mfr_name) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Start Date') ?></th>
+            <td><?= h($sdProduct->start_date) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('End Date') ?></th>
+            <td><?= h($sdProduct->end_date) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Call Center') ?></th>
+            <td><?= h($sdProduct->call_center) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($sdProduct->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Product Type') ?></th>
-            <td><?= $this->Number->format($sdProduct->product_type) ?></td>
+            <th scope="row"><?= __('Sd Product Type Id') ?></th>
+            <td><?= $this->Number->format($sdProduct->sd_product_type_id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Sponsor Company') ?></th>
-            <td><?= $this->Number->format($sdProduct->sponsor_company) ?></td>
+            <th scope="row"><?= __('Study Type') ?></th>
+            <td><?= $this->Number->format($sdProduct->study_type) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Sponsor Company Id') ?></th>
+            <td><?= $this->Number->format($sdProduct->sd_sponsor_company_id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Product Flag') ?></th>
+            <td><?= $this->Number->format($sdProduct->sd_product_flag) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Status') ?></th>

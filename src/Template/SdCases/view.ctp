@@ -43,6 +43,10 @@
             <td><?= $sdCase->has('sd_user') ? $this->Html->link($sdCase->sd_user->title, ['controller' => 'SdUsers', 'action' => 'view', $sdCase->sd_user->id]) : '' ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Classification') ?></th>
+            <td><?= h($sdCase->classification) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($sdCase->id) ?></td>
         </tr>
@@ -50,15 +54,23 @@
             <th scope="row"><?= __('Status') ?></th>
             <td><?= $this->Number->format($sdCase->status) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Priority') ?></th>
+            <td><?= $this->Number->format($sdCase->priority) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Product Type') ?></th>
+            <td><?= $this->Number->format($sdCase->product_type) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Activity Due Date') ?></th>
+            <td><?= h($sdCase->activity_due_date) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Submission Due Date') ?></th>
+            <td><?= h($sdCase->submission_due_date) ?></td>
+        </tr>
     </table>
-    <div class="row">
-        <h4><?= __('Start Date') ?></h4>
-        <?= $this->Text->autoParagraph(h($sdCase->start_date)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('End Date') ?></h4>
-        <?= $this->Text->autoParagraph(h($sdCase->end_date)); ?>
-    </div>
     <div class="related">
         <h4><?= __('Related Sd Case General Infos') ?></h4>
         <?php if (!empty($sdCase->sd_case_general_infos)): ?>

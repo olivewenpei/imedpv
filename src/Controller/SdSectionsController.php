@@ -112,7 +112,7 @@ class SdSectionsController extends AppController
     /*
     save Single section
     */
-    public function saveSection($caseNo){
+    public function saveSection($caseId){
         if($this->request->is('POST')){
             $this->autoRender = false;
             $sdFieldValues = TableRegistry::get('SdFieldValues');
@@ -126,7 +126,7 @@ class SdSectionsController extends AppController
                 }elseif(!empty($sectionFieldValue['field_value'])){
                     $sdFieldValueEntity = $sdFieldValues->newEntity();
                     $dataSet = [
-                        'sd_case_id' => $caseNo,
+                        'sd_case_id' => $caseId,
                         'version_no' => '1',
                         'sd_field_id' => $sectionFieldValue['sd_field_id'],
                         'set_number' => $sectionFieldValue['set_number'],
@@ -136,7 +136,7 @@ class SdSectionsController extends AppController
                     ];
                     $sdFieldValueEntity = $sdFieldValues->patchEntity($sdFieldValueEntity, $dataSet);
                     if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in adding!" ;
-                }                    $savedField[$sectionFieldValue['sd_field_id']] = $sdFieldValues->find()->where(['sd_field_id'=>$sectionFieldValue['sd_field_id'],'status'=>1,'sd_case_id'=>$caseNo]);
+                }                    $savedField[$sectionFieldValue['sd_field_id']] = $sdFieldValues->find()->where(['sd_field_id'=>$sectionFieldValue['sd_field_id'],'status'=>1,'sd_case_id'=>$caseId]);
 
             }
         }else $this->autoRender = true;
@@ -145,7 +145,7 @@ class SdSectionsController extends AppController
     /*
     delete Single section
     */
-    public function deleteSection($caseNo){
+    public function deleteSection($caseId){
         if($this->request->is('POST')){
             $this->autoRender = false;
             $sdFieldValues = TableRegistry::get('SdFieldValues');
@@ -157,13 +157,13 @@ class SdSectionsController extends AppController
                     $sdFieldValues->patchEntity($sdFieldValueEntity,$sectionFieldValue);
                     if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in updating!" ;
                     }
-                $followingValues = $sdFieldValues->find()->where(['sd_field_id'=>$sectionFieldValue['sd_field_id'],'status'=>1,'sd_case_id'=>$caseNo]);
+                $followingValues = $sdFieldValues->find()->where(['sd_field_id'=>$sectionFieldValue['sd_field_id'],'status'=>1,'sd_case_id'=>$caseId]);
                 foreach($followingValues as $k => $field_value_detail){
                     if($field_value_detail['set_number']>$sectionFieldValue['set_number'])
                         $field_value_detail['set_number'] = $field_value_detail['set_number'] - 1;
                     if(!$sdFieldValues->save($field_value_detail)) echo "error in updating latter set!" ;
                 }                
-                $savedField[$sectionFieldValue['sd_field_id']] = $sdFieldValues->find()->where(['sd_field_id'=>$sectionFieldValue['sd_field_id'],'status'=>1,'sd_case_id'=>$caseNo]);
+                $savedField[$sectionFieldValue['sd_field_id']] = $sdFieldValues->find()->where(['sd_field_id'=>$sectionFieldValue['sd_field_id'],'status'=>1,'sd_case_id'=>$caseId]);
             }
         }else $this->autoRender = true;
         echo json_encode($savedField);

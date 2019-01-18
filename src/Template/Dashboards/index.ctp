@@ -62,7 +62,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-href="/sd-tabs/showdetails/1?caseNo=1">
+							<tr data-href="/sd-tabs/showdetails/1?caseId=1">
                                 <th scope="row"><i class="fas fa-flag text-warning"></i></th>
                                 <th scope="col">12/30/2018</th>
                                 <th scope="col">1</th>

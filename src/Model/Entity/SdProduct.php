@@ -7,9 +7,22 @@ use Cake\ORM\Entity;
  * SdProduct Entity
  *
  * @property int $id
- * @property int $product_type
+ * @property string $product_name
+ * @property int $sd_product_type_id
  * @property string $study_no
- * @property int $sponsor_company
+ * @property string $study_name
+ * @property int $study_type
+ * @property int $sd_sponsor_company_id
+ * @property string $short_desc
+ * @property string $product_desc
+ * @property string $blinding_tech
+ * @property int $sd_product_flag
+ * @property string $WHODD_code
+ * @property string $WHODD_name
+ * @property string $mfr_name
+ * @property string $start_date
+ * @property string $end_date
+ * @property string $call_center
  * @property int $status
  *
  * @property \App\Model\Entity\SdProductWorkflow[] $sd_product_workflows
@@ -27,9 +40,22 @@ class SdProduct extends Entity
      * @var array
      */
     protected $_accessible = [
-        'product_type' => true,
+        'product_name' => true,
+        'sd_product_type_id' => true,
         'study_no' => true,
-        'sponsor_company' => true,
+        'study_name' => true,
+        'study_type' => true,
+        'sd_sponsor_company_id' => true,
+        'short_desc' => true,
+        'product_desc' => true,
+        'blinding_tech' => true,
+        'sd_product_flag' => true,
+        'WHODD_code' => true,
+        'WHODD_name' => true,
+        'mfr_name' => true,
+        'start_date' => true,
+        'end_date' => true,
+        'call_center' => true,
         'status' => true,
         'sd_product_workflows' => true
     ];

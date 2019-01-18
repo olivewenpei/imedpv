@@ -18,8 +18,21 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('product_type') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sponsor_company') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('product_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_product_type_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('study_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('study_type') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_sponsor_company_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('short_desc') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('product_desc') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('blinding_tech') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_product_flag') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('WHODD_code') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('WHODD_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('mfr_name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('start_date') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('end_date') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('call_center') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -28,8 +41,21 @@
             <?php foreach ($sdProducts as $sdProduct): ?>
             <tr>
                 <td><?= $this->Number->format($sdProduct->id) ?></td>
-                <td><?= $this->Number->format($sdProduct->product_type) ?></td>
-                <td><?= $this->Number->format($sdProduct->sponsor_company) ?></td>
+                <td><?= h($sdProduct->product_name) ?></td>
+                <td><?= $this->Number->format($sdProduct->sd_product_type_id) ?></td>
+                <td><?= h($sdProduct->study_name) ?></td>
+                <td><?= $this->Number->format($sdProduct->study_type) ?></td>
+                <td><?= $this->Number->format($sdProduct->sd_sponsor_company_id) ?></td>
+                <td><?= h($sdProduct->short_desc) ?></td>
+                <td><?= h($sdProduct->product_desc) ?></td>
+                <td><?= h($sdProduct->blinding_tech) ?></td>
+                <td><?= $this->Number->format($sdProduct->sd_product_flag) ?></td>
+                <td><?= h($sdProduct->WHODD_code) ?></td>
+                <td><?= h($sdProduct->WHODD_name) ?></td>
+                <td><?= h($sdProduct->mfr_name) ?></td>
+                <td><?= h($sdProduct->start_date) ?></td>
+                <td><?= h($sdProduct->end_date) ?></td>
+                <td><?= h($sdProduct->call_center) ?></td>
                 <td><?= $this->Number->format($sdProduct->status) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdProduct->id]) ?>

@@ -31,11 +31,11 @@ class SectionNavCell extends Cell
      *
      * @return void
      */
-    public function display($tabid, $caseNo)
+    public function display($tabid, $caseId)
     {
         $this->loadModel('SdTabs');
         $sdTabs = $this->SdTabs->find()->order(['SdTabs.display_order'=>'ASC'])
             ->contain(['SdSections']);
-        $this->set(compact('sdTabs','tabid','caseNo'));
+        $this->set(compact('sdTabs','tabid','caseId'));
     }
 }

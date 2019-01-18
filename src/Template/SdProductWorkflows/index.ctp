@@ -8,12 +8,12 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Workflows'), ['controller' => 'SdWorkflows', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Workflow'), ['controller' => 'SdWorkflows', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Users'), ['controller' => 'SdUsers', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Products'), ['controller' => 'SdProducts', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Product'), ['controller' => 'SdProducts', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Cases'), ['controller' => 'SdCases', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Case'), ['controller' => 'SdCases', 'action' => 'add']) ?></li>
     </ul>
@@ -34,7 +34,7 @@
             <?php foreach ($sdProductWorkflows as $sdProductWorkflow): ?>
             <tr>
                 <td><?= $this->Number->format($sdProductWorkflow->id) ?></td>
-                <td><?= $this->Number->format($sdProductWorkflow->sd_product_id) ?></td>
+                <td><?= $sdProductWorkflow->has('sd_product') ? $this->Html->link($sdProductWorkflow->sd_product->id, ['controller' => 'SdProducts', 'action' => 'view', $sdProductWorkflow->sd_product->id]) : '' ?></td>
                 <td><?= $sdProductWorkflow->has('sd_workflow') ? $this->Html->link($sdProductWorkflow->sd_workflow->name, ['controller' => 'SdWorkflows', 'action' => 'view', $sdProductWorkflow->sd_workflow->id]) : '' ?></td>
                 <td><?= $sdProductWorkflow->has('sd_user') ? $this->Html->link($sdProductWorkflow->sd_user->title, ['controller' => 'SdUsers', 'action' => 'view', $sdProductWorkflow->sd_user->id]) : '' ?></td>
                 <td class="actions">

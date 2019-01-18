@@ -9,8 +9,8 @@ use Cake\Validation\Validator;
 /**
  * SdWorkflows Model
  *
- * @property |\Cake\ORM\Association\HasMany $SdActivities
- * @property |\Cake\ORM\Association\HasMany $SdProductWorkflows
+ * @property \App\Model\Table\SdActivitiesTable|\Cake\ORM\Association\HasMany $SdActivities
+ * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
  * @method \App\Model\Entity\SdWorkflow get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdWorkflow newEntity($data = null, array $options = [])

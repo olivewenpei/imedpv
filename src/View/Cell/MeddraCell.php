@@ -31,7 +31,10 @@ class MeddraCell extends Cell
      *
      * @return void
      */
-    public function display()
+    public function display($fieldId=null)
     {
+        $this->loadModel('Ccode');
+        $contryList = $this->Ccode->find();
+        $this->set(compact('fieldId','contryList'));
     }
 }

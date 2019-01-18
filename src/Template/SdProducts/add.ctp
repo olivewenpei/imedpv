@@ -17,9 +17,22 @@
     <fieldset>
         <legend><?= __('Add Sd Product') ?></legend>
         <?php
-            echo $this->Form->control('product_type');
+            echo $this->Form->control('product_name');
+            echo $this->Form->control('sd_product_type_id');
             echo $this->Form->control('study_no');
-            echo $this->Form->control('sponsor_company');
+            echo $this->Form->control('study_name');
+            echo $this->Form->control('study_type');
+            echo $this->Form->control('sd_sponsor_company_id');
+            echo $this->Form->control('short_desc');
+            echo $this->Form->control('product_desc');
+            echo $this->Form->control('blinding_tech');
+            echo $this->Form->control('sd_product_flag');
+            echo $this->Form->control('WHODD_code');
+            echo $this->Form->control('WHODD_name');
+            echo $this->Form->control('mfr_name');
+            echo $this->Form->control('start_date');
+            echo $this->Form->control('end_date');
+            echo $this->Form->control('call_center');
             echo $this->Form->control('status');
         ?>
     </fieldset>

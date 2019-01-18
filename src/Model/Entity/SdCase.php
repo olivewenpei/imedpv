@@ -10,10 +10,13 @@ use Cake\ORM\Entity;
  * @property int $sd_product_workflow_id
  * @property string $caseNo
  * @property int $sd_activity_id
- * @property string $start_date
- * @property string $end_date
  * @property int $status
  * @property int $sd_user_id
+ * @property int $priority
+ * @property \Cake\I18n\FrozenDate $activity_due_date
+ * @property \Cake\I18n\FrozenDate $submission_due_date
+ * @property int $product_type
+ * @property string $classification
  *
  * @property \App\Model\Entity\SdProductWorkflow $sd_product_workflow
  * @property \App\Model\Entity\SdActivity $sd_activity
@@ -37,10 +40,13 @@ class SdCase extends Entity
         'sd_product_workflow_id' => true,
         'caseNo' => true,
         'sd_activity_id' => true,
-        'start_date' => true,
-        'end_date' => true,
         'status' => true,
         'sd_user_id' => true,
+        'priority' => true,
+        'activity_due_date' => true,
+        'submission_due_date' => true,
+        'product_type' => true,
+        'classification' => true,
         'sd_product_workflow' => true,
         'sd_activity' => true,
         'sd_user' => true,
