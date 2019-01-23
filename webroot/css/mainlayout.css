@@ -93,10 +93,6 @@ ul.topbar > li.nav-item {
     left: 20px;
 }
 
-#searchBtn, #advsearch, .clearsearch {
-    font-size: 20px !important;
-}
-
 /*
 @media screen and (max-width: 1441px) {}
 */
@@ -368,4 +364,52 @@ hr.wfhr {
 
 .active {
     font-weight: 500;
+}
+
+.checkboxstyle {
+    width: 25px;
+    height: 20px;
+    position: relative;
+    top: 2px;
+}
+
+.priSr {
+    position: relative !important;
+    top: 36px;
+    right: 100px;
+}
+
+.gobackstep {
+    font-size: 20px;
+    position: relative;
+    top: 5px;
+    right: 5px;
+    color: rgb(255, 193, 7);
+}
+
+.backSteps {
+    position: absolute !important;
+    top: 15px;
+    right: 20px;
+}
+
+/* Style for top message bar */
+.msgbar {
+    text-align: center;
+    font-size: 22px;
+    width: 75%;
+    position: fixed;
+    left: 12%;
+}
+
+.msgbarBtn {
+    position: relative;
+    top: 5px;
+    font-size: 30px;
+}
+
+.showpagination {
+    position: relative;
+    top: 10px;
+    right: 15px;
 }

@@ -164,7 +164,7 @@ class SdProductsController extends AppController
 
                 return $this->redirect(['action' => 'search']);
             }
-            $this->Flash->error(__('The sd product could not be saved. Please, try again.'));
+            $this->Flash->error(__('Please Fill All Required Fields!'));
         }
         $sdProductTypes = $this->SdProducts->SdProductTypes->find('list', ['limit' => 200]);
         $sdSponsorCompanies = $this->SdProducts->SdSponsorCompanies->find('list', ['limit' => 200]);

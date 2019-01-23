@@ -11,10 +11,10 @@ $popover(document).ready(function(){
         $(this).hide();
         $('#workflowlist').slideUp();
         $('#choworkflow').slideDown();
-        swal({
-            title: "You are adding a New Workflow",
-            icon: "success",
-          })
+        // swal({
+        //     title: "You are adding a New Workflow",
+        //     icon: "success",
+        //   })
     });
 
     $('#confirmWFlist').click(function() {
@@ -110,6 +110,7 @@ jQuery(function($) {  // In case of jQuery conflict
 jQuery(function($) {
     $(document).ready(function(){
         $("#advsearch").click(function(){
+            $(this).parent().hide();
             $("#advsearchfield").slideDown();
         });
     });
@@ -149,7 +150,7 @@ jQuery(function($) {
                 $('.close').click(function() {
                     $(this).parents('li.custworkflowstep').remove();
                 });
-            }
+            },
         });
         $( "#draggable" ).draggable({
             connectToSortable: "#sortable",
@@ -158,16 +159,16 @@ jQuery(function($) {
             opacity: 0.6,
             revert: "invalid",
             start  : function(event, ui){
-                    $(ui.helper).addClass("w-100 h-75");
-                    $(this).find('h5').replaceWith('<h5><input type="text" placeholder="Type your step name here" class="font-weight-bold" /></h5>');
+                $(ui.helper).addClass("w-100 h-75");
+                $(this).find('h4').replaceWith('<h4><input type="text" placeholder="Type your step name here" class="font-weight-bold" /></h4>');
             },
             // Add "close icon" when drag into new place
             create :  function (event, ui) {
-                    $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
-                    $(this).change(function() {
-                        $(this).find('input').replaceWith('<h5>' + $('#draggable').find('input').val() + '</h5>');
-                    });
-                    },
+                $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
+                $(this).change(function() {
+                    $(this).find('input').replaceWith('<h5>' + $('#draggable').find('input').val() + '</h5>');
+                });
+            },
             // Remove all inputs in original when drag into new place
             stop : function (event,ui) {
                 $(this).find('input, textarea').val('');
@@ -278,13 +279,6 @@ jQuery(function($) {
         function(){ $(this).removeClass('shadow')
     });
 
-    // Make the table row clickable
-    $(document).ready(function($) {
-        $("tbody > tr").click(function() {
-            window.document.location = $(this).data("href");
-        });
-    });
-
 // TO DO: make nav button has "active" effect
     $(document).ready(function($) {
         $("#navbarSupportedContent > ul > li").click(function() {
@@ -378,14 +372,22 @@ jQuery(function($) {
             if (($('.defworkflow').is(':hidden') && $('.custworkflow').is(':visible')))
             {
                 $(this).hide();
-                $('#defworkflow, #custbtn').hide();
+                $('#defworkflow, #custbtn, .closewf').hide();
                 $('#cusT, #undochoWF').show();
                 $('#sortable, #draggable').addClass("mx-auto w-50");
+                $('#cusworkflow').find('ul').hide();
+                $('#custworkflowname').attr('disabled',true);
+                $('li.custworkflowstep').find('button').hide();
+                // TO DO: After confirm the custworkflow, the list shouldn`t be draggable or sortable
+                // $("#sortable").sortable({ disabled: true });
                 $('#undochoWF').click(function() {
                     $(this).hide();
-                    $('#cusT').hide();
+                    $('#cusT, .closewf').hide();
                     $('#submitworkflow,#defworkflow, #custbtn').show();
                     $('#sortable, #draggable').removeClass("mx-auto w-50");
+                    $('#custworkflowname').attr('disabled',false);
+                    $('li.custworkflowstep').find('button').show();
+                    $('#cusworkflow').find('ul').show();
                 })
                 //alert("custworkflow selected");
                 workflowname = $('#custworkflowname').val();
@@ -397,6 +399,9 @@ jQuery(function($) {
                   });
                 if(workflowname.length == 0){
                     $(this).show();
+                    $('#custworkflowname').attr('disabled',false);
+                    $('li.custworkflowstep').find('button').show();
+                    $('#cusworkflow').find('ul').show();
                     // $('#custworkflowname').after('<div id="errWorkflow" class="alert alert-danger" role="alert">Workflow name is required!</div>');
                     $('#custworkflowname').after($("#errWorkflow").show());
                     swal({
@@ -469,15 +474,14 @@ jQuery(function($) {
                 display_order: display_order,
                 step_name: step_name
             });
-            //console.log(display_order);
-            //console.log(step_name);
+            // console.log(display_order);
+            // console.log(step_name);
 
         })
         //console.log(steps);
         return steps;
     }
 
-    $(document).ready(paginationReady());
 
 });
 

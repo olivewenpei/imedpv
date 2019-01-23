@@ -111,7 +111,7 @@ input{
      width: 15.8125rem;
      text-indent: 1.125rem;
      outline:none;
-     box-shadow: none !important; 
+     box-shadow: none !important;
 }
 .rem{
 	 position: absolute;
@@ -160,7 +160,7 @@ input{
 }
 
 .msgbarBtn {
-    position: relative; 
+    position: relative;
     top: 5px;
     font-size: 30px;
 }
@@ -187,7 +187,7 @@ input{
     }
    .wel{
    	   width: 355px;
-   } 
+   }
     .user{
     	top: 5rem;
         right: 3.5rem;
@@ -197,9 +197,9 @@ input{
         right: 3.5rem;
     }
     input{
-    	
+
         width: 12rem;
-    }   
+    }
     .rem{
 	    top: 11rem;
         right: 14.3rem;
@@ -212,6 +212,5 @@ input{
     	top: 14rem;
         width: 15rem;
     }
-   
-}
 
+}
