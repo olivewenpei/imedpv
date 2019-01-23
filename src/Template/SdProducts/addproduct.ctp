@@ -300,7 +300,7 @@
                                                     <div class="card-body p-3">
                                                         <h5 class="card-title"><b> Triage</b></h5>
                                                         <p class="card-text">Capture the initial Case information.</p>
-                                                        <div class="input-group w-25 mx-auto backSteps">
+                                                        <div class="input-group w-25 mx-auto">
                                                             <i class="fas fa-arrow-up gobackstep"></i>
                                                             <input type="text" class="form-control form-control-sm" aria-label="Back Steps" aria-describedby="backSteps">
                                                             <div class="input-group-append">
@@ -315,7 +315,7 @@
                                                     <div class="card-body p-3">
                                                         <h5 class="card-title"> <b> Data Entry</b></h5>
                                                         <p class="card-text">Entry initial data from call center</p>
-                                                        <div class="input-group w-25 mx-auto backSteps">
+                                                        <div class="input-group w-25 mx-auto">
                                                             <i class="fas fa-arrow-up gobackstep"></i>
                                                             <input type="text" class="form-control form-control-sm" aria-label="Back Steps" aria-describedby="backSteps">
                                                             <div class="input-group-append">
@@ -330,7 +330,7 @@
                                                     <div class="card-body p-3">
                                                         <h5 class="card-title"> <b> Quality Check</b></h5>
                                                         <p class="card-text">Check the validation of cases</p>
-                                                        <div class="input-group w-25 mx-auto backSteps">
+                                                        <div class="input-group w-25 mx-auto">
                                                             <i class="fas fa-arrow-up gobackstep"></i>
                                                             <input type="text" class="form-control form-control-sm" aria-label="Back Steps" aria-describedby="backSteps">
                                                             <div class="input-group-append">
@@ -345,7 +345,7 @@
                                                     <div class="card-body p-3">
                                                         <h5 class="card-title"> <b> Medical Review</b></h5>
                                                         <p class="card-text">Review cases by doctors.</p>
-                                                        <div class="input-group w-25 mx-auto backSteps">
+                                                        <div class="input-group w-25 mx-auto">
                                                             <i class="fas fa-arrow-up gobackstep"></i>
                                                             <input type="text" class="form-control form-control-sm" aria-label="Back Steps" aria-describedby="backSteps">
                                                             <div class="input-group-append">
@@ -360,7 +360,7 @@
                                                     <div class="card-body p-3">
                                                         <h5 class="card-title"><b> Generate Report</b></h5>
                                                         <p class="card-text">Output a report from system</p>
-                                                        <div class="input-group w-25 mx-auto backSteps">
+                                                        <div class="input-group w-25 mx-auto">
                                                             <i class="fas fa-arrow-up gobackstep"></i>
                                                             <input type="text" class="form-control form-control-sm" aria-label="Back Steps" aria-describedby="backSteps">
                                                             <div class="input-group-append">
@@ -375,7 +375,7 @@
                                                     <div class="card-body p-3">
                                                         <h5 class="card-title"><b> Complete</b></h5>
                                                         <p class="card-text">Case information gathered and reviewed.</p>
-                                                        <div class="input-group w-25 mx-auto backSteps">
+                                                        <div class="input-group w-25 mx-auto">
                                                             <i class="fas fa-arrow-up gobackstep"></i>
                                                             <input type="text" class="form-control form-control-sm" aria-label="Back Steps" aria-describedby="backSteps">
                                                             <div class="input-group-append">
@@ -403,7 +403,7 @@
                                                 <li id="draggable" class="custworkflowstep">
                                                     <div class="card w-100 h-25 my-2">
                                                         <div class="card-body p-3">
-                                                            <h4 class="card-title"><input type="text" placeholder="Type your step name here" class="font-weight-bold" /> </h4>
+                                                            <h4 class="card-title"><input type="text" placeholder="Type step name here FIRST" class="font-weight-bold" /> </h4>
                                                             <!-- <p class="card-text"><textarea type="text"  class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p> -->
                                                         </div>
                                                     </div>

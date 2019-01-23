@@ -160,13 +160,13 @@ jQuery(function($) {
             revert: "invalid",
             start  : function(event, ui){
                 $(ui.helper).addClass("w-100 h-75");
-                $(this).find('h4').replaceWith('<h4><input type="text" placeholder="Type your step name here" class="font-weight-bold" /></h4>');
+                $(this).find('h4').replaceWith('<h4><input type="text" placeholder="Type step name here FIRST" class="font-weight-bold" /></h4>');
             },
             // Add "close icon" when drag into new place
             create :  function (event, ui) {
                 $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
                 $(this).change(function() {
-                    $(this).find('input').replaceWith('<h5>' + $('#draggable').find('input').val() + '</h5>');
+                    $(this).find('h4 > input').replaceWith('<h5>' + $('#draggable').find('input').val() + '</h5>');
                 });
             },
             // Remove all inputs in original when drag into new place
@@ -379,9 +379,11 @@ jQuery(function($) {
                 $('#custworkflowname').attr('disabled',true);
                 $('li.custworkflowstep').find('button').hide();
                 // TO DO: After confirm the custworkflow, the list shouldn`t be draggable or sortable
-                // $("#sortable").sortable({ disabled: true });
+                    // $("#sortable").sortable({ disabled: true });
+                    // $( "#draggable" ).draggable("destroy");
                 $('#undochoWF').click(function() {
                     $(this).hide();
+                    $('#sortable').find('.input-group').remove();
                     $('#cusT, .closewf').hide();
                     $('#submitworkflow,#defworkflow, #custbtn').show();
                     $('#sortable, #draggable').removeClass("mx-auto w-50");
@@ -414,6 +416,7 @@ jQuery(function($) {
                 }
                 else {
                     $(this).hide();
+                $('#sortable').find('.card-body').append( '<div class="input-group w-25 mx-auto"><i class="fas fa-arrow-up gobackstep"></i><input type="text" class="form-control form-control-sm" aria-label="Back Steps" aria-describedby="backSteps"><div class="input-group-append"><button class="btn btn-sm btn-outline-info" type="button" id="backSteps">OK</button></div></div>');
                     $('#custworkflowname').next('#errWorkflow').remove(); // *** this line have been added ***
                     var wkflsteps = iterateWorkflow("cust");
                 }

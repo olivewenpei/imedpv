@@ -70,7 +70,7 @@
         <a class="nav-link dropdown-toggle" href="/sd-cases/saeregistration" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ICSR</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/sd-cases/saeregistration">Register SAE/AE</a>
-          <a class="dropdown-item" href="#">Case List</a>
+          <a class="dropdown-item" href="/sd-cases/caselist">Case List</a>
           <!-- Use the following if we need diveder in dropdown menu
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
