@@ -16,54 +16,52 @@
                     <div class="text-center">
                         <!-- Add Product --><h3>SAE Information</h3><hr>
                         <div class="form-row">
-                        <div class="form-group col-md-4">
-                                <label>Product Name:</label>
-                                <select type="text" class="form-control" id="product_name">
-                                    <option value="">Select Project No</option>
-                                    <?php
-                                    foreach($productInfo as $k => $productDetail){
-                                        echo "<option value=".$productDetail->id.">".$productDetail->study_no."</option>";
-                                    };?>
-                                    <!-- html->form(project_no) -->
-                                </select>
-                            </div>                            
-                            <div class="form-group col-md-4">
-                                <label>Workflow Name:</label>
-                                <select type="text" class="form-control" name="case[sd_product_workflow_id]" id="workflow_name">
-                                    <option value="">Select Workflow Name</option>
-                                    <!-- html->form(project_no) -->
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Number of SAE:</label>
-                                <input type="text" class="form-control" id="no_of_sae">
-                                <div id="show_selected_sae_name"></div>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Priorty:</label>
-                                <select class="form-control" id="priority" name=case[priority]>
-                                    <option value="null">None</option>
-                                    <option value="1">High</option>
-                                    <option value="2">Medium</option>
-                                    <option value="3">Low</option>
-                                    <!-- html->form(priority) -->
-                                </select>
-                            </div>
-                            
+                        <div class="form-group col-md-3">
+                            <label>Product Name:</label>
+                            <select type="text" class="form-control" id="product_name">
+                                <option value="">Select Project No</option>
+                                <?php
+                                foreach($productInfo as $k => $productDetail){
+                                    echo "<option value=".$productDetail->id.">".$productDetail->study_no."</option>";
+                                };?>
+                                <!-- html->form(project_no) -->
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Workflow Name:</label>
+                            <select type="text" class="form-control" name="case[sd_product_workflow_id]" id="workflow_name">
+                                <option value="">Select Workflow Name</option>
+                                <!-- html->form(project_no) -->
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Number of SAE:</label>
+                            <input type="text" class="form-control" id="no_of_sae">
+                            <div id="show_selected_sae_name"></div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Priorty:</label>
+                            <select class="form-control" id="priority" name=case[priority]>
+                                <option value="null">None</option>
+                                <option value="1">High</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Low</option>
+                                <!-- html->form(priority) -->
+                            </select>
+                        </div>
+
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label>Activity Due Date:</label>
                                 <input type="text" class="form-control" id="activity_due_date" name="case[activity_due_date]">
                                 <!-- html->form(submission_due_date)  -->
                              </div>
-                             <div class="form-group col-md-4">
+                             <div class="form-group col-md-3">
                                 <label>Submission Due Date:</label>
                                 <input type="text" class="form-control" id="submission_due_date" name="case[submission_due_date]">
                                 <!-- html->form(submission_due_date)  -->
                              </div>
-                        </div>
-                        <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label>Product Type:</label>
                                 <div class="option_group">
@@ -87,31 +85,31 @@
                              </div>
                              <!-- html->form(product_type) -->
                         </div>
-                        <div class="form-group col-md-10">
+                        <div class="form-group col-md-12">
                                 <label>Classification:</label>
                                 <div class="option_group">
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="checkbox" id="spontaneous_class" value="1">
+                                        <input type="checkbox" class="checkboxstyle" id="spontaneous_class" value="1">
                                         <label for="spontaneous_class">Spontaneous<label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="checkbox" id="study_class" value="2">
+                                        <input type="checkbox" class="checkboxstyle" id="study_class" value="2">
                                         <label for="study_class">Study<label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="checkbox" id="literature_class" value="3">
+                                        <input type="checkbox" class="checkboxstyle" id="literature_class" value="3">
                                         <label for="literature_class">Literature<label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="checkbox" id="pregnacy_class" value="4">
+                                        <input type="checkbox" class="checkboxstyle" id="pregnacy_class" value="4">
                                         <label for="pregnacy_class">Pregnacy<label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="checkbox" id="others_class" value="5">
+                                        <input type="checkbox" class="checkboxstyle" id="others_class" value="5">
                                         <label for="others_class">Others<label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="checkbox" id="unknown_class" value="6">
+                                        <input type="checkbox" class="checkboxstyle" id="unknown_class" value="6">
                                         <label for="unknown_class">Unknown<label>
                                     </div>
                                 </div>
@@ -135,23 +133,18 @@
                                         <option value="6">Unknown</option>
                                     </select>
                                     <!-- html->form(reporter_type) -->
-                                    <input type="checkbox" id="primary_source" value="1" name="field_value[362]">
+                                </div>
+                                <div class="form-group col-md-4 priSr">
+                                    <input type="checkbox" class="checkboxstyle" id="primary_source" value="1" name="field_value[362]">
                                     <label for="primary_source">Primary Source<label>
                                 </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label>Date Received:</label>
                                     <input type="text" class="form-control" id="date_received" name="field_value[380]">
                                 </div>
                                 <!-- html->form(date_received) -->
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label>Description</label>
-                                    <textarea class="form-control" id="description" name="field_value[363]"></textarea>
-                                </div>
-                                <!-- html->form(description) -->
-                            </div>                            
-                            <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label>Identification No:</label>
                                     <input class="form-control" id="identification_no" name="field_value[364]">
@@ -161,8 +154,15 @@
                                     <input class="form-control" id="company_unit" name="field_value[365]">
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label>Description</label>
+                                    <textarea class="form-control" id="description" name="field_value[363]"></textarea>
+                                </div>
+                                <!-- html->form(description) -->
+                            </div>
                         </div>
-                        <button type="submit" class="completeBtn btn btn-success">Complete</button>
+                        <button type="submit" class="completeBtn btn btn-success d-block m-auto w-25">Complete</button>
                         <!-- Choose Country -->
                     </div>
                     <?= $this->Form->end() ?>

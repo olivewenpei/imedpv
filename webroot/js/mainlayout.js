@@ -28,6 +28,7 @@ jQuery(function($) {  // In case of jQuery conflict
 jQuery(function($) {
     $(document).ready(function(){
         $("#advsearch").click(function(){
+            $(this).parent().hide();
             $("#advsearchfield").slideDown();
         });
     });
@@ -112,13 +113,6 @@ jQuery(function($) {
         function(){ $(this).removeClass('shadow')
     });
 
-    // Make the table row clickable
-    $(document).ready(function($) {
-        $("tbody > tr").click(function() {
-            window.document.location = $(this).data("href");
-        });
-    });
-
 // TO DO: make nav button has "active" effect
     $(document).ready(function($) {
         $("#navbarSupportedContent > ul > li").click(function() {
@@ -189,8 +183,8 @@ jQuery(function($) {
                 display_order: display_order,
                 step_name: step_name
             });
-            //console.log(display_order);
-            //console.log(step_name);
+            // console.log(display_order);
+            // console.log(step_name);
 
         })
         //console.log(steps);

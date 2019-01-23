@@ -117,17 +117,17 @@ class SdCasesController extends AppController
 
     /**
      * Register SAE method / Add case
-     * 
-     * 
+     *
+     *
      */
     public function saeregistration()
-    {   
+    {
         $this->viewBuilder()->layout('main_layout');
         $userinfo = $this->request->session()->read('Auth.user');
         //TODO Permission related
         $productInfo = TableRegistry::get('SdProducts')
             ->find()
-            ->select(['id','study_no'])    
+            ->select(['id','study_no'])
             ->contain(['SdProductWorkflows.SdWorkflows'=>['fields'=>['SdWorkflows.name']]])
             ->group(['SdProducts.id']);
         $randNo = $this->caseNoGenerator();
@@ -167,11 +167,11 @@ class SdCasesController extends AppController
                 }
             }
             /**
-             * 
+             *
              * save field into these cases
              */
         }
-        $this->set(compact('productInfo','randNo'));  
+        $this->set(compact('productInfo','randNo'));
     }
 
      /**
@@ -184,5 +184,10 @@ class SdCasesController extends AppController
         do{$rand_str = rand(0, 99999);
         }while($this->SdCases->find()->where(['caseNo LIKE '=>'%'.$rand_str.'%'])->first()!=null);
         return $rand_str;
+    }
+
+    public function caselist(){
+        $this->viewBuilder()->layout('main_layout');
+
     }
 }

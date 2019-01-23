@@ -120,8 +120,9 @@ echo $this->element('generatepdf');
         }
 
     ?>
-
-    <button type="submit" class="completeBtn btn btn-success">Complete</button>
+    <div class="text-center">
+        <button type="submit" class="completeBtn w-25 btn btn-success">Complete</button>
+    </div>
     <hr class="d-inline-block w-100">
     <?= $this->Form->end() ?>
     <?php
@@ -183,7 +184,7 @@ function displaySingleSection($section, $setNo, $sectionKey, $html){
             foreach($child_array as $Key => $sdSectionKey) echo "[".$sdSectionKey."]";
             echo "-sectionKey-".$sectionKey."-setNo-1-section-".$section->id."\" onclick=\"level2setPageChange(".$section->id.",1,1)\" class=\"float-right px-3 mx-3 btn btn-outline-info\" title=\"Add new\">Add</div>";
             echo "</div>";
-            echo "<div id=\"showpagination-".$section->id."\"></div>";
+            echo "<div class=\"showpagination\" id=\"showpagination-".$section->id."\"></div>";
         }
     }    elseif($section->section_level ==1 ){
         echo "<div class=\"fieldInput\">";
