@@ -14,8 +14,6 @@
             )
         ?></li>
         <li><?= $this->Html->link(__('List Sd Activity Section Permissions'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Activities'), ['controller' => 'SdActivities', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Activity'), ['controller' => 'SdActivities', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Sections'), ['controller' => 'SdSections', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Section'), ['controller' => 'SdSections', 'action' => 'add']) ?></li>
     </ul>
@@ -25,7 +23,7 @@
     <fieldset>
         <legend><?= __('Edit Sd Activity Section Permission') ?></legend>
         <?php
-            echo $this->Form->control('sd_activity_id', ['options' => $sdActivities]);
+            echo $this->Form->control('sd_workflow_activity_id');
             echo $this->Form->control('sd_section_id', ['options' => $sdSections]);
             echo $this->Form->control('action');
         ?>

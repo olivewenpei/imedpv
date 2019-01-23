@@ -40,7 +40,7 @@ class SdProductWorkflowsController extends AppController
     public function view($id = null)
     {
         $sdProductWorkflow = $this->SdProductWorkflows->get($id, [
-            'contain' => ['SdProducts', 'SdWorkflows', 'SdUsers', 'SdCases']
+            'contain' => ['SdProducts', 'SdWorkflows', 'SdUsers', 'SdCases', 'SdUserAssignments']
         ]);
 
         $this->set('sdProductWorkflow', $sdProductWorkflow);

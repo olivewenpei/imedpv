@@ -8,8 +8,6 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Sd Activity Section Permission'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Activities'), ['controller' => 'SdActivities', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Activity'), ['controller' => 'SdActivities', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Sections'), ['controller' => 'SdSections', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Section'), ['controller' => 'SdSections', 'action' => 'add']) ?></li>
     </ul>
@@ -20,7 +18,7 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sd_activity_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_workflow_activity_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_section_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('action') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -30,7 +28,7 @@
             <?php foreach ($sdActivitySectionPermissions as $sdActivitySectionPermission): ?>
             <tr>
                 <td><?= $this->Number->format($sdActivitySectionPermission->id) ?></td>
-                <td><?= $sdActivitySectionPermission->has('sd_activity') ? $this->Html->link($sdActivitySectionPermission->sd_activity->id, ['controller' => 'SdActivities', 'action' => 'view', $sdActivitySectionPermission->sd_activity->id]) : '' ?></td>
+                <td><?= $this->Number->format($sdActivitySectionPermission->sd_workflow_activity_id) ?></td>
                 <td><?= $sdActivitySectionPermission->has('sd_section') ? $this->Html->link($sdActivitySectionPermission->sd_section->id, ['controller' => 'SdSections', 'action' => 'view', $sdActivitySectionPermission->sd_section->id]) : '' ?></td>
                 <td><?= $this->Number->format($sdActivitySectionPermission->action) ?></td>
                 <td class="actions">

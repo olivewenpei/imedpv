@@ -17,8 +17,9 @@ class SdUserAssignmentsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.sd_user_assignments',
-        'app.sd_study_assignments',
-        'app.sd_users'
+        'app.sd_product_assignments',
+        'app.sd_users',
+        'app.sd_activities'
     ];
 
     /**

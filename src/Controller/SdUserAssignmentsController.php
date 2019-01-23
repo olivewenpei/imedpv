@@ -21,7 +21,7 @@ class SdUserAssignmentsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['SdStudyAssignments', 'SdUsers']
+            'contain' => ['SdProductAssignments', 'SdUsers', 'SdActivities']
         ];
         $sdUserAssignments = $this->paginate($this->SdUserAssignments);
 
@@ -38,7 +38,7 @@ class SdUserAssignmentsController extends AppController
     public function view($id = null)
     {
         $sdUserAssignment = $this->SdUserAssignments->get($id, [
-            'contain' => ['SdStudyAssignments', 'SdUsers']
+            'contain' => ['SdProductAssignments', 'SdUsers', 'SdActivities']
         ]);
 
         $this->set('sdUserAssignment', $sdUserAssignment);
@@ -61,9 +61,10 @@ class SdUserAssignmentsController extends AppController
             }
             $this->Flash->error(__('The sd user assignment could not be saved. Please, try again.'));
         }
-        $sdStudyAssignments = $this->SdUserAssignments->SdStudyAssignments->find('list', ['limit' => 200]);
+        $sdProductAssignments = $this->SdUserAssignments->SdProductAssignments->find('list', ['limit' => 200]);
         $sdUsers = $this->SdUserAssignments->SdUsers->find('list', ['limit' => 200]);
-        $this->set(compact('sdUserAssignment', 'sdStudyAssignments', 'sdUsers'));
+        $sdActivities = $this->SdUserAssignments->SdActivities->find('list', ['limit' => 200]);
+        $this->set(compact('sdUserAssignment', 'sdProductAssignments', 'sdUsers', 'sdActivities'));
     }
 
     /**
@@ -87,9 +88,10 @@ class SdUserAssignmentsController extends AppController
             }
             $this->Flash->error(__('The sd user assignment could not be saved. Please, try again.'));
         }
-        $sdStudyAssignments = $this->SdUserAssignments->SdStudyAssignments->find('list', ['limit' => 200]);
+        $sdProductAssignments = $this->SdUserAssignments->SdProductAssignments->find('list', ['limit' => 200]);
         $sdUsers = $this->SdUserAssignments->SdUsers->find('list', ['limit' => 200]);
-        $this->set(compact('sdUserAssignment', 'sdStudyAssignments', 'sdUsers'));
+        $sdActivities = $this->SdUserAssignments->SdActivities->find('list', ['limit' => 200]);
+        $this->set(compact('sdUserAssignment', 'sdProductAssignments', 'sdUsers', 'sdActivities'));
     }
 
     /**

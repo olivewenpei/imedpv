@@ -54,10 +54,13 @@
                 <th scope="col"><?= __('Sd Product Workflow Id') ?></th>
                 <th scope="col"><?= __('CaseNo') ?></th>
                 <th scope="col"><?= __('Sd Workflow Activity Id') ?></th>
-                <th scope="col"><?= __('Start Date') ?></th>
-                <th scope="col"><?= __('End Date') ?></th>
                 <th scope="col"><?= __('Status') ?></th>
                 <th scope="col"><?= __('Sd User Id') ?></th>
+                <th scope="col"><?= __('Priority') ?></th>
+                <th scope="col"><?= __('Activity Due Date') ?></th>
+                <th scope="col"><?= __('Submission Due Date') ?></th>
+                <th scope="col"><?= __('Product Type') ?></th>
+                <th scope="col"><?= __('Classification') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($sdWorkflowActivity->sd_cases as $sdCases): ?>
@@ -66,10 +69,13 @@
                 <td><?= h($sdCases->sd_product_workflow_id) ?></td>
                 <td><?= h($sdCases->caseNo) ?></td>
                 <td><?= h($sdCases->sd_workflow_activity_id) ?></td>
-                <td><?= h($sdCases->start_date) ?></td>
-                <td><?= h($sdCases->end_date) ?></td>
                 <td><?= h($sdCases->status) ?></td>
                 <td><?= h($sdCases->sd_user_id) ?></td>
+                <td><?= h($sdCases->priority) ?></td>
+                <td><?= h($sdCases->activity_due_date) ?></td>
+                <td><?= h($sdCases->submission_due_date) ?></td>
+                <td><?= h($sdCases->product_type) ?></td>
+                <td><?= h($sdCases->classification) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'SdCases', 'action' => 'view', $sdCases->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'SdCases', 'action' => 'edit', $sdCases->id]) ?>

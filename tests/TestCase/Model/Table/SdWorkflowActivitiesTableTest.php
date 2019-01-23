@@ -26,7 +26,9 @@ class SdWorkflowActivitiesTableTest extends TestCase
     public $fixtures = [
         'app.sd_workflow_activities',
         'app.sd_workflows',
-        'app.sd_cases'
+        'app.sd_activity_section_permissions',
+        'app.sd_cases',
+        'app.sd_user_assignments'
     ];
 
     /**

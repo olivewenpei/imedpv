@@ -18,7 +18,7 @@ class SdCasesControllerTest extends IntegrationTestCase
     public $fixtures = [
         'app.sd_cases',
         'app.sd_product_workflows',
-        'app.sd_activities',
+        'app.sd_workflow_activities',
         'app.sd_users',
         'app.sd_case_general_infos',
         'app.sd_field_values'

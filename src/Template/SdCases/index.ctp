@@ -10,8 +10,8 @@
         <li><?= $this->Html->link(__('New Sd Case'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Activities'), ['controller' => 'SdActivities', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Activity'), ['controller' => 'SdActivities', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Workflow Activities'), ['controller' => 'SdWorkflowActivities', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Workflow Activity'), ['controller' => 'SdWorkflowActivities', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Users'), ['controller' => 'SdUsers', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Case General Infos'), ['controller' => 'SdCaseGeneralInfos', 'action' => 'index']) ?></li>
@@ -28,7 +28,7 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_product_workflow_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('caseNo') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('sd_activity_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_workflow_activity_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('status') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_user_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('priority') ?></th>
@@ -45,7 +45,7 @@
                 <td><?= $this->Number->format($sdCase->id) ?></td>
                 <td><?= $sdCase->has('sd_product_workflow') ? $this->Html->link($sdCase->sd_product_workflow->id, ['controller' => 'SdProductWorkflows', 'action' => 'view', $sdCase->sd_product_workflow->id]) : '' ?></td>
                 <td><?= h($sdCase->caseNo) ?></td>
-                <td><?= $sdCase->has('sd_activity') ? $this->Html->link($sdCase->sd_activity->id, ['controller' => 'SdActivities', 'action' => 'view', $sdCase->sd_activity->id]) : '' ?></td>
+                <td><?= $sdCase->has('sd_workflow_activity') ? $this->Html->link($sdCase->sd_workflow_activity->id, ['controller' => 'SdWorkflowActivities', 'action' => 'view', $sdCase->sd_workflow_activity->id]) : '' ?></td>
                 <td><?= $this->Number->format($sdCase->status) ?></td>
                 <td><?= $sdCase->has('sd_user') ? $this->Html->link($sdCase->sd_user->title, ['controller' => 'SdUsers', 'action' => 'view', $sdCase->sd_user->id]) : '' ?></td>
                 <td><?= $this->Number->format($sdCase->priority) ?></td>

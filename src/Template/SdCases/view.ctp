@@ -13,8 +13,8 @@
         <li><?= $this->Html->link(__('New Sd Case'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Sd Activities'), ['controller' => 'SdActivities', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Sd Activity'), ['controller' => 'SdActivities', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Workflow Activities'), ['controller' => 'SdWorkflowActivities', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Workflow Activity'), ['controller' => 'SdWorkflowActivities', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Users'), ['controller' => 'SdUsers', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Case General Infos'), ['controller' => 'SdCaseGeneralInfos', 'action' => 'index']) ?> </li>
@@ -35,8 +35,8 @@
             <td><?= h($sdCase->caseNo) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Sd Activity') ?></th>
-            <td><?= $sdCase->has('sd_activity') ? $this->Html->link($sdCase->sd_activity->id, ['controller' => 'SdActivities', 'action' => 'view', $sdCase->sd_activity->id]) : '' ?></td>
+            <th scope="row"><?= __('Sd Workflow Activity') ?></th>
+            <td><?= $sdCase->has('sd_workflow_activity') ? $this->Html->link($sdCase->sd_workflow_activity->id, ['controller' => 'SdWorkflowActivities', 'action' => 'view', $sdCase->sd_workflow_activity->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Sd User') ?></th>

@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * SdActivitySectionPermissions Model
  *
- * @property \App\Model\Table\SdActivitiesTable|\Cake\ORM\Association\BelongsTo $SdActivities
+ * @property |\Cake\ORM\Association\BelongsTo $SdWorkflowActivities
  * @property \App\Model\Table\SdSectionsTable|\Cake\ORM\Association\BelongsTo $SdSections
  *
  * @method \App\Model\Entity\SdActivitySectionPermission get($primaryKey, $options = [])
@@ -38,8 +38,8 @@ class SdActivitySectionPermissionsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('SdActivities', [
-            'foreignKey' => 'sd_activity_id',
+        $this->belongsTo('SdWorkflowActivities', [
+            'foreignKey' => 'sd_workflow_activity_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('SdSections', [
@@ -77,7 +77,7 @@ class SdActivitySectionPermissionsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['sd_activity_id'], 'SdActivities'));
+        $rules->add($rules->existsIn(['sd_workflow_activity_id'], 'SdWorkflowActivities'));
         $rules->add($rules->existsIn(['sd_section_id'], 'SdSections'));
 
         return $rules;

@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $sd_product_workflow_id
  * @property string $caseNo
- * @property int $sd_activity_id
+ * @property int $sd_workflow_activity_id
  * @property int $status
  * @property int $sd_user_id
  * @property int $priority
@@ -19,7 +19,7 @@ use Cake\ORM\Entity;
  * @property string $classification
  *
  * @property \App\Model\Entity\SdProductWorkflow $sd_product_workflow
- * @property \App\Model\Entity\SdActivity $sd_activity
+ * @property \App\Model\Entity\SdWorkflowActivity $sd_workflow_activity
  * @property \App\Model\Entity\SdUser $sd_user
  * @property \App\Model\Entity\SdCaseGeneralInfo[] $sd_case_general_infos
  * @property \App\Model\Entity\SdFieldValue[] $sd_field_values
@@ -39,7 +39,7 @@ class SdCase extends Entity
     protected $_accessible = [
         'sd_product_workflow_id' => true,
         'caseNo' => true,
-        'sd_activity_id' => true,
+        'sd_workflow_activity_id' => true,
         'status' => true,
         'sd_user_id' => true,
         'priority' => true,
@@ -48,7 +48,7 @@ class SdCase extends Entity
         'product_type' => true,
         'classification' => true,
         'sd_product_workflow' => true,
-        'sd_activity' => true,
+        'sd_workflow_activity' => true,
         'sd_user' => true,
         'sd_case_general_infos' => true,
         'sd_field_values' => true

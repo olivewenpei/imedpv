@@ -28,7 +28,8 @@ class SdProductWorkflowsTableTest extends TestCase
         'app.sd_products',
         'app.sd_workflows',
         'app.sd_users',
-        'app.sd_cases'
+        'app.sd_cases',
+        'app.sd_user_assignments'
     ];
 
     /**

@@ -152,6 +152,8 @@ class SdProductsController extends AppController
         $sponsors = $this->loadSponsorCompanies();
         $this->set('sdProductTypes', $product_types);
         $this->set('sdSponsors', $sponsors);
+        $workflow_structure = $this->loadWorkflowsStructure();
+        $this->set('workflow_structure', $workflow_structure);
         //debug($sponsors);
         //debug($product_types);
 
@@ -184,6 +186,93 @@ class SdProductsController extends AppController
 
         return $result;
     }
+    /**
+     * 
+     * 
+     * for ajax use
+     * fetch related Cro companies
+     */
+    public function searchCallcenterCompanies()
+    {
+        $result = array();
+        if($this->request->is('POST')){
+            $this->autoRender = false;
+            $searchKey = $this->request->getData();
+            $cro_ids = TableRegistry::get("sd_sponsor_callcenters");
+            try{
+                $query = $cro_ids->find()
+                                ->select(['SdCompanies.id', 'SdCompanies.company_name'])
+                                ->join([
+                                    'SdCompanies' =>[
+                                        'table' =>'sd_companies',
+                                        'type'=>'LEFT',
+                                        'conditions'=>['SdCompanies.id = sd_sponsor_callcenters.call_center'],
+                                    ]]);
+                                // ->order(['sponsor_id' => 'ASC'])
+                foreach ($query as $company_info){
+                    $result[$company_info->SdCompanies['id']] = $company_info->SdCompanies['company_name'];
+                } 
+            }catch (\PDOException $e){
+                echo "cannot the case find in database";
+            };
+            echo json_encode($result);
+            die();
+        } else $this->autoRender = true;
+    }
+    /**
+     * 
+     * 
+     * for ajax use
+     * fetch related Cro companies
+     */
+    public function searchCroCompanies()
+    {
+        $result = array();
+        if($this->request->is('POST')){
+            $this->autoRender = false;
+            $searchKey = $this->request->getData();
+            $cro_ids = TableRegistry::get("sd_sponsor_cros");
+            try{
+                $query = $cro_ids->find()
+                                ->select(['SdCompanies.id', 'SdCompanies.company_name'])
+                                ->join([
+                                    'SdCompanies' =>[
+                                        'table' =>'sd_companies',
+                                        'type'=>'LEFT',
+                                        'conditions'=>['SdCompanies.id = sd_sponsor_cros.cro_company'],
+                                    ]]);
+                                // ->order(['sponsor_id' => 'ASC'])
+                foreach ($query as $company_info){
+                    $result[$company_info->SdCompanies['id']] = $company_info->SdCompanies['company_name'];
+                }            
+            }catch (\PDOException $e){
+                echo "cannot the case find in database";
+            };
+            echo json_encode($result);
+            die();
+        } else $this->autoRender = true;
+    }
+    /**
+     * 
+     * for add product add workflows
+     */
+    public function loadWorkflowsStructure()
+    {
+        $result = array();
+        $searchKey = $this->request->getData();
+        $default_workflows = TableRegistry::get("sd_workflows");
+        $query = $default_workflows->find()
+                        ->where(['workflow_type'=>'0'])
+                        ->contain('SdWorkflowActivities', function ($q) {
+                            return $q->select(['SdWorkflowActivities.id','SdWorkflowActivities.sd_workflow_id','SdWorkflowActivities.activity_name','SdWorkflowActivities.description'])->order(['SdWorkflowActivities.id'=>'ASC']);
+                        })
+                        ->order(['sd_workflows.id' => 'ASC']);
+        foreach ($query as $workflow_info){
+            $result[$workflow_info->country] = $workflow_info;
+        }
+    return $result;
+    }
+    
 
     public function loadSponsorCompanies()
     {
@@ -198,11 +287,4 @@ class SdProductsController extends AppController
 
         return $result;
     }
-
-    public function loadCroPeople()
-    {
-        $result = array();
-        $cro_people = TableRegistry::get("a");
-    }
-
 }

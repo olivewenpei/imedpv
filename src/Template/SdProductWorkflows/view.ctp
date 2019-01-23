@@ -19,6 +19,8 @@
         <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Cases'), ['controller' => 'SdCases', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Case'), ['controller' => 'SdCases', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd User Assignments'), ['controller' => 'SdUserAssignments', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd User Assignment'), ['controller' => 'SdUserAssignments', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="sdProductWorkflows view large-9 medium-8 columns content">
@@ -39,6 +41,10 @@
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($sdProductWorkflow->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Company Id') ?></th>
+            <td><?= $this->Number->format($sdProductWorkflow->sd_company_id) ?></td>
         </tr>
     </table>
     <div class="related">
@@ -76,6 +82,33 @@
                     <?= $this->Html->link(__('View'), ['controller' => 'SdCases', 'action' => 'view', $sdCases->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'SdCases', 'action' => 'edit', $sdCases->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdCases', 'action' => 'delete', $sdCases->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdCases->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Sd User Assignments') ?></h4>
+        <?php if (!empty($sdProductWorkflow->sd_user_assignments)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Sd Product Workflow Id') ?></th>
+                <th scope="col"><?= __('Sd User Id') ?></th>
+                <th scope="col"><?= __('Sd Activity Id') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($sdProductWorkflow->sd_user_assignments as $sdUserAssignments): ?>
+            <tr>
+                <td><?= h($sdUserAssignments->id) ?></td>
+                <td><?= h($sdUserAssignments->sd_product_workflow_id) ?></td>
+                <td><?= h($sdUserAssignments->sd_user_id) ?></td>
+                <td><?= h($sdUserAssignments->sd_activity_id) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'SdUserAssignments', 'action' => 'view', $sdUserAssignments->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdUserAssignments', 'action' => 'edit', $sdUserAssignments->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdUserAssignments', 'action' => 'delete', $sdUserAssignments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdUserAssignments->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

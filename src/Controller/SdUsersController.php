@@ -65,7 +65,28 @@ class SdUsersController extends AppController
         $sdCompanies = $this->SdUsers->SdCompanies->find('list', ['limit' => 200]);
         $this->set(compact('sdUser', 'sdRoles', 'sdCompanies'));
     }
-
+    /**
+     * 
+     * get user info from cro
+     */
+    public function searchResource()
+    {
+        $result = array();
+        if($this->request->is('POST')){
+            $this->autoRender = false;
+            $searchKey = $this->request->getData();
+            try{
+                $query = $this->SdUsers->find()
+                                ->select(['id','firstname', 'lastname'])
+                                ->where(['sd_company_id'=>$searchKey['id']])
+                                ->order(['id' => 'ASC'])->all();        
+            }catch (\PDOException $e){
+                echo "cannot the case find in database";
+            };
+            echo json_encode($query);
+            die();
+        } else $this->autoRender = true;
+    }
     /**
      * Edit method
      *

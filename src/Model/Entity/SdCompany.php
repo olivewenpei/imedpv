@@ -43,6 +43,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified_dt
  *
  * @property \App\Model\Entity\SdUserType $sd_user_type
+ * @property \App\Model\Entity\SdProductWorkflow[] $sd_product_workflows
  * @property \App\Model\Entity\SdUser[] $sd_users
  */
 class SdCompany extends Entity
@@ -93,6 +94,7 @@ class SdCompany extends Entity
         'modify_by' => true,
         'modified_dt' => true,
         'sd_user_type' => true,
+        'sd_product_workflows' => true,
         'sd_users' => true
     ];
 }

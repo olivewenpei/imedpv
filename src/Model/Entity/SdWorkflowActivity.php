@@ -10,11 +10,13 @@ use Cake\ORM\Entity;
  * @property int $sd_workflow_id
  * @property int $order_no
  * @property int $step_forward
- * @property int $step_backward
  * @property string $activity_name
+ * @property string $description
  *
  * @property \App\Model\Entity\SdWorkflow $sd_workflow
+ * @property \App\Model\Entity\SdActivitySectionPermission[] $sd_activity_section_permissions
  * @property \App\Model\Entity\SdCase[] $sd_cases
+ * @property \App\Model\Entity\SdUserAssignment[] $sd_user_assignments
  */
 class SdWorkflowActivity extends Entity
 {
@@ -32,9 +34,11 @@ class SdWorkflowActivity extends Entity
         'sd_workflow_id' => true,
         'order_no' => true,
         'step_forward' => true,
-        'step_backward' => true,
         'activity_name' => true,
+        'description' => true,
         'sd_workflow' => true,
-        'sd_cases' => true
+        'sd_activity_section_permissions' => true,
+        'sd_cases' => true,
+        'sd_user_assignments' => true
     ];
 }

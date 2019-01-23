@@ -38,7 +38,6 @@ $(document).ready(function(){
         for(i = 1;i <= $('#no_of_sae').val();i++){
             text += "<input class=\"form-control\" type=\"text\" readonly=\"readonly\" id=\"caseNO-"+i+"\" name=\"case[caseNo]["+i+"]\"value=\""+randCaseNo+str_pad(i,5)+"\">";
         }
-        console.log(text);
         $('#show_selected_sae_name').html(text);
     })
 });

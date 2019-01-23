@@ -16,6 +16,8 @@
         <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Cases'), ['controller' => 'SdCases', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Case'), ['controller' => 'SdCases', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd User Assignments'), ['controller' => 'SdUserAssignments', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd User Assignment'), ['controller' => 'SdUserAssignments', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdProductWorkflows form large-9 medium-8 columns content">
@@ -25,7 +27,8 @@
         <?php
             echo $this->Form->control('sd_product_id', ['options' => $sdProducts]);
             echo $this->Form->control('sd_workflow_id', ['options' => $sdWorkflows]);
-            echo $this->Form->control('sd_user_id', ['options' => $sdUsers]);
+            echo $this->Form->control('sd_user_id', ['options' => $sdUsers, 'empty' => true]);
+            echo $this->Form->control('sd_company_id');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

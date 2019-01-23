@@ -9,8 +9,8 @@ use Cake\Validation\Validator;
 /**
  * SdWorkflows Model
  *
- * @property \App\Model\Table\SdActivitiesTable|\Cake\ORM\Association\HasMany $SdActivities
  * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
+ * @property \App\Model\Table\SdWorkflowActivitiesTable|\Cake\ORM\Association\HasMany $SdWorkflowActivities
  *
  * @method \App\Model\Entity\SdWorkflow get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdWorkflow newEntity($data = null, array $options = [])
@@ -38,10 +38,10 @@ class SdWorkflowsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('SdActivities', [
+        $this->hasMany('SdProductWorkflows', [
             'foreignKey' => 'sd_workflow_id'
         ]);
-        $this->hasMany('SdProductWorkflows', [
+        $this->hasMany('SdWorkflowActivities', [
             'foreignKey' => 'sd_workflow_id'
         ]);
     }

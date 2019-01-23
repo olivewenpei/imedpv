@@ -38,7 +38,7 @@ class SdCompaniesController extends AppController
     public function view($id = null)
     {
         $sdCompany = $this->SdCompanies->get($id, [
-            'contain' => ['SdUserTypes', 'SdUsers']
+            'contain' => ['SdUserTypes', 'SdProductAssignments', 'SdUsers']
         ]);
 
         $this->set('sdCompany', $sdCompany);

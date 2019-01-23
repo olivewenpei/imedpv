@@ -11,8 +11,6 @@
         <li><?= $this->Form->postLink(__('Delete Sd Activity Section Permission'), ['action' => 'delete', $sdActivitySectionPermission->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdActivitySectionPermission->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Sd Activity Section Permissions'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Activity Section Permission'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Sd Activities'), ['controller' => 'SdActivities', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Sd Activity'), ['controller' => 'SdActivities', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Sections'), ['controller' => 'SdSections', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Section'), ['controller' => 'SdSections', 'action' => 'add']) ?> </li>
     </ul>
@@ -21,16 +19,16 @@
     <h3><?= h($sdActivitySectionPermission->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Sd Activity') ?></th>
-            <td><?= $sdActivitySectionPermission->has('sd_activity') ? $this->Html->link($sdActivitySectionPermission->sd_activity->id, ['controller' => 'SdActivities', 'action' => 'view', $sdActivitySectionPermission->sd_activity->id]) : '' ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Sd Section') ?></th>
             <td><?= $sdActivitySectionPermission->has('sd_section') ? $this->Html->link($sdActivitySectionPermission->sd_section->id, ['controller' => 'SdSections', 'action' => 'view', $sdActivitySectionPermission->sd_section->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($sdActivitySectionPermission->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Sd Workflow Activity Id') ?></th>
+            <td><?= $this->Number->format($sdActivitySectionPermission->sd_workflow_activity_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Action') ?></th>

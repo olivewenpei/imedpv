@@ -13,8 +13,9 @@ use Cake\ORM\Entity;
  * @property string $country
  * @property int $workflow_type
  *
- * @property \App\Model\Entity\SdActivity[] $sd_activities
+ * @property \App\Model\Entity\SdCompany $sd_company
  * @property \App\Model\Entity\SdProductWorkflow[] $sd_product_workflows
+ * @property \App\Model\Entity\SdWorkflowActivity[] $sd_workflow_activities
  */
 class SdWorkflow extends Entity
 {
@@ -34,7 +35,8 @@ class SdWorkflow extends Entity
         'status' => true,
         'country' => true,
         'workflow_type' => true,
-        'sd_activities' => true,
-        'sd_product_workflows' => true
+        'sd_company' => true,
+        'sd_product_workflows' => true,
+        'sd_workflow_activities' => true
     ];
 }

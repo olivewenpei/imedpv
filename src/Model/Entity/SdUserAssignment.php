@@ -7,12 +7,13 @@ use Cake\ORM\Entity;
  * SdUserAssignment Entity
  *
  * @property int $id
- * @property int $sd_product_assignment_id
+ * @property int $sd_product_workflow_id
  * @property int $sd_user_id
- * @property int $sd_activity_id
+ * @property int $sd_workflow_activity_id
  *
- * @property \App\Model\Entity\SdStudyAssignment $sd_study_assignment
+ * @property \App\Model\Entity\SdProductAssignment $sd_product_assignment
  * @property \App\Model\Entity\SdUser $sd_user
+ * @property \App\Model\Entity\SdActivity $sd_activity
  */
 class SdUserAssignment extends Entity
 {
@@ -27,10 +28,11 @@ class SdUserAssignment extends Entity
      * @var array
      */
     protected $_accessible = [
-        'sd_product_assignment_id' => true,
+        'sd_product_workflow_id' => true,
         'sd_user_id' => true,
-        'sd_activity_id' => true,
-        'sd_study_assignment' => true,
-        'sd_user' => true
+        'sd_workflow_activity_id' => true,
+        'sd_product_assignment' => true,
+        'sd_user' => true,
+        'sd_activity' => true
     ];
 }

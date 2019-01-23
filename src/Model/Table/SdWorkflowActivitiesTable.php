@@ -10,7 +10,9 @@ use Cake\Validation\Validator;
  * SdWorkflowActivities Model
  *
  * @property \App\Model\Table\SdWorkflowsTable|\Cake\ORM\Association\BelongsTo $SdWorkflows
+ * @property \App\Model\Table\SdActivitySectionPermissionsTable|\Cake\ORM\Association\HasMany $SdActivitySectionPermissions
  * @property \App\Model\Table\SdCasesTable|\Cake\ORM\Association\HasMany $SdCases
+ * @property \App\Model\Table\SdUserAssignmentsTable|\Cake\ORM\Association\HasMany $SdUserAssignments
  *
  * @method \App\Model\Entity\SdWorkflowActivity get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdWorkflowActivity newEntity($data = null, array $options = [])
@@ -42,7 +44,13 @@ class SdWorkflowActivitiesTable extends Table
             'foreignKey' => 'sd_workflow_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('SdActivitySectionPermissions', [
+            'foreignKey' => 'sd_workflow_activity_id'
+        ]);
         $this->hasMany('SdCases', [
+            'foreignKey' => 'sd_workflow_activity_id'
+        ]);
+        $this->hasMany('SdUserAssignments', [
             'foreignKey' => 'sd_workflow_activity_id'
         ]);
     }
@@ -70,14 +78,15 @@ class SdWorkflowActivitiesTable extends Table
             ->notEmpty('step_forward');
 
         $validator
-            ->integer('step_backward')
-            ->requirePresence('step_backward', 'create')
-            ->notEmpty('step_backward');
-
-        $validator
             ->scalar('activity_name')
             ->requirePresence('activity_name', 'create')
             ->notEmpty('activity_name');
+
+        $validator
+            ->scalar('description')
+            ->maxLength('description', 100)
+            ->requirePresence('description', 'create')
+            ->notEmpty('description');
 
         return $validator;
     }

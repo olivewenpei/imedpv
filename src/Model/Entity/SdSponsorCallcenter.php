@@ -4,17 +4,14 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * SdActivitySectionPermission Entity
+ * SdSponsorCallcenter Entity
  *
  * @property int $id
- * @property int $sd_workflow_activity_id
- * @property int $sd_section_id
- * @property int $action
- *
- * @property \App\Model\Entity\SdActivity $sd_activity
- * @property \App\Model\Entity\SdSection $sd_section
+ * @property int $sponsor
+ * @property int $call_center
+ * @property int $status
  */
-class SdActivitySectionPermission extends Entity
+class SdSponsorCallcenter extends Entity
 {
 
     /**
@@ -27,10 +24,8 @@ class SdActivitySectionPermission extends Entity
      * @var array
      */
     protected $_accessible = [
-        'sd_workflow_activity_id' => true,
-        'sd_section_id' => true,
-        'action' => true,
-        'sd_activity' => true,
-        'sd_section' => true
+        'sponsor' => true,
+        'call_center' => true,
+        'status' => true
     ];
 }

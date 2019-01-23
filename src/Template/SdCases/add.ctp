@@ -10,8 +10,8 @@
         <li><?= $this->Html->link(__('List Sd Cases'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Sd Activities'), ['controller' => 'SdActivities', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Sd Activity'), ['controller' => 'SdActivities', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Workflow Activities'), ['controller' => 'SdWorkflowActivities', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Workflow Activity'), ['controller' => 'SdWorkflowActivities', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Users'), ['controller' => 'SdUsers', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Case General Infos'), ['controller' => 'SdCaseGeneralInfos', 'action' => 'index']) ?></li>
@@ -27,7 +27,7 @@
         <?php
             echo $this->Form->control('sd_product_workflow_id', ['options' => $sdProductWorkflows]);
             echo $this->Form->control('caseNo');
-            echo $this->Form->control('sd_activity_id', ['options' => $sdActivities]);
+            echo $this->Form->control('sd_workflow_activity_id', ['options' => $sdWorkflowActivities]);
             echo $this->Form->control('status');
             echo $this->Form->control('sd_user_id', ['options' => $sdUsers]);
             echo $this->Form->control('priority');

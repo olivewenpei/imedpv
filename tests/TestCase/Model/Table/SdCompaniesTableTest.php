@@ -26,6 +26,7 @@ class SdCompaniesTableTest extends TestCase
     public $fixtures = [
         'app.sd_companies',
         'app.sd_user_types',
+        'app.sd_product_workflows',
         'app.sd_users'
     ];
 

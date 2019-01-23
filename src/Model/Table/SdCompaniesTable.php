@@ -10,8 +10,8 @@ use Cake\Validation\Validator;
  * SdCompanies Model
  *
  * @property \App\Model\Table\SdUserTypesTable|\Cake\ORM\Association\BelongsTo $SdUserTypes
- * @property |\Cake\ORM\Association\HasMany $SdProductAssignments
  * @property \App\Model\Table\SdUsersTable|\Cake\ORM\Association\HasMany $SdUsers
+ * @property |\Cake\ORM\Association\HasMany $SdWorkflows
  *
  * @method \App\Model\Entity\SdCompany get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdCompany newEntity($data = null, array $options = [])
@@ -43,10 +43,10 @@ class SdCompaniesTable extends Table
             'foreignKey' => 'sd_user_type_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('SdProductAssignments', [
+        $this->hasMany('SdUsers', [
             'foreignKey' => 'sd_company_id'
         ]);
-        $this->hasMany('SdUsers', [
+        $this->hasMany('SdWorkflows', [
             'foreignKey' => 'sd_company_id'
         ]);
     }

@@ -12,8 +12,9 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\SdProductsTable|\Cake\ORM\Association\BelongsTo $SdProducts
  * @property \App\Model\Table\SdWorkflowsTable|\Cake\ORM\Association\BelongsTo $SdWorkflows
  * @property \App\Model\Table\SdUsersTable|\Cake\ORM\Association\BelongsTo $SdUsers
+ * @property |\Cake\ORM\Association\BelongsTo $SdCompanies
  * @property \App\Model\Table\SdCasesTable|\Cake\ORM\Association\HasMany $SdCases
- * @property |\Cake\ORM\Association\HasMany $SdUserAssignments
+ * @property \App\Model\Table\SdUserAssignmentsTable|\Cake\ORM\Association\HasMany $SdUserAssignments
  *
  * @method \App\Model\Entity\SdProductWorkflow get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdProductWorkflow newEntity($data = null, array $options = [])
@@ -50,7 +51,10 @@ class SdProductWorkflowsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('SdUsers', [
-            'foreignKey' => 'sd_user_id',
+            'foreignKey' => 'sd_user_id'
+        ]);
+        $this->belongsTo('SdCompanies', [
+            'foreignKey' => 'sd_company_id',
             'joinType' => 'INNER'
         ]);
         $this->hasMany('SdCases', [
@@ -73,6 +77,11 @@ class SdProductWorkflowsTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
+        $validator
+            ->integer('status')
+            ->requirePresence('status', 'create')
+            ->notEmpty('status');
+
         return $validator;
     }
 
@@ -88,6 +97,7 @@ class SdProductWorkflowsTable extends Table
         $rules->add($rules->existsIn(['sd_product_id'], 'SdProducts'));
         $rules->add($rules->existsIn(['sd_workflow_id'], 'SdWorkflows'));
         $rules->add($rules->existsIn(['sd_user_id'], 'SdUsers'));
+        $rules->add($rules->existsIn(['sd_company_id'], 'SdCompanies'));
 
         return $rules;
     }

@@ -16,6 +16,8 @@
         <li><?= $this->Html->link(__('New Sd User'), ['controller' => 'SdUsers', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Sd Cases'), ['controller' => 'SdCases', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Case'), ['controller' => 'SdCases', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd User Assignments'), ['controller' => 'SdUserAssignments', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd User Assignment'), ['controller' => 'SdUserAssignments', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdProductWorkflows index large-9 medium-8 columns content">
@@ -27,6 +29,7 @@
                 <th scope="col"><?= $this->Paginator->sort('sd_product_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_workflow_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('sd_user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('sd_company_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -37,6 +40,7 @@
                 <td><?= $sdProductWorkflow->has('sd_product') ? $this->Html->link($sdProductWorkflow->sd_product->id, ['controller' => 'SdProducts', 'action' => 'view', $sdProductWorkflow->sd_product->id]) : '' ?></td>
                 <td><?= $sdProductWorkflow->has('sd_workflow') ? $this->Html->link($sdProductWorkflow->sd_workflow->name, ['controller' => 'SdWorkflows', 'action' => 'view', $sdProductWorkflow->sd_workflow->id]) : '' ?></td>
                 <td><?= $sdProductWorkflow->has('sd_user') ? $this->Html->link($sdProductWorkflow->sd_user->title, ['controller' => 'SdUsers', 'action' => 'view', $sdProductWorkflow->sd_user->id]) : '' ?></td>
+                <td><?= $this->Number->format($sdProductWorkflow->sd_company_id) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $sdProductWorkflow->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sdProductWorkflow->id]) ?>
