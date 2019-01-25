@@ -413,3 +413,7 @@ hr.wfhr {
     top: 10px;
     right: 15px;
 }
+
+.resourceDropzone {
+    min-height: 140px;
+}

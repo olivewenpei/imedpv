@@ -64,6 +64,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/sd-products/search">Search Product</a>
           <a class="dropdown-item" href="/sd-products/addproduct">Add Product</a>
+          <a class="dropdown-item" href="/sd-products/workflowmanager">Workflow Manager</a>
         </div>
       </li>
       <li class="nav-item dropdown">

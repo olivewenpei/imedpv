@@ -120,9 +120,6 @@ jQuery(function($) {
             $(this).addClass('active');
         });
     });
-    jQuery(function($) {
-        $(document).ready(croDroppableArea());
-    });
 // Add Product card
     $(document).ready(function($){
         $('#addprobtn').click(function() {

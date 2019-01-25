@@ -24,11 +24,11 @@
                         <div id="addpro" class="form-row">
                             <div class="form-group col-md-3">
                                 <label>Product Name</label>
-                                <input type="text" class="form-control" id="product_name" name="product[product_name]" placeholder="Product Name">
+                                <input type="text" class="form-control" id="product_name" name="product[product_name]" placeholder="Product Name" required oninvalid="this.setCustomValidity('Product Name is REQUIRED')" oninput="this.setCustomValidity('')">
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Product Type</label>
-                                <select class="form-control" name="product[sd_product_type_id]" id="sd_product_type_id" required oninvalid="this.setCustomValidity('Product Type is REQUIRED')" oninput="this.setCustomValidity('')">>
+                                <select class="form-control" name="product[sd_product_type_id]" id="sd_product_type_id" required oninvalid="this.setCustomValidity('Product Type is REQUIRED')" oninput="this.setCustomValidity('')">
                                 <?php
                                     echo "<option value=''>Select Product Type</option>";
                                     foreach ($sdProductTypes as $eachType)
@@ -242,7 +242,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div id="no_workflow_notice"><h3>There is no workflow linked to this product, please add workflow first;</h3></div>
                             <input type="submit" class="btn btn-success w-25 mt-3 mx-auto">
                             <?= $this->Form->end() ?>
@@ -276,7 +276,7 @@
                                         ];
                                         foreach($workflow_structure as $workflow_structure_detail){
                                             echo "<option value=".$workflow_structure_detail->country.">".$country_list[$workflow_structure_detail->country]."</option>";
-                                        } 
+                                        }
                                         ?>
                                         </select>
                                     </div>
@@ -300,7 +300,7 @@
                                         <h3 id="defT" style="display:none;">Default Workflow</h3>
                                         <hr class="wfhr">
                                         <ol id="default_workflow" class="defworkflow">
-                                        </ol>                           
+                                        </ol>
                                         <input type="hidden" id="default-workflow_name"/>
                                         <input type="hidden" id="default-workflow_id"/>
                                         <input type="hidden" id="default-workflow_description"/>
@@ -312,10 +312,19 @@
                                         <h3 id="cusT" style="display:none;">Customize Workflow</h3>
                                         <hr class="wfhr">
                                         <div class="custworkflow" id="cusworkflow">
-                                            <label>Workflow Name: </label >
-                                            <input type="text" id="custom-workflow_name" value=""/>
-                                            <label>Workflow Description </label >
-                                            <input type="text" id="custom-workflow_description" value=""/>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label>Workflow Name: </label >
+                                                    <input type="text" id="custom-workflow_name" value=""/>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label>Workflow Description </label >
+                                                    <input type="text" id="custom-workflow_description" value=""/>
+                                                </div>
+                                            </div>
+
                                             <div id="errWorkflow" class="invalid-feedback" style="display:none;">Workflow name is required!</div>
 
                                             <p>You can edit the workflow here and please drag the yellow box to anywhere in the workflow for customization</p>
@@ -434,7 +443,7 @@
                                 <tbody id="crotable">
                                 </tbody>
                             </table>
-                        <button id="undochoWF" type="button" class="btn btn-secondary">Reselect workflow</button>
+                        <button id="undochoWF" type="button" class="btn btn-secondary mt-3">Reselect workflow</button>
                         <button id="confirmWFlist" type="button" class="btn btn-primary w-25 mt-3 mx-auto">Confirm</button>
                         </div>
                     </div>

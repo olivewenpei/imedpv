@@ -187,8 +187,8 @@ class SdProductsController extends AppController
         return $result;
     }
     /**
-     * 
-     * 
+     *
+     *
      * for ajax use
      * fetch related Cro companies
      */
@@ -211,7 +211,7 @@ class SdProductsController extends AppController
                                 // ->order(['sponsor_id' => 'ASC'])
                 foreach ($query as $company_info){
                     $result[$company_info->SdCompanies['id']] = $company_info->SdCompanies['company_name'];
-                } 
+                }
             }catch (\PDOException $e){
                 echo "cannot the case find in database";
             };
@@ -220,8 +220,8 @@ class SdProductsController extends AppController
         } else $this->autoRender = true;
     }
     /**
-     * 
-     * 
+     *
+     *
      * for ajax use
      * fetch related Cro companies
      */
@@ -244,7 +244,7 @@ class SdProductsController extends AppController
                                 // ->order(['sponsor_id' => 'ASC'])
                 foreach ($query as $company_info){
                     $result[$company_info->SdCompanies['id']] = $company_info->SdCompanies['company_name'];
-                }            
+                }
             }catch (\PDOException $e){
                 echo "cannot the case find in database";
             };
@@ -253,7 +253,7 @@ class SdProductsController extends AppController
         } else $this->autoRender = true;
     }
     /**
-     * 
+     *
      * for add product add workflows
      */
     public function loadWorkflowsStructure()
@@ -272,7 +272,7 @@ class SdProductsController extends AppController
         }
     return $result;
     }
-    
+
 
     public function loadSponsorCompanies()
     {
@@ -286,5 +286,10 @@ class SdProductsController extends AppController
         }
 
         return $result;
+    }
+
+    public function workflowmanager()
+    {
+        $this->viewBuilder()->layout('main_layout');
     }
 }
