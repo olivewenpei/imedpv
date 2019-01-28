@@ -18,7 +18,7 @@
                         <div class="form-row">
                         <div class="form-group col-md-3">
                             <label>Product Name:</label>
-                            <select type="text" class="form-control" id="product_name">
+                            <select type="text" class="form-control" id="product_name" name="product_id">
                                 <option value="">Select Project No</option>
                                 <?php
                                 foreach($productInfo as $k => $productDetail){

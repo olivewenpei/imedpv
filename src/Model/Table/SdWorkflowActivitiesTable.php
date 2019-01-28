@@ -73,9 +73,9 @@ class SdWorkflowActivitiesTable extends Table
             ->notEmpty('order_no');
 
         $validator
-            ->integer('step_forward')
-            ->requirePresence('step_forward', 'create')
-            ->notEmpty('step_forward');
+            ->integer('step_backward')
+            ->requirePresence('step_backward', 'create')
+            ->notEmpty('step_backward');
 
         $validator
             ->scalar('activity_name')
@@ -86,7 +86,7 @@ class SdWorkflowActivitiesTable extends Table
             ->scalar('description')
             ->maxLength('description', 100)
             ->requirePresence('description', 'create')
-            ->notEmpty('description');
+            ->allowEmpty('description');
 
         return $validator;
     }

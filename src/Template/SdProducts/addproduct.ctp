@@ -27,27 +27,14 @@
                                 <input type="text" class="form-control" id="product_name" name="product[product_name]" placeholder="Product Name">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>Product Type</label>
-                                <select class="form-control" name="product[sd_product_type_id]" id="sd_product_type_id" required oninvalid="this.setCustomValidity('Product Type is REQUIRED')" oninput="this.setCustomValidity('')">>
-                                <?php
-                                    echo "<option value=''>Select Product Type</option>";
-                                    foreach ($sdProductTypes as $eachType)
-                                    {
-                                        echo "<option value=\"".$eachType['id']."\">".$eachType['type_name']."</option>";
-                                    }
-                                ?>
-                                </select>
-                                <input type="hidden" id="status" name="product[status]" value="1">
-                            </div>
-                            <div class="form-group col-md-3">
                                 <label>Sponsor Company</label>
-                                <select class="form-control" id="sd_sponsor_company_id" name="product[sd_sponsor_company_id]" required oninvalid="this.setCustomValidity('Sponsor Company is REQUIRED')" oninput="this.setCustomValidity('')">
+                                <select class="form-control" id="sd_sponsor_company_id" name="product[sponsor_company]" required oninvalid="this.setCustomValidity('Sponsor Company is REQUIRED')" oninput="this.setCustomValidity('')">
                                 <?php
                                     echo "<option value=''>Select Sponsor Company</option>";
-                                    foreach ($sdSponsors as $eachType)
+                                    foreach ($sdSponsorCompanies  as $eachType)
                                     {
                                         //echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']."</option>";
-                                        echo "<option value=\"1\">".$eachType['company_name']. ", " .$eachType['country']. "</option>";
+                                        echo "<option value=\"1\">".$eachType['company_name']."</option>";
                                     }
                                 ?>
                                 </select>
@@ -74,11 +61,11 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Mfr. name</label>
-                                <input type="text" class="form-control" id="mfr_name" name="[product]mfr_name" placeholder="Mfr. name">
+                                <input type="text" class="form-control" id="mfr_name" name="product[mfr_name]" placeholder="Mfr. name">
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Study type (A.2.3.3)</label>
-                                <select class="form-control" id="sd_study_type_id" name="[product]sd_study_type_id" required oninvalid="this.setCustomValidity('Study Type is REQUIRED')" oninput="this.setCustomValidity('')">
+                                <select class="form-control" id="sd_study_type_id" name="product[study_type]" required oninvalid="this.setCustomValidity('Study Type is REQUIRED')" oninput="this.setCustomValidity('')">
                                     <option value="1">Clinical trials</option>
                                     <option value="2">Individual patient use</option>
                                     <option value="3">Other studies</option>
@@ -104,7 +91,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Preferred WHO DD decode</label>
-                                <input type="text" class="form-control" id="decode" name="product[decode]" placeholder="Preferred WHO DD decode">
+                                <input type="text" class="form-control" id="WHODD_decode" name="product[WHODD_decode]" placeholder="Preferred WHO DD decode">
                             </div>
                         </div>
 
@@ -122,13 +109,6 @@
                                 <select class="form-control" id="status" name="product[status]" required oninvalid="this.setCustomValidity('Status is REQUIRED')" oninput="this.setCustomValidity('')">
                                     <option value="1">Active</option>
                                     <option value="2">Close</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Call Center</label>
-                                <select class="form-control" id="call_center" name="product[call_center]" required oninvalid="this.setCustomValidity('Call Center is REQUIRED')" oninput="this.setCustomValidity('')">
-                                    <option value="1">BeeTel Communications</option>
-                                    <option value="2">Support Provider</option>
                                 </select>
                             </div>
                         </div>
@@ -157,7 +137,6 @@
                             <table class="table table-hover mb-3">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Number</th>
                                         <th scope="col">Workflow Name</th>
                                         <th scope="col">Description</th>
                                         <th scope="col">Call Center</th>
@@ -167,7 +146,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="workflow_table">
-                                    <tr>
+                                    <!-- <tr>
                                         <th scope="row">1</th>
                                         <td>Mark</td>
                                         <td>Otto</td>
@@ -178,7 +157,7 @@
                                             <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".WFlistView">View</button>
                                             <button class="btn btn-sm btn-outline-danger" onclick="$(this).closest('tr').remove();">Delete</button>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
 
@@ -188,7 +167,7 @@
                                     <div class="modal-content">
                                         <div class="modal-body m-3">
                                             <h4>Workflow List Details</h4>
-                                            <table class="table table-hover">
+                                            <table class="table table-hover" id="ifram_view">
                                                 <thead>
                                                     <tr>
                                                         <th scope="row" class="w-25">Workflow Name</th>
@@ -220,19 +199,21 @@
                                             </table>
                                             <div>
                                                 <h4>Workflow Steps</h4>
-                                                <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                    <i class="fas fa-long-arrow-alt-right"></i>
-                                                <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                    <i class="fas fa-long-arrow-alt-right"></i>
-                                                <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                    <i class="fas fa-long-arrow-alt-right"></i>
-                                                <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                    <i class="fas fa-long-arrow-alt-right"></i>
-                                                <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                    <i class="fas fa-long-arrow-alt-right"></i>
-                                                <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                    <i class="fas fa-long-arrow-alt-right"></i>
-                                                <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                <div id="view_activities">
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -323,9 +304,10 @@
                                                 <li id="draggable" class="custworkflowstep">
                                                     <div class="card w-100 h-25 my-2">
                                                         <div class="card-body p-3">
-                                                            <h5 class="card-title"><input type="text" placeholder="Type step name here FIRST" class="font-weight-bold" /> </h5>
-                                                            <p class="card-text"><textarea type="text"  class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
+                                                            <h5 class="card-title"><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /> </h5>
+                                                            <p class="card-text"><textarea type="text"  id="new_activity-description" class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
                                                         </div>
+                                                        <button id="confirm_new_activity">confirm</button>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -336,8 +318,10 @@
                                 </div>
 
                                 <div class="d-block mt-3">
-                                    <div id="submitworkflow" class="btn btn-primary w-25" style="display:none;">Countinue</div>
+                                    <button id="confirm_activities" class="btn btn-primary w-25" style="display:none;">Countinue</button>
                                     <button id="undochocon" type="button" class="btn btn-secondary" style="display:none;">Go back to last step</button>
+                                    <button id="submitworkflow" class="btn btn-primary w-25" style="display:none;">Countinue</button>
+                                    <button id="undo_activities" type="button" class="btn btn-secondary" style="display:none;">Go back to last step</button>
                                 </div>
                             </div>
                         </div>
@@ -360,9 +344,6 @@
                                     <div class="modal-body">
                                         <label for="">Add CRO</label>
                                         <select class="custom-select" id="croname">
-                                            <option value="1">Johnson</option>
-                                            <option value="2">BMS</option>
-                                            <option value="3">G2</option>
                                         </select>
                                     </div>
                                     <div class="modal-footer">

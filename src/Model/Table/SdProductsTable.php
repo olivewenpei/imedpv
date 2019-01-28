@@ -9,9 +9,6 @@ use Cake\Validation\Validator;
 /**
  * SdProducts Model
  *
- * @property \App\Model\Table\SdProductTypesTable|\Cake\ORM\Association\BelongsTo $SdProductTypes
- * @property \App\Model\Table\SdStudyTypesTable|\Cake\ORM\Association\BelongsTo $SdStudyTypes
- * @property \App\Model\Table\SdSponsorCompaniesTable|\Cake\ORM\Association\BelongsTo $SdSponsorCompanies
  * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
  * @method \App\Model\Entity\SdProduct get($primaryKey, $options = [])
@@ -40,18 +37,6 @@ class SdProductsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('SdProductTypes', [
-            'foreignKey' => 'sd_product_type_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('SdStudyTypes', [
-            'foreignKey' => 'sd_study_type_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('SdSponsorCompanies', [
-            'foreignKey' => 'sd_sponsor_company_id',
-            'joinType' => 'INNER'
-        ]);
         $this->hasMany('SdProductWorkflows', [
             'foreignKey' => 'sd_product_id'
         ]);
@@ -90,6 +75,17 @@ class SdProductsTable extends Table
             ->integer('study_type')
             ->requirePresence('study_type', 'create')
             ->notEmpty('study_type');
+
+        $validator
+            ->scalar('WHODD_decode')
+            ->maxLength('WHODD_decode', 11)
+            ->requirePresence('WHODD_decode', 'create')
+            ->notEmpty('WHODD_decode');
+
+        $validator
+            ->integer('sponsor_company')
+            ->requirePresence('sponsor_company', 'create')
+            ->notEmpty('sponsor_company');
 
         $validator
             ->scalar('short_desc')
@@ -145,31 +141,10 @@ class SdProductsTable extends Table
             ->notEmpty('end_date');
 
         $validator
-            ->scalar('call_center')
-            ->maxLength('call_center', 100)
-            ->requirePresence('call_center', 'create')
-            ->notEmpty('call_center');
-
-        $validator
             ->integer('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['sd_product_type_id'], 'SdProductTypes'));
-        $rules->add($rules->existsIn(['sd_sponsor_company_id'], 'SdSponsorCompanies'));
-
-        return $rules;
     }
 }

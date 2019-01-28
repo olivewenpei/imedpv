@@ -33,37 +33,6 @@ jQuery(function($) {
         });
     });
 
-// Defaultworkflow and Custworkflow button control
-
-    $('#defbtn').click(function() {
-        $('#submitworkflow').show();
-        $('.defworkflow').slideDown();
-        $('.custworkflow').slideUp();
-    });
-
-    $('#custbtn').click(function() {
-        $('#submitworkflow').show();
-        $('.custworkflow').slideDown();
-        $('.defworkflow').slideUp();
-    });
-
-    // Close customworkflow step
-    $('.closewf').click(function() {
-        $(this).closest('li').remove();
-    })
-
-// Custworkflow Close icon
-    $('.close').click(function() {
-        $(this).parents('li.custworkflowstep').fadeOut();
-    });
-
-// "Confirm Assignment" button message
-    $('#conass').click(function() {
-        swal({
-            title: "Your Assignment has been saved!",
-            icon: "success"
-          })
-    })
 
 });
 
@@ -120,9 +89,7 @@ jQuery(function($) {
             $(this).addClass('active');
         });
     });
-    jQuery(function($) {
-        $(document).ready(croDroppableArea());
-    });
+
 // Add Product card
     $(document).ready(function($){
         $('#addprobtn').click(function() {
@@ -225,6 +192,7 @@ function onQueryClicked(){
             text +="</tr>";
             text +="</thead>";
             text +="<tbody>";
+            var product_type_id=["clinical trials", "individual patient use","other studies"]
             $.each(result, function(k,caseDetail){
                 text += "<tr>";
                 text += "<td>" + caseDetail.caseNo + "</td>";
@@ -232,9 +200,10 @@ function onQueryClicked(){
                 text += "<td></td>";
                 text += "<td>" + caseDetail.start_date + "</td>";
                 text += "<td></td>";
-                text += "<td>" + caseDetail.sd_product_workflow.sd_product.study_no + "<td>";
-                text += "<td></td>";
-                text += "<td>" + caseDetail.end_date + "</td>";
+                text += "<td>" + caseDetail.sd_product_workflow.sd_product.product_name + "</td>";
+                text += "<td>"+product_type_id[caseDetail.product_type]+"</td>";
+                text += "<td>"+caseDetail.activity_due_date+"</td>";
+                text += "<td>" + caseDetail.submission_due_date + "</td>";
                 text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseId="+caseDetail.id+"\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">More</a></td>";
                 text += "</tr>";
             })

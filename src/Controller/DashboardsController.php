@@ -21,7 +21,7 @@ class DashboardsController extends AppController {
                 if(!empty($searchKey['searchName'])) $searchResult = $searchResult->where(['caseNo LIKE'=>'%'.$searchKey['searchName'].'%']);
                 if(!empty($searchKey['searchProductName'])){
                     $sdProducts = TableRegistry::get('SdProducts');
-                    $sdProducts = $sdProducts ->find()->select('id')->where(['study_no  LIKE'=>'%'.$searchKey['searchProductName'].'%']);
+                    $sdProducts = $sdProducts ->find()->select('id')->where(['product_name  LIKE'=>'%'.$searchKey['searchProductName'].'%']);
                         //get product which study_no matches
                     $sdProducctWorkflow = TableRegistry::get('SdProductWorkflows');
                     $sdProducctWorkflow = $sdProducctWorkflow->find()->select('id')->where(function($exp, $query)use($sdProducts) {

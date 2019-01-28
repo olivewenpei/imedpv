@@ -22,7 +22,7 @@ class SdProductsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['SdProductTypes', 'SdSponsorCompanies']
+            'contain' => ['SdProductTypes']
         ];
         $sdProducts = $this->paginate($this->SdProducts);
 
@@ -39,7 +39,7 @@ class SdProductsController extends AppController
     public function view($id = null)
     {
         $sdProduct = $this->SdProducts->get($id, [
-            'contain' => ['SdProductTypes', 'SdSponsorCompanies', 'SdProductWorkflows']
+            'contain' => ['SdProductTypes', 'SdProductWorkflows']
         ]);
 
         $this->set('sdProduct', $sdProduct);
@@ -63,7 +63,7 @@ class SdProductsController extends AppController
             $this->Flash->error(__('The sd product could not be saved. Please, try again.'));
         }
         $sdProductTypes = $this->SdProducts->SdProductTypes->find('list', ['limit' => 200]);
-        $sdSponsorCompanies = $this->SdProducts->SdSponsorCompanies->find('list', ['limit' => 200]);
+        // $sdSponsorCompanies = $this->SdProducts->SdSponsorCompanies->find('list', ['limit' => 200]);
         $this->set(compact('sdProduct', 'sdProductTypes', 'sdSponsorCompanies'));
     }
 
@@ -110,7 +110,7 @@ class SdProductsController extends AppController
             $this->Flash->error(__('The sd product could not be saved. Please, try again.'));
         }
         $sdProductTypes = $this->SdProducts->SdProductTypes->find('list', ['limit' => 200]);
-        $sdSponsorCompanies = $this->SdProducts->SdSponsorCompanies->find('list', ['limit' => 200]);
+        // $sdSponsorCompanies = $this->SdProducts->SdSponsorCompanies->find('list', ['limit' => 200]);
         $this->set(compact('sdProduct', 'sdProductTypes', 'sdSponsorCompanies'));
     }
 
@@ -141,17 +141,14 @@ class SdProductsController extends AppController
         $product_types = $this->loadProductTypes();
         $sponsors = $this->loadSponsorCompanies();
         $this->set('sdProductTypes', $product_types);
-        $this->set('sdSponsors', $sponsors);
+        // $this->set('sdSponsors', $sponsors);
 
     }
 
     public function addproduct()
     {
         $this->viewBuilder()->layout('main_layout');
-        $product_types = $this->loadProductTypes();
-        $sponsors = $this->loadSponsorCompanies();
-        $this->set('sdProductTypes', $product_types);
-        $this->set('sdSponsors', $sponsors);
+        // $this->set('sdSponsors', $sponsors);
         $workflow_structure = $this->loadWorkflowsStructure();
         $this->set('workflow_structure', $workflow_structure);
         //debug($sponsors);
@@ -159,17 +156,85 @@ class SdProductsController extends AppController
 
         $sdProduct = $this->SdProducts->newEntity();
         if ($this->request->is('post')) {
-            $sdProduct = $this->SdProducts->patchEntity($sdProduct, $this->request->getData());
-            //debug($sdProduct);
-            if ($this->SdProducts->save($sdProduct)) {
-                $this->Flash->success(__('The sd product has been saved.'));
-
-                return $this->redirect(['action' => 'search']);
+            $sdProduct = $this->SdProducts->patchEntity($sdProduct, $this->request->getData()['product']);
+            $saved_product = $this->SdProducts->save($sdProduct);
+            if (!$saved_product) {
+                debug($saved_product);
+                $this->Flash->error(__('erro in product'));
             }
-            $this->Flash->error(__('Please Fill All Required Fields!'));
+
+            //workflow saving
+            $workflows_table=TableRegistry::get("sd_workflows");
+            foreach($this->request->getData()['workflow'] as $workflow_k => $workflow_detail){
+                if(!empty($workflow_detail['id'])) continue;
+
+            $sdWorkflowEntity = $workflows_table->newEntity();
+                $patchedsdWorkflowEntity = $workflows_table->patchEntity($sdWorkflowEntity,$workflow_detail);
+                
+                $saved_workflow[$workflow_k] = $workflows_table->save($patchedsdWorkflowEntity);
+                if (!($saved_workflow[$workflow_k])) {
+                    debug($saved_workflow[$workflow_k]);
+                    $this->Flash->error(__('erro in workflow'));
+                }
+            }
+
+            //activity saving
+            $workflow_activities_table=TableRegistry::get("sd_workflow_activities");
+            if(!empty($this->request->getData()['workflow_activity'])){
+            foreach($this->request->getData()['workflow_activity'] as $workflow_activity_k => $workflow_activities){
+                    foreach($workflow_activities as $k => $workflow_activity_detail){
+                    $workflow_activity_detail['sd_workflow_id']=$saved_workflow[$workflow_k]['id'];
+                    $sdWorkflowActivityEntity = $workflow_activities_table->newEntity();
+                        $patchedsdWorkflowActivityEntity = $workflow_activities_table->patchEntity($sdWorkflowActivityEntity,$workflow_activity_detail);
+                        debug($patchedsdWorkflowActivityEntity);
+                        if (!($workflow_activities_table->save($patchedsdWorkflowActivityEntity))) {
+                            $this->Flash->error(__('erro in activity'));
+                        }
+                    }
+                }
+            }
+
+            //product workflow saving
+            $product_workflows_table = TableRegistry::get("sd_product_workflows");
+            foreach($this->request->getData()['product_workflow'] as $product_workflow_k => $product_workflow_detail)
+            {
+                $product_workflow_detail['sd_product_id'] = $saved_product['id'];
+                if(!empty($this->request->getData()['workflow'][$product_workflow_k]['id']))
+                $product_workflow_detail['sd_workflow_id'] = $this->request->getData()['workflow'][$product_workflow_k]['id'];
+                else{
+                    $product_workflow_detail['sd_workflow_id'] = $saved_workflow[$product_workflow_k]['id'];
+                };
+                $sdProductWorkflowEntity = $product_workflows_table->newEntity();
+                $patchedSdProductWorkflowEntity = $product_workflows_table->patchEntity($sdProductWorkflowEntity,$product_workflow_detail);
+                $savedProductWorkflow[$product_workflow_k] = $product_workflows_table->save($patchedSdProductWorkflowEntity);
+                if (!($savedProductWorkflow[$product_workflow_k])) {
+                    $this->Flash->error(__('erro in product_workflow'));
+                }
+            }
+            debug($savedProductWorkflow);
+            //user_assignment saving
+            $user_assignment_table = TableRegistry::get("sd_user_assignments");
+            foreach($this->request->getData()['user_assignment'] as $user_assignment_k => $workflow_users)
+            {
+                foreach($workflow_users as $user_k => $user_detail)
+                {debug($user_detail);
+                    $user_detail['sd_product_workflow_id'] = $savedProductWorkflow[$user_assignment_k]['id'];
+                    if(!empty($this->request->getData()['workflow'][$product_workflow_k]['id']))
+                    $user_detail['sd_workflow_id'] = $this->request->getData()['workflow'][$product_workflow_k]['id'];
+                    else{
+                        $user_detail['sd_workflow_id'] = $saved_workflow[$product_workflow_k]['id'];
+                    };
+                    $sd_user_assignmentsEntity = $user_assignment_table->newEntity();
+                    $patchedsd_user_assignmentsEntity = $user_assignment_table->patchEntity($sd_user_assignmentsEntity,$user_detail);
+                    debug($patchedsd_user_assignmentsEntity);
+                    if (!($user_assignment_table->save($patchedsd_user_assignmentsEntity))) {
+                        $this->Flash->error(__('erro in user assignments'));
+                    }                    
+                }
+            }
         }
-        $sdProductTypes = $this->SdProducts->SdProductTypes->find('list', ['limit' => 200]);
-        $sdSponsorCompanies = $this->SdProducts->SdSponsorCompanies->find('list', ['limit' => 200]);
+        $company_table=TableRegistry::get("sd_companies");
+        $sdSponsorCompanies = $company_table->find();
         $this->set(compact('sdProduct', 'sdSponsorCompanies'));
     }
 
@@ -264,7 +329,7 @@ class SdProductsController extends AppController
         $query = $default_workflows->find()
                         ->where(['workflow_type'=>'0'])
                         ->contain('SdWorkflowActivities', function ($q) {
-                            return $q->select(['SdWorkflowActivities.id','SdWorkflowActivities.sd_workflow_id','SdWorkflowActivities.activity_name','SdWorkflowActivities.description'])->order(['SdWorkflowActivities.id'=>'ASC']);
+                            return $q->select(['SdWorkflowActivities.id','SdWorkflowActivities.step_backward','SdWorkflowActivities.sd_workflow_id','SdWorkflowActivities.activity_name','SdWorkflowActivities.description'])->order(['SdWorkflowActivities.id'=>'ASC']);
                         })
                         ->order(['sd_workflows.id' => 'ASC']);
         foreach ($query as $workflow_info){
@@ -274,17 +339,17 @@ class SdProductsController extends AppController
     }
     
 
-    public function loadSponsorCompanies()
-    {
-        $result = array();
-        $sponsor_companies = TableRegistry::get("sd_sponsor_companies");
-        $query = $sponsor_companies->find()
-                        ->order(['company_name' => 'ASC']);
+    // public function loadSponsorCompanies()
+    // {
+    //     $result = array();
+    //     $sponsor_companies = TableRegistry::get("sd_sponsor_companies");
+    //     $query = $sponsor_companies->find()
+    //                     ->order(['company_name' => 'ASC']);
 
-        foreach ($query as $sponsor_company){
-            $result[] = array("id"=>$sponsor_company->id, "company_name"=>$sponsor_company->company_name, "country"=>$sponsor_company->country);
-        }
+    //     foreach ($query as $sponsor_company){
+    //         $result[] = array("id"=>$sponsor_company->id, "company_name"=>$sponsor_company->company_name, "country"=>$sponsor_company->country);
+    //     }
 
-        return $result;
-    }
+    //     return $result;
+    // }
 }

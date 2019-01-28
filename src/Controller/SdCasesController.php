@@ -150,6 +150,10 @@ class SdCasesController extends AppController
                     echo"problem in saving sdCase";
                     return null;
                 }
+                /**
+                 * 
+                 * save source into cases
+                 */
                 foreach($requestDataField as $field_id =>$field_value)
                 {
                     $sdFieldValueEntity = $sdFieldValueTable->newEntity();
@@ -165,11 +169,106 @@ class SdCasesController extends AppController
                     $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
                     if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving sdfields";
                 }
+            
+                /**
+                 *
+                 * save field into these cases
+                 */
+                $product_data = TableRegistry::get('SdProducts')
+                ->get($requestData['product_id']);
+                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                $dataSet = [
+                    'sd_case_id' => $savedCase->id,
+                    'version_no' => '1',
+                    'sd_field_id' => '176',
+                    'set_number' => '1',
+                    'created_time' =>date("Y-m-d H:i:s"),
+                    'field_value' =>$product_data['product_desc'],
+                    'status' =>'1',
+                ];
+                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving product_desc sdfields";
+                
+                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                $dataSet = [
+                    'sd_case_id' => $savedCase->id,
+                    'version_no' => '1',
+                    'sd_field_id' => '175',
+                    'set_number' => '1',
+                    'created_time' =>date("Y-m-d H:i:s"),
+                    'field_value' =>$product_data['sd_product_flag'],
+                    'status' =>'1',
+                ];
+                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving sd_product_flag sdfields";
+
+                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                $dataSet = [
+                    'sd_case_id' => $savedCase->id,
+                    'version_no' => '1',
+                    'sd_field_id' => '282',
+                    'set_number' => '1',
+                    'created_time' =>date("Y-m-d H:i:s"),
+                    'field_value' =>$product_data['sd_product_type_id'],
+                    'status' =>'1',
+                ];
+                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving sd_product_type_id sdfields";
+                debug($sdFieldValueEntity);
+                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                $dataSet = [
+                    'sd_case_id' => $savedCase->id,
+                    'version_no' => '1',
+                    'sd_field_id' => '283',
+                    'set_number' => '1',
+                    'created_time' =>date("Y-m-d H:i:s"),
+                    'field_value' =>$product_data['WHODD_decode'],
+                    'status' =>'1',
+                ];
+                
+                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                // debug($dataSet);
+                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving WHODD_decode sdfields";
+
+                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                $dataSet = [
+                    'sd_case_id' => $savedCase->id,
+                    'version_no' => '1',
+                    'sd_field_id' => '344',
+                    'set_number' => '1',
+                    'created_time' =>date("Y-m-d H:i:s"),
+                    'field_value' =>$product_data['WHODD_code'],
+                    'status' =>'1',
+                ];
+                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving WHODD_code sdfields";
+
+                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                $dataSet = [
+                    'sd_case_id' => $savedCase->id,
+                    'version_no' => '1',
+                    'sd_field_id' => '367',
+                    'set_number' => '1',
+                    'created_time' =>date("Y-m-d H:i:s"),
+                    'field_value' =>$product_data['WHODD_name'],
+                    'status' =>'1',
+                ];
+                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving WHODD_name sdfields";
+
+                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                $dataSet = [
+                    'sd_case_id' => $savedCase->id,
+                    'version_no' => '1',
+                    'sd_field_id' => '284',
+                    'set_number' => '1',
+                    'created_time' =>date("Y-m-d H:i:s"),
+                    'field_value' =>$product_data['mfr_name'],
+                    'status' =>'1',
+                ];
+                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving mfr_name sdfields";
             }
-            /**
-             *
-             * save field into these cases
-             */
         }
         $this->set(compact('productInfo','randNo'));
     }

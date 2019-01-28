@@ -9,8 +9,6 @@ use Cake\Validation\Validator;
 /**
  * SdSponsorCompanies Model
  *
- * @property \App\Model\Table\SdProductsTable|\Cake\ORM\Association\HasMany $SdProducts
- *
  * @method \App\Model\Entity\SdSponsorCompany get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdSponsorCompany newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\SdSponsorCompany[] newEntities(array $data, array $options = [])
@@ -36,10 +34,6 @@ class SdSponsorCompaniesTable extends Table
         $this->setTable('sd_sponsor_companies');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-
-        $this->hasMany('SdProducts', [
-            'foreignKey' => 'sd_sponsor_company_id'
-        ]);
     }
 
     /**
