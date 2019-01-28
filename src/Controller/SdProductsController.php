@@ -139,7 +139,7 @@ class SdProductsController extends AppController
     {
         $this->viewBuilder()->layout('main_layout');
         $product_types = $this->loadProductTypes();
-        $sponsors = $this->loadSponsorCompanies();
+
         $this->set('sdProductTypes', $product_types);
         // $this->set('sdSponsors', $sponsors);
 
