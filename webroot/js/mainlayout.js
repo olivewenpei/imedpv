@@ -89,7 +89,6 @@ jQuery(function($) {
             $(this).addClass('active');
         });
     });
-
 // Add Product card
     $(document).ready(function($){
         $('#addprobtn').click(function() {

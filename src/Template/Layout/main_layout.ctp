@@ -25,8 +25,8 @@
     <!-- For local Bootstrap/JS link -->
     <?= $this->Html->script('bootstrap/bootstrap.bundle.min.js') ?>
     <?= $this->Html->script('bootstrap/bootstrap.min.js') ?>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <?= $this->Html->script('bootstrap/jquery-1.12.4.js') ?>
+    <?= $this->Html->script('bootstrap/jquery-ui.js') ?>
 
     <?= $this->Html->css('datatable/datatables.css') ?>
     <?= $this->Html->script('datatable/datatables.min.js') ?>
@@ -64,6 +64,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/sd-products/search">Search Product</a>
           <a class="dropdown-item" href="/sd-products/addproduct">Add Product</a>
+          <a class="dropdown-item" href="/sd-products/workflowmanager">Workflow Manager</a>
         </div>
       </li>
       <li class="nav-item dropdown">
