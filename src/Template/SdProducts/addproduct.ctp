@@ -148,7 +148,7 @@
                         </div>
 
                         <!-- Workflow List and Add New -->
-                        <button id="addNewWL" type="button" class="btn btn-outline-info float-right">Add New <i class="far fa-plus-square"></i></button>
+                        <button id="addNewWL" type="button" class="btn btn-outline-info float-right">Add New Workflow <i class="far fa-plus-square"></i></button>
 
                         <!-- Hide this when triggered "Add New" -->
                         <div id="workflowlist" class="mt-3">
@@ -375,7 +375,6 @@
                                         </select>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <button id="croadd"  class="btn btn-primary"  data-dismiss="modal">ADD</button>
                                     </div>
                                     </div>

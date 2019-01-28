@@ -25,8 +25,8 @@
     <!-- For local Bootstrap/JS link -->
     <?= $this->Html->script('bootstrap/bootstrap.bundle.min.js') ?>
     <?= $this->Html->script('bootstrap/bootstrap.min.js') ?>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <?= $this->Html->script('bootstrap/jquery-1.12.4.js') ?>
+    <?= $this->Html->script('bootstrap/jquery-ui.js') ?>
 
     <?= $this->Html->css('datatable/datatables.css') ?>
     <?= $this->Html->script('datatable/datatables.min.js') ?>
