@@ -47,7 +47,13 @@
                                     <option value="3">Interacting</option>
                                 </select>
                             </div>
-
+                            <div class="form-group col-md-3">
+                                <label>Blinding technique</label>
+                                <select class="form-control" id="blinding_tech" name="product[blinding_tech]">
+                                    <option value="1">Single blind</option>
+                                    <option value="2">Open-label</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-row">
@@ -75,16 +81,15 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label>Blinding technique</label>
-                                <select class="form-control" id="blinding_tech" name="product[blinding_tech]">
-                                    <option value="1">Single blind</option>
-                                    <option value="2">Open-label</option>
-                                </select>
+                                <label>WHODD Browser</label>
+                                <div style="margin-left: 47px;">
+                                    <?php
+                                    $meddraCell = $this->cell('Whodd');
+                                    echo $meddraCell;?>
+                                </div>
                             </div>
                             <div class="form-group col-md-3">
-                                <?php
-                                $meddraCell = $this->cell('Whodd');
-                                echo $meddraCell;?>
+                                <label>WHODD Code</label>
                                 <input type="text" readonly="readonly" class="form-control" id="whodracode" name="product[WHODD_code]" placeholder="WHODD Code">
                             </div>
                             <div class="form-group col-md-3">
