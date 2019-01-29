@@ -66,7 +66,7 @@ class SdUsersController extends AppController
         $this->set(compact('sdUser', 'sdRoles', 'sdCompanies'));
     }
     /**
-     * 
+     *
      * get user info from cro
      */
     public function searchResource()
@@ -79,7 +79,7 @@ class SdUsersController extends AppController
                 $query = $this->SdUsers->find()
                                 ->select(['id','firstname', 'lastname'])
                                 ->where(['sd_company_id'=>$searchKey['id']])
-                                ->order(['id' => 'ASC'])->all();        
+                                ->order(['id' => 'ASC'])->all();
             }catch (\PDOException $e){
                 echo "cannot the case find in database";
             };
@@ -143,19 +143,23 @@ class SdUsersController extends AppController
     }
 
     public function login() {
-    $this->viewBuilder()->layout('login');
-        if ($this->request->is('post')) {
-            $sdUser = $this->Auth->identify();
-            if ($sdUser) {
-                $this->Auth->setUser($sdUser);
-                return $this->redirect($this->Auth->redirectUrl(
-                    // Set the first page after user logged in
-                    ['controller' => 'dashboards','action' => 'index']
-                )
-            );
-            }else {
-                $this->Flash->error(__('Sorry, your username or password is wrong!'));
+        $this->viewBuilder()->layout('login');
+            if ($this->request->is('post')) {
+                $sdUser = $this->Auth->identify();
+                if ($sdUser) {
+                    $this->Auth->setUser($sdUser);
+                    return $this->redirect($this->Auth->redirectUrl(
+                        // Set the first page after user logged in
+                        ['controller' => 'dashboards','action' => 'index']
+                    )
+                );
+                }else {
+                    $this->Flash->error(__('Sorry, your username or password is wrong!'));
+                }
             }
-        }
-}
+    }
+
+    public function myaccount() {
+        $this->viewBuilder()->layout('main_layout');
+    }
 }

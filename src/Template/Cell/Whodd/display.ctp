@@ -1,5 +1,5 @@
 <div id="whodrabrowser">
-<button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-search"></i> WHODD Browser</button>
+<button type="button" class="btn btn-outline-info float-left mr-3" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-search"></i> WHODD Browser</button>
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document" style="max-width: 1175px !important;">
     <div class="modal-content">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="form-row justify-content-center">
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-3">
                         <div id="whoddsea" onclick="searchWhoDra()" class="form-control btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
                     </div>
                     <div class="form-group col-sm-1">
@@ -99,8 +99,7 @@
             </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="selectWhoDDButton(<?php echo $fieldId?>)" data-dismiss="modal">Select</button>
+        <button type="button" class="btn btn-success w-25 mx-auto" onclick="selectWhoDDButton(<?php echo $fieldId?>)" data-dismiss="modal">Select</button>
       </div>
     </div>
   </div>

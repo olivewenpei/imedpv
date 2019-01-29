@@ -47,7 +47,13 @@
                                     <option value="3">Interacting</option>
                                 </select>
                             </div>
-
+                            <div class="form-group col-md-3">
+                                <label>Blinding technique</label>
+                                <select class="form-control" id="blinding_tech" name="product[blinding_tech]">
+                                    <option value="1">Single blind</option>
+                                    <option value="2">Open-label</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-row">
@@ -75,16 +81,15 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label>Blinding technique</label>
-                                <select class="form-control" id="blinding_tech" name="product[blinding_tech]">
-                                    <option value="1">Single blind</option>
-                                    <option value="2">Open-label</option>
-                                </select>
+                                <label>WHODD Browser</label>
+                                <div style="margin-left: 47px;">
+                                    <?php
+                                    $meddraCell = $this->cell('Whodd');
+                                    echo $meddraCell;?>
+                                </div>
                             </div>
                             <div class="form-group col-md-3">
-                                <?php 
-                                $meddraCell = $this->cell('Whodd');
-                                echo $meddraCell;?>
+                                <label>WHODD Code</label>
                                 <input type="text" readonly="readonly" class="form-control" id="whodracode" name="product[WHODD_code]" placeholder="WHODD Code">
                             </div>
                             <div class="form-group col-md-3">
@@ -318,7 +323,7 @@
                                                             <h5 class="card-title"><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /> </h5>
                                                             <p class="card-text"><textarea type="text"  id="new_activity-description" class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
                                                         </div>
-                                                        <button id="confirm_new_activity" onclick="confirm_cust_activity()">confirm</button>
+                                                        <button id="confirm_new_activity" class="btn btn-primary w-25 mx-auto my-2" onclick="confirm_cust_activity()">Confirm</button>
                                                     </div>
                                                 </li>
                                             </ul>
