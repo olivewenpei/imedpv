@@ -13,6 +13,8 @@
         <li><?= $this->Html->link(__('New Sd Workflow'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Workflow Activities'), ['controller' => 'SdWorkflowActivities', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Workflow Activity'), ['controller' => 'SdWorkflowActivities', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="sdWorkflows view large-9 medium-8 columns content">
@@ -52,6 +54,7 @@
                 <th scope="col"><?= __('Sd Product Id') ?></th>
                 <th scope="col"><?= __('Sd Workflow Id') ?></th>
                 <th scope="col"><?= __('Sd User Id') ?></th>
+                <th scope="col"><?= __('Status') ?></th>
                 <th scope="col"><?= __('Sd Company Id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -61,11 +64,43 @@
                 <td><?= h($sdProductWorkflows->sd_product_id) ?></td>
                 <td><?= h($sdProductWorkflows->sd_workflow_id) ?></td>
                 <td><?= h($sdProductWorkflows->sd_user_id) ?></td>
+                <td><?= h($sdProductWorkflows->status) ?></td>
                 <td><?= h($sdProductWorkflows->sd_company_id) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'SdProductWorkflows', 'action' => 'view', $sdProductWorkflows->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'SdProductWorkflows', 'action' => 'edit', $sdProductWorkflows->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdProductWorkflows', 'action' => 'delete', $sdProductWorkflows->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdProductWorkflows->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Sd Workflow Activities') ?></h4>
+        <?php if (!empty($sdWorkflow->sd_workflow_activities)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Sd Workflow Id') ?></th>
+                <th scope="col"><?= __('Order No') ?></th>
+                <th scope="col"><?= __('Step Backward') ?></th>
+                <th scope="col"><?= __('Activity Name') ?></th>
+                <th scope="col"><?= __('Description') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($sdWorkflow->sd_workflow_activities as $sdWorkflowActivities): ?>
+            <tr>
+                <td><?= h($sdWorkflowActivities->id) ?></td>
+                <td><?= h($sdWorkflowActivities->sd_workflow_id) ?></td>
+                <td><?= h($sdWorkflowActivities->order_no) ?></td>
+                <td><?= h($sdWorkflowActivities->step_backward) ?></td>
+                <td><?= h($sdWorkflowActivities->activity_name) ?></td>
+                <td><?= h($sdWorkflowActivities->description) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'SdWorkflowActivities', 'action' => 'view', $sdWorkflowActivities->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdWorkflowActivities', 'action' => 'edit', $sdWorkflowActivities->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdWorkflowActivities', 'action' => 'delete', $sdWorkflowActivities->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdWorkflowActivities->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

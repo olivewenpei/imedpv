@@ -3,6 +3,19 @@ var workflow_k = 0;
 var workflow_info ={};
 var cro_list=[];
 var call_center_list = {};
+$(document).ready(function() {
+    var unsaved = false;
+
+    $("input:not(:button,:submit),textarea,select").change(function(){   //triggers change in all input fields including text type
+        unsaved = true;
+    });
+
+    window.onbeforeunload = function (){
+        if(unsaved){
+            return 'Your data is changed, are you sure you want to complete?';
+        }
+    };
+});
 function selectCro(id){
     $('[id^=conass]').attr('id', 'conass-'+id);
     var member_text = "";
@@ -370,8 +383,8 @@ jQuery(function($) {  // In case of jQuery conflict
         var default_text = "<p>This is default workflow and cannot be changed</p>";
         var customize_text = "";
         var country = $('#select-country').val();
-        default_text +="<h4>Workflow Name: "+ workflowInfo[country]['name']+"</h4>";
-        default_text +="<h5>Workflow Description: "+workflowInfo[country]['description']+"</h5>";
+        default_text +="<h4>Name: "+ workflowInfo[country]['name']+"</h4>";
+        default_text +="<h5>Description: "+workflowInfo[country]['description']+"</h5>";
         $('#default-workflow_description').val(workflowInfo[country]['description']);
         $('#default-workflow_name').val(workflowInfo[country]['name']);
         $('#custom-workflow_name').val('customize-'+workflowInfo[country]['name']);
@@ -719,11 +732,11 @@ function view_workflow(workflow_k){
         console.log(company_detail);
         $.each(company_detail['team_resources'],function(k,v){
             console.log(v);
-            team_resources_text += "<div>"+v['firstname']+" "+v['lastname']+" /"+company_detail['name']+"</div>";
+            team_resources_text += "<div><b>"+v['firstname']+" "+v['lastname']+"</b> FROM "+company_detail['name']+"</div>";
         });
         $.each(company_detail['workflow_manager'],function(k,v){
             console.log(v);
-            $('#viewMan').text(v['firstname']+" "+v['lastname']+" /"+company_detail['name']);
+            $('#viewMan').html("<b>"+v['firstname']+" "+v['lastname']+"</b> FROM "+company_detail['name']);
         })
     });
     $('#viewRes').html(team_resources_text);
@@ -748,14 +761,13 @@ function confirm_cust_activity(){
         revert: "invalid",
         start  : function(event, ui){
             $(ui.helper).addClass("w-100 h-75");
-            $(this).find('h5').replaceWith('<h5><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /></h5>');
+            $(this).find('h5').replaceWith('<h5 class=\"card-title\"><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /></h5>');
             $(this).find('p').replaceWith('<p class="card-text"><textarea type="text"  id="new_activity-description" class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>');
             $(this).find('.card').append("<button id=\"confirm_new_activity\" onclick=\"confirm_cust_activity()\">confirm</button>");
         },
         // Add "close icon" when drag into new place
         create :  function (event, ui) {
-            $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
-           
+            $("#draggable").find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
         },
         // Remove all inputs in original when drag into new place
         stop : function (event,ui) {

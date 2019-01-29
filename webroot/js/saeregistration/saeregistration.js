@@ -1,3 +1,16 @@
+$(document).ready(function() {
+    var unsaved = false;
+
+    $("input:not(:button,:submit),textarea,select").change(function(){   //triggers change in all input fields including text type
+        unsaved = true;
+    });
+
+    window.onbeforeunload = function (){
+        if(unsaved){
+            return 'Your data is changed, are you sure you want to complete?';
+        }
+    };
+});
 $(document).ready(function(){
     
     $('input:checkbox').change(

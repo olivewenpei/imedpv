@@ -24,6 +24,7 @@ use Cake\ORM\Entity;
  * @property string $end_date
  * @property int $status
  *
+ * @property \App\Model\Entity\SdCompany $sd_company
  * @property \App\Model\Entity\SdProductWorkflow[] $sd_product_workflows
  */
 class SdProduct extends Entity
@@ -55,6 +56,7 @@ class SdProduct extends Entity
         'start_date' => true,
         'end_date' => true,
         'status' => true,
+        'sd_company' => true,
         'sd_product_workflows' => true
     ];
 }

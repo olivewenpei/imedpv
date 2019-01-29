@@ -35,10 +35,8 @@ class SdWorkflowsController extends AppController
     public function view($id = null)
     {
         $sdWorkflow = $this->SdWorkflows->get($id, [
-            'contain' => ['SdActivities', 'SdProductWorkflows']
+            'contain' => ['SdProductWorkflows','SdWorkflowActivities']
         ]);
-
-        $this->set('sdWorkflow', $sdWorkflow);
     }
 
     /**

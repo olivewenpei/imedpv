@@ -11,8 +11,10 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\SdRolesTable|\Cake\ORM\Association\BelongsTo $SdRoles
  * @property \App\Model\Table\SdCompaniesTable|\Cake\ORM\Association\BelongsTo $SdCompanies
- * @property |\Cake\ORM\Association\HasMany $SdActivityLogs
- * @property |\Cake\ORM\Association\HasMany $SdUserAssignments
+ * @property \App\Model\Table\SdActivityLogsTable|\Cake\ORM\Association\HasMany $SdActivityLogs
+ * @property \App\Model\Table\SdCasesTable|\Cake\ORM\Association\HasMany $SdCases
+ * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
+ * @property \App\Model\Table\SdUserAssignmentsTable|\Cake\ORM\Association\HasMany $SdUserAssignments
  *
  * @method \App\Model\Entity\SdUser get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdUser newEntity($data = null, array $options = [])
@@ -48,6 +50,12 @@ class SdUsersTable extends Table
             'foreignKey' => 'sd_company_id'
         ]);
         $this->hasMany('SdActivityLogs', [
+            'foreignKey' => 'sd_user_id'
+        ]);
+        $this->hasMany('SdCases', [
+            'foreignKey' => 'sd_user_id'
+        ]);
+        $this->hasMany('SdProductWorkflows', [
             'foreignKey' => 'sd_user_id'
         ]);
         $this->hasMany('SdUserAssignments', [
