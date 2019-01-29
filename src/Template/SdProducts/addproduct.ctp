@@ -316,7 +316,7 @@
                                                             <h5 class="card-title"><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /> </h5>
                                                             <p class="card-text"><textarea type="text"  id="new_activity-description" class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
                                                         </div>
-                                                        <button id="confirm_new_activity">confirm</button>
+                                                        <button id="confirm_new_activity" class="btn btn-primary w-25 mx-auto my-2">Confirm</button>
                                                     </div>
                                                 </li>
                                             </ul>

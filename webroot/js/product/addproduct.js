@@ -8,7 +8,7 @@ function selectCro(id){
     var member_text = "";
     $(resource_list[workflow_k][id]['member_list']).each(function(k,v){
         member_text +="<div class=\"personnel\" id=\"userid_"+v.id+"\">"+v.firstname+" "+v.lastname+"</div>";
-        
+
     });
     $('#personnelDraggable').html(member_text);
 
@@ -55,7 +55,7 @@ jQuery(function($) {  // In case of jQuery conflict
         //     var customize_text = "";
         //     var country = $('#select-country').val();
         //     $(workflowInfo[country]['sd_workflow_activities']).each(function(k,v){
-    
+
         //         default_text +="<li class=\"defworkflowstep\">";
         //             default_text +="<div class=\"card w-100 h-25 my-2\">";
         //                 default_text +="<div class=\"card-body p-3\">";
@@ -64,7 +64,7 @@ jQuery(function($) {  // In case of jQuery conflict
         //                 default_text +="</div>";
         //             default_text +="</div>";
         //         default_text +="</li>"
-    
+
         //         customize_text +="<li class=\"custworkflowstep\">";
         //             customize_text +="<input value="+v.activity_name+" name=\"[workflow][0][workflow_activities]["+k+"]activity_name\" type=\"hidden\">";
         //             customize_text +="<input value="+v.description+" name=\"[workflow][0][workflow_activities]["+k+"]description\" type=\"hidden\">";
@@ -100,7 +100,7 @@ jQuery(function($) {  // In case of jQuery conflict
                         });
                 },
                 error:function(response){
-        
+
                 }
             });
             $.ajax({
@@ -168,7 +168,7 @@ jQuery(function($) {  // In case of jQuery conflict
         $("#crostaff-"+cro_id).html(textstaff);
     });
     $('#confirm_activities').click(function(){
-        
+
         if ($('.defworkflow').is(':visible') && $('.custworkflow').is(':hidden'))
         {
             $('#cusworkflow, #defbtn').hide();
@@ -176,7 +176,7 @@ jQuery(function($) {  // In case of jQuery conflict
             $('#ifdef').addClass("mx-auto w-50");
         }
         if (($('.defworkflow').is(':hidden') && $('.custworkflow').is(':visible')))
-        {            
+        {
             workflowname = $('#custom-workflow_name').val();
             if(workflowname.length == 0){
                 $(this).show();
@@ -197,7 +197,7 @@ jQuery(function($) {  // In case of jQuery conflict
                 $('#defworkflow, #custbtn, .closewf').hide();
                 $('#cusT, #undochoWF').show();
                 $('#sortable, #draggable').addClass("mx-auto w-50");
-                $('#cusworkflow').find('ul').hide();   
+                $('#cusworkflow').find('ul').hide();
                 $('#custom-workflow_name').attr('disabled',true);
                 $('#custom-workflow_description').attr('disabled',true);
                 $('li.custworkflowstep').find('button').hide();
@@ -427,7 +427,7 @@ jQuery(function($) {  // In case of jQuery conflict
             text +="<td>"+$('#select-country option:selected').text()+"</td>";
             text +="<td>"+cro_text+"</td>";
             text +="<td>";
-            text +="<button class=\"btn btn-sm btn-primary\" onclick=\"view_workflow("+workflow_k+")\" data-toggle=\"modal\" data-target=\".WFlistView\">View</button>"
+            text +="<button class=\"btn btn-sm btn-primary mx-2\" onclick=\"view_workflow("+workflow_k+")\" data-toggle=\"modal\" data-target=\".WFlistView\">View</button>"
             text +="<button class=\"btn btn-sm btn-outline-danger\" onclick=\"$(this).closest('tr').remove();\">Delete</button>";
             text +="</td>";
             text +="<input name=\"workflow["+workflow_k+"][id]\" value="+workflow_info[workflow_k].id+" type=\"hidden\">";
@@ -457,15 +457,15 @@ jQuery(function($) {  // In case of jQuery conflict
             text +="<td>"+$('#select-country option:selected').text()+"</td>";
             text +="<td>"+cro_text+"</td>";
             text +="<td>";
-            text +="<button class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" onclick=\"view_workflow("+workflow_k+")\" data-target=\".WFlistView\">View</button>"
+            text +="<button class=\"btn btn-sm btn-primary mx-2\" data-toggle=\"modal\" onclick=\"view_workflow("+workflow_k+")\" data-target=\".WFlistView\">View</button>"
             text +="<button class=\"btn btn-sm btn-outline-danger\" onclick=\"$(this).closest('tr').remove();\">Delete</button>";
             text +="</td>";
 
             text +="<input name=\"workflow["+workflow_k+"][name]\" value="+workflow_info[workflow_k].workflow_name+" type=\"hidden\">";
             text +="<input name=\"workflow["+workflow_k+"][description]\" value="+workflow_info[workflow_k].workflow_description+" type=\"hidden\">";
-            text +="<input name=\"workflow["+workflow_k+"][country]\" value="+workflow_info[workflow_k].country+" type=\"hidden\">";     
-            text +="<input name=\"workflow["+workflow_k+"][status]\" value=\"1\" type=\"hidden\">";     
-            text +="<input name=\"workflow["+workflow_k+"][workflow_type]\" value=\"1\" type=\"hidden\">";            
+            text +="<input name=\"workflow["+workflow_k+"][country]\" value="+workflow_info[workflow_k].country+" type=\"hidden\">";
+            text +="<input name=\"workflow["+workflow_k+"][status]\" value=\"1\" type=\"hidden\">";
+            text +="<input name=\"workflow["+workflow_k+"][workflow_type]\" value=\"1\" type=\"hidden\">";
             text +="<input name=\"product_workflow["+workflow_k+"][sd_company_id]\" value="+workflow_info[workflow_k].sd_company_id+" type=\"hidden\">";
             text +="<input name=\"product_workflow["+workflow_k+"][sd_user_id]\" value="+workflow_info[workflow_k].sd_user_id+" type=\"hidden\">";//TODO
             text +="<input name=\"product_workflow["+workflow_k+"][status]\" value=\"1\" type=\"hidden\">";
@@ -619,8 +619,8 @@ jQuery(function($) {  // In case of jQuery conflict
                 $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
                 $('#confirm_new_activity').click(function(){
                     $('#new_activity-name').replaceWith('<b>'+$('#new_activity-name').val()+'</b>');
-                    $('#new_activity-description').replaceWith($('#new_activity-description').val());        
-                    $(this).hide();            
+                    $('#new_activity-description').replaceWith($('#new_activity-description').val());
+                    $(this).hide();
                 });
 
             },
@@ -639,7 +639,7 @@ jQuery(function($) {  // In case of jQuery conflict
         $('#crotable').append('<tr id="cro_id_list-'+cro_id+' "><th id = "crocompany-'+cro_id+'">' + cro_name + '</th><td id = "cromanager-'+cro_id+'"></td><td id = "crostaff-'+cro_id+'"></td><td><button class="btn btn-sm btn-outline-info" onclick="selectCro(' + cro_id + ')" data-toggle="modal" data-target="#addper">Edit</button><button class="btn btn-sm btn-danger ml-3" id="removeCRO-' + cro_id + '" onclick="removeCro(' + cro_id + ')">Delete</button></td></tr>');
         // $('#addcroarea').append(newcro);
         var request = {'id':cro_id};
-        //TODO 
+        //TODO
         $.ajax({
             headers: {
                 'X-CSRF-Token': csrfToken
@@ -665,9 +665,9 @@ jQuery(function($) {  // In case of jQuery conflict
                 // croDroppableArea();
             },
             error:function(response){
-    
+
             }
-        }); 
+        });
      });
 });
 function iterateWorkflow(wkfl_name)

@@ -4,11 +4,11 @@ jQuery(function($) {
 $(document).ready(function(){
     // Datepicker Script
 $( function() {
-    $( "[id*=date]" ).datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
-    $("#section-1-field-355").hide();
+    // $( "[id*=date]" ).datepicker({
+    //     changeMonth: true,
+    //     changeYear: true
+    // });
+    // $("#section-1-field-355").hide();
 } );
 
 // For Additional documents (A.1.8.1) select in General Tab
@@ -420,7 +420,7 @@ function saveSection(sectionId){
                 var fieldvalueK = $("[id$=field-"+k+"]").children("[id^=section-"+sectionId+"-sd_section_structures]").attr('id').split('-')[5];
                 var setNum = $("[id$=field-"+k+"]").children("[id^=section-"+sectionId+"-set_number]").val();
                 if(savedArray[k]!=''){
-                    
+
                     $(section[section_Id[2]].sd_section_structures[sectionStructureK].sd_field.sd_field_values).each(function(k,v){
                         if(typeof v != 'undefined')
                         max_set_no = Math.max(v.set_number, max_set_no);

@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fas fa-search"></i> MedDRA Browser</button>
+<button type="button" class="btn btn-info btn-sm mx-3" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fas fa-search"></i> MedDRA Browser</button>
 
 <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document" style="max-width: 1175px !important;">
@@ -29,13 +29,13 @@
                     </div>
                     <div class="form-group col-md-4">
                         <input type="text" class="form-control" id="hlgt_term" placeholder="Search HLGT Term">
-                    </div>                    
+                    </div>
                     <div class="form-group col-md-4">
                         <input type="text" class="form-control" id="soc_term"  placeholder="Search SOC Term">
                     </div>
                 </div>
                 <div class="form-row justify-content-center">
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-3">
                         <div id="meddrasea" onclick="searchMedDra(<?= $fieldId ?>)" class="form-control btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
                     </div>
                     <div class="form-group col-sm-1">
@@ -50,7 +50,7 @@
             <h4 class="text-center">MedDra Details</h4> <hr>
             <div class="container">
                 <fieldset disabled>
-                    <div class="form-row">
+                    <div class="form-row justify-content-center">
                         <div class="form-group col-md-4">
                             <label for="">LLT Name</label>
                             <input type="text" class="form-control" id="select-llt-name">
@@ -60,7 +60,7 @@
                             <input type="text" class="form-control" id="select-llt-code">
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row justify-content-center">
                         <div class="form-group col-md-4">
                             <label for="">PT Name</label>
                             <input type="text" class="form-control" id="select-pt-name">
@@ -70,7 +70,7 @@
                             <input type="text" class="form-control" id="select-pt-code">
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row justify-content-center">
                         <div class="form-group col-md-4">
                             <label for="">HLT Name</label>
                             <input type="text" class="form-control" id="select-hlt-name">
@@ -80,7 +80,7 @@
                             <input type="text" class="form-control" id="select-hlt-code">
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row justify-content-center">
                         <div class="form-group col-md-4">
                             <label for="">HLGT Name</label>
                             <input type="text" class="form-control" id="select-hlgt-name">
@@ -90,7 +90,7 @@
                             <input type="text" class="form-control" id="select-hlgt-code">
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row justify-content-center">
                         <div class="form-group col-md-4">
                             <label for="">SOC Name</label>
                             <input type="text" class="form-control" id="select-soc-name">
@@ -104,8 +104,7 @@
             </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"  onclick="selectMeddraButton(<?php echo $fieldId?>)" data-dismiss="modal">Select</button>
+        <button type="button" class="btn btn-success w-25 mx-auto"  onclick="selectMeddraButton(<?php echo $fieldId?>)" data-dismiss="modal">Select</button>
       </div>
     </div>
   </div>
