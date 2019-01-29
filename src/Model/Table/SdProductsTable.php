@@ -9,6 +9,7 @@ use Cake\Validation\Validator;
 /**
  * SdProducts Model
  *
+ * @property |\Cake\ORM\Association\BelongsTo $SdCompanies
  * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
  * @method \App\Model\Entity\SdProduct get($primaryKey, $options = [])
@@ -37,6 +38,10 @@ class SdProductsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('SdCompanies', [
+            'foreignKey' => 'sd_company_id',
+            'joinType' => 'INNER'
+        ]);
         $this->hasMany('SdProductWorkflows', [
             'foreignKey' => 'sd_product_id'
         ]);
@@ -81,11 +86,6 @@ class SdProductsTable extends Table
             ->maxLength('WHODD_decode', 11)
             ->requirePresence('WHODD_decode', 'create')
             ->notEmpty('WHODD_decode');
-
-        $validator
-            ->integer('sponsor_company')
-            ->requirePresence('sponsor_company', 'create')
-            ->notEmpty('sponsor_company');
 
         $validator
             ->scalar('short_desc')
@@ -146,5 +146,19 @@ class SdProductsTable extends Table
             ->notEmpty('status');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['sd_company_id'], 'SdCompanies'));
+
+        return $rules;
     }
 }

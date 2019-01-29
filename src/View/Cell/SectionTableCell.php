@@ -55,7 +55,7 @@ class SectionTableCell extends Cell
             'groupField' => 'set_number'
         ])
             ->where(function ($exp, $query) use($caseId){
-                $section_strucutre_related = $exp->or_(['sd_field_id'=>'6'])->add(['sd_field_id'=>'362'])->add(['sd_field_id'=>'380'])->add(['sd_field_id'=>'363'])->add(['sd_field_id'=>'364'])->add(['sd_field_id'=>'365'])->add(['sd_field_id'=>'366']);
+                $section_strucutre_related = $exp->or_(['sd_field_id'=>'6'])->add(['sd_field_id'=>'362'])->add(['sd_field_id'=>'388'])->add(['sd_field_id'=>'363'])->add(['sd_field_id'=>'364'])->add(['sd_field_id'=>'365'])->add(['sd_field_id'=>'366']);
                 return $exp->and_([
                     $section_strucutre_related,
                     'sd_case_id' => $caseId
@@ -65,14 +65,14 @@ class SectionTableCell extends Cell
             'keyField' => 'id',
             'valueField' => 'field_label',
         ])->where(function ($exp, $query){
-            return $exp->or_(['id'=>'6'])->add(['id'=>'362'])->add(['id'=>'380'])->add(['id'=>'363'])->add(['id'=>'364'])->add(['id'=>'365'])->add(['id'=>'366']);
+            return $exp->or_(['id'=>'6'])->add(['id'=>'362'])->add(['id'=>'388'])->add(['id'=>'363'])->add(['id'=>'364'])->add(['id'=>'365'])->add(['id'=>'366']);
         })->toList();
         $sdFieldLookUps = $this->SdFieldValueLookUps->find('list',[
             'keyField' => 'value',
             'valueField' => 'caption',
             'groupField' => 'sd_field_id'
         ])->where(function ($exp, $query){
-            return $exp->or_(['sd_field_id'=>'6'])->add(['sd_field_id'=>'362'])->add(['sd_field_id'=>'380'])->add(['sd_field_id'=>'363'])->add(['sd_field_id'=>'364'])->add(['sd_field_id'=>'365'])->add(['sd_field_id'=>'366']);
+            return $exp->or_(['sd_field_id'=>'6'])->add(['sd_field_id'=>'362'])->add(['sd_field_id'=>'388'])->add(['sd_field_id'=>'363'])->add(['sd_field_id'=>'364'])->add(['sd_field_id'=>'365'])->add(['sd_field_id'=>'366']);
         })->toList();
         $this->set(compact('sourceFields','sdFields','sdFieldLookUps'));
     }

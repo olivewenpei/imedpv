@@ -127,7 +127,7 @@ class SdCasesController extends AppController
         //TODO Permission related
         $productInfo = TableRegistry::get('SdProducts')
             ->find()
-            ->select(['id','study_no'])
+            ->select(['id','product_name'])
             ->contain(['SdProductWorkflows.SdWorkflows'=>['fields'=>['SdWorkflows.name']]])
             ->group(['SdProducts.id']);
         $randNo = $this->caseNoGenerator();
@@ -214,7 +214,7 @@ class SdCasesController extends AppController
                 ];
                 $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
                 if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving sd_product_type_id sdfields";
-                debug($sdFieldValueEntity);
+                // debug($sdFieldValueEntity);
                 $sdFieldValueEntity = $sdFieldValueTable->newEntity();
                 $dataSet = [
                     'sd_case_id' => $savedCase->id,
@@ -247,7 +247,7 @@ class SdCasesController extends AppController
                 $dataSet = [
                     'sd_case_id' => $savedCase->id,
                     'version_no' => '1',
-                    'sd_field_id' => '367',
+                    'sd_field_id' => '389',
                     'set_number' => '1',
                     'created_time' =>date("Y-m-d H:i:s"),
                     'field_value' =>$product_data['WHODD_name'],
@@ -269,6 +269,7 @@ class SdCasesController extends AppController
                 $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
                 if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving mfr_name sdfields";
             }
+            return $this->redirect(['action' => 'caselist']);
         }
         $this->set(compact('productInfo','randNo'));
     }

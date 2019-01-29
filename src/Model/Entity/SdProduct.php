@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property string $study_name
  * @property int $study_type
  * @property string $WHODD_decode
- * @property int $sponsor_company
+ * @property int $sd_company_id
  * @property string $short_desc
  * @property string $product_desc
  * @property string $blinding_tech
@@ -24,7 +24,6 @@ use Cake\ORM\Entity;
  * @property string $end_date
  * @property int $status
  *
- * @property \App\Model\Entity\SdProductType $sd_product_type
  * @property \App\Model\Entity\SdProductWorkflow[] $sd_product_workflows
  */
 class SdProduct extends Entity
@@ -45,7 +44,7 @@ class SdProduct extends Entity
         'study_name' => true,
         'study_type' => true,
         'WHODD_decode' => true,
-        'sponsor_company' => true,
+        'sd_company_id' => true,
         'short_desc' => true,
         'product_desc' => true,
         'blinding_tech' => true,
@@ -56,7 +55,6 @@ class SdProduct extends Entity
         'start_date' => true,
         'end_date' => true,
         'status' => true,
-        'sd_product_type' => true,
         'sd_product_workflows' => true
     ];
 }

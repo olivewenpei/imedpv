@@ -24,9 +24,6 @@
                         echo (!empty($setValue['362']))?$setValue['362']:null;
                         echo "</td>";
                         echo "<td scope=\"col\">";
-                        echo (!empty($setValue['380']))?$setValue['380']:null;
-                        echo "</td>";
-                        echo "<td scope=\"col\">";
                         echo (!empty($setValue['363']))?$setValue['363']:null;
                         echo "</td>";
                         echo "<td scope=\"col\">";
@@ -37,6 +34,9 @@
                         echo "</td>";
                         echo "<td scope=\"col\">";
                         echo (!empty($setValue['366']))?$setValue['366']:null;
+                        echo "</td>";
+                        echo "<td scope=\"col\">";
+                        echo (!empty($setValue['388']))?$setValue['388']:null;
                         echo "</td>";
                         echo "<td scope=\"col\">";
                         echo "<button class=\"btn btn-outline-danger\" onclick=\"setPageChange(55,".$setNo.")\" role=\"button\" title=\"show\"><i class=\"fas fa-trash-alt\"></i></button>";

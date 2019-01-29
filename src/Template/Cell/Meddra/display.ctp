@@ -173,15 +173,19 @@
 function selectMeddraButton(fieldId){
     console.log($('#whodrug-code'+fieldId));
     $('[id*=meddralltname]').val($('#select-llt-name').val());
+    $('[id*=reactionmeddrallt]').val($('#select-llt-code').val());
+    $('[id*=patientdeathreport').val($('#select-llt-code').val());
     $('[id*=meddralltcode]').val($('#select-llt-code').val());
     $('[id*=meddraptname]').val($('#select-pt-name').val());
     $('[id*=meddraptcode]').val($('#select-pt-code').val());
+    $('[id*=reactionmeddrapt]').val($('#select-hlt-code').val());
     $('[id*=meddrahltname]').val($('#select-hlt-name').val());
     $('[id*=meddrahltcode]').val($('#select-hlt-code').val());
     $('[id*=meddrahlgtname]').val($('#select-hlgt-name').val());
     $('[id*=meddrahlgtcode]').val($('#select-hlgt-code').val());
     $('[id*=meddrasocname]').val($('#select-soc-name').val());
     $('[id*=meddrasoccode]').val($('#select-soc-code').val());
+    $('[id*=meddraversion]').val('18.1');
 }
 function selectMedDra(key){
     var meddra_detail = $('#meddra_detail'+key).html();

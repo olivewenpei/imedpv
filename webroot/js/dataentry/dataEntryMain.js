@@ -8,7 +8,7 @@ $( function() {
     //     changeMonth: true,
     //     changeYear: true
     // });
-    // $("#section-1-field-355").hide();
+    $("#section-1-field-355").hide();
 } );
 
 // For Additional documents (A.1.8.1) select in General Tab

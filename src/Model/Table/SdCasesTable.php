@@ -90,12 +90,14 @@ class SdCasesTable extends Table
             ->notEmpty('priority');
 
         $validator
-            ->date('activity_due_date')
+            ->scalar('activity_due_date')
+            ->maxLength('activity_due_date', 10)
             ->requirePresence('activity_due_date', 'create')
             ->notEmpty('activity_due_date');
 
         $validator
-            ->date('submission_due_date')
+            ->scalar('submission_due_date')
+            ->maxLength('submission_due_date', 10)
             ->requirePresence('submission_due_date', 'create')
             ->notEmpty('submission_due_date');
 
