@@ -22,7 +22,7 @@
                                 <option value="">Select Project No</option>
                                 <?php
                                 foreach($productInfo as $k => $productDetail){
-                                    echo "<option value=".$productDetail->id.">".$productDetail->study_no."</option>";
+                                    echo "<option value=".$productDetail->id.">".$productDetail->product_name."</option>";
                                 };?>
                                 <!-- html->form(project_no) -->
                             </select>

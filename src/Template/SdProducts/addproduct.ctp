@@ -82,12 +82,14 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
-                                <label>WHODD Code</label>
-                                <input type="text" class="form-control" id="WHODD_code" name="product[WHODD_code]" placeholder="WHODD Code">
+                                <?php 
+                                $meddraCell = $this->cell('Whodd');
+                                echo $meddraCell;?>
+                                <input type="text" readonly="readonly" class="form-control" id="whodracode" name="product[WHODD_code]" placeholder="WHODD Code">
                             </div>
                             <div class="form-group col-md-3">
                                 <label>WHODD Name</label>
-                                <input type="text" class="form-control" id="WHODD_name" name="product[WHODD_name]" placeholder="WHODD Name">
+                                <input type="text" readonly="readonly" class="form-control" id="whodraname" name="product[WHODD_name]" placeholder="WHODD Name">
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Preferred WHO DD decode</label>
@@ -134,7 +136,7 @@
                         <div id="workflowlist" class="mt-3">
                             <h3>Workflow List</h3>
 
-                            <table class="table table-hover mb-3">
+                            <table class="table table-hover mb-3" id="workflow_list">
                                 <thead>
                                     <tr>
                                         <th scope="col">Workflow Name</th>
@@ -166,7 +168,7 @@
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-body m-3">
-                                            <h4>Workflow List Details</h4>
+                                            <h4>Workflow Details</h4>
                                             <table class="table table-hover" id="ifram_view">
                                                 <thead>
                                                     <tr>
@@ -295,13 +297,13 @@
                                         <div class="custworkflow" id="cusworkflow">
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
-                                                    <label>Workflow Name: </label >
+                                                    <h4>Workflow Name: </h4 >
                                                     <input type="text" id="custom-workflow_name" value=""/>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
-                                                    <label>Workflow Description </label >
+                                                    <h5>Workflow Description </h5 >
                                                     <input type="text" id="custom-workflow_description" value=""/>
                                                 </div>
                                             </div>
@@ -316,7 +318,7 @@
                                                             <h5 class="card-title"><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /> </h5>
                                                             <p class="card-text"><textarea type="text"  id="new_activity-description" class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>
                                                         </div>
-                                                        <button id="confirm_new_activity">confirm</button>
+                                                        <button id="confirm_new_activity" onclick="confirm_cust_activity()">confirm</button>
                                                     </div>
                                                 </li>
                                             </ul>

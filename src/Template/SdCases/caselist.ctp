@@ -1,5 +1,7 @@
 <title>Case List</title>
-
+<script>
+var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+</script>
 <div class="card my-3 w-75 mx-auto">
     <div class="card-header text-center">
         <h5> Case List</h5>

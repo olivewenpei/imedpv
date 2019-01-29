@@ -13,8 +13,8 @@ use Cake\ORM\Entity;
  * @property int $status
  * @property int $sd_user_id
  * @property int $priority
- * @property \Cake\I18n\FrozenDate $activity_due_date
- * @property \Cake\I18n\FrozenDate $submission_due_date
+ * @property string $activity_due_date
+ * @property string $submission_due_date
  * @property int $product_type
  * @property string $classification
  *

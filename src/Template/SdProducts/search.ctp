@@ -79,7 +79,7 @@
                         </div>
                         <div class="form-row justify-content-center">
                             <div class="form-group col-lg-3">
-                                <div id="addprobtn" class="btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
+                                <div onclick="searchProd()" class="btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
                             </div>
                             <div class="form-group col-lg-2">
                                 <div id="advsearch" class="btn btn-outline-info w-100"><i class="fas fa-keyboard"></i> Advanced Search</div>
@@ -89,7 +89,67 @@
                             </div>
                             <input type="hidden" id="product_id" name="product_id" value="">
                         </div>
-
+                        <div class="modal fade WFlistView" tabindex="-1" role="dialog" aria-labelledby="WFlistView" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-body m-3">
+                                            <h4>Workflow Details</h4>
+                                            <table class="table table-hover" id="ifram_view">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Workflow Name</th>
+                                                        <td id="viewWFname">WWW1</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Call Center</th>
+                                                        <td id="viewCC">China</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Country</th>
+                                                        <td id="viewCountry">China</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Description</th>
+                                                        <td id="viewDesc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum unde assumenda quo consequatur, alias soluta eum placeat eius maxime odit, odio sint, iste veniam omnis!</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Workflow Manager</th>
+                                                        <td id="viewMan">Mark</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="w-25">Team Resources</th>
+                                                        <td id="viewRes">Mark</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                                <h4>Workflow Steps</h4>
+                                                <div id="view_activities">
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <div id="searchProductlist" class="my-3">
                             <h3>Product List</h3>
                             <table class="table table-hover">

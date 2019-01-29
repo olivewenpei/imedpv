@@ -167,8 +167,13 @@ jQuery(function($) {  // In case of jQuery conflict
         // });
         $("#crostaff-"+cro_id).html(textstaff);
     });
+
     $('#confirm_activities').click(function(){
-        
+
+        $('.step_backward').each(function(){
+            $(this).prop("disabled", false);
+        });
+
         if ($('.defworkflow').is(':visible') && $('.custworkflow').is(':hidden'))
         {
             $('#cusworkflow, #defbtn').hide();
@@ -243,7 +248,6 @@ jQuery(function($) {  // In case of jQuery conflict
     $('#submitworkflow').click(function() {
         $(this).hide();
         $('#undo_activities').hide();
-        //TODO
         $('#undochoWF').show();
         $('#choosecro').show();
         var cro_text = "";
@@ -252,11 +256,7 @@ jQuery(function($) {  // In case of jQuery conflict
             });
         $('#croname').html(cro_text);
         workflow_info[workflow_k].activities = [];
-        $('#crotable').html();
-        //TODO
-        // activities_list.order_no
-        // activities_list.step_forward
-        //while deault
+        $('#crotable').html("");
         if ($('.defworkflow').is(':visible') && $('.custworkflow').is(':hidden'))
         {
             var order_no = 1;
@@ -282,6 +282,9 @@ jQuery(function($) {  // In case of jQuery conflict
         }
         if (($('.defworkflow').is(':hidden') && $('.custworkflow').is(':visible')))
         {
+            $('.step_backward').each(function(){
+                $(this).prop("disabled", true);
+            })
             var order_no = 1;
             $('#sortable').find(".card-body").each(function(){
                 var activities_list = {};
@@ -312,7 +315,7 @@ jQuery(function($) {  // In case of jQuery conflict
         $.each(call_center_list, function(k,call_center){
             call_center_text +="<option value=\""+k+"\">"+call_center.name+"</option>";
             });
-        $("#select-country, #callcenter").prop("disabled", false);
+        $("#select-country, #callCenter").prop("disabled", false);
         $("#select-country").val();
         $('#callCenter').html(call_center_text);
         $(this).hide();
@@ -356,7 +359,7 @@ jQuery(function($) {  // In case of jQuery conflict
         workflow_info[workflow_k].sd_company_id = $('#callCenter').val();
         $(this).hide();
         $('#undochocon').show();
-        $("#select-country, #callcenter ").prop("disabled", true);
+        $("#select-country, #callCenter ").prop("disabled", true);
         $('#choosewf').show();
         $('#defworkflow').show();
         $('#cusworkflow').show();
@@ -367,6 +370,8 @@ jQuery(function($) {  // In case of jQuery conflict
         var default_text = "<p>This is default workflow and cannot be changed</p>";
         var customize_text = "";
         var country = $('#select-country').val();
+        default_text +="<h4>Workflow Name: "+ workflowInfo[country]['name']+"</h4>";
+        default_text +="<h5>Workflow Description: "+workflowInfo[country]['description']+"</h5>";
         $('#default-workflow_description').val(workflowInfo[country]['description']);
         $('#default-workflow_name').val(workflowInfo[country]['name']);
         $('#custom-workflow_name').val('customize-'+workflowInfo[country]['name']);
@@ -399,6 +404,9 @@ jQuery(function($) {  // In case of jQuery conflict
 
     });
     $('#undochoWF').click(function() {
+        $('.step_backward').each(function(){
+            $(this).prop("disabled", false);
+        });
         $('#undo_activities').show();
         $('#choosecro').hide();
         $('#submitworkflow').show();
@@ -409,7 +417,7 @@ jQuery(function($) {  // In case of jQuery conflict
         $('#choosecro').hide();
         $('#confirm_activities').hide();
         $('#submitchocountry').show();
-        $("#select-country, #callcenter").prop("disabled", false);
+        $("#select-country, #callCenter").prop("disabled", false);
     });
     $('#confirmWFlist').click(function() {
         var text = "";
@@ -427,7 +435,7 @@ jQuery(function($) {  // In case of jQuery conflict
             text +="<td>"+$('#select-country option:selected').text()+"</td>";
             text +="<td>"+cro_text+"</td>";
             text +="<td>";
-            text +="<button class=\"btn btn-sm btn-primary\" onclick=\"view_workflow("+workflow_k+")\" data-toggle=\"modal\" data-target=\".WFlistView\">View</button>"
+            text +="<div class=\"btn btn-sm btn-primary\" onclick=\"view_workflow("+workflow_k+")\" data-toggle=\"modal\" data-target=\".WFlistView\">View</div>"
             text +="<button class=\"btn btn-sm btn-outline-danger\" onclick=\"$(this).closest('tr').remove();\">Delete</button>";
             text +="</td>";
             text +="<input name=\"workflow["+workflow_k+"][id]\" value="+workflow_info[workflow_k].id+" type=\"hidden\">";
@@ -456,8 +464,8 @@ jQuery(function($) {  // In case of jQuery conflict
             text +="<td>"+$('#callCenter option:selected').text()+"</td>";
             text +="<td>"+$('#select-country option:selected').text()+"</td>";
             text +="<td>"+cro_text+"</td>";
-            text +="<td>";
-            text +="<button class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" onclick=\"view_workflow("+workflow_k+")\" data-target=\".WFlistView\">View</button>"
+            text +="<td>";  
+            text +="<div class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" onclick=\"view_workflow("+workflow_k+")\" data-target=\".WFlistView\">View</div>"
             text +="<button class=\"btn btn-sm btn-outline-danger\" onclick=\"$(this).closest('tr').remove();\">Delete</button>";
             text +="</td>";
 
@@ -598,37 +606,6 @@ jQuery(function($) {  // In case of jQuery conflict
         //             $('#customize_activity').find('.step_backward').remove();
         //         }
         //     });
-        //     });
-        $('#confirm_new_activity').click(function(){
-            $('#draggable').addClass('ui-draggable ui-draggable-handle');
-        });
-        $( "#draggable" ).draggable({
-            connectToSortable: "#sortable",
-            cursor: "pointer",
-            helper: "clone",
-            opacity: 0.6,
-            revert: "invalid",
-            start  : function(event, ui){
-                $(ui.helper).addClass("w-100 h-75");
-                $(this).find('h5').replaceWith('<h5><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /></h5>');
-                $(this).find('p').replaceWith('<p class="card-text"><textarea type="text"  id="new_activity-description" class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>');
-                $(this).find('#confirm_new_activity').show();
-            },
-            // Add "close icon" when drag into new place
-            create :  function (event, ui) {
-                $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
-                $('#confirm_new_activity').click(function(){
-                    $('#new_activity-name').replaceWith('<b>'+$('#new_activity-name').val()+'</b>');
-                    $('#new_activity-description').replaceWith($('#new_activity-description').val());        
-                    $(this).hide();            
-                });
-
-            },
-            // Remove all inputs in original when drag into new place
-            // stop : function (event,ui) {
-            //     $(this).find('input, textarea').val('');
-            // }
-        });
       });
 
           // Add CRO, triggered by "Add" button for adding CRO button and CRO resource list
@@ -636,7 +613,7 @@ jQuery(function($) {  // In case of jQuery conflict
         var cro_name = $('#croname option:selected').text();
         var cro_id = $("#croname").val();
         // var newcro = $('<button type="button"class="btn btn-outline-primary"  onclick="selectCro(' + cro_id + ')" data-toggle="modal" data-target=".bd-example-modal-lg">' + cro_name + '</button>');
-        $('#crotable').append('<tr id="cro_id_list-'+cro_id+' "><th id = "crocompany-'+cro_id+'">' + cro_name + '</th><td id = "cromanager-'+cro_id+'"></td><td id = "crostaff-'+cro_id+'"></td><td><button class="btn btn-sm btn-outline-info" onclick="selectCro(' + cro_id + ')" data-toggle="modal" data-target="#addper">Edit</button><button class="btn btn-sm btn-danger ml-3" id="removeCRO-' + cro_id + '" onclick="removeCro(' + cro_id + ')">Delete</button></td></tr>');
+        $('#crotable').append('<tr><th id = "crocompany-'+cro_id+'">' + cro_name + '</th><td id = "cromanager-'+cro_id+'"></td><td id = "crostaff-'+cro_id+'"></td><td><button class="btn btn-sm btn-outline-info" onclick="selectCro(' + cro_id + ')" data-toggle="modal" data-target="#addper">Edit</button><button class="btn btn-sm btn-danger ml-3" id="removeCRO-' + cro_id + '" onclick="removeCro(' + cro_id + ')">Delete</button></td></tr>');
         // $('#addcroarea').append(newcro);
         var request = {'id':cro_id};
         //TODO 
@@ -756,4 +733,33 @@ function view_workflow(workflow_k){
     })
     activities_text+="<span class=\"badge badge-info px-5 py-3 m-3\"><h5>Complete</h5><h8>End of the case</h8></span>"
     $('#view_activities').html(activities_text);
+}
+function confirm_cust_activity(){
+    // $('#draggable').addClass('ui-draggable ui-draggable-handle');    
+    $('#new_activity-name').replaceWith('<b>'+$('#new_activity-name').val()+'</b>');
+    $('#new_activity-description').replaceWith($('#new_activity-description').val());   
+    $( "#draggable" ).draggable( {disabled: false} )     
+    $('#confirm_new_activity').remove();        
+    $( "#draggable" ).draggable({
+        connectToSortable: "#sortable",
+        cursor: "pointer",
+        helper: "clone",
+        opacity: 0.6,
+        revert: "invalid",
+        start  : function(event, ui){
+            $(ui.helper).addClass("w-100 h-75");
+            $(this).find('h5').replaceWith('<h5><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /></h5>');
+            $(this).find('p').replaceWith('<p class="card-text"><textarea type="text"  id="new_activity-description" class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>');
+            $(this).find('.card').append("<button id=\"confirm_new_activity\" onclick=\"confirm_cust_activity()\">confirm</button>");
+        },
+        // Add "close icon" when drag into new place
+        create :  function (event, ui) {
+            $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
+           
+        },
+        // Remove all inputs in original when drag into new place
+        stop : function (event,ui) {
+            $( "#draggable" ).draggable( {disabled: true} )
+        }
+    });
 }

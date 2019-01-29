@@ -139,7 +139,22 @@ class SdProductsController extends AppController
     {
         $this->viewBuilder()->layout('main_layout');
         $product_types = $this->loadProductTypes();
+        if ($this->request->is('post')) {
 
+            $this->autoRender = false;
+            $searchKey = $this->request->getData();
+            try{
+                $searchResult =  $this->SdProducts->find();
+                if(!empty($searchKey['productName'])) $searchResult = $searchResult->where(['product_name LIKE'=>'%'.$searchKey['productName'].'%']);
+                if(!empty($searchKey['studyName'])) $searchResult = $searchResult->where(['study_no  LIKE'=>'%'.$searchKey['studyName'].'%']);
+                $searchResult->contain(['SdProductWorkflows.SdUserAssignments','SdCompanies'=>function($q){ return $q->select(['company_name']);}])->all();
+            }catch (\PDOException $e){
+                echo "cannot the case find in database";
+            }
+            echo json_encode($searchResult);
+            // $this->set(compact('searchResult'));
+            die();
+        }
         $this->set('sdProductTypes', $product_types);
         // $this->set('sdSponsors', $sponsors);
 
@@ -154,12 +169,13 @@ class SdProductsController extends AppController
         //debug($sponsors);
         //debug($product_types);
 
-        $sdProduct = $this->SdProducts->newEntity();
+        
         if ($this->request->is('post')) {
+            $sdProduct = $this->SdProducts->newEntity();
             $sdProduct = $this->SdProducts->patchEntity($sdProduct, $this->request->getData()['product']);
             $saved_product = $this->SdProducts->save($sdProduct);
             if (!$saved_product) {
-                debug($saved_product);
+                // debug($saved_product);
                 $this->Flash->error(__('erro in product'));
             }
 
@@ -173,7 +189,7 @@ class SdProductsController extends AppController
                 
                 $saved_workflow[$workflow_k] = $workflows_table->save($patchedsdWorkflowEntity);
                 if (!($saved_workflow[$workflow_k])) {
-                    debug($saved_workflow[$workflow_k]);
+                    // debug($saved_workflow[$workflow_k]);
                     $this->Flash->error(__('erro in workflow'));
                 }
             }
@@ -186,7 +202,7 @@ class SdProductsController extends AppController
                     $workflow_activity_detail['sd_workflow_id']=$saved_workflow[$workflow_k]['id'];
                     $sdWorkflowActivityEntity = $workflow_activities_table->newEntity();
                         $patchedsdWorkflowActivityEntity = $workflow_activities_table->patchEntity($sdWorkflowActivityEntity,$workflow_activity_detail);
-                        debug($patchedsdWorkflowActivityEntity);
+
                         if (!($workflow_activities_table->save($patchedsdWorkflowActivityEntity))) {
                             $this->Flash->error(__('erro in activity'));
                         }
@@ -211,13 +227,12 @@ class SdProductsController extends AppController
                     $this->Flash->error(__('erro in product_workflow'));
                 }
             }
-            debug($savedProductWorkflow);
             //user_assignment saving
             $user_assignment_table = TableRegistry::get("sd_user_assignments");
             foreach($this->request->getData()['user_assignment'] as $user_assignment_k => $workflow_users)
             {
                 foreach($workflow_users as $user_k => $user_detail)
-                {debug($user_detail);
+                {
                     $user_detail['sd_product_workflow_id'] = $savedProductWorkflow[$user_assignment_k]['id'];
                     if(!empty($this->request->getData()['workflow'][$product_workflow_k]['id']))
                     $user_detail['sd_workflow_id'] = $this->request->getData()['workflow'][$product_workflow_k]['id'];
@@ -226,16 +241,17 @@ class SdProductsController extends AppController
                     };
                     $sd_user_assignmentsEntity = $user_assignment_table->newEntity();
                     $patchedsd_user_assignmentsEntity = $user_assignment_table->patchEntity($sd_user_assignmentsEntity,$user_detail);
-                    debug($patchedsd_user_assignmentsEntity);
                     if (!($user_assignment_table->save($patchedsd_user_assignmentsEntity))) {
                         $this->Flash->error(__('erro in user assignments'));
                     }                    
                 }
             }
+            $this->Flash->success(__('The sd product has been saved.'));
+            return $this->redirect(['action' => 'search']);
         }
         $company_table=TableRegistry::get("sd_companies");
         $sdSponsorCompanies = $company_table->find();
-        $this->set(compact('sdProduct', 'sdSponsorCompanies'));
+        $this->set(compact('sdSponsorCompanies'));
     }
 
     public function loadProductTypes()

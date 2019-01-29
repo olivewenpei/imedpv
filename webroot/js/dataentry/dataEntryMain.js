@@ -4,10 +4,10 @@ jQuery(function($) {
 $(document).ready(function(){
     // Datepicker Script
 $( function() {
-    $( "[id*=date]" ).datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
+    // $( "[id*=date]" ).datepicker({
+    //     changeMonth: true,
+    //     changeYear: true
+    // });
     $("#section-1-field-355").hide();
 } );
 
