@@ -161,5 +161,8 @@ class SdUsersController extends AppController
 
     public function myaccount() {
         $this->viewBuilder()->layout('main_layout');
+
+        $userID = $this->request->session()->read('Auth.User.id');
+        $this->set(compact('userID'));
     }
 }

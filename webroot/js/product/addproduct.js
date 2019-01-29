@@ -750,16 +750,15 @@ function confirm_cust_activity(){
             $(ui.helper).addClass("w-100 h-75");
             $(this).find('h5').replaceWith('<h5><input type="text" id="new_activity-name" placeholder="Type step name here FIRST" class="font-weight-bold" /></h5>');
             $(this).find('p').replaceWith('<p class="card-text"><textarea type="text"  id="new_activity-description" class="form-control" placeholder="Type your step description here" aria-label="With textarea"></textarea></p>');
-            $(this).find('.card').append("<button id=\"confirm_new_activity\" onclick=\"confirm_cust_activity()\">confirm</button>");
+            $(this).find('.card').append("<button id=\"confirm_new_activity\" onclick=\"confirm_cust_activity()\" class=\"btn btn-primary w-25 mx-auto my-2\">Confirm</button>");
         },
         // Add "close icon" when drag into new place
         create :  function (event, ui) {
             $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
-
         },
         // Remove all inputs in original when drag into new place
         stop : function (event,ui) {
-            $( "#draggable" ).draggable( {disabled: true} )
+            $( "#draggable" ).draggable( {disabled: true} );
         }
     });
 }
