@@ -9,9 +9,9 @@ use Cake\Validation\Validator;
 /**
  * SdUserAssignments Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $SdProductWorkflows
+ * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\BelongsTo $SdProductWorkflows
  * @property \App\Model\Table\SdUsersTable|\Cake\ORM\Association\BelongsTo $SdUsers
- * @property |\Cake\ORM\Association\BelongsTo $SdWorkflowActivities
+ * @property \App\Model\Table\SdWorkflowActivitiesTable|\Cake\ORM\Association\BelongsTo $SdWorkflowActivities
  *
  * @method \App\Model\Entity\SdUserAssignment get($primaryKey, $options = [])
  * @method \App\Model\Entity\SdUserAssignment newEntity($data = null, array $options = [])
@@ -49,7 +49,7 @@ class SdUserAssignmentsTable extends Table
         ]);
         $this->belongsTo('SdWorkflowActivities', [
             'foreignKey' => 'sd_workflow_activity_id',
-            'joinType' => 'LEFT'
+            'joinType' => 'INNER'
         ]);
     }
 
@@ -79,6 +79,7 @@ class SdUserAssignmentsTable extends Table
     {
         $rules->add($rules->existsIn(['sd_product_workflow_id'], 'SdProductWorkflows'));
         $rules->add($rules->existsIn(['sd_user_id'], 'SdUsers'));
+        $rules->add($rules->existsIn(['sd_workflow_activity_id'], 'SdWorkflowActivities'));
 
         return $rules;
     }

@@ -42,6 +42,14 @@ class SdProductWorkflowsController extends AppController
         $sdProductWorkflow = $this->SdProductWorkflows->get($id, [
             'contain' => ['SdProducts', 'SdWorkflows', 'SdUsers', 'SdCases', 'SdUserAssignments']
         ]);
+        if ($this->request->is('post')) {
+            $this->autoRender = false;
+            $sdProductWorkflow = $this->SdProductWorkflows->get($id, [
+                'contain' => ['SdWorkflows.SdWorkflowActivities'=>function($q){return $q->order(['order_no'=>'ASC']);}, 'SdUsers.SdCompanies'=>function($q){return $q->select(['id','company_name']);}, 'SdUserAssignments.SdUsers.SdCompanies'=>function($q){return $q->select(['id','company_name']);},'SdCompanies']
+            ]);
+            echo json_encode($sdProductWorkflow);
+            die();
+        }
 
         $this->set('sdProductWorkflow', $sdProductWorkflow);
     }

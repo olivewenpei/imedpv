@@ -46,7 +46,10 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\SdRole $sd_role
  * @property \App\Model\Entity\SdCompany $sd_company
- * @property \App\Model\Entity\SdActivityLog[] $sd_activity_log
+ * @property \App\Model\Entity\SdActivityLog[] $sd_activity_logs
+ * @property \App\Model\Entity\SdCase[] $sd_cases
+ * @property \App\Model\Entity\SdProductWorkflow[] $sd_product_workflows
+ * @property \App\Model\Entity\SdUserAssignment[] $sd_user_assignments
  */
 class SdUser extends Entity
 {
@@ -99,7 +102,10 @@ class SdUser extends Entity
         'modified_dt' => true,
         'sd_role' => true,
         'sd_company' => true,
-        'sd_activity_log' => true
+        'sd_activity_logs' => true,
+        'sd_cases' => true,
+        'sd_product_workflows' => true,
+        'sd_user_assignments' => true
     ];
 
     /**

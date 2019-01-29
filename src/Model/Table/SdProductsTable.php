@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * SdProducts Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $SdCompanies
+ * @property \App\Model\Table\SdCompaniesTable|\Cake\ORM\Association\BelongsTo $SdCompanies
  * @property \App\Model\Table\SdProductWorkflowsTable|\Cake\ORM\Association\HasMany $SdProductWorkflows
  *
  * @method \App\Model\Entity\SdProduct get($primaryKey, $options = [])
@@ -83,7 +83,7 @@ class SdProductsTable extends Table
 
         $validator
             ->scalar('WHODD_decode')
-            ->maxLength('WHODD_decode', 11)
+            ->maxLength('WHODD_decode', 50)
             ->requirePresence('WHODD_decode', 'create')
             ->notEmpty('WHODD_decode');
 

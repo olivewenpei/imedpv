@@ -248,7 +248,7 @@ function searchProd(){
             text +="<th scope=\"col\">Sponsor</th>";
             text +="<th scope=\"col\">mfr name</th>";
             text +="<th scope=\"col\">Status</th>";
-            text +="<th scope=\"col\">Actions</th>";
+            text +="<th scope=\"col\">Workflows / Country</th>";
             text +="</tr>";
             text +="</thead>";
             text +="<tbody>";
@@ -261,10 +261,15 @@ function searchProd(){
                 text += "<td>"+caseDetail.sd_company.company_name+"</td>";
                 text += "<td>"+caseDetail.mfr_name+"</td>";
                 text += "<td>new</td>";
-                text += "<td><div class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" onclick=\"view_workflow("+caseDetail.id+")\" data-target=\".WFlistView\">View</div></td>";
+                text += "<td>";
+                console.log(caseDetail);
+                $.each(caseDetail.sd_product_workflows, function(k,product_workflowdetail){
+                    text += "<div class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" onclick=\"view_workflow("+product_workflowdetail.id+")\" data-target=\".WFlistView\">"+product_workflowdetail.sd_workflow.name+" / "+product_workflowdetail.sd_workflow.country+"</div>";
+                });
+                text += "</td>";
                 text +="<div id=\"product_"+caseDetail.id+"\" style=\"display:none\">"+caseDetail+"</div>";
-                text += "</tr>";
-            })
+                text += "</tr>";       
+            });
             text +="</tbody>";
             text +="</table>";
             $("#searchProductlist").html(text);
@@ -278,28 +283,39 @@ function searchProd(){
     });
 }
 function view_workflow(workflow_k){
-    var workflow_info=$('#product_'+workflow_k).text();
-    $('#viewWFname').text(workflow_info['workflow_name']);
-    $('#viewCC').text(call_center_list[workflow_info['sd_company_id']]['name']);
-    $('#viewCountry').text(workflow_info['country']);
-    $('#viewDesc').text(workflow_info['workflow_description']);
-    var team_resources_text="";
-    $.each(resource_list[workflow_k], function(company_id, company_detail){
-        console.log(company_detail);
-        $.each(company_detail['team_resources'],function(k,v){
-            console.log(v);
-            team_resources_text += "<div>"+v['firstname']+" "+v['lastname']+" /"+company_detail['name']+"</div>";
-        });
-        $.each(company_detail['workflow_manager'],function(k,v){
-            console.log(v);
-            $('#viewMan').text(v['firstname']+" "+v['lastname']+" /"+company_detail['name']);
-        })
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/sd-product-workflows/view/'+workflow_k,
+        success:function(response){
+            console.log(response);
+            var result=$.parseJSON(response);
+            var workflow_info = result['sd_workflow'];
+            $('#viewWFname').text(workflow_info['name']);
+            $('#viewCC').text(result['sd_company']['company_name']);
+            $('#viewCountry').text(workflow_info['country']);
+            $('#viewDesc').text(workflow_info['description']);
+            $('#viewMan').html("<b>"+result['sd_user']['firstname']+" "+result['sd_user']['lastname']+"</b> FROM "+result['sd_user']['sd_company']['company_name']);
+            var team_resources_text="";
+            $.each(result['sd_user_assignments'], function(k, v){
+                    console.log(v);
+                    team_resources_text += "<div><b>"+v['sd_user']['firstname']+" "+v['sd_user']['lastname']+"</b> From"+v['sd_user']['sd_company']['company_name']+"</div>";
+            });
+            $('#viewRes').html(team_resources_text);
+            var activities_text="";
+            $(workflow_info['sd_workflow_activities']).each(function(k,activity_detail){
+                activities_text +="<span class=\"badge badge-info px-5 py-3 m-3\"><h5>"+activity_detail['activity_name']+"</h5><h8>"+activity_detail['description']+"</h8></span><i class=\"fas fa-long-arrow-alt-right\"></i>";
+            })
+            activities_text+="<span class=\"badge badge-info px-5 py-3 m-3\"><h5>Complete</h5><h8>End of the case</h8></span>"
+            $('#view_activities').html(activities_text);
+        },
+        error:function(response){
+                console.log(response.responseText);
+
+            $("#textHint").html("Sorry, no case matches");
+
+        }
     });
-    $('#viewRes').html(team_resources_text);
-    var activities_text="";
-    $(workflow_info['activities']).each(function(k,activity_detail){
-        activities_text +="<span class=\"badge badge-info px-5 py-3 m-3\"><h5>"+activity_detail['activity_name']+"</h5><h8>"+activity_detail['activity_description']+"</h8></span><i class=\"fas fa-long-arrow-alt-right\"></i>";
-    })
-    activities_text+="<span class=\"badge badge-info px-5 py-3 m-3\"><h5>Complete</h5><h8>End of the case</h8></span>"
-    $('#view_activities').html(activities_text);
 }

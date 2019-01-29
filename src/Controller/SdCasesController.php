@@ -139,6 +139,7 @@ class SdCasesController extends AppController
              * save case
              */
             $requestDataCase = $requestData['case'];
+            debug($requestDataCase);
             foreach($requestDataCase['caseNo'] as $key =>$value){
                 $sdCase = $this->SdCases->newEntity();
                 $savedData = $requestDataCase;
@@ -209,7 +210,7 @@ class SdCasesController extends AppController
                     'sd_field_id' => '282',
                     'set_number' => '1',
                     'created_time' =>date("Y-m-d H:i:s"),
-                    'field_value' =>$product_data['sd_product_type_id'],
+                    'field_value' =>$savedData['product_type'],
                     'status' =>'1',
                 ];
                 $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
@@ -269,6 +270,7 @@ class SdCasesController extends AppController
                 $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
                 if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving mfr_name sdfields";
             }
+            $this->Flash->success(__('The SAE REPORT has been saved.'));
             return $this->redirect(['action' => 'caselist']);
         }
         $this->set(compact('productInfo','randNo'));

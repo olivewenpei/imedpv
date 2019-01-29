@@ -15,8 +15,14 @@
         <li><?= $this->Html->link(__('New Sd Role'), ['controller' => 'SdRoles', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Sd Companies'), ['controller' => 'SdCompanies', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Sd Company'), ['controller' => 'SdCompanies', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Sd Activity Log'), ['controller' => 'SdActivityLog', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Sd Activity Log'), ['controller' => 'SdActivityLog', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Activity Logs'), ['controller' => 'SdActivityLogs', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Activity Log'), ['controller' => 'SdActivityLogs', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Cases'), ['controller' => 'SdCases', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Case'), ['controller' => 'SdCases', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Sd User Assignments'), ['controller' => 'SdUserAssignments', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Sd User Assignment'), ['controller' => 'SdUserAssignments', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="sdUsers view large-9 medium-8 columns content">
@@ -172,8 +178,8 @@
         </tr>
     </table>
     <div class="related">
-        <h4><?= __('Related Sd Activity Log') ?></h4>
-        <?php if (!empty($sdUser->sd_activity_log)): ?>
+        <h4><?= __('Related Sd Activity Logs') ?></h4>
+        <?php if (!empty($sdUser->sd_activity_logs)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
@@ -185,19 +191,118 @@
                 <th scope="col"><?= __('Updated Time') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
-            <?php foreach ($sdUser->sd_activity_log as $sdActivityLog): ?>
+            <?php foreach ($sdUser->sd_activity_logs as $sdActivityLogs): ?>
             <tr>
-                <td><?= h($sdActivityLog->id) ?></td>
-                <td><?= h($sdActivityLog->sd_user_id) ?></td>
-                <td><?= h($sdActivityLog->controller) ?></td>
-                <td><?= h($sdActivityLog->action) ?></td>
-                <td><?= h($sdActivityLog->sd_section_value_id) ?></td>
-                <td><?= h($sdActivityLog->data_changed) ?></td>
-                <td><?= h($sdActivityLog->updated_time) ?></td>
+                <td><?= h($sdActivityLogs->id) ?></td>
+                <td><?= h($sdActivityLogs->sd_user_id) ?></td>
+                <td><?= h($sdActivityLogs->controller) ?></td>
+                <td><?= h($sdActivityLogs->action) ?></td>
+                <td><?= h($sdActivityLogs->sd_section_value_id) ?></td>
+                <td><?= h($sdActivityLogs->data_changed) ?></td>
+                <td><?= h($sdActivityLogs->updated_time) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'SdActivityLog', 'action' => 'view', $sdActivityLog->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdActivityLog', 'action' => 'edit', $sdActivityLog->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdActivityLog', 'action' => 'delete', $sdActivityLog->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdActivityLog->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'SdActivityLogs', 'action' => 'view', $sdActivityLogs->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdActivityLogs', 'action' => 'edit', $sdActivityLogs->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdActivityLogs', 'action' => 'delete', $sdActivityLogs->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdActivityLogs->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Sd Cases') ?></h4>
+        <?php if (!empty($sdUser->sd_cases)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Sd Product Workflow Id') ?></th>
+                <th scope="col"><?= __('CaseNo') ?></th>
+                <th scope="col"><?= __('Sd Workflow Activity Id') ?></th>
+                <th scope="col"><?= __('Status') ?></th>
+                <th scope="col"><?= __('Sd User Id') ?></th>
+                <th scope="col"><?= __('Priority') ?></th>
+                <th scope="col"><?= __('Activity Due Date') ?></th>
+                <th scope="col"><?= __('Submission Due Date') ?></th>
+                <th scope="col"><?= __('Product Type') ?></th>
+                <th scope="col"><?= __('Classification') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($sdUser->sd_cases as $sdCases): ?>
+            <tr>
+                <td><?= h($sdCases->id) ?></td>
+                <td><?= h($sdCases->sd_product_workflow_id) ?></td>
+                <td><?= h($sdCases->caseNo) ?></td>
+                <td><?= h($sdCases->sd_workflow_activity_id) ?></td>
+                <td><?= h($sdCases->status) ?></td>
+                <td><?= h($sdCases->sd_user_id) ?></td>
+                <td><?= h($sdCases->priority) ?></td>
+                <td><?= h($sdCases->activity_due_date) ?></td>
+                <td><?= h($sdCases->submission_due_date) ?></td>
+                <td><?= h($sdCases->product_type) ?></td>
+                <td><?= h($sdCases->classification) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'SdCases', 'action' => 'view', $sdCases->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdCases', 'action' => 'edit', $sdCases->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdCases', 'action' => 'delete', $sdCases->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdCases->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Sd Product Workflows') ?></h4>
+        <?php if (!empty($sdUser->sd_product_workflows)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Sd Product Id') ?></th>
+                <th scope="col"><?= __('Sd Workflow Id') ?></th>
+                <th scope="col"><?= __('Sd User Id') ?></th>
+                <th scope="col"><?= __('Status') ?></th>
+                <th scope="col"><?= __('Sd Company Id') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($sdUser->sd_product_workflows as $sdProductWorkflows): ?>
+            <tr>
+                <td><?= h($sdProductWorkflows->id) ?></td>
+                <td><?= h($sdProductWorkflows->sd_product_id) ?></td>
+                <td><?= h($sdProductWorkflows->sd_workflow_id) ?></td>
+                <td><?= h($sdProductWorkflows->sd_user_id) ?></td>
+                <td><?= h($sdProductWorkflows->status) ?></td>
+                <td><?= h($sdProductWorkflows->sd_company_id) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'SdProductWorkflows', 'action' => 'view', $sdProductWorkflows->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdProductWorkflows', 'action' => 'edit', $sdProductWorkflows->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdProductWorkflows', 'action' => 'delete', $sdProductWorkflows->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdProductWorkflows->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Sd User Assignments') ?></h4>
+        <?php if (!empty($sdUser->sd_user_assignments)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('Sd Product Workflow Id') ?></th>
+                <th scope="col"><?= __('Sd User Id') ?></th>
+                <th scope="col"><?= __('Sd Workflow Activity Id') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($sdUser->sd_user_assignments as $sdUserAssignments): ?>
+            <tr>
+                <td><?= h($sdUserAssignments->id) ?></td>
+                <td><?= h($sdUserAssignments->sd_product_workflow_id) ?></td>
+                <td><?= h($sdUserAssignments->sd_user_id) ?></td>
+                <td><?= h($sdUserAssignments->sd_workflow_activity_id) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'SdUserAssignments', 'action' => 'view', $sdUserAssignments->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'SdUserAssignments', 'action' => 'edit', $sdUserAssignments->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'SdUserAssignments', 'action' => 'delete', $sdUserAssignments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sdUserAssignments->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

@@ -147,7 +147,8 @@ class SdProductsController extends AppController
                 $searchResult =  $this->SdProducts->find();
                 if(!empty($searchKey['productName'])) $searchResult = $searchResult->where(['product_name LIKE'=>'%'.$searchKey['productName'].'%']);
                 if(!empty($searchKey['studyName'])) $searchResult = $searchResult->where(['study_no  LIKE'=>'%'.$searchKey['studyName'].'%']);
-                $searchResult->contain(['SdProductWorkflows.SdUserAssignments','SdCompanies'=>function($q){ return $q->select(['company_name']);}])->all();
+                $searchResult->contain(['SdProductWorkflows.SdWorkflows'=>function($q){return $q->select(['name','country','id']);},
+                                                        'SdCompanies'=>function($q){ return $q->select(['company_name']);}])->all();
             }catch (\PDOException $e){
                 echo "cannot the case find in database";
             }
@@ -178,7 +179,7 @@ class SdProductsController extends AppController
                 // debug($saved_product);
                 $this->Flash->error(__('erro in product'));
             }
-
+            // debug($sdProduct);
             //workflow saving
             $workflows_table=TableRegistry::get("sd_workflows");
             foreach($this->request->getData()['workflow'] as $workflow_k => $workflow_detail){
@@ -188,8 +189,10 @@ class SdProductsController extends AppController
                 $patchedsdWorkflowEntity = $workflows_table->patchEntity($sdWorkflowEntity,$workflow_detail);
                 
                 $saved_workflow[$workflow_k] = $workflows_table->save($patchedsdWorkflowEntity);
+                // debug($saved_workflow[$workflow_k]);
+                // debug($workflow_k);
                 if (!($saved_workflow[$workflow_k])) {
-                    // debug($saved_workflow[$workflow_k]);
+                    
                     $this->Flash->error(__('erro in workflow'));
                 }
             }
@@ -199,10 +202,10 @@ class SdProductsController extends AppController
             if(!empty($this->request->getData()['workflow_activity'])){
             foreach($this->request->getData()['workflow_activity'] as $workflow_activity_k => $workflow_activities){
                     foreach($workflow_activities as $k => $workflow_activity_detail){
-                    $workflow_activity_detail['sd_workflow_id']=$saved_workflow[$workflow_k]['id'];
-                    $sdWorkflowActivityEntity = $workflow_activities_table->newEntity();
+                        $workflow_activity_detail['sd_workflow_id']=$saved_workflow[$workflow_activity_k]['id'];
+                        $sdWorkflowActivityEntity = $workflow_activities_table->newEntity();
                         $patchedsdWorkflowActivityEntity = $workflow_activities_table->patchEntity($sdWorkflowActivityEntity,$workflow_activity_detail);
-
+                        // debug($patchedsdWorkflowActivityEntity);
                         if (!($workflow_activities_table->save($patchedsdWorkflowActivityEntity))) {
                             $this->Flash->error(__('erro in activity'));
                         }
@@ -226,6 +229,7 @@ class SdProductsController extends AppController
                 if (!($savedProductWorkflow[$product_workflow_k])) {
                     $this->Flash->error(__('erro in product_workflow'));
                 }
+                // debug($patchedSdProductWorkflowEntity);
             }
             //user_assignment saving
             $user_assignment_table = TableRegistry::get("sd_user_assignments");
@@ -243,7 +247,8 @@ class SdProductsController extends AppController
                     $patchedsd_user_assignmentsEntity = $user_assignment_table->patchEntity($sd_user_assignmentsEntity,$user_detail);
                     if (!($user_assignment_table->save($patchedsd_user_assignmentsEntity))) {
                         $this->Flash->error(__('erro in user assignments'));
-                    }                    
+                    }    
+                    // debug($patchedsd_user_assignmentsEntity);                
                 }
             }
             $this->Flash->success(__('The sd product has been saved.'));

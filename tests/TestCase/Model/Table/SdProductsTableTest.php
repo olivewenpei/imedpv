@@ -25,6 +25,7 @@ class SdProductsTableTest extends TestCase
      */
     public $fixtures = [
         'app.sd_products',
+        'app.sd_companies',
         'app.sd_product_workflows'
     ];
 
@@ -68,6 +69,16 @@ class SdProductsTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

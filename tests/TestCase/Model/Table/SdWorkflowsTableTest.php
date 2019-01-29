@@ -25,7 +25,6 @@ class SdWorkflowsTableTest extends TestCase
      */
     public $fixtures = [
         'app.sd_workflows',
-        'app.sd_companies',
         'app.sd_product_workflows',
         'app.sd_workflow_activities'
     ];
@@ -70,16 +69,6 @@ class SdWorkflowsTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

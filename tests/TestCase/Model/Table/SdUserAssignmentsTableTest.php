@@ -25,9 +25,9 @@ class SdUserAssignmentsTableTest extends TestCase
      */
     public $fixtures = [
         'app.sd_user_assignments',
-        'app.sd_product_assignments',
+        'app.sd_product_workflows',
         'app.sd_users',
-        'app.sd_activities'
+        'app.sd_workflow_activities'
     ];
 
     /**

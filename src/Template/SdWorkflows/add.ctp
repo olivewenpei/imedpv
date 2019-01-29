@@ -10,6 +10,8 @@
         <li><?= $this->Html->link(__('List Sd Workflows'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Sd Product Workflows'), ['controller' => 'SdProductWorkflows', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Sd Product Workflow'), ['controller' => 'SdProductWorkflows', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Sd Workflow Activities'), ['controller' => 'SdWorkflowActivities', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Sd Workflow Activity'), ['controller' => 'SdWorkflowActivities', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="sdWorkflows form large-9 medium-8 columns content">

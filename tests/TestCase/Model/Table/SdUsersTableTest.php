@@ -27,7 +27,10 @@ class SdUsersTableTest extends TestCase
         'app.sd_users',
         'app.sd_roles',
         'app.sd_companies',
-        'app.sd_activity_log'
+        'app.sd_activity_logs',
+        'app.sd_cases',
+        'app.sd_product_workflows',
+        'app.sd_user_assignments'
     ];
 
     /**

@@ -28,7 +28,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Sponsor Company</label>
-                                <select class="form-control" id="sd_sponsor_company_id" name="product[sponsor_company]" required oninvalid="this.setCustomValidity('Sponsor Company is REQUIRED')" oninput="this.setCustomValidity('')">
+                                <select class="form-control" id="sd_sponsor_company_id" name="product[sd_company_id]" required oninvalid="this.setCustomValidity('Sponsor Company is REQUIRED')" oninput="this.setCustomValidity('')">
                                 <?php
                                     echo "<option value=''>Select Sponsor Company</option>";
                                     foreach ($sdSponsorCompanies  as $eachType)
@@ -259,7 +259,7 @@
                                         <?php
                                         $country_list=[
                                             'USA'=>'Unitied States',
-                                            'Global'=>'Global',
+                                            'JPN'=>'Japan',
                                             'CHN'=>'China'
                                         ];
                                         foreach($workflow_structure as $workflow_structure_detail){

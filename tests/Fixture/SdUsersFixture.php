@@ -98,9 +98,9 @@ class SdUsersFixture extends TestFixture
                 'phone_alert' => 1,
                 'email_alert' => 1,
                 'is_never' => 1,
-                'account_expire_date' => '2018-11-06',
+                'account_expire_date' => '2019-01-29',
                 'is_email_verified' => 1,
-                'reset_password_expire_time' => '2018-11-06 13:24:10',
+                'reset_password_expire_time' => '2019-01-29 20:32:21',
                 'is_import_user' => 1,
                 'is_medra' => 1,
                 'is_whodra' => 1,
@@ -111,9 +111,9 @@ class SdUsersFixture extends TestFixture
                 'is_imedsae_tracking' => 1,
                 'is_imed_safety_database' => 1,
                 'created_by' => 1,
-                'created_dt' => '2018-11-06 13:24:10',
+                'created_dt' => '2019-01-29 20:32:21',
                 'modified_by' => 1,
-                'modified_dt' => '2018-11-06 13:24:10'
+                'modified_dt' => '2019-01-29 20:32:21'
             ],
         ];
         parent::init();
