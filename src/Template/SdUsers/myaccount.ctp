@@ -27,6 +27,9 @@
     <a href="/sd-users/edit/<?php print $this->request->session()->read('Auth.User.id'); ?>" class="btn btn-info w-25 mx-1">Change Password</a>
     <a href="#" class="btn btn-primary w-25 mx-1">Save</a>
 
+    <!-- <?php
+    echo $userID;
+    ?> -->
 
   </div>
 </div>
