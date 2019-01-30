@@ -152,20 +152,7 @@
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="workflow_table">
-                                    <!-- <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".WFlistView">View</button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="$(this).closest('tr').remove();">Delete</button>
-                                        </td>
-                                    </tr> -->
-                                </tbody>
+                                <tbody id="workflow_table"></tbody>
                             </table>
 
                             <!-- View Workflow List Detail Modal -->
@@ -178,49 +165,35 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="row" class="w-25">Workflow Name</th>
-                                                        <td id="viewWFname">WWW1</td>
+                                                        <td id="viewWFname"></td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <th scope="row" class="w-25">Call Center</th>
-                                                        <td id="viewCC">China</td>
+                                                        <td id="viewCC"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Country</th>
-                                                        <td id="viewCountry">China</td>
+                                                        <td id="viewCountry"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Description</th>
-                                                        <td id="viewDesc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum unde assumenda quo consequatur, alias soluta eum placeat eius maxime odit, odio sint, iste veniam omnis!</td>
+                                                        <td id="viewDesc"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Workflow Manager</th>
-                                                        <td id="viewMan">Mark</td>
+                                                        <td id="viewMan"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Team Resources</th>
-                                                        <td id="viewRes">Mark</td>
+                                                        <td id="viewRes"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                             <div>
                                                 <h4>Workflow Steps</h4>
-                                                <div id="view_activities">
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                </div>
+                                                <div id="view_activities"></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -277,7 +250,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button id="exit_workflow" type="button" class="btn btn-secondary">Exit</button>
+                                <button id="exit_workflow" type="button" class="btn btn-outline-warning">Exit</button>
                                 <div id="submitchocountry" class="btn btn-primary w-25">Countinue</div>
                             </div>
                             <div id="choosewf">
@@ -303,13 +276,13 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
                                                     <h4>Workflow Name: </h4 >
-                                                    <input type="text" id="custom-workflow_name" value=""/>
+                                                    <input class="w-75 text-center" type="text" id="custom-workflow_name" value=""/>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
                                                     <h5>Workflow Description </h5 >
-                                                    <input type="text" id="custom-workflow_description" value=""/>
+                                                    <input class="w-75 text-center" type="text" id="custom-workflow_description" value=""/>
                                                 </div>
                                             </div>
 
@@ -334,10 +307,10 @@
                                 </div>
 
                                 <div class="d-block mt-3">
+                                    <button id="undochocon" type="button" class="btn btn-outline-warning" style="display:none;">Go back to last step</button>
                                     <button id="confirm_activities" class="btn btn-primary w-25" style="display:none;">Countinue</button>
-                                    <button id="undochocon" type="button" class="btn btn-secondary" style="display:none;">Go back to last step</button>
+                                    <button id="undo_activities" type="button" class="btn btn-outline-warning" style="display:none;">Go back to last step</button>
                                     <button id="submitworkflow" class="btn btn-primary w-25" style="display:none;">Countinue</button>
-                                    <button id="undo_activities" type="button" class="btn btn-secondary" style="display:none;">Go back to last step</button>
                                 </div>
                             </div>
                         </div>
@@ -430,7 +403,7 @@
                                 <tbody id="crotable">
                                 </tbody>
                             </table>
-                        <button id="undochoWF" type="button" class="btn btn-secondary mt-3">Reselect workflow</button>
+                        <button id="undochoWF" type="button" class="btn btn-outline-warning mt-3">Reselect Workflow</button>
                         <button id="confirmWFlist" type="button" class="btn btn-primary w-25 mt-3 mx-auto">Confirm</button>
                         </div>
                     </div>

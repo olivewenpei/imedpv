@@ -6,7 +6,7 @@
     var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 </script>
 <div class="container">
-    <div class="row my-3">
+    <div class="row my-3 searchProductContainer">
         <div class="col">
             <div class="card">
                 <div class="card-header text-center">
@@ -98,49 +98,35 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="row" class="w-25">Workflow Name</th>
-                                                        <td id="viewWFname">WWW1</td>
+                                                        <td id="viewWFname"></td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <th scope="row" class="w-25">Call Center</th>
-                                                        <td id="viewCC">China</td>
+                                                        <td id="viewCC"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Country</th>
-                                                        <td id="viewCountry">China</td>
+                                                        <td id="viewCountry"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Description</th>
-                                                        <td id="viewDesc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum unde assumenda quo consequatur, alias soluta eum placeat eius maxime odit, odio sint, iste veniam omnis!</td>
+                                                        <td id="viewDesc"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Workflow Manager</th>
-                                                        <td id="viewMan">Mark</td>
+                                                        <td id="viewMan"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="w-25">Team Resources</th>
-                                                        <td id="viewRes">Mark</td>
+                                                        <td id="viewRes"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                             <div>
                                                 <h4>Workflow Steps</h4>
-                                                <div id="view_activities">
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                        <i class="fas fa-long-arrow-alt-right"></i>
-                                                    <span class="badge badge-info px-5 py-3 m-3"><h5>Info</h5></span>
-                                                </div>
+                                                <div id="view_activities"></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -150,38 +136,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <div id="searchProductlist" class="my-3">
-                            <h3>Product List</h3>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Product Name</th>
-                                        <th scope="col">Study Number</th>
-                                        <th scope="col">Product Type</th>
-                                        <th scope="col">Sponsor</th>
-                                        <th scope="col">CRO</th>
-                                        <th scope="col">Call Center</th>
-                                        <th scope="col">Study Type</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-primary">View</button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="$(this).closest('tr').remove();">Delete</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <div id="searchProductlist" class="my-3"></div>
                     </div>
                 </div>
             </div>

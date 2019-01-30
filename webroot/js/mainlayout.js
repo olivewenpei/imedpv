@@ -222,7 +222,7 @@ function onQueryClicked(){
 }
 function searchProd(){
     var request = {
-        'searchName': $("#key_word").val(), 
+        'searchName': $("#key_word").val(),
         'productName':$("#product_name").val(),
         'studyName':$("#study_no").val()
     };
@@ -243,7 +243,7 @@ function searchProd(){
             text += "<thead>";
             text +="<tr class=\"table-secondary\">";
             text +="<th scope=\"col\">Product Name</th>";
-            text +="<th scope=\"col\">Study Number</th>";            
+            text +="<th scope=\"col\">Study Number</th>";
             text +="<th scope=\"col\">Study Type</th>";
             text +="<th scope=\"col\">Sponsor</th>";
             text +="<th scope=\"col\">mfr name</th>";
@@ -264,11 +264,11 @@ function searchProd(){
                 text += "<td>";
                 console.log(caseDetail);
                 $.each(caseDetail.sd_product_workflows, function(k,product_workflowdetail){
-                    text += "<div class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" onclick=\"view_workflow("+product_workflowdetail.id+")\" data-target=\".WFlistView\">"+product_workflowdetail.sd_workflow.name+" / "+product_workflowdetail.sd_workflow.country+"</div>";
+                    text += "<div class=\"btn btn-sm btn-outline-info mx-1\" data-toggle=\"modal\" onclick=\"view_workflow("+product_workflowdetail.id+")\" data-target=\".WFlistView\">"+product_workflowdetail.sd_workflow.name+" / "+product_workflowdetail.sd_workflow.country+"</div>";
                 });
                 text += "</td>";
                 text +="<div id=\"product_"+caseDetail.id+"\" style=\"display:none\">"+caseDetail+"</div>";
-                text += "</tr>";       
+                text += "</tr>";
             });
             text +="</tbody>";
             text +="</table>";

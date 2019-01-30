@@ -448,7 +448,7 @@ jQuery(function($) {  // In case of jQuery conflict
             text +="<td>"+$('#select-country option:selected').text()+"</td>";
             text +="<td>"+cro_text+"</td>";
             text +="<td>";
-            text +="<div class=\"btn btn-sm btn-primary mx-2\" onclick=\"view_workflow("+workflow_k+")\" data-toggle=\"modal\" data-target=\".WFlistView\">View</div>"
+            text +="<div class=\"btn btn-sm btn-primary m-1\" onclick=\"view_workflow("+workflow_k+")\" data-toggle=\"modal\" data-target=\".WFlistView\">View</div>"
             text +="<button class=\"btn btn-sm btn-outline-danger\" onclick=\"$(this).closest('tr').remove();\">Delete</button>";
             text +="</td>";
             text +="<input name=\"workflow["+workflow_k+"][id]\" value="+workflow_info[workflow_k].id+" type=\"hidden\">";
