@@ -2,7 +2,11 @@
 //debug($sdProductTypes);
 ?>
 <title>Search Product</title>
+<head>
+<?= $this->Html->script('product/search.js') ?>
+<head>
 <script type="text/javascript">
+
     var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 </script>
 <div class="container">
@@ -146,6 +150,96 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade product_detail" tabindex="-1" role="dialog" aria-labelledby="product_detail" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <h3 class="modal-title" id="">Product Detail</h3>
+                                        <div class="modal-body m-3">
+                                            <div id="addpro" class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <label>Product Name</label>
+                                                    <input class="form-control" id="detail_product_name" readonly="readonly">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>Sponsor Company</label>
+                                                    <input type="text"  class="form-control" id="detail_sponsor_company" readonly="readonly">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>Product flag (B.4.k.1)</label>
+                                                    <input type="text" class="form-control" id="detail_sd_product_flag" readonly="readonly">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>Blinding technique</label>
+                                                    <input type="text" class="form-control" id="detail_blinding_tech" readonly="readonly">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <label>Study Name</label>
+                                                    <input type="text" class="form-control" id="detail_study_name" readonly="readonly">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>Study Number</label>
+                                                    <input type="text" class="form-control" id="detail_study_no" readonly="readonly">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>Mfr. name</label>
+                                                    <input type="text" class="form-control" id="detail_mfr_name" readonly="readonly">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>Study type (A.2.3.3)</label>
+                                                    <input class="form-control" id="detail_study_type" readonly="readonly">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <label>WHODD Code</label>
+                                                    <input type="text" readonly="readonly" class="form-control" id="detail_whodracode">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>WHODD Name</label>
+                                                    <input type="text" readonly="readonly" class="form-control" id="detail_whodraname">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Preferred WHO DD decode</label>
+                                                    <input type="text" readonly="readonly" class="form-control" id="detail_WHODD_decode">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                    <label>Start Date</label>
+                                                    <input type="text" readonly="readonly" class="form-control" id="detail_start_date">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>End Date</label>
+                                                    <input type="text" readonly="readonly" class="form-control" id="detail_end_date">
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label>Status</label>
+                                                    <input type="text" class="form-control" id="detail_status" readonly="readonly">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label>Short Description</label>
+                                                    <input type="text" readonly="readonly" class="form-control" id="detail_short_desc">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label>Product Description (B.4.k.2.1)</label>
+                                                    <input type="text" readonly="readonly" class="form-control" id="detail_product_desc">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -218,7 +218,7 @@ function displaySingleSection($section, $setNo, $sectionKey, $html){
             echo "<div id=\"section-".$section->id."-field-".$sd_section_structure_detail->sd_field->id."\" class=\"form-group col-md-".$sd_section_structure_detail->field_length." offset-md-".($sd_section_structure_detail->field_start_at-$length_taken)."\">";
             echo "<label id= \"section-".$section->id."-field_label-".$sd_section_structure_detail->sd_field->id."\" >".$sd_section_structure_detail->sd_field->field_label."</label>";
             if(!empty($sd_section_structure_detail->sd_field->comment))
-            echo " <a id=\"field_helper-".$sd_section_structure_detail->sd_field->id."\" tabindex=\"0\" role=\"button\" data-toggle=\"popover\" title=\"Field Helper\" data-content=\"<div>".$sd_section_structure_detail->sd_field->comment."</div>\"><i class=\"qco fas fa-info-circle\"></i></a>";
+            echo " <a id=\"field_helper-".$sd_section_structure_detail->sd_field->id."\" tabindex=\"0\" role=\"button\" data-toggle=\"popover\" title=\"Field Helper\" data-content=\"<div>".str_replace("\"","&quot;",$sd_section_structure_detail->sd_field->comment)."</div>\"><i class=\"qco fas fa-info-circle\"></i></a>";
             // if(!empty($sd_section_structure_detail->sd_section_values)) print_r($section->sd_section_sets[0]->set_no);
                 $id_idHolder = 'section-'.$section->id.'-sd_section_structures-'.$i.'-sd_field_values-'.$j.'-id';
                 $id_nameHolder = 'sd_field_values['.$section->id.']['.$sd_section_structureK.'][id]';
@@ -245,8 +245,8 @@ function displaySingleSection($section, $setNo, $sectionKey, $html){
                             continue;
                         case 'text':
                             echo "<input id=\"section-".$section->id."-text-".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder." type=\"text\"";
-                            echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=".$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
-                            echo " >";
+                            echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=\"".str_replace("\"","&quot;",$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value):null;
+                            echo "\" >";
                             continue;
                         case 'radio':
                             echo "<div id=\"section-".$section->id."-radio-".$sd_section_structure_detail->sd_field->id."\">";
@@ -287,18 +287,18 @@ function displaySingleSection($section, $setNo, $sectionKey, $html){
                         case 'textarea':
                             echo "<textarea id=\"section-".$section->id."-textarea-".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder;
                             echo " rows=".$sd_section_structure_detail->field_height.">";
-                            echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
+                            echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?str_replace("\"","&quot;",$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value):null;
                             echo "</textarea>";
                             continue;
                         case 'date':
-                            echo "<input type=\"text\" class=\"form-control\" name=".$field_value_nameHolder." id=\"section-".$section->id."-date-".$sd_section_structure_detail->sd_field->id."\" value=";
+                            echo "<input type=\"text\" class=\"form-control\" name=".$field_value_nameHolder." id=\"section-".$section->id."-date-".$sd_section_structure_detail->sd_field->id."\" value=\"";
                             echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
-                            echo ">";
+                            echo "\">";
                             continue;
                         case 'whodra browser':
                             $whoddCell = $html->cell('Whodd',[$sd_section_structure_detail->sd_field->id]);
                             echo $whoddCell;
-                            echo "<input style=\"float:left\" id=\"section-".$section->id."-whodracode-".$sd_section_structure_detail->sd_field->id."\" class=\"col-md-5 form-control\" name=".$field_value_nameHolder." type=\"text\"";
+                            echo "<input readonly=\"readonly\" style=\"float:left\" id=\"section-".$section->id."-whodracode-".$sd_section_structure_detail->sd_field->id."\" class=\"col-md-5 form-control\" name=".$field_value_nameHolder." type=\"text\"";
                             echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=".$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
                             echo " >";
                             continue;
