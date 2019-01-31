@@ -184,7 +184,7 @@ function onQueryClicked(){
                 text += "<td>"+product_type_id[caseDetail.product_type]+"</td>";
                 text += "<td>"+caseDetail.activity_due_date+"</td>";
                 text += "<td>" + caseDetail.submission_due_date + "</td>";
-                text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseId="+caseDetail.id+"\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">View Case Info</a></td>";
+                text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.caseNo+"\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">View Case Info</a></td>";
                 text += "</tr>";
             })
             text +="</tbody>";

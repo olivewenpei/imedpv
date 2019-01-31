@@ -1,22 +1,22 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\SdFieldsTable;
+use App\Model\Table\SdMedwatchPositionsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\SdFieldsTable Test Case
+ * App\Model\Table\SdMedwatchPositionsTable Test Case
  */
-class SdFieldsTableTest extends TestCase
+class SdMedwatchPositionsTableTest extends TestCase
 {
 
     /**
      * Test subject
      *
-     * @var \App\Model\Table\SdFieldsTable
+     * @var \App\Model\Table\SdMedwatchPositionsTable
      */
-    public $SdFields;
+    public $SdMedwatchPositions;
 
     /**
      * Fixtures
@@ -24,11 +24,8 @@ class SdFieldsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.sd_fields',
-        'app.sd_element_types',
-        'app.sd_field_value_look_ups',
-        'app.sd_field_values',
-        'app.sd_section_structures'
+        'app.sd_medwatch_positions',
+        'app.sd_fields'
     ];
 
     /**
@@ -39,8 +36,8 @@ class SdFieldsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('SdFields') ? [] : ['className' => SdFieldsTable::class];
-        $this->SdFields = TableRegistry::getTableLocator()->get('SdFields', $config);
+        $config = TableRegistry::getTableLocator()->exists('SdMedwatchPositions') ? [] : ['className' => SdMedwatchPositionsTable::class];
+        $this->SdMedwatchPositions = TableRegistry::getTableLocator()->get('SdMedwatchPositions', $config);
     }
 
     /**
@@ -50,7 +47,7 @@ class SdFieldsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->SdFields);
+        unset($this->SdMedwatchPositions);
 
         parent::tearDown();
     }

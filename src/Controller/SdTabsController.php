@@ -37,7 +37,12 @@
             {
                 $userinfo = $this->request->session()->read('Auth.user');
                 //TODO Permission related
-                $caseId = $this->request->getQuery('caseId');
+                $caseNo = $this->request->getQuery('caseNo');
+                $sdCases = TableRegistry::get('SdCases');
+                $sdCases = $sdCases->find()->where(['caseNo'=>$caseNo])->contain(['SdProductWorkflows.SdProducts'])->first();
+                $caseId = $sdCases['id'];
+                $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
+
                 $sdTabs = $this->SdTabs->find()->select(['tab_name','display_order'])->where(['status'=>1])->order(['display_order' => 'ASC']);
                 $this->viewBuilder()->layout('main_layout');
                 $associated = ['SdSectionStructures','SdSectionStructures'=>['SdFields'=>['SdElementTypes','SdFieldValues']]];
@@ -79,7 +84,7 @@
                     };
                 }
 
-                $this->set(compact('sdSections','tabid'));
+                $this->set(compact('sdSections','tabid','caseId','product_name'));
             }
             /**
              *
@@ -187,21 +192,23 @@
             */
             public function genFDApdf($caseId)
             {
-                // $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
-                // $sdFieldValues = $sdFieldTable ->find()->where(['sd_case_id'=>$caseId,'status'=>true])
-                //                     ->order(['id'=>'ASC','set_number'=>'ASC'])
-                //                     ->leftJoinWith('SdFields',function($q){
-                //                         return $q->where(['SdFields.id'=>'SdFieldValues.id'])
-                //                                 ->contain(['SdFields.SdFieldValueLookUps','SdFields.SdElementTypes'=> function($q){
-                //                                 return $q->select('type_name')->where(['SdElementTypes.status'=>true]);
-                //                                     }]);
-                //                     })
-                //                     ->group('id');
-                $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
-                $sdFieldValues = $sdFieldValuesTable ->find()->where(['sd_case_id'=>$caseNo,'status'=>true])
-                                ->toList();
-
-
+                $sdMedwatchPositions = TableRegistry::get('SdMedwatchPositions');
+                $positions = $sdMedwatchPositions ->find()
+                ->select(['SdMedwatchPositions.id','SdMedwatchPositions.position_top','SdMedwatchPositions.position_left',
+                    'SdMedwatchPositions.position_width','SdMedwatchPositions.position_height','SdMedwatchPositions.type','fv.field_value','vl.caption'])
+                ->join([
+                    'fv' =>[
+                        'table' =>'sd_field_values',
+                        'type'=>'LEFT',
+                        'conditions'=>['SdMedwatchPositions.sd_field_id = fv.sd_field_id','fv.status = 1','fv.sd_case_id='.$caseId],
+                    ],
+                    'vl'=>[
+                        'table'=>'sd_field_value_look_ups',
+                        'type'=>'LEFT',
+                        'conditions'=>['vl.sd_field_id = SdMedwatchPositions.sd_field_id','vl.value = fv.field_value']
+                    ]
+                ]);
+                // debug($positions);
                 // Require composer autoload
                 //require_once __DIR__ . '../vendor/autoload.php';
 
@@ -219,13 +226,18 @@
                 // If needs to link external css file, uncomment the next 2 lines
                 // $stylesheet = file_get_contents('css/genpdf.css');
                 // $mpdf->WriteHTML($stylesheet,1);
-
-
-                $test1 = ' <style> p {position: absolute;}  </style>
-                        <p style="top: 210px; left: 550px; width: 80px;  height: 15px; color:red;">s</p>
-                        <p style="top: 203px; left: 230px; width: 30px;  height: 15px;">2019</p>
-                        <p style="top: 998px; left: 473px; width: 8px;   height: 10px;">X</p>';
-                $mpdf->WriteHTML($test1);
+                        
+                $text = " <style> p {position: absolute;}  </style>";
+                foreach($positions as $position_detail)
+                {
+                    switch($position_detail['type']){
+                    case '1':
+                        $text =$text.'<p style="top: '.$position_detail['position_top'].'px; left: '.$position_detail['position_left']
+                            .'px; width: '.$position_detail['position_width'].'px;  height: '.$position_detail['position_height'].'px; color:red;">'.$position_detail['fv']['field_value'].'</p>';
+                        continue;
+                        }
+                }
+                $mpdf->WriteHTML($text);
 
                 $mpdf->AddPage();
                 //$test2 = '<img src="img/pdficon.png" />';
@@ -240,7 +252,7 @@
                 // $mpdf->Output('TEST.pdf', \Mpdf\Output\Destination::DOWNLOAD);
 
 
-                $this->set(compact('sdFieldValues'));
+                $this->set(compact('positions'));
 
             }
 

@@ -104,6 +104,7 @@ function view_workflow(workflow_k){
             $('#viewCC').text(result['sd_company']['company_name']);
             $('#viewCountry').text(workflow_info['country']);
             $('#viewDesc').text(workflow_info['description']);
+            $('#allocate_workflow').attr('href','/sd-product-workflows/allocateWorkflow/'+workflow_k);
             $('#viewMan').html("<b>"+result['sd_user']['firstname']+" "+result['sd_user']['lastname']+"</b> FROM "+result['sd_user']['sd_company']['company_name']);
             var team_resources_text="";
             $.each(result['sd_user_assignments'], function(k, v){

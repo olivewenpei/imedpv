@@ -146,4 +146,19 @@ class SdProductWorkflowsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    public function allocateWorkflow($id)
+    {
+        $sdProductWorkflow = $this->SdProductWorkflows->get($id,['contain' => ['SdCompanies','SdProducts','SdWorkflows','SdWorkflows.SdWorkflowActivities'=>function($q){
+            return $q->order(['order_no'=>'ASC']);
+        }]]);
+        $sdUserAssignments = TableRegistry::get("SdUserAssignments")->find()
+                        ->where(['sd_product_workflow_id'=>$id])
+                        ->contain(['SdUsers'=>function($q){
+                            return $q->select(['firstname','lastname'])->contain(['SdCompanies'=>function($q){
+                                return $q->select('company_name');
+                            }]);
+                        }]);
+        $this->viewBuilder()->layout('main_layout');
+        $this->set(compact('sdProductWorkflow','sdUserAssignments'));
+    }
 }

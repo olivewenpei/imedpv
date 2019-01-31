@@ -373,9 +373,4 @@ class SdProductsController extends AppController
 
     //     return $result;
     // }
-
-    public function workflowmanager()
-    {
-        $this->viewBuilder()->layout('main_layout');
-    }
 }

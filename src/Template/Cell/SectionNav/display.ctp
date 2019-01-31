@@ -12,11 +12,11 @@
             echo "mb-2 bg-outline-primary text-white border border-primary rounded\">";
             echo "<a class=\"nav-link ";
             echo ($multiSec)?"dropdown-toggle\" aria-haspopup=\"true\" aria-expanded=\"false\" data-toggle=\"dropdown ":null;
-            echo "\" href=\"/sd-tabs/showdetails/".$sdTabV->id."?caseId=".$caseId."\" >".$sdTabV->tab_name."</a>";
+            echo "\" href=\"/sd-tabs/showdetails/".$sdTabV->id."?caseNo=".$caseNo."\" >".$sdTabV->tab_name."</a>";
             if($multiSec){
                 echo "<div class=\"dropdown-menu\">";
                 foreach($sdTabV->sd_sections as $sectionK => $sectionV){
-                    echo"<a class=\"dropdown-item\" href=\"/sd-tabs/showdetails/".$sdTabV->id."?caseId=".$caseId."#secdiff-".$sectionV->id."\">";
+                    echo"<a class=\"dropdown-item\" href=\"/sd-tabs/showdetails/".$sdTabV->id."?caseNo=".$caseNo."#secdiff-".$sectionV->id."\">";
                     echo $sectionV->section_name;
                     echo"</a>";
                 };

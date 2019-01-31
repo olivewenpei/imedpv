@@ -12,7 +12,7 @@ echo $this->element('generatepdf');
     var section = <?php $sdSections =$sdSections->toList();
 
     echo json_encode($sdSections)?>;
-    var caseId = <?= json_encode($this->request->getQuery('caseId')) ?>;
+    var caseId = <?= $caseId ?>;
     jQuery(function($) {
         $(document).ready(function () {
             $("[id$=page_number-1]").css('font-weight', 'bold');
@@ -34,7 +34,7 @@ echo $this->element('generatepdf');
 
     <!-- "Case Number" Display -->
     <span class="caseNumber" id="caseNumber" title="Case Number">
-        Full Data Entry - <b>IMS18091235600078</b> [protocol ytest]
+        Full Data Entry - <b><?= $this->request->getQuery('caseNo')?></b> [<?= $product_name?>]
     </span>
 
     <!-- "Version Switch" Dropdown Button -->
@@ -65,7 +65,7 @@ echo $this->element('generatepdf');
         </a>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="#">CIOMS</a>
-            <a class="dropdown-item" target="_blank" href="/sd-tabs/genFDApdf/<?php echo $this->request->getQuery('caseId') ?>">FDA</a>
+            <a class="dropdown-item" target="_blank" href="/sd-tabs/genFDApdf/<?php echo $caseId ?>">FDA</a>
             <!-- Add this if location had details
             <div role="separator" class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
@@ -99,7 +99,7 @@ echo $this->element('generatepdf');
 
 <div class="maintab container-fluid">
 <?php
-     $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseId = $this->request->getQuery('caseId')]);
+     $sectionNavCell = $this->cell('SectionNav',[$tabid,$this->request->getQuery('caseNo')]);
      echo $sectionNavCell;
 ?>
 
@@ -127,23 +127,23 @@ echo $this->element('generatepdf');
     <?= $this->Form->end() ?>
     <?php
         if($tabid==1){
-            $sectionTableCell = $this->cell('SectionTable::general', [$caseId = $this->request->getQuery('caseId')]);
+            $sectionTableCell = $this->cell('SectionTable::general', [$caseId]);
             echo $sectionTableCell;
         }elseif($tabid==2)
         {
-            $sectionTableCell = $this->cell('SectionTable::reporter', [$caseId = $this->request->getQuery('caseId')]);
+            $sectionTableCell = $this->cell('SectionTable::reporter', [$caseId]);
             echo $sectionTableCell;
         }elseif($tabid==3)
         {
-            $sectionTableCell = $this->cell('SectionTable::patient', [$caseId = $this->request->getQuery('caseId')]);
+            $sectionTableCell = $this->cell('SectionTable::patient', [$caseId]);
             echo $sectionTableCell;
         }elseif($tabid==4)
         {
-            $sectionTableCell = $this->cell('SectionTable::product', [$caseId = $this->request->getQuery('caseId')]);
+            $sectionTableCell = $this->cell('SectionTable::product', [$caseId]);
             echo $sectionTableCell;
         }elseif($tabid==5)
         {
-            $sectionTableCell = $this->cell('SectionTable::event', [$caseId = $this->request->getQuery('caseId')]);
+            $sectionTableCell = $this->cell('SectionTable::event', [$caseId]);
             echo $sectionTableCell;
         }
     ?>

@@ -60,11 +60,13 @@ class SdWorkflowsTable extends Table
 
         $validator
             ->scalar('name')
+            ->maxLength('name', 200)
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
         $validator
             ->scalar('description')
+            ->maxLength('description', 200)
             ->requirePresence('description', 'create')
             ->notEmpty('description');
 
