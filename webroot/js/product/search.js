@@ -3,7 +3,7 @@ jQuery(function($) {
 });
 function searchProd(){
     var request = {
-        'searchName': $("#key_word").val(), 
+        'searchName': $("#key_word").val(),
         'productName':$("#product_name").val(),
         'studyName':$("#study_no").val()
     };
@@ -20,11 +20,11 @@ function searchProd(){
             var result = $.parseJSON(response);
             var text = "";
             text +="<h3>Product List</h3>";
-            text +="<table class=\"table table-hover\" id=\"search_result\">";
+            text +="<table class=\"table table-hover table-striped table-bordered\" id=\"search_result\">";
             text += "<thead>";
             text +="<tr class=\"table-secondary\">";
             text +="<th scope=\"col\">Product Name</th>";
-            text +="<th scope=\"col\">Study Number</th>";            
+            text +="<th scope=\"col\">Study Number</th>";
             text +="<th scope=\"col\">Study Type</th>";
             text +="<th scope=\"col\">Sponsor</th>";
             text +="<th scope=\"col\">mfr name</th>";
@@ -46,16 +46,16 @@ function searchProd(){
                 text += "<td>";
                 console.log(caseDetail);
                 $.each(caseDetail.sd_product_workflows, function(k,product_workflowdetail){
-                    text += "<div class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" onclick=\"view_workflow("+product_workflowdetail.id+")\" data-target=\".WFlistView\">"+product_workflowdetail.sd_workflow.name+" / "+product_workflowdetail.sd_workflow.country+"</div>";                });
+                    text += "<div class=\"btn btn-sm btn-outline-info mx-1\" data-toggle=\"modal\" onclick=\"view_workflow("+product_workflowdetail.id+")\" data-target=\".WFlistView\">"+product_workflowdetail.sd_workflow.name+" / "+product_workflowdetail.sd_workflow.country+"</div>";                });
                 text += "</td>";
-                text += "<td><div class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" onclick=\"view_product("+caseDetail.id+")\" data-target=\".product_detail\">View Detail</div></td>";
+                text += "<td><div class=\"btn btn-sm btn-outline-info\" data-toggle=\"modal\" onclick=\"view_product("+caseDetail.id+")\" data-target=\".product_detail\">View Detail</div></td>";
                 text +="<div id=\"product_"+caseDetail.id+"\" style=\"display:none\">"+JSON.stringify(caseDetail)+"</div>";
-                text += "</tr>";       
+                text += "</tr>";
             });
             text +="</tbody>";
             text +="</table>";
             $("#searchProductlist").html(text);
-            $('#search_result').dataTable();
+            $('#search_result').DataTable();
         },
         error:function(response){
                 console.log(response.responseText);
@@ -86,7 +86,7 @@ function view_product(product_id){
     $('#detail_end_date').val(product_detail['end_date']);
     $('#detail_status').val(status[product_detail['status']]);
     $('#detail_short_desc').val(product_detail['short_desc']);
-    $('#detail_product_desc').val(product_detail['product_desc']);   
+    $('#detail_product_desc').val(product_detail['product_desc']);
 
 }
 function view_workflow(workflow_k){

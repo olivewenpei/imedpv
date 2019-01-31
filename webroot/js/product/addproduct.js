@@ -195,35 +195,48 @@ jQuery(function($) {  // In case of jQuery conflict
         }
         if (($('.defworkflow').is(':hidden') && $('.custworkflow').is(':visible')))
         {
-            workflowname = $('#custom-workflow_name').val();
-            if(workflowname.length == 0){
-                $(this).show();
-                $('#custworkflowname').attr('disabled',false);
-                $('li.custworkflowstep').find('button').show();
-                $('#cusworkflow').find('ul').show();
-                // $('#custworkflowname').after('<div id="errWorkflow" class="alert alert-danger" role="alert">Workflow name is required!</div>');
-                $('#custworkflowname').after($("#errWorkflow").show());
-                swal({
-                    title: "Failed to choose Workflow",
-                    text: "Workflow name is REQUIRED",
-                    icon: "warning",
-                    button: "OK",
-                  });
-                return false;
+            if(
+                !$('#custom-workflow_name').val()  ) {
+                $('#custom-workflow_name-validate').show().delay(2000).fadeOut();;
+            }
+            else if (
+                !$('#custom-workflow_description').val()  ) {
+                $('html,body').animate({
+                    scrollTop: $("#cusworkflow").offset().top
+                    });
+                $('#custom-workflow_description-validate').show().delay(2000).fadeOut();;
             }
             else {
-                $('#defworkflow, #custbtn, .closewf').hide();
-                $('#cusT, #undochoWF').show();
-                $('#sortable, #draggable').addClass("mx-auto w-50");
-                $('#cusworkflow').find('ul').hide();
-                $('#custom-workflow_name').attr('disabled',true);
-                $('#custom-workflow_description').attr('disabled',true);
-                $('li.custworkflowstep').find('button').hide();
-                $(this).hide();
-                $('#sortable').find('.card-body').append( '<div class="input-group w-25 mx-auto"><i class="fas fa-arrow-up gobackstep"></i><input type="text" class="step_backward form-control form-control-sm backstep_input" aria-label="Back Steps" aria-describedby="backSteps"></div>');
-                $('#custworkflowname').next('#errWorkflow').remove(); // *** this line have been added ***
+                workflowname = $('#custom-workflow_name').val();
+                if(workflowname.length == 0){
+                    $(this).show();
+                    $('#custworkflowname').attr('disabled',false);
+                    $('li.custworkflowstep').find('button').show();
+                    $('#cusworkflow').find('ul').show();
+                    // $('#custworkflowname').after('<div id="errWorkflow" class="alert alert-danger" role="alert">Workflow name is required!</div>');
+                    $('#custworkflowname').after($("#errWorkflow").show());
+                    swal({
+                        title: "Failed to choose Workflow",
+                        text: "Workflow name is REQUIRED",
+                        icon: "warning",
+                        button: "OK",
+                    });
+                    return false;
+                }
+                else {
+                    $('#defworkflow, #custbtn, .closewf').hide();
+                    $('#cusT, #undochoWF').show();
+                    $('#sortable, #draggable').addClass("mx-auto w-50");
+                    $('#cusworkflow').find('ul').hide();
+                    $('#custom-workflow_name').attr('disabled',true);
+                    $('#custom-workflow_description').attr('disabled',true);
+                    $('li.custworkflowstep').find('button').hide();
+                    $(this).hide();
+                    $('#sortable').find('.card-body').append( '<div class="input-group w-25 mx-auto"><i class="fas fa-arrow-up gobackstep"></i><input type="text" class="step_backward form-control form-control-sm backstep_input" aria-label="Back Steps" aria-describedby="backSteps"></div>');
+                    $('#custworkflowname').next('#errWorkflow').remove(); // *** this line have been added ***
+                }
+                $("#sortable").sortable({ disabled: true });
             }
-            $("#sortable").sortable({ disabled: true });
         };
         $(this).hide();
         $('#submitworkflow').show();
@@ -351,71 +364,84 @@ jQuery(function($) {  // In case of jQuery conflict
         $('#addNewWL').show();
     });
     $('#submitchocountry').click(function() {
-        $('#defworkflowstep').hide()
-        $('#defworkflow, #custbtn, .closewf').show();
-        $('#cusT, #undochoWF').hide();
-        $('#cusworkflow').find('ul').show();
-        $('#custom-workflow_name').attr('disabled',false);
-        $('#custom-workflow_description').attr('disabled',false);
-        $('li.custworkflowstep').find('button').show();
-        $('#sortable').find('.input-group').remove();
+        if(
+            !$('#select-country').val()  ) {
+            $('#select-country-validate').show().delay(2000).fadeOut();;
+        }
+        else if (
+            !$('#callCenter').val() ) {
+            $('#callCenter-validate').show().delay(2000).fadeOut();;
+        }
+        else
+        {
+            $('#defworkflowstep').hide();
+            $('#defworkflow, #custbtn, .closewf').show();
+            $('#cusT, #undochoWF').hide();
+            $('#cusworkflow').find('ul').show();
+            $('#custom-workflow_name').attr('disabled',false);
+            $('#custom-workflow_description').attr('disabled',false);
+            $('li.custworkflowstep').find('button').show();
+            $('#sortable').find('.input-group').remove();
 
-        $('#cusworkflow').find('input').prop("disabled", false);
-        $("#sortable").sortable({ disabled: false });
-        $('#sortable, #draggable').removeClass("mx-auto w-50");
-        $('#ifdef').removeClass("mx-auto w-50");
-        $('.defworkflow').hide();
-        $('.custworkflow').hide();
-        $('#submitworkflow').hide();
-        $('#exit_workflow').hide();
-        workflow_info[workflow_k].country = $('#select-country').val();
-        workflow_info[workflow_k].sd_company_id = $('#callCenter').val();
-        $(this).hide();
-        $('#undochocon').show();
-        $("#select-country, #callCenter ").prop("disabled", true);
-        $('#choosewf').show();
-        $('#defworkflow').show();
-        $('#cusworkflow').show();
-        $('#defT').hide();
-        $('#cusT').hide();
-        $('#defbtn').show();
-        $('#custbtn').show();
-        var default_text = "<p>This is default workflow and cannot be changed</p>";
-        var customize_text = "";
-        var country = $('#select-country').val();
-        default_text +="<h4>Name: "+ workflowInfo[country]['name']+"</h4>";
-        default_text +="<h5>Description: "+workflowInfo[country]['description']+"</h5>";
-        $('#default-workflow_description').val(workflowInfo[country]['description']);
-        $('#default-workflow_name').val(workflowInfo[country]['name']);
-        $('#custom-workflow_name').val('customize-'+workflowInfo[country]['name']);
-        $('#default-workflow_id').val(workflowInfo[country]['id']);
-        $(workflowInfo[country]['sd_workflow_activities']).each(function(k,v){
-            default_text +="<li class=\"defworkflowstep\">";
-                default_text +="<div class=\"card w-100 h-25 my-2\">";
-                    default_text +="<div class=\"card-body p-3\">";
-                        default_text +="<h5 class=\"card-title\"><b>"+v.activity_name+"</b></h5>";
-                        default_text +="<p class=\"card-text\">"+v.description+"</p>";
-                        default_text +="<div class=\"input-group w-25 mx-auto\">";
-                            default_text +="<i class=\"fas fa-arrow-up gobackstep\"></i>";
-                            default_text +="<input type=\"text\" readonly=\"readonly\" value="+v.step_backward+" class=\"step_backward form-control form-control-sm\" aria-label=\"Back Steps\" aria-describedby=\"backSteps\">"
-                        default_text +="</div>"
+            $('#cusworkflow').find('input').prop("disabled", false);
+            $("#sortable").sortable({ disabled: false });
+            $('#sortable, #draggable').removeClass("mx-auto w-50");
+            $('#ifdef').removeClass("mx-auto w-50");
+            $('.defworkflow').hide();
+            $('.custworkflow').hide();
+            $('#submitworkflow').hide();
+            $('#exit_workflow').hide();
+            workflow_info[workflow_k].country = $('#select-country').val();
+            workflow_info[workflow_k].sd_company_id = $('#callCenter').val();
+            $(this).hide();
+            $('#undochocon').show();
+            $("#select-country, #callCenter ").prop("disabled", true);
+            $('#choosewf').show();
+            $('#defworkflow').show();
+            $('#cusworkflow').show();
+            $('#defT').hide();
+            $('#cusT').hide();
+            $('#defbtn').show();
+            $('#custbtn').show();
+            var default_text = "<p>This is default workflow and cannot be changed</p>";
+            var customize_text = "";
+            var country = $('#select-country').val();
+            default_text +="<h4>Name: "+ workflowInfo[country]['name']+"</h4>";
+            default_text +="<h5>Description: "+workflowInfo[country]['description']+"</h5>";
+            $('#default-workflow_description').val(workflowInfo[country]['description']);
+            $('#default-workflow_name').val(workflowInfo[country]['name']);
+            $('#custom-workflow_name').val('customize-'+workflowInfo[country]['name']);
+            $('#default-workflow_id').val(workflowInfo[country]['id']);
+            $(workflowInfo[country]['sd_workflow_activities']).each(function(k,v){
+                default_text +="<li class=\"defworkflowstep\">";
+                    default_text +="<div class=\"card w-100 h-25 my-2\">";
+                        default_text +="<div class=\"card-body p-3\">";
+                            default_text +="<h5 class=\"card-title\"><b>"+v.activity_name+"</b></h5>";
+                            default_text +="<p class=\"card-text\">"+v.description+"</p>";
+                            default_text +="<div class=\"input-group w-25 mx-auto\">";
+                                default_text +="<i class=\"fas fa-arrow-up gobackstep\"></i>";
+                                default_text +="<input type=\"text\" readonly=\"readonly\" value="+v.step_backward+" class=\"step_backward form-control form-control-sm\" aria-label=\"Back Steps\" aria-describedby=\"backSteps\">"
+                            default_text +="</div>"
+                        default_text +="</div>";
                     default_text +="</div>";
-                default_text +="</div>";
-            default_text +="</li>"
-            customize_text +="<li class=\"custworkflowstep\">";
-                customize_text +="<div class=\"card w-100 h-25 my-2\">";
-                    customize_text +="<div class=\"card-body p-3\">";
-                        customize_text +="<button class=\"close closewf\">&times;</button>";
-                        customize_text +="<h5 class=\"card-title\"><b>"+v.activity_name+"</b></h5>";
-                        customize_text +="<p class=\"card-text\">"+v.description+"</p>";
+                default_text +="</li>"
+                customize_text +="<li class=\"custworkflowstep\">";
+                    customize_text +="<div class=\"card w-100 h-25 my-2\">";
+                        customize_text +="<div class=\"card-body p-3\">";
+                            customize_text +="<button class=\"close closewf\">&times;</button>";
+                            customize_text +="<h5 class=\"card-title\"><b>"+v.activity_name+"</b></h5>";
+                            customize_text +="<p class=\"card-text\">"+v.description+"</p>";
+                        customize_text +="</div>";
                     customize_text +="</div>";
-                customize_text +="</div>";
-            customize_text +="</li>"
-        });
-        $('#default_workflow').html(default_text);
-        $('#sortable').html(customize_text);
+                customize_text +="</li>"
+            });
+            $('#default_workflow').html(default_text);
+            $('#sortable').html(customize_text);
+        };
 
     });
+
+
     $('#undochoWF').click(function() {
         $('.step_backward').each(function(){
             $(this).prop("disabled", false);

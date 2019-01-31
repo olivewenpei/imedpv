@@ -226,7 +226,7 @@
                                 <hr>
                                 <div class="form-row justify-content-md-center">
                                     <div class="form-group col-md-3">
-                                    <label for="">Select Country</label>
+                                        <label for="">Select Country</label>
                                         <select class="form-control" id="select-country" name="product_workflow[0][country]">
                                         <option value="">Select Country</option>
                                         <?php
@@ -240,14 +240,20 @@
                                         }
                                         ?>
                                         </select>
+                                        <div id="select-country-validate" class="alert alert-danger mt-2" role="alert" style="display:none;">
+                                            Country is REQUIRED
+                                        </div>
                                     </div>
                                     <div class="form-group col-md-3">
-                                    <label for="">Select Call Center</label>
+                                        <label for="">Select Call Center</label>
                                         <select class="form-control" id="callCenter" name="product_workflow[0][callCenter]">
-                                        <option value="Global">Global</option>
-                                        <option value="Europe">Europe</option>
-                                        <option value="Japan">Japan</option>
+                                            <option value="Global">Global</option>
+                                            <option value="Europe">Europe</option>
+                                            <option value="Japan">Japan</option>
                                         </select>
+                                        <div id="callCenter-validate" class="alert alert-danger mt-2" role="alert" style="display:none;">
+                                            Call Center is REQUIRED
+                                        </div>
                                     </div>
                                 </div>
                                 <button id="exit_workflow" type="button" class="btn btn-outline-warning">Exit</button>
@@ -277,12 +283,18 @@
                                                 <div class="form-group col-md-12">
                                                     <h4>Workflow Name: </h4 >
                                                     <input class="w-75 text-center" type="text" id="custom-workflow_name" value=""/>
+                                                    <div id="custom-workflow_name-validate" class="alert alert-danger mt-2" role="alert" style="display:none;">
+                                                        Name is REQUIRED
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
                                                     <h5>Workflow Description </h5 >
                                                     <input class="w-75 text-center" type="text" id="custom-workflow_description" value=""/>
+                                                    <div id="custom-workflow_description-validate" class="alert alert-danger mt-2" role="alert" style="display:none;">
+                                                        Description is REQUIRED
+                                                    </div>
                                                 </div>
                                             </div>
 
