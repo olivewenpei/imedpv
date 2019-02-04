@@ -350,11 +350,6 @@ jQuery(function($) {  // In case of jQuery conflict
         $('#exit_workflow').show();
         $('#submitchocountry').show();
         $('#choosewf').hide();
-        //TODO
-        swal({
-            title: "You are adding a New Workflow",
-            icon: "success",
-          });
 
 
     });
@@ -792,7 +787,8 @@ function confirm_cust_activity(){
             $(this).find('.card').append("<button id=\"confirm_new_activity\" onclick=\"confirm_cust_activity()\" class=\"btn btn-primary w-25 mx-auto my-2\">Confirm</button>");
         },
         // Add "close icon" when drag into new place
-        create :  function (event, ui) {
+        create: function( event, ui ) {
+            console.log('Here');
             $(this).find('.card-body').prepend( '<button class="close closewf">' +  '&times;' +  '</button>');
         },
         // Remove all inputs in original when drag into new place

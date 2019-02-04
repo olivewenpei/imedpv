@@ -9,12 +9,12 @@
         <div class="col">
             <div class="card">
                 <div class="card-header text-center">
-                    <h3>SAE Registration</h3>
+                    <h3>Case Registration</h3>
                 </div>
                 <div class="card-body">
                     <?= $this->Form->create();?><br>
                     <div class="text-center">
-                        <!-- Add Product --><h3>SAE Information</h3><hr>
+                        <!-- Add Product --><h3>Case Information</h3><hr>
                         <div class="form-row">
                         <div class="form-group col-md-3">
                             <label>Product Name:</label>

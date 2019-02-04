@@ -1,7 +1,7 @@
 <?php
 //debug($sdProductTypes);
 ?>
-<title>Product</title>
+<title>Add Product</title>
 <head>
 <?= $this->Html->script('product/addproduct.js') ?>
 <head>
@@ -21,10 +21,76 @@
                         <!-- Add Product -->
                         <span id="errorMsg" class="alert alert-danger" role="alert" style="display:none"></span>
                         <?= $this->Form->create();?>
-                        <div id="addpro" class="form-row">
-                            <div class="form-group col-md-3">
-                                <label>Product Name</label>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Product Name (B.4.k.2.1)</label>
+                                <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Proprietary medicinal product name (B.4.k.2.1)" data-content="<div>The name should be that used by the reporter. It is recognized that a single product may have different proprietary names in different countries, even when produced by a single manufacturer.</div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <input type="text" class="form-control" id="product_name" name="product[product_name]" placeholder="Product Name" required oninvalid="this.setCustomValidity('Product Name is REQUIRED')" oninput="this.setCustomValidity('')">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Product Type:</label>
+                                <div class="option_group">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="drug_type" value="1" name="case[product_type]" class="custom-control-input">
+                                        <label for="drug_type" class="custom-control-label">Drug<label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="vaccine_type" value="2" name="case[product_type]" class="custom-control-input">
+                                        <label for="vaccine_type" class="custom-control-label">Vaccine<label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="device_type" value="3" name="case[product_type]" class="custom-control-input">
+                                        <label for="device_type" class="custom-control-label">Device<label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="combination_type" value="4" name="case[product_type]" class="custom-control-input">
+                                        <label for="combination_type" class="custom-control-label">Combination<label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Drug Role / Product flag (B.4.k.1)</label>
+                                <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Characterization of drug role (B.4.k.1)" data-content="<div>Characterization of the drug as provided by primary reporter. All spontaneous reports should have at least one suspect drug. If the reporter indicates a suspected interaction, interacting should be selected. All interacting drugs are considered to be suspect drugs.</div>" ><i class="qco fas fa-info-circle"></i></a>
+                                <select class="form-control" id="sd_product_flag" name="product[sd_product_flag]" required oninvalid="this.setCustomValidity('Product flag is REQUIRED')" oninput="this.setCustomValidity('')">
+                                    <option value="">Select</option>
+                                    <option value="1">Suspect</option>
+                                    <option value="2">Concomitant</option>
+                                    <option value="3">Interacting</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Mfr. name</label>
+                                <input type="text" class="form-control" id="mfr_name" name="product[mfr_name]" placeholder="Mfr. name">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Status</label>
+                                <select class="form-control" id="status" name="product[status]" required oninvalid="this.setCustomValidity('Status is REQUIRED')" oninput="this.setCustomValidity('')">
+                                    <option value="1">Active</option>
+                                    <option value="2">Close</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Blinding technique</label>
+                                <select class="form-control" id="blinding_tech" name="product[blinding_tech]">
+                                    <option value="">Select</option>
+                                    <option value="1">Single blind</option>
+                                    <option value="2">Open-label</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label>Study Name</label>
+                                <input type="text" class="form-control" id="study_name" name="product[study_name]" placeholder="Study Name">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Study Number</label>
+                                <input type="text" class="form-control" id="study_no" name="product[study_no]" placeholder="Study Number">
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Sponsor Company</label>
@@ -40,38 +106,10 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
-                                <label>Product flag (B.4.k.1)</label>
-                                <select class="form-control" id="sd_product_flag" name="product[sd_product_flag]" required oninvalid="this.setCustomValidity('Product flag is REQUIRED')" oninput="this.setCustomValidity('')">
-                                    <option value="1">Suspect</option>
-                                    <option value="2">Concomitant</option>
-                                    <option value="3">Interacting</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Blinding technique</label>
-                                <select class="form-control" id="blinding_tech" name="product[blinding_tech]">
-                                    <option value="1">Single blind</option>
-                                    <option value="2">Open-label</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label>Study Name</label>
-                                <input type="text" class="form-control" id="study_name" name="product[study_name]" placeholder="Study Name" required oninvalid="this.setCustomValidity('Study Name is REQUIRED')" oninput="this.setCustomValidity('')">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Study Number</label>
-                                <input type="text" class="form-control" id="study_no" name="product[study_no]" placeholder="Study Number" required oninvalid="this.setCustomValidity('Study Number is REQUIRED')" oninput="this.setCustomValidity('')">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Mfr. name</label>
-                                <input type="text" class="form-control" id="mfr_name" name="product[mfr_name]" placeholder="Mfr. name">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Study type (A.2.3.3)</label>
+                                <label>Study Type (A.2.3.3)</label>
+                                <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Study type in which the reactions or events were observed (A.2.3.3)" data-content="<div><ol>Clinical trials</ol><ol>Individual patient use; (e.g., compassionate use or named patient basis)</ol><ol>Other studies (e.g., pharmacoepidemiology, pharmacoeconomics, intensive monitoring, PMS)</ol></div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <select class="form-control" id="sd_study_type_id" name="product[study_type]" required oninvalid="this.setCustomValidity('Study Type is REQUIRED')" oninput="this.setCustomValidity('')">
+                                    <option value="">Select</option>
                                     <option value="1">Clinical trials</option>
                                     <option value="2">Individual patient use</option>
                                     <option value="3">Other studies</option>
@@ -111,28 +149,8 @@
                                 <label>End Date</label>
                                 <input type="text" class="form-control" name="product[end_date]" id="end_date">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>Status</label>
-                                <select class="form-control" id="status" name="product[status]" required oninvalid="this.setCustomValidity('Status is REQUIRED')" oninput="this.setCustomValidity('')">
-                                    <option value="1">Active</option>
-                                    <option value="2">Close</option>
-                                </select>
-                            </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label>Short Description</label>
-                                <input type="text" class="form-control" id="short_desc" name="product[short_desc]" placeholder="Short Description">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label>Product Description (B.4.k.2.1)</label>
-                                <input type="text" class="form-control" id="product_desc" name="product[product_desc]" placeholder="Product Description" required oninvalid="this.setCustomValidity('Product Description is REQUIRED')" oninput="this.setCustomValidity('')">
-                            </div>
-                        </div>
 
                         <!-- Workflow List and Add New -->
                         <button id="addNewWL" type="button" class="btn btn-outline-info float-right">Add New Workflow <i class="far fa-plus-square"></i></button>
@@ -329,21 +347,21 @@
 
                         <!-- Add CROs -->
                         <div id="choosecro" class="prodiff text-center">
-                            <h3 class="mt-2">Add CROs</h3>
+                            <h3 class="mt-2">Add Resources</h3>
                             <hr>
-                            <p class="card-text">Add the CRO here and assign personnels</p>
-                            <button type="button" class="btn btn-outline-info w-25 mx-auto mb-3" data-toggle="modal" data-target="#addcromodal">Add CROs</button>
+                            <p class="card-text">Add the Resources here and assign personnels</p>
+                            <button type="button" class="btn btn-outline-info w-25 mx-auto mb-3" data-toggle="modal" data-target="#addcromodal">Add Resources</button>
                             <div class="modal fade" id="addcromodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Add CRO</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Companies</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <label for="">Add CRO</label>
+                                        <label for="">Add Resources</label>
                                         <select class="custom-select" id="croname">
                                         </select>
                                     </div>
