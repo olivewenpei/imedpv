@@ -41,13 +41,7 @@
                 <h4 class="d-inline-block">Workflow Resources</h4>
                 <button type="button" class="btn btn-warning ml-1 mb-1" data-container="body" data-toggle="popover" data-placement="bottom" data-content="<div>Drag the resources below to 'Workflow Activities' for assignments<img src='/img/workflowassignment.gif' style='width:500px;'></div>"><i class="fas fa-question"></i></button>
             </div>
-            <div id="workflowResources" class="border border-info p-2 mb-3" style="font-size: 20px;">
-                <div class="alert alert-info d-inline-block m-2 wfres" role="alert">Tom</div>
-                <div class="alert alert-info d-inline-block m-2 wfres" role="alert">Jim</div>
-                <div class="alert alert-info d-inline-block m-2 wfres" role="alert">Alice</div>
-                <div class="alert alert-info d-inline-block m-2 wfres" role="alert">Bob</div>
-                <div class="alert alert-info d-inline-block m-2 wfres" role="alert">Jackson</div>
-            </div>
+            <div id="workflowResources" class="border border-info p-2 mb-3" style="font-size: 20px;"></div>
 
             <h4>Workflow Activities</h4>
             <div id="workflowActivityDropzone">

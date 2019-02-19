@@ -24,16 +24,15 @@ jQuery(function($) {  // In case of jQuery conflict
         }
     });
 
-// Dashboard popup Advance Search
 jQuery(function($) {
     $(document).ready(function(){
+        // Dashboard popup Advance Search
         $("#advsearch").click(function(){
             $(this).parent().hide();
             $("#advsearchfield").slideDown();
         });
+
     });
-
-
 });
 
 
@@ -82,13 +81,24 @@ jQuery(function($) {
         function(){ $(this).removeClass('shadow')
     });
 
-// TO DO: make nav button has "active" effect
-    $(document).ready(function($) {
-        $("#navbarSupportedContent > ul > li").click(function() {
-            $(this).removeClass('active');
-            $(this).addClass('active');
+// Make nav button has "active" effect
+    $(function(){
+        // If clicked the first level menu
+        $('#navbarSupportedContent > ul > li > a').each(function(){
+            if (
+                $(this).prop('href') == window.location.href) {
+                    $(this).addClass('active');
+            }
+        });
+        // If clicked the second (submenu) level
+        $('#navbarSupportedContent > ul > li > div > a').each(function(){
+            if (
+                ($(this).prop('href').split('/').slice(3,4)).toString() == ((window.location.pathname).split('/').slice(1,2)).toString() ) {
+                    $(this).parent().siblings('a').addClass('active');
+            }
         });
     });
+
 // Add Product card
     $(document).ready(function($){
         $('#addprobtn').click(function() {

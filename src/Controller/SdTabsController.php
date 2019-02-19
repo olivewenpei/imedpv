@@ -219,14 +219,13 @@
 
                 $medwatchdata = $this->SdTabs->find();
 
-
                 $mpdf->SetImportUse();
                 $mpdf->SetDocTemplate('export_template/MEDWATCH.pdf',true);
 
                 // If needs to link external css file, uncomment the next 2 lines
                 // $stylesheet = file_get_contents('css/genpdf.css');
                 // $mpdf->WriteHTML($stylesheet,1);
-                        
+
                 $text = " <style> p {position: absolute;}  </style>";
                 foreach($positions as $position_detail)
                 {

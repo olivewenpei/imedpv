@@ -44,7 +44,7 @@
             <div id="workflowResources" class="border border-info p-2 mb-3" style="font-size: 20px;">
             <?php
             foreach($sdUserAssignments as $userDetail){
-                echo "<div class=\"alert alert-info d-inline-block m-2 wfres\" role=\"alert\">".$userDetail['sd_user']['firstname']." ".$userDetail['sd_user']['lastname']."</div>";
+                echo "<div class=\"alert alert-info d-inline-block m-2 wfres\" role=\"alert\"><button class=\"close closewf\" onclick=\"$(this).parent().remove();\"><i class=\"fas fa-user-minus\"></i></button>".$userDetail['sd_user']['firstname']." ".$userDetail['sd_user']['lastname']."</div>";
             }
             ?>
             </div>
@@ -53,7 +53,7 @@
             <div id="workflowActivityDropzone">
             <?php
             foreach($sdProductWorkflow['sd_workflow']['sd_workflow_activities'] as $activityDetail){
-                echo "<div class=\"badge badge-info p-3 resourceDropzone\">";
+                echo "<div class=\"badge badge-info p-3 m-3 resourceDropzone\">";
                 echo "<div class=\"card-header\"><h5>".$activityDetail['activity_name']."</h5><p>".$activityDetail['description']."</p></div>";
                 echo "</div>";
                 echo "<i class=\"fas fa-long-arrow-alt-right\"></i>";

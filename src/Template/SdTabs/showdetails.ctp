@@ -37,6 +37,40 @@ echo $this->element('generatepdf');
         Full Data Entry - <b><?= $this->request->getQuery('caseNo')?></b> [<?= $product_name?>]
     </span>
 
+    <!-- "Search" Button -->
+    <li class="nav-item">
+        <button class="btn btn-outline-info" title="Search" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-search"></i> Search</button>
+        </b>
+        <form class="dropdown-menu p-3">
+            <div class="form-group">
+                <input type="text" class="form-control" id="" placeholder="Search Field Here">
+                <!-- <button type="submit" class="btn btn-primary mx-2">Search</button> -->
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Field Name</th>
+                    <th scope="col">Field Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="DE_search_bar" data-href='/sd-tabs/showdetails/1?caseNo=ICSR19015193600001'>
+                    <th scope="row">1</th>
+                    <td>Priority</td>
+                    <td>General / Admin</td>
+                    </tr>
+                    <tr class="DE_search_bar" data-href='/sd-tabs/showdetails/2?caseNo=ICSR19015193600001'>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Reporter / Address</td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </li>
+
     <!-- "Version Switch" Dropdown Button -->
     <li class="nav-item">
         <a class="btn btn-outline-warning" href="#" title="Version Switch" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

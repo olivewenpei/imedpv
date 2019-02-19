@@ -23,11 +23,14 @@
                         <?= $this->Form->create();?>
 
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label>Product Name (B.4.k.2.1)</label>
                                 <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Proprietary medicinal product name (B.4.k.2.1)" data-content="<div>The name should be that used by the reporter. It is recognized that a single product may have different proprietary names in different countries, even when produced by a single manufacturer.</div>" ><i class="qco fas fa-info-circle"></i></a>
-                                <input type="text" class="form-control" id="product_name" name="product[product_name]" placeholder="Product Name" required oninvalid="this.setCustomValidity('Product Name is REQUIRED')" oninput="this.setCustomValidity('')">
+                                <input type="text" class="form-control" id="product_name" name="product[product_name]" placeholder="Proprietary Medicinal Product Name" required oninvalid="this.setCustomValidity('Product Name is REQUIRED')" oninput="this.setCustomValidity('')">
                             </div>
+                        </div>
+
+                        <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label>Product Type:</label>
                                 <div class="option_group">
@@ -49,6 +52,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group col-md-6">
+                                <label>Mfr. name</label>
+                                <input type="text" class="form-control" id="mfr_name" name="product[mfr_name]" placeholder="Mfr. name">
+                            </div>
                         </div>
 
                         <div class="form-row">
@@ -56,43 +63,68 @@
                                 <label>Drug Role / Product flag (B.4.k.1)</label>
                                 <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Characterization of drug role (B.4.k.1)" data-content="<div>Characterization of the drug as provided by primary reporter. All spontaneous reports should have at least one suspect drug. If the reporter indicates a suspected interaction, interacting should be selected. All interacting drugs are considered to be suspect drugs.</div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <select class="form-control" id="sd_product_flag" name="product[sd_product_flag]" required oninvalid="this.setCustomValidity('Product flag is REQUIRED')" oninput="this.setCustomValidity('')">
-                                    <option value="">Select</option>
+                                    <option value="">Select Characterization of Drug Role</option>
                                     <option value="1">Suspect</option>
                                     <option value="2">Concomitant</option>
                                     <option value="3">Interacting</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Mfr. name</label>
-                                <input type="text" class="form-control" id="mfr_name" name="product[mfr_name]" placeholder="Mfr. name">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label>Status</label>
+                                <label>Product Status</label>
                                 <select class="form-control" id="status" name="product[status]" required oninvalid="this.setCustomValidity('Status is REQUIRED')" oninput="this.setCustomValidity('')">
+                                    <option value="">Select Product Status</option>
                                     <option value="1">Active</option>
                                     <option value="2">Close</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-2">
-                                <label>Blinding technique</label>
+                            <div class="form-group col-md-4">
+                                <label>Blinding Method</label>
                                 <select class="form-control" id="blinding_tech" name="product[blinding_tech]">
-                                    <option value="">Select</option>
+                                    <option value="">Select Blinding Method</option>
                                     <option value="1">Single blind</option>
-                                    <option value="2">Open-label</option>
+                                    <option value="2">Double blind</option>
+                                    <option value="3">Open-label</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label>Study Name</label>
+                                <label>WHO-DD Browser</label>
+                                <div style="margin-left: 47px;">
+                                    <?php
+                                    $meddraCell = $this->cell('Whodd');
+                                    echo $meddraCell;?>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>WHO-DD Code</label>
+                                <input type="text" readonly="readonly" class="form-control" id="whodracode" name="product[WHODD_code]" placeholder="WHO-DD Code">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>WHO-DD Name</label>
+                                <input type="text" readonly="readonly" class="form-control" id="whodraname" name="product[WHODD_name]" placeholder="WHO-DD Name">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>WHO-DD Preferred Name</label>
+                                <input type="text" class="form-control" id="WHODD_decode" name="product[WHODD_decode]" placeholder="WHO-DD Preferred Name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Study Name (A.2.3.1)</label>
                                 <input type="text" class="form-control" id="study_name" name="product[study_name]" placeholder="Study Name">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>Study Number</label>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Sponsor Study Number (A.2.3.2)</label>
+                                <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Sponsor Study Number (A.2.3.2)" data-content="<div>This section would be completed only if the sender is the study sponsor or has been informed of the study number by the sponsor.</div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <input type="text" class="form-control" id="study_no" name="product[study_no]" placeholder="Study Number">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label>Sponsor Company</label>
                                 <select class="form-control" id="sd_sponsor_company_id" name="product[sd_company_id]" required oninvalid="this.setCustomValidity('Sponsor Company is REQUIRED')" oninput="this.setCustomValidity('')">
                                 <?php
@@ -105,11 +137,11 @@
                                 ?>
                                 </select>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label>Study Type (A.2.3.3)</label>
                                 <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Study type in which the reactions or events were observed (A.2.3.3)" data-content="<div><ol>Clinical trials</ol><ol>Individual patient use; (e.g., compassionate use or named patient basis)</ol><ol>Other studies (e.g., pharmacoepidemiology, pharmacoeconomics, intensive monitoring, PMS)</ol></div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <select class="form-control" id="sd_study_type_id" name="product[study_type]" required oninvalid="this.setCustomValidity('Study Type is REQUIRED')" oninput="this.setCustomValidity('')">
-                                    <option value="">Select</option>
+                                    <option value="">Select Study Type</option>
                                     <option value="1">Clinical trials</option>
                                     <option value="2">Individual patient use</option>
                                     <option value="3">Other studies</option>
@@ -118,35 +150,12 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label>WHODD Browser</label>
-                                <div style="margin-left: 47px;">
-                                    <?php
-                                    $meddraCell = $this->cell('Whodd');
-                                    echo $meddraCell;?>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>WHODD Code</label>
-                                <input type="text" readonly="readonly" class="form-control" id="whodracode" name="product[WHODD_code]" placeholder="WHODD Code">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>WHODD Name</label>
-                                <input type="text" readonly="readonly" class="form-control" id="whodraname" name="product[WHODD_name]" placeholder="WHODD Name">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Preferred WHO DD decode</label>
-                                <input type="text" class="form-control" id="WHODD_decode" name="product[WHODD_decode]" placeholder="Preferred WHO DD decode">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label>Start Date</label>
+                            <div class="form-group col-md-4">
+                                <label>Study Start Date</label>
                                 <input type="text" class="form-control" name="product[start_date]" id="start_date">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>End Date</label>
+                            <div class="form-group col-md-4">
+                                <label>Study End Date</label>
                                 <input type="text" class="form-control" name="product[end_date]" id="end_date">
                             </div>
                         </div>
