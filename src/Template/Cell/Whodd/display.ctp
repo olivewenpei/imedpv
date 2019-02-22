@@ -1,10 +1,10 @@
 <div id="whodrabrowser">
-<button type="button" class="btn btn-outline-info float-left mr-3" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-search"></i> WHODD Browser</button>
+<button type="button" class="btn btn-outline-info float-left mr-3" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-search"></i> WHO-DD Browser</button>
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document" style="max-width: 1175px !important;">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="">WHODD Browser</h5>
+        <h5 class="modal-title" id="">WHO-DD Browser</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

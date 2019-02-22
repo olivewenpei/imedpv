@@ -6,7 +6,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
   <div class="row mt-3">
     <div class="col">
         <div class="card text-center">
-            <h5 class="card-header">Seriousness Cases Alert (For Medical Review ONLY)</h5>
+            <h5 class="card-header">Serious AE/EOSI Cases Alert (For Medical Review ONLY)</h5>
             <div class="card-body">
 				<!--
                 <h5 class="card-title">Special title treatment</h5>
@@ -21,6 +21,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 							<th scope="col">Disability</th>
 							<th scope="col">Anomaly</th>
 							<th scope="col">Other</th>
+							<th scope="col">EOSI</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -30,6 +31,7 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 							<th scope="col">5</th>
 							<th scope="col">4</th>
 							<th scope="col">2</th>
+							<th scope="col">3</th>
 							<th scope="col">3</th>
 							</tr>
 						</tbody>

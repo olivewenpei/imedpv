@@ -9,9 +9,12 @@ $(document).ready(function($){
     $(".wfres").draggable({
         appendTo: "body",
         cursor: "grab",
-        helper: 'clone',
+        helper: "clone",
         revert: "invalid",
-        snapTolerance: 30
+        snapTolerance: 30,
+        stop: function(event, ui) {
+            $('.resourceDropzone').find('.closewf').show();
+        }
     });
 
     // Workflow Resouces Container
@@ -31,7 +34,7 @@ $(document).ready(function($){
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
         drop: function(event, ui) {
-            $(this).append($(ui.draggable));
+            $(this).append($(ui.draggable).clone());
         }
     });
 

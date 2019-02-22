@@ -32,6 +32,7 @@
     <?= $this->Html->script('datatable/datatables.min.js') ?>
 </head>
 <body>
+
 <nav class="topNav navbar navbar-light">
   <a class="navLogo navbar-brand" href="/Dashboards/index">
     <img src="/img/logo-2.png" alt="logo">
@@ -52,10 +53,12 @@
     </div>
   </div>
 </nav>
-<nav class="mainNav navbar navbar-expand-lg navbar-light">
+
+<nav class="mainNav navbar navbar-expand-lg navbar-dark">
+  <!-- <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
-  </button>
+  </button> -->
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navMenu navbar-nav mr-auto">
@@ -63,11 +66,10 @@
         <a class="nav-link" href="/Dashboards/index">Dashboard <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="/sd-products/search" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product</a>
+        <a class="nav-link dropdown-toggle" href="/sd-products/search" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Product</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/sd-products/search">Search Product</a>
           <a class="dropdown-item" href="/sd-products/addproduct">Add Product</a>
-          <a class="dropdown-item" href="/sd-products/workflowmanager">Workflow Manager</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -82,16 +84,23 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Form Builder</a>
+        <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Form Builder</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Add Form</a>
-          <a class="dropdown-item" href="#">Form List</a>
+          <a class="dropdown-item" href="/">Add Form</a>
+          <a class="dropdown-item" href="/">Form List</a>
         </div>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/sd-users/myaccount">My Account</a>
       </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li> -->
     </ul>
+    <!-- <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form> -->
   </div>
 </nav>
 

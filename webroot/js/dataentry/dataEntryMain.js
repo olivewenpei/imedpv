@@ -1,6 +1,22 @@
 jQuery(function($) {
     $(document).ready(paginationReady());
 });
+// Search Bar
+$(document).ready(function(){
+    $('.DE_search_bar[data-href]').on('click', function() {
+        var link = $(this).data("href");
+        if (
+            $(this).data("href").split('/').slice(3).toString().slice(0,1) == ((window.location.pathname).split('/').slice(3)).toString() ) {
+                $('html, body').animate({
+                    scrollTop: $("#section-1-select-413").offset().top-100
+                }, 2000);
+                $("#section-1-select-413").css("background-color","red");
+            }
+        else {
+            $(location).attr('href', link);
+        }
+    });
+});
 
 $(document).ready(function(){
  if(readonly) {
