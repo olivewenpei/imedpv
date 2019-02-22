@@ -116,11 +116,185 @@ class SdCasesController extends AppController
     }
 
     /**
+     * Duplicate detection
+     *
+     *
+     */
+    public function duplicateDetection()
+    {
+        if ($this->request->is('post')) {
+            $this->autoRender = false;
+            try{
+                $searchKey = $this->request->getData();           
+                $searchResult =  $this->SdCases->find()
+                                    ->select([
+                                        'versions'=>'SdCases.version_no', 
+                                        'SdCases.id',
+                                        'SdCases.caseNo',
+                                        'patient_initial'=>'pi.field_value',
+                                        'pi.set_number',
+                                        'patient_age'=>'pa.field_value',
+                                        'pa.set_number',
+                                        'patient_age_unit'=>'pau.field_value',
+                                        'pau.set_number',
+                                        'patient_gender'=>'pg.field_value',
+                                        'pg.set_number',
+                                        'patient_dob'=>'pdob.field_value',
+                                        'pdob.set_number',
+                                        'reporter_first_name'=>'rfn.field_value',
+                                        'rfn.set_number',
+                                        'reporter_last_name'=>'rln.field_value',
+                                        'rln.set_number',
+                                        'event_report_term' =>'ert.field_value',
+                                        'ert.set_number',
+                                        'reaction_duration'=>'rd.field_value',
+                                        'rd.set_number',
+                                        'reaction_first_time' => 'rft.field_value',
+                                        'rft.set_number',
+                                        'reaction_last_time'=>'rlt.field_value',
+                                        'rlt.set_number',
+                                        'meddra_pt'=>'mpt.field_value',
+                                        'mpt.set_number',
+                                        'meddra_llt'=>'mllt.field_value',
+                                        'mllt.set_number',
+                                        'meddra_hlt'=>'mhlt.field_value',
+                                        'mhlt.set_number',
+                                        'product_name'=>'pd.product_name',
+                                        'country'=>'wf.country'
+                                    ])
+                                    ->join([
+                                        'pi' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['pi.sd_field_id = 79','pi.status = 1','pi.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'pa' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['pa.sd_field_id = 86','pa.status = 1','pa.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'pau'=>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['pa.sd_field_id = 87','pa.status = 1','pa.sd_case_id = SdCases.id','pau.set_number=pa.set_number'
+                                            ]
+                                        ],
+                                        'pg' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['pg.sd_field_id = 93','pg.status = 1','pg.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'pdob' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['pdob.sd_field_id = 85','pdob.status = 1','pdob.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'rfn' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['rfn.sd_field_id = 26','rfn.status = 1','rfn.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'rln' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['rln.sd_field_id = 28','rln.status = 1','rln.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'ert' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['ert.sd_field_id = 149','ert.status = 1','ert.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'rd' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['rd.sd_field_id = 159','rd.status = 1','rd.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'rft' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['rft.sd_field_id = 161','rft.status = 1','rft.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'rlt' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['rlt.sd_field_id = 163','rlt.status = 1','rlt.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'mpt' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['mpt.sd_field_id = 394','mpt.status = 1', 'mpt.sd_case_id = SdCases.id'
+                                            ]
+                                        ],
+                                        'mllt' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['mllt.sd_field_id = 392','mllt.status = 1', 'mllt.sd_case_id = SdCases.id','mllt.set_number = mpt.set_number',
+                                            ]
+                                        ],
+                                        'mhlt' =>[
+                                            'table' =>'sd_field_values',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['mhlt.sd_field_id = 395','mhlt.status = 1', 'mhlt.sd_case_id = SdCases.id','mhlt.set_number = mllt.set_number'
+                                            ]
+                                        ],
+                                        'pdw' =>[
+                                            'table' =>'sd_product_workflows',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['pdw.id = SdCases.sd_product_workflow_id'
+                                            ]
+                                        ],
+                                        'pd' =>[
+                                            'table' =>'sd_products',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['pdw.sd_product_id = pd.id']
+                                        ],
+                                        'wf' =>[
+                                            'table' =>'sd_workflows',
+                                            'type'=>'LEFT',
+                                            'conditions' => ['wf.id = pdw.sd_workflow_id']
+                                        ]
+                                    ])->group('SdCases.id');
+                if(!empty($searchKey['product_id'])) $searchResult = $searchResult->where(['pd.id '=>$searchKey['product_id']]);
+                if(!empty($searchKey['country'])) $searchResult = $searchResult->where(['wf.country'=>$searchKey['country']]);
+                if(!empty($searchKey['patient_initial'])) $searchResult = $searchResult->where(['pi.field_value LIKE'=>'%'.$searchKey['patient_initial'].'%']);
+                if(!empty($searchKey['patient_age'])) $searchResult = $searchResult->where(['pa.field_value  LIKE'=>'%'.$searchKey['patient_age'].'%']);
+                if(!empty($searchKey['patient_age_unit'])) $searchResult = $searchResult->where(['pau.field_value  LIKE'=>'%'.$searchKey['patient_age_unit'].'%']);
+                if(!empty($searchKey['patient_dob'])) $searchResult = $searchResult->where(['pdob.field_value  LIKE'=>'%'.$searchKey['patient_dob'].'%']);
+                if(!empty($searchKey['patient_gender'])) $searchResult = $searchResult->where(['pg.field_value  LIKE'=>'%'.$searchKey['patient_gender'].'%']);
+                if(!empty($searchKey['reporter_first_name'])) $searchResult = $searchResult->where(['rfn.field_value  LIKE'=>'%'.$searchKey['reporter_first_name'].'%']);
+                if(!empty($searchKey['reporter_last_name'])) $searchResult = $searchResult->where(['rln.field_value  LIKE'=>'%'.$searchKey['reporter_last_name'].'%']);
+                if(!empty($searchKey['event_report_term'])) $searchResult = $searchResult->where(['ert.field_value  LIKE'=>'%'.$searchKey['event_report_term'].'%']);
+                if(!empty($searchKey['reaction_duration'])) $searchResult = $searchResult->where(['rd.field_value  LIKE'=>'%'.$searchKey['reaction_duration'].'%']);
+                if(!empty($searchKey['reaction_first_time'])) $searchResult = $searchResult->where(['rft.field_value  LIKE'=>'%'.$searchKey['reaction_first_time'].'%']);
+                if(!empty($searchKey['reaction_last_time'])) $searchResult = $searchResult->where(['rlt.field_value  LIKE'=>'%'.$searchKey['reaction_last_time'].'%']);
+                if(!empty($searchKey['meddraptname'])) $searchResult = $searchResult->where(['mpt.field_value  LIKE'=>'%'.$searchKey['meddraptname'].'%']);
+                if(!empty($searchKey['meddralltname'])) $searchResult = $searchResult->where(['mllt.field_value  LIKE'=>'%'.$searchKey['meddralltname'].'%']);
+                if(!empty($searchKey['meddrahltname'])) $searchResult = $searchResult->where(['mhlt.field_value  LIKE'=>'%'.$searchKey['meddrahltname'].'%']);
+                // echo $searchResult;
+            }catch (\PDOException $e){
+                echo "cannot the case find in database";
+            }
+            echo json_encode($searchResult);
+            // $this->set(compact('searchResult'));
+            die();
+        }
+    }
+    /**
      * Register SAE method / Add case
      *
      *
      */
-    public function saeregistration()
+    public function caseregistration()
     {
         $this->viewBuilder()->layout('main_layout');
         $userinfo = $this->request->session()->read('Auth.user');
@@ -128,59 +302,57 @@ class SdCasesController extends AppController
         $productInfo = TableRegistry::get('SdProducts')
             ->find()
             ->select(['id','product_name'])
-            ->contain(['SdProductWorkflows.SdWorkflows'=>['fields'=>['SdWorkflows.name']]])
+            ->contain(['SdProductWorkflows.SdWorkflows'=>['fields'=>['SdWorkflows.country']]])
             ->group(['SdProducts.id']);
-        $randNo = $this->caseNoGenerator();
+        $date_str = $this->caseNoGenerator()."00001";
         if ($this->request->is(['patch', 'post', 'put'])) {
             $requestData = $this->request->getData();
             $sdFieldValueTable = TableRegistry::get('SdFieldValues');
-            $requestDataField = $requestData['field_value'];
+            // $requestDataField = $requestData['field_value'];
             /**
              * save case
              */
-            $requestDataCase = $requestData['case'];
-            debug($requestDataCase);
-            foreach($requestDataCase['caseNo'] as $key =>$value){
+            
+            $sdWorkflowActivities = TableRegistry::get('SdWorkflowActivities')
+                ->find()
+                ->select([
+                    'SdWorkflowActivities.id',
+                    'SdWorkflowActivities.sd_workflow_id',
+                    'wf.id',
+                    'pwf.id'
+                ])->join([                    
+                    'wf' =>[
+                        'table' =>'sd_workflows',
+                        'type'=>'LEFT',
+                        'conditions'=>['wf.id = SdWorkflowActivities.sd_workflow_id']
+                    ],
+                    'pwf'=>[
+                        'table'=>'sd_product_workflows',
+                        'type'=>'LEFT',
+                        'conditions'=>['pwf.sd_workflow_id = wf.id']
+                    ]
+                ])->where(['pwf.id'=>$requestData['sd_product_workflow_id'],'SdWorkflowActivities.order_no'=>'1'])->first();
                 $sdCase = $this->SdCases->newEntity();
-                $savedData = $requestDataCase;
-                $savedData['caseNo'] = $value;
+                $savedData['sd_product_workflow_id'] = $requestData['sd_product_workflow_id'];
                 $savedData['status'] = "1";
+                $savedData['caseNo'] = $date_str;
+                $savedData['version_no'] = "1";
+                $savedData['sd_workflow_activity_id'] = $sdWorkflowActivities['id'];
                 $sdCase = $this->SdCases->patchEntity($sdCase, $savedData);
                 $savedCase=$this->SdCases->save($sdCase);
                 if (!$savedCase) {
                     echo"problem in saving sdCase";
                     return null;
                 }
-                /**
-                 * 
-                 * save source into cases
-                 */
-                foreach($requestDataField as $field_id =>$field_value)
-                {
-                    $sdFieldValueEntity = $sdFieldValueTable->newEntity();
-                    $dataSet = [
-                        'sd_case_id' => $savedCase->id,
-                        'version_no' => '1',
-                        'sd_field_id' => $field_id,
-                        'set_number' => '1',
-                        'created_time' =>date("Y-m-d H:i:s"),
-                        'field_value' =>$field_value,
-                        'status' =>'1',
-                    ];
-                    $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
-                    if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving sdfields";
-                }
-            
+               
                 /**
                  *
                  * save field into these cases
                  */
-                $product_data = TableRegistry::get('SdProducts')
-                ->get($requestData['product_id']);
+                $product_data = TableRegistry::get('SdProducts')->get($requestData['product_id']);
                 $sdFieldValueEntity = $sdFieldValueTable->newEntity();
                 $dataSet = [
                     'sd_case_id' => $savedCase->id,
-                    'version_no' => '1',
                     'sd_field_id' => '176',
                     'set_number' => '1',
                     'created_time' =>date("Y-m-d H:i:s"),
@@ -193,33 +365,16 @@ class SdCasesController extends AppController
                 $sdFieldValueEntity = $sdFieldValueTable->newEntity();
                 $dataSet = [
                     'sd_case_id' => $savedCase->id,
-                    'version_no' => '1',
                     'sd_field_id' => '175',
                     'set_number' => '1',
                     'created_time' =>date("Y-m-d H:i:s"),
                     'field_value' =>$product_data['sd_product_flag'],
                     'status' =>'1',
                 ];
-                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
-                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving sd_product_flag sdfields";
-
+                
                 $sdFieldValueEntity = $sdFieldValueTable->newEntity();
                 $dataSet = [
                     'sd_case_id' => $savedCase->id,
-                    'version_no' => '1',
-                    'sd_field_id' => '282',
-                    'set_number' => '1',
-                    'created_time' =>date("Y-m-d H:i:s"),
-                    'field_value' =>$savedData['product_type'],
-                    'status' =>'1',
-                ];
-                $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
-                if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving sd_product_type_id sdfields";
-                // debug($sdFieldValueEntity);
-                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
-                $dataSet = [
-                    'sd_case_id' => $savedCase->id,
-                    'version_no' => '1',
                     'sd_field_id' => '283',
                     'set_number' => '1',
                     'created_time' =>date("Y-m-d H:i:s"),
@@ -234,7 +389,6 @@ class SdCasesController extends AppController
                 $sdFieldValueEntity = $sdFieldValueTable->newEntity();
                 $dataSet = [
                     'sd_case_id' => $savedCase->id,
-                    'version_no' => '1',
                     'sd_field_id' => '344',
                     'set_number' => '1',
                     'created_time' =>date("Y-m-d H:i:s"),
@@ -247,7 +401,6 @@ class SdCasesController extends AppController
                 $sdFieldValueEntity = $sdFieldValueTable->newEntity();
                 $dataSet = [
                     'sd_case_id' => $savedCase->id,
-                    'version_no' => '1',
                     'sd_field_id' => '389',
                     'set_number' => '1',
                     'created_time' =>date("Y-m-d H:i:s"),
@@ -260,7 +413,6 @@ class SdCasesController extends AppController
                 $sdFieldValueEntity = $sdFieldValueTable->newEntity();
                 $dataSet = [
                     'sd_case_id' => $savedCase->id,
-                    'version_no' => '1',
                     'sd_field_id' => '284',
                     'set_number' => '1',
                     'created_time' =>date("Y-m-d H:i:s"),
@@ -269,11 +421,26 @@ class SdCasesController extends AppController
                 ];
                 $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
                 if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving mfr_name sdfields";
-            }
-            $this->Flash->success(__('The SAE REPORT has been saved.'));
-            return $this->redirect(['action' => 'caselist']);
+                foreach($requestData['field_value'] as $field_id => $detail_data){
+                    if($detail_data!=null){
+                        $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                        $dataSet = [
+                            'sd_case_id' => $savedCase->id,
+                            'sd_field_id' => $field_id,
+                            'set_number' => '1',
+                            'created_time' =>date("Y-m-d H:i:s"),
+                            'field_value' =>$detail_data,
+                            'status' =>'1',
+                        ];
+                        $sdFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                        debug($sdFieldValueEntity);
+                        if(!$sdFieldValueTable->save($sdFieldValueEntity)) echo "problem in saving".$field_id."sdfields";
+                    }
+                }
+            $this->Flash->success(__('The case number is'.$date_str));
+            // return $this->redirect(['action' => 'caselist']);
         }
-        $this->set(compact('productInfo','randNo'));
+        $this->set(compact('productInfo','date_str'));
     }
 
      /**
@@ -283,13 +450,164 @@ class SdCasesController extends AppController
      *
      */
     private function caseNoGenerator(){
-        do{$rand_str = rand(0, 99999);
-        }while($this->SdCases->find()->where(['caseNo LIKE '=>'%'.$rand_str.'%'])->first()!=null);
-        return $rand_str;
+        do{
+            $rand_str = rand(0, 99999);
+            $date_str = "ICSR".date("ym").$rand_str;
+            $date_str = str_pad($date_str,5,"0", STR_PAD_LEFT);
+        }while($this->SdCases->find()->where(['caseNo LIKE '=>'%'.$date_str.'%'])->first()!=null);
+        return $date_str;
     }
 
     public function caselist(){
         $this->viewBuilder()->layout('main_layout');
 
     }
+    /**
+     * Version Up cases
+     * 
+     * 
+     * 
+     */
+    public function versionUp(){
+        if($this->request->is('POST')){
+            $this->autoRender = false;
+
+            $requstData = $this->request->getData();
+            $case = $this->SdCases->find()->where(['caseNo'=>$requstData['caseNo']])->order(['SdCases.version_no' => 'DESC'])->first()->toArray();
+            $newCase = $this->SdCases->newEntity();
+            $sdWorkflowActivity = TableRegistry::get('SdWorkflowActivities')
+                                ->find()
+                                ->select(['id', 'wf.id'])    
+                                ->join([
+                                        'wf' =>[
+                                            'table' =>'sd_workflows',
+                                            'type'=>'LEFT',
+                                            'conditions'=>['wf.id = SdWorkflowActivities.sd_workflow_id'],
+                                        ],
+                                    ])
+                                ->where(['order_no = 1'])->first()->toArray();
+            $case['sd_workflow_activity_id'] = $sdWorkflowActivity['id'];
+            $case['version_no'] = (int)$case['version_no'] + 1;
+            $patchedCase = $this->SdCases->patchEntity($newCase, $case);
+            $savedCase = $this->SdCases->save($patchedCase);
+            if ($savedCase) echo "success"; else echo "error";  
+            $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
+            $sdFieldValues = $sdFieldValuesTable ->find()->where(['status'=>true,'sd_case_id'=>$case['id']]);
+            print_r($case['id']);
+            foreach( $sdFieldValues as $sdFieldValueDetail){
+                print_r($sdFieldValueDetail);
+                $newFieldValue = $sdFieldValuesTable->newEntity();
+                $newFieldValue['sd_case_id'] = $savedCase['id'];
+                $newFieldValue['sd_field_id']=$sdFieldValueDetail['sd_field_id'];
+                $newFieldValue['set_number']=$sdFieldValueDetail['set_number'];
+                $newFieldValue['field_value']=$sdFieldValueDetail['field_value'];
+                $newFieldValue['created_time']=date("Y-m-d H:i:s");
+                $newFieldValue['status']="1";
+                $patchedFieldValue = $sdFieldValuesTable->save($newFieldValue);
+                if(!$patchedFieldValue) {print_r($patchedFieldValue);return;}
+            }
+            die();
+        }
+    }  
+    /**
+     * 
+     * 
+     * 
+     * 
+     */
+    public function forward($caseNo, $version){
+        if($this->request->is('POST')){
+            $this->autoRender = false;
+            $requstData = $this->request->getData();
+            
+            //save new activity into case
+            $case = $this->SdCases->find()->where(['caseNo'=>$caseNo,'version_no'=>$version])
+                                ->select(['id','SdCases.sd_product_workflow_id','pd.product_name','sd_workflow_activity_id','sd_user_id'])
+                                ->join([
+                                    'pw'=>[
+                                        'table'=>'sd_product_workflows',
+                                        'type'=>'INNER',
+                                        'conditions'=>['pw.id = SdCases.sd_product_workflow_id']
+                                    ],
+                                    'pd'=>[
+                                        'table'=>'sd_products',
+                                        'type'=>'INNER',
+                                        'conditions'=>['pw.sd_product_id = pd.id']
+                                    ]
+                                ])->first();
+            //Save current user sign off history
+            $caseCurrentHistory = TableRegistry::get('SdCaseHistories')->find()
+                                            ->where(['sd_case_id'=>$case['id'],'sd_workflow_activity_id'=>$case['sd_workflow_activity_id'],'sd_user_id'=>$case['sd_user_id'],'close_time IS NULL'])
+                                            ->order(['enter_time'=>'DESC'])->first();
+            $caseCurrentHistory['comment'] = $requstData['content'];                                          
+            $caseCurrentHistory['close_time'] = date("Y-m-d H:i:s");
+            if(!TableRegistry::get('SdCaseHistories')->save($caseCurrentHistory)){
+                echo "error in saving history";
+                return;
+            };
+            //save next user enter history
+            $caseNextHistory = TableRegistry::get('SdCaseHistories')->newEntity();
+            $caseNextHistory['sd_case_id'] = $case['id'];
+            $caseNextHistory['sd_workflow_activity_id'] = $requstData['next-activity-id'];
+            $caseNextHistory['sd_user_id'] = $requstData['receiverId'];
+            $caseNextHistory['comment'] = "";                                          
+            $caseNextHistory['enter_time'] = date("Y-m-d H:i:s");
+            if(!TableRegistry::get('SdCaseHistories')->save($caseNextHistory)){
+                echo "error in saving next history";
+                return;
+            };
+            $case['sd_user_id'] = $requstData['receiverId'];
+            $case['sd_workflow_activity_id'] = $requstData['next-activity-id'];
+            if(!$this->SdCases->save($case)){
+                 echo "error in saving new activity";
+                 return;
+            }
+
+
+            //Save Comment To next person
+            $queryTable = TableRegistry::get('SdQueries');
+            $content = $requstData['content']."  Case Number:".$caseNo."    Version:".$version;
+            $sdQuery = $queryTable->newEntity();
+            $dataSet = [
+                'title'=>'A new case has been pushed to you',
+                'content'=>$content,
+                'query_type'=>1,
+                'sender'=>$requstData['senderId'],
+                'receiver'=>$requstData['receiverId'],
+                'sender_deleted'=>0,
+                'query_status'=>0,
+                'receiver_status'=>1,
+                'send_date'=>date("Y-m-d H:i:s"),
+
+
+            ];
+            $patchedQuery = $queryTable->patchEntity($sdQuery, $dataSet);
+            if(!$queryTable->save($patchedQuery)){
+                 echo "error in saving query";
+                 return;
+            }
+            echo "success";
+            $this->Flash->success(__('You\'ve successfully Signed-Off.'));
+            die();
+            
+        }
+    }
+
+    /**
+    * Close cases
+    * 
+    * 
+    * 
+    */
+   public function closeCase(){
+       if($this->request->is('POST')){
+           $this->autoRender = false;
+           $requstData = $this->request->getData();
+           $case = $this->SdCases->find()->where(['caseNo'=>$requstData['caseNo'],'version_no'=>$requstData['version_no']])->first();
+           $case['sd_workflow_activity_id'] = 9999;
+           if ($this->SdCases->save($case)) echo "success"; else echo "error";        
+           print_r($case);
+           die();
+       }
+   }
 }

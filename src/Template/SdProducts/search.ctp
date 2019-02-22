@@ -91,7 +91,6 @@
                             <div class="form-group col-lg-1">
                                 <div class="clearsearch form-control btn btn-outline-danger w-100"><i class="fas fa-eraser"></i> Clear</div>
                             </div>
-                            <input type="hidden" id="product_id" name="product_id" value="">
                         </div>
                         <div class="modal fade WFlistView" tabindex="-1" role="dialog" aria-labelledby="WFlistView" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
@@ -144,7 +143,7 @@
                             <div class="modal fade product_detail" tabindex="-1" role="dialog" aria-labelledby="product_detail" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
-                                        <h3 class="modal-title" id="">Product Detail</h3>
+                                        <h3 class="modal-title">Product Detail</h3>
                                         <div class="modal-body m-3">
                                             <div id="addpro" class="form-row">
                                                 <div class="form-group col-md-3">
@@ -213,7 +212,6 @@
                                                     <input type="text" class="form-control" id="detail_status" readonly="readonly">
                                                 </div>
                                             </div>
-
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
                                                     <label>Short Description</label>

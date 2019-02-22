@@ -1,7 +1,13 @@
 jQuery(function($) {
     $(document).ready(paginationReady());
 });
+
 $(document).ready(function(){
+ if(readonly) {
+    $('input').prop("disabled", true);
+    $('select').prop("disabled", true);
+    $('textarea').prop("disabled", true);
+};
     // Datepicker Script
 $( function() {
     // $( "[id*=date]" ).datepicker({
@@ -24,6 +30,48 @@ $( function() {
             $("#section-1-field-355").hide(1000);
         });
     });
+
+    $("#searchFieldKey").keyup(function(){
+        var request={
+            'key':$('#searchFieldKey').val(),
+            'caseId':caseId
+        };
+        console.log(request);
+        if(request['key']!="")
+        {
+            $.ajax({
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            type:'POST',
+            url:'/sd-sections/search',
+            data:request,
+            success:function(response){ 
+                $('#searchFieldResult').html("");
+                console.log(response);
+                searchResult = $.parseJSON(response);
+                var text ="<table>";                    
+                text +="<tr><th>Field Lable</th>";
+                text +="<th>Tab Name</th>";
+                text +="<th>Section Name</th><tr>";
+                $.each(searchResult,function(k,v){
+
+                    text +="<tr>";
+                    text +="<td>"+v['field']['field_label']+"</td>";
+                    text +="<td>"+v['tab']['tab_name']+"</td>";
+                    text +="<td>"+v['section_name']+"</td>";
+                    text +="<td><a href=\"/sd-tabs/showdetails/"+caseNo+"/"+version+"/"+v['tab']['id']+"#secdiff-"+v['id']+"\">turn to</a></td></tr>";
+                });
+                text +="</table>";
+                $('#searchFieldResult').html(text);
+    
+            },
+            error:function(response){
+                console.log(response.responseText);
+            }
+        });}
+        else $('#searchFieldResult').html("");
+  });
 
     $('input:checkbox').change(
         function(){
@@ -221,7 +269,8 @@ function paginationReady(){
         $(child_section_id).each(function(k, v){
             var sectionKey = $("[id^=add_set-"+v+"]").attr('id').split('-')[3];
             $(section[sectionKey].sd_section_structures).each(function(k,v){
-                $.each(v.sd_field.sd_field_values,function(key, value){console.log("v:");console.log(v);console.log(value);console.log(value.set_number);
+                $.each(v.sd_field.sd_field_values,function(key, value){
+                    // console.log("v:");console.log(v);console.log(value);console.log(value.set_number);
                     max_set_no = Math.max(value.set_number, max_set_no);
                 })
             })
@@ -409,9 +458,9 @@ function saveSection(sectionId){
         url:'/sd-sections/saveSection/'+caseId,
         data:request,
         success:function(response){
+            console.log(response);
             alert("This section has been saved");
-             savedArray = $.parseJSON(response);
-             console.log(response);
+            savedArray = $.parseJSON(response);
             var sectionIdOriginal =  $("[id^=save-btn"+sectionId+"]").attr('id');
             var section_Id = sectionIdOriginal.split('-');
             var max_set_no  = 0
@@ -458,3 +507,70 @@ function saveSection(sectionId){
 
 
 };
+function action(type){
+    text = "";
+    if(type=1){
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            type:'POST',
+            url:'/sd-users/searchNextAvailable/'+caseId,
+            success:function(response){console.log(response);
+                response = JSON.parse(response);
+                console.log(response);
+                text +="<h2>Sign Off</h2>"
+                text +="<h3>Next activity is:"+response['actvity']['activity_name']+"</h3>";
+                text +="<input type=\"hidden\" id=\"next-activity-id\" value=\""+response['actvity']['id']+"\">";
+                text +="<div>Comment:<textarea id=\"query-content\"></textarea></div>";
+                if(response['previousUserOnNextActivity'].length > 0){
+                    text +="<div>Previous User On This Case On Next Activity:";
+                    $.each(response['previousUserOnNextActivity'],function(k,v){
+                        text +=v['user']['firstname']+" "+v['user']['lastname']+"("+v['company']['company_name']+"), ";
+                    });
+                    text +="</div>";
+                }
+                //add function to chose most avaiable person
+                text +="select person you want to send to:<select id=\"receiverId\">";
+                $.each(response['users'],function(k,v){
+                    text +="<option value="+v['id']+">"+v['firstname']+" "+v['lastname'];
+                    if(v['sd_cases'].length > 0)
+                        text +="(currently working on "+v['sd_cases']['0']['casesCount']+" cases)";
+                    else text +="(currently working on 0 case)";
+                    text +="</option>";
+                });
+                text +="</select>";
+                text +="<button onclick=\"forward()\">confirm</button>";
+                $('#action-text-hint').html(text);
+            },
+            error:function(response){
+                console.log(response.responseText);
+            },
+        });
+    }
+    
+}
+function forward(){
+    var request ={
+        'senderId':userId,
+        'next-activity-id':$('#next-activity-id').val(),
+        'receiverId':$('#receiverId').val(),
+        'content':$('#query-content').text()
+    }
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/sd-cases/forward/'+caseNo+'/'+version,
+        data:request,
+        success:function(response){
+            console.log(response);
+            window.location.href = "/sd-cases/caselist";
+        },
+        error:function(response){
+            console.log(response.responseText);    
+            }
+        }); 
+}

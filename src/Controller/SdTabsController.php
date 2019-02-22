@@ -33,18 +33,62 @@
              *
              * @return \Cake\Http\Response|void
              */
-            public function showdetails($tabid = 1  )
+            public function showdetails($caseNo, $version = 1,$tabid = 1)
             {
-                $userinfo = $this->request->session()->read('Auth.user');
-                //TODO Permission related
-                $caseNo = $this->request->getQuery('caseNo');
-                $sdCases = TableRegistry::get('SdCases');
-                $sdCases = $sdCases->find()->where(['caseNo'=>$caseNo])->contain(['SdProductWorkflows.SdProducts'])->first();
+                $writePermission= 0;
+                $userinfo = $this->request->session()->read('Auth.User');
+                $sdCasesTable = TableRegistry::get('SdCases');
+                $sdCases = $sdCasesTable->find()->where(['caseNo'=>$caseNo,'version_no'=>$version])->contain(['SdProductWorkflows.SdProducts'])->first();
                 $caseId = $sdCases['id'];
+                if(empty($caseId)){
+                    $this->Flash->error(__('Cannot find this case.'));
+                    $this->redirect($this->referer());
+                }
+                $currentActivityId = $sdCases['sd_workflow_activity_id'];
+                $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
+                //TODO Permission related
+
+                //User not allow to this activity
+                $assignments = TableRegistry::get('SdUserAssignments')
+                        ->find()->select(['sd_workflow_activity_id'])    
+                        ->where(['sd_user_id'=>$userinfo['id'],'sd_product_workflow_id'=>$sdCases['sd_product_workflow_id']])->toArray();
+                if($sdCases['sd_user_id'] != $userinfo['id']){
+                    $writePermission = 0;
+                    if(empty($assignments))
+                    {
+                        $this->Flash->error(__('You don\'t have permission to view this page'));
+                        $this->redirect($this->referer());
+                    }       
+                }else{
+                    //Section permissions
+                    $writePermission = 1;
+                }
+                $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
+                                            ->find('list',[
+                                                'keyField' => 'sd_section_id',
+                                                'valueField' => 'action'
+                                            ])->where(['sd_workflow_activity_id'=>$currentActivityId])
+                                            ->join([
+                                                'sections' =>[
+                                                    'table' =>'sd_sections',
+                                                    'type'=>'INNER',
+                                                    'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
+                                                ],
+                                            ])->toArray();
+                if(!$writePermission){
+                    foreach($activitySectionPermissions as $key => $activitySectionPermission){
+                        $activitySectionPermissions[$key] = 2;
+                    }
+                }
+                $this->set(compact('activitySectionPermissions'));
+                //For readonly status, donot render layout
+                $readonly = $this->request->getQuery('readonly');
+                if ($readonly!=1) $this->viewBuilder()->layout('main_layout'); else $this->viewBuilder()->layout('readonly_layout');
+                $case_versions = $sdCasesTable->find()->where(['caseNo'=>$caseNo])->select(['version_no']);
                 $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
 
+                //Fetch tab structures
                 $sdTabs = $this->SdTabs->find()->select(['tab_name','display_order'])->where(['status'=>1])->order(['display_order' => 'ASC']);
-                $this->viewBuilder()->layout('main_layout');
                 $associated = ['SdSectionStructures','SdSectionStructures'=>['SdFields'=>['SdElementTypes','SdFieldValues']]];
                 $sdTab = TableRegistry::get('SdSections');
                 $sdSections = $sdTab ->find()->where(['sd_tab_id'=>$tabid,'status'=>true])
@@ -56,7 +100,10 @@
                                             }, 'SdElementTypes'=> function($q){
                                             return $q->select('type_name')->where(['SdElementTypes.status'=>true]);
                                                 }]]);
-                                    }]);
+                                    }])->toArray();
+                foreach($sdSections as $sectionKey => $sdSection){
+                    if(!array_key_exists($sdSection['id'],$activitySectionPermissions)) unset($sdSections[$sectionKey]);
+                }
                 if ($this->request->is(['patch', 'post', 'put'])) {
                     $requstData = $this->request->getData();
                     $sdFieldValues = TableRegistry::get('SdFieldValues');
@@ -70,7 +117,6 @@
                                 $sdFieldValueEntity = $sdFieldValues->newEntity();
                                 $dataSet = [
                                     'sd_case_id' => $caseId,
-                                    'version_no' => '1',
                                     'sd_field_id' => $sectionFieldValue['sd_field_id'],
                                     'set_number' => $sectionFieldValue['set_number'],
                                     'created_time' =>date("Y-m-d H:i:s"),
@@ -84,7 +130,7 @@
                     };
                 }
 
-                $this->set(compact('sdSections','tabid','caseId','product_name'));
+                $this->set(compact('sdSections','caseNo','version','tabid','caseId','product_name','case_versions','writePermission'));
             }
             /**
              *
@@ -190,25 +236,39 @@
             *  Generate PDF files
             *
             */
-            public function genFDApdf($caseId)
-            {
+            public function genFDApdf($caseNo, $version)
+            {               
+                // $sdCases = TableRegistry::get('SdCases');
+                // $cases = $sdCases -> find()
+                //             ->select(['SdCases.id'])->where(['version_no'=>$version, 'caseNo'=>$caseNo])
+                //             ->first();
+
+                // debug($cases->id);
                 $sdMedwatchPositions = TableRegistry::get('SdMedwatchPositions');
                 $positions = $sdMedwatchPositions ->find()
-                ->select(['SdMedwatchPositions.id','SdMedwatchPositions.position_top','SdMedwatchPositions.position_left',
-                    'SdMedwatchPositions.position_width','SdMedwatchPositions.position_height','SdMedwatchPositions.type','fv.field_value','vl.caption'])
-                ->join([
-                    'fv' =>[
-                        'table' =>'sd_field_values',
-                        'type'=>'LEFT',
-                        'conditions'=>['SdMedwatchPositions.sd_field_id = fv.sd_field_id','fv.status = 1','fv.sd_case_id='.$caseId],
-                    ],
-                    'vl'=>[
-                        'table'=>'sd_field_value_look_ups',
-                        'type'=>'LEFT',
-                        'conditions'=>['vl.sd_field_id = SdMedwatchPositions.sd_field_id','vl.value = fv.field_value']
-                    ]
-                ]);
+                            ->select(['SdMedwatchPositions.id','SdMedwatchPositions.position_top','SdMedwatchPositions.position_left',
+                                'SdMedwatchPositions.position_width','SdMedwatchPositions.position_height','SdMedwatchPositions.type','fv.field_value','vl.caption','sc.id'])
+                            ->join([
+                                'fv' =>[
+                                    'table' =>'sd_field_values',
+                                    'type'=>'LEFT',
+                                    'conditions'=>['SdMedwatchPositions.sd_field_id = fv.sd_field_id','fv.status = 1'],
+                                ],
+                                'vl'=>[
+                                    'table'=>'sd_field_value_look_ups',
+                                    'type'=>'LEFT',
+                                    'conditions'=>['vl.sd_field_id = SdMedwatchPositions.sd_field_id','vl.value = fv.field_value']
+                                ],
+                                'sc'=>[
+                                    'table'=>'sd_cases',
+                                    'type'=>'INNER',
+                                    'conditions'=>['sc.version_no = '.$version,'sc.caseNo = \''.$caseNo.'\'','fv.sd_case_id= sc.id']
+                                ]
+                            ]);
                 // debug($positions);
+                // Require composer autoload
+                //require_once __DIR__ . '../vendor/autoload.php';
+               // debug($positions);
                 // Require composer autoload
                 //require_once __DIR__ . '../vendor/autoload.php';
 

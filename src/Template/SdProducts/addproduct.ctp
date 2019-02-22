@@ -84,8 +84,8 @@
                                 <label>WHODD Browser</label>
                                 <div style="margin-left: 47px;">
                                     <?php
-                                    $meddraCell = $this->cell('Whodd');
-                                    echo $meddraCell;?>
+                                    $whodraCell = $this->cell('Whodd');
+                                    echo $whodraCell;?>
                                 </div>
                             </div>
                             <div class="form-group col-md-3">

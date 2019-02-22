@@ -16,8 +16,19 @@ class DashboardsController extends AppController {
             $this->autoRender = false;
             $searchKey = $this->request->getData();
             $sdCases = TableRegistry::get('SdCases');
+            $sdFieldValues = TableRegistry::get('SdFieldValues');
             try{
-                $searchResult = $sdCases->find()->select(['SdCases.id', 'pw.sd_product_id','submission_due_date','activity_due_date','product_type','caseNo','pd.product_name','wa.activity_name'])
+                $searchResult = $sdCases->find()->select([
+                    'versions'=>'group_concat(SdCases.version_no)', 
+                    'id', 
+                    'pw.sd_product_id',
+                    'submission_due_date',
+                    'activity_due_date',
+                    'product_type',
+                    'caseNo',
+                    'sd_workflow_activity_id',
+                    'pd.product_name',
+                    'wa.activity_name'])
                     ->join([
                         'pw' => [
                             'table' => 'sd_product_workflows',
@@ -32,12 +43,18 @@ class DashboardsController extends AppController {
                         'wa' => [
                             'table' => 'sd_workflow_activities',
                             'type' => 'LEFT',
-                            'conditions' => ['wa.id = SdCases.id'],
+                            'conditions' => ['wa.id = SdCases.sd_workflow_activity_id'],
                         ],
-                    ]);
+                        // 'fv'=>[
+                        //     'table' =>'sd_field_values',
+                        //     'type' =>'LEFT',
+                        //     'conditions' =>['fv.sd_case_id = SdCases.id'],
+                        // ]
+                    ])->group(['caseNo']);
                 if(!empty($searchKey['searchName'])) $searchResult = $searchResult->where(['caseNo LIKE'=>'%'.$searchKey['searchName'].'%']);
                 if(!empty($searchKey['searchProductName'])) $searchResult = $searchResult->where(['product_name  LIKE'=>'%'.$searchKey['searchProductName'].'%']);
                 $searchResult->all();
+                
                 // $searchResult = $sdCases->find();
                 // if(!empty($searchKey['searchName'])) $searchResult = $searchResult->where(['caseNo LIKE'=>'%'.$searchKey['searchName'].'%']);
                 // if(!empty($searchKey['searchProductName'])){

@@ -127,7 +127,6 @@ class SdSectionsController extends AppController
                     $sdFieldValueEntity = $sdFieldValues->newEntity();
                     $dataSet = [
                         'sd_case_id' => $caseId,
-                        'version_no' => '1',
                         'sd_field_id' => $sectionFieldValue['sd_field_id'],
                         'set_number' => $sectionFieldValue['set_number'],
                         'created_time' =>date("Y-m-d H:i:s"),
@@ -136,7 +135,7 @@ class SdSectionsController extends AppController
                     ];
                     $sdFieldValueEntity = $sdFieldValues->patchEntity($sdFieldValueEntity, $dataSet);
                     if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in adding!" ;
-                }                    $savedField[$sectionFieldValue['sd_field_id']] = $sdFieldValues->find()->where(['sd_field_id'=>$sectionFieldValue['sd_field_id'],'status'=>1,'sd_case_id'=>$caseId]);
+                }$savedField[$sectionFieldValue['sd_field_id']] = $sdFieldValues->find()->where(['sd_field_id'=>$sectionFieldValue['sd_field_id'],'status'=>1,'sd_case_id'=>$caseId]);
 
             }
         }else $this->autoRender = true;
@@ -167,5 +166,47 @@ class SdSectionsController extends AppController
             }
         }else $this->autoRender = true;
         echo json_encode($savedField);
+    }
+    /**
+     * 
+     * Search Structure
+     * 
+     * 
+     */
+    public function search(){
+        if($this->request->is('POST')){
+            $this->autoRender = false;
+            $requstData = $this->request->getData();
+            $case = TableRegistry::get('SdCases')->get($requstData['caseId']);
+            $sections = $this->SdSections->find()
+            ->select(['tab.id','tab.tab_name','section_name','id','section_level','field.id','field.field_label'])
+            ->join([
+                'tab'=>[
+                    'table'=>'sd_tabs',
+                    'type'=>'INNER',
+                    'conditions'=>['SdSections.sd_tab_id = tab.id']
+                ],
+                'ss'=>[
+                    'table'=>'sd_section_structures',
+                    'type'=>'INNER',
+                    'conditions'=>['ss.sd_section_id = SdSections.id']
+                ],
+                'field'=>[
+                    'table'=>'sd_fields',
+                    'type'=>'INNER',
+                    'conditions'=>['field.id = ss.sd_field_id']
+                ],
+                'asp'=>[
+                    'table'=>'sd_activity_section_permissions',
+                    'type'=>'INNER',
+                    'conditions'=>['asp.sd_section_id = SdSections.id','asp.sd_workflow_activity_id ='.$case['sd_workflow_activity_id']]
+                ],
+            ])->where([
+                'OR' =>[['field.field_label LIKE \'%'.$requstData['key'].'%\''],['section_name LIKE \'%'.$requstData['key'].'%\''],['tab.tab_name LIKE \'%'.$requstData['key'].'%\'']],
+            ])
+            ->limit(8)->toArray();
+            echo json_encode($sections);
+            die();
+        }
     }
 }

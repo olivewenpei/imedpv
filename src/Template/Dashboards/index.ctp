@@ -153,7 +153,21 @@ var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
                 </select>
             </div>
         </div>
-
+        <div class="modal fade versionUpFrame" tabindex="-1" role="dialog" aria-labelledby="versionUpFrame" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body m-3">
+                        Reason For Version Up:
+                        <select>
+                            <option>Select reason for version up</option>
+                            <option>Data Correction</option>
+                            <option>Follow Up</option>
+                        </select>
+                        <div class="form-control btn btn-primary w-300" id="confirmVersionUp" onclick="">Confirm </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-lg-3">
                 <div id="searchBtn" onclick="onQueryClicked()" class="form-control btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
