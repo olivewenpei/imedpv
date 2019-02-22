@@ -43,6 +43,7 @@
                 if(empty($caseId)){
                     $this->Flash->error(__('Cannot find this case.'));
                     $this->redirect($this->referer());
+                    return;
                 }
                 $currentActivityId = $sdCases['sd_workflow_activity_id'];
                 $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
@@ -58,6 +59,7 @@
                     {
                         $this->Flash->error(__('You don\'t have permission to view this page'));
                         $this->redirect($this->referer());
+                        return;
                     }       
                 }else{
                     //Section permissions

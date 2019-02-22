@@ -66,14 +66,14 @@ $( function() {
                 $('#searchFieldResult').html("");
                 console.log(response);
                 searchResult = $.parseJSON(response);
-                var text ="<table>";                    
-                text +="<tr><th>Field Lable</th>";
-                text +="<th>Tab Name</th>";
-                text +="<th>Section Name</th><tr>";
+                var text ="<table class=\"table table-hover\">";                    
+                text +="<tr><th scope=\"col\">Field Lable</th>";
+                text +="<th scope=\"col\">Tab Name</th>";
+                text +="<th scope=\"col\">Section Name</th><tr>";
                 $.each(searchResult,function(k,v){
 
                     text +="<tr>";
-                    text +="<td>"+v['field']['field_label']+"</td>";
+                    text +="<td class=\"DE_search_bar\" data-href='/sd-tabs/showdetails/1?caseNo=ICSR19015193600001'>"+v['field']['field_label']+"</td>";
                     text +="<td>"+v['tab']['tab_name']+"</td>";
                     text +="<td>"+v['section_name']+"</td>";
                     text +="<td><a href=\"/sd-tabs/showdetails/"+caseNo+"/"+version+"/"+v['tab']['id']+"#secdiff-"+v['id']+"\">turn to</a></td></tr>";

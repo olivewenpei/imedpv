@@ -34,12 +34,7 @@ echo $this->element('generatepdf');
 </head>
 <?php if($this->request->getQuery('readonly')!=1):?>
 <!-- Data Entry Top Bar -->
-<div class="container-fluid">
-    <div class="btn-group-vertical" id="sidenav" role="group" aria-label="Button group with nested dropdown">
-        <input id="searchFieldKey" placeholder="Type the word you want to search">
-        <div id="searchFieldResult"></div>
-    </div>
-    </div>
+
 <ul class="topbar nav justify-content-end pt-2 pb-2" id="topbar">
 
     <!-- "Case Number" Display -->
@@ -52,12 +47,13 @@ echo $this->element('generatepdf');
         <button class="btn btn-outline-info" title="Search" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-search"></i> Search</button>
         </b>
-        <form class="dropdown-menu p-3">
+        <div class="dropdown-menu p-3">
             <div class="form-group">
-                <input type="text" class="form-control" id="" placeholder="Search Field Here">
+                <input type="text" class="form-control" id="searchFieldKey" placeholder="Search Field Here">
                 <!-- <button type="submit" class="btn btn-primary mx-2">Search</button> -->
             </div>
-            <table class="table table-hover">
+            <div id="searchFieldResult"></div>
+            <!-- <table class="table table-hover">
                 <thead>
                     <tr>
                     <th scope="col">No.</th>
@@ -77,8 +73,8 @@ echo $this->element('generatepdf');
                     <td>Reporter / Address</td>
                     </tr>
                 </tbody>
-            </table>
-        </form>
+            </table> -->
+        </div>
     </li>
 
     <!-- "Version Switch" Dropdown Button -->
@@ -180,7 +176,7 @@ echo $this->element('generatepdf');
         }
 
     ?>
-    <?php if($this->request->getQuery('readonly')!=1):?>
+    <?php if(($writePermission)&&($this->request->getQuery('readonly')!=1)):?>
     <div class="text-center">
         <button type="submit" class="completeBtn w-25 btn btn-success">Complete</button>
     </div>
