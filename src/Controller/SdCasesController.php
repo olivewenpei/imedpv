@@ -515,7 +515,7 @@ class SdCasesController extends AppController
      * 
      * 
      */
-    public function forward($caseNo, $version){
+    public function forward($caseNo, $version, $operator){
         if($this->request->is('POST')){
             $this->autoRender = false;
             $requstData = $this->request->getData();
@@ -536,12 +536,13 @@ class SdCasesController extends AppController
                                     ]
                                 ])->first();
             //Save current user sign off history
-            $caseCurrentHistory = TableRegistry::get('SdCaseHistories')->find()
+            $caseCurrentHistoryTable =TableRegistry::get('SdCaseHistories');
+            $caseCurrentHistory = $caseCurrentHistoryTable->find()
                                             ->where(['sd_case_id'=>$case['id'],'sd_workflow_activity_id'=>$case['sd_workflow_activity_id'],'sd_user_id'=>$case['sd_user_id'],'close_time IS NULL'])
                                             ->order(['enter_time'=>'DESC'])->first();
             $caseCurrentHistory['comment'] = $requstData['content'];                                          
             $caseCurrentHistory['close_time'] = date("Y-m-d H:i:s");
-            if(!TableRegistry::get('SdCaseHistories')->save($caseCurrentHistory)){
+            if(!$caseCurrentHistoryTable->save($caseCurrentHistory)){
                 echo "error in saving history";
                 return;
             };
@@ -562,14 +563,15 @@ class SdCasesController extends AppController
                  echo "error in saving new activity";
                  return;
             }
-
-
+            if($operator == false)
+                $title = "A new case has been pushed to you";
+            else $title = "A case has been sent back to you";
             //Save Comment To next person
             $queryTable = TableRegistry::get('SdQueries');
             $content = $requstData['content']."  Case Number:".$caseNo."    Version:".$version;
             $sdQuery = $queryTable->newEntity();
             $dataSet = [
-                'title'=>'A new case has been pushed to you',
+                'title'=>$title,
                 'content'=>$content,
                 'query_type'=>1,
                 'sender'=>$requstData['senderId'],

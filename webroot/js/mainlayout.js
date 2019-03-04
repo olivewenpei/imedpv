@@ -146,7 +146,7 @@ jQuery(function($) {
 });
 
 function onQueryClicked(){
-    var request = {'searchName': $("#searchName").val(), 'searchProductName':$("#searchProductName").val()};
+    var request = {'searchName': $("#searchName").val(), 'searchProductName':$("#searchProductName").val(),'userId':userId};
     console.log(request);
     $.ajax({
         headers: {
@@ -182,17 +182,7 @@ function onQueryClicked(){
                 text += "<tr>";
                 text += "<td>" + caseDetail.caseNo + "</td>";
                 text += "<td></td>";
-                text += "<td>";
-                if(jQuery.isEmptyObject(caseDetail['versions'])!=1){
-                    
-                    text += "<select id=\"version-"+caseDetail.caseNo+"\">";
-                    var versionArray = caseDetail['versions'].split(',');
-                    $.each(versionArray, function(k,value){
-                        text +="<option value="+value+">"+value+"</option>";
-                    });
-                    text += "</select>";
-                }
-                text += "</td>";
+                text += "<td>"+ caseDetail.versions + "</td>";
                 text += "<td id=\"activity-"+caseDetail.caseNo+"\">";
                 if(caseDetail.sd_workflow_activity_id!='9999') text += caseDetail.wa.activity_name;
                 else text += "Completed"
@@ -204,9 +194,9 @@ function onQueryClicked(){
                 text += "<td>" + caseDetail.submission_due_date + "</td>";
                 text += "<td>";
                 if((jQuery.isEmptyObject(caseDetail.wa.activity_name))&&(caseDetail.sd_workflow_activity_id!='9999') )
-                    text += "<div class=\"btn btn-outline-info\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">Triage</div> <div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".confirmClose\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close This Case</div>"; 
+                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-outline-info\">Triage</div></a><div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".confirmClose\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close This Case</div>"; 
                 else{
-                    if(caseDetail.sd_workflow_activity_id!='9999') text += "<div class=\"btn btn-outline-info\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">"+caseDetail.wa.activity_name+"</div><div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close This Case</div>"; 
+                    if(caseDetail.sd_workflow_activity_id!='9999') text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-outline-info\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">"+caseDetail.wa.activity_name+"</div></a><div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close This Case</div>"; 
                     else text += "<div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>"; 
                 }
                 text +="</td>";
@@ -266,7 +256,4 @@ function closeCase(caseNo){
             console.log(response.responseText);
         }
     });
-}
-function actionRouting(caseNo){
-        window.location.href = "/sd-tabs/showdetails/"+caseNo+"/"+$('#version-'+caseNo).val();
 }

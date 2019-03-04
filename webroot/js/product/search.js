@@ -5,7 +5,8 @@ function searchProd(){
     var request = {
         'searchName': $("#key_word").val(),
         'productName':$("#product_name").val(),
-        'studyName':$("#study_no").val()
+        'studyName':$("#study_no").val(),
+        'userId':userId
     };
     console.log(request);
     $.ajax({

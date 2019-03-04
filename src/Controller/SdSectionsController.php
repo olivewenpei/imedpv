@@ -179,7 +179,7 @@ class SdSectionsController extends AppController
             $requstData = $this->request->getData();
             $case = TableRegistry::get('SdCases')->get($requstData['caseId']);
             $sections = $this->SdSections->find()
-            ->select(['tab.id','tab.tab_name','section_name','id','section_level','field.id','field.field_label'])
+            ->select(['tab.id','tab.tab_name','section_name','id','section_level','field.id','field.field_label','asp.sd_workflow_activity_id'])
             ->join([
                 'tab'=>[
                     'table'=>'sd_tabs',
@@ -199,12 +199,18 @@ class SdSectionsController extends AppController
                 'asp'=>[
                     'table'=>'sd_activity_section_permissions',
                     'type'=>'INNER',
-                    'conditions'=>['asp.sd_section_id = SdSections.id','asp.sd_workflow_activity_id ='.$case['sd_workflow_activity_id']]
+                    'conditions'=>['asp.sd_section_id = SdSections.id']
                 ],
+                'ua'=>[
+                    'table'=>'sd_user_assignments',
+                    'type'=>'INNER',
+                    'conditions'=>['ua.sd_workflow_activity_id = asp.sd_workflow_activity_id','ua.sd_product_workflow_id ='.$case['sd_product_workflow_id'],'ua.sd_user_id ='.$requstData['userId']]
+                ]
             ])->where([
-                'OR' =>[['field.field_label LIKE \'%'.$requstData['key'].'%\''],['section_name LIKE \'%'.$requstData['key'].'%\''],['tab.tab_name LIKE \'%'.$requstData['key'].'%\'']],
+                'OR' =>[['field.field_label LIKE \'%'.$requstData['key'].'%\''],['section_name LIKE \'%'.$requstData['key'].'%\''],
+                        ['tab.tab_name LIKE \'%'.$requstData['key'].'%\'']],
             ])
-            ->limit(8)->toArray();
+            ->toArray();
             echo json_encode($sections);
             die();
         }

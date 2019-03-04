@@ -136,9 +136,10 @@ echo $this->element('generatepdf');
 
     <!-- "Save All" Button -->
     <li class="nav-item">
-    <?php if($writePermission==1)
+    <?php if($writePermission==1){
        echo "<a class=\"btn btn-primary\" title=\"Save All\" data-toggle=\"modal\" data-target=\".signOff\" onclick=\"action(1)\"><i class=\"far fa-save\"></i>Sign Off</a>";
-    ?>
+       echo "<a class=\"btn btn-primary\" title=\"Save All\" data-toggle=\"modal\" data-target=\".signOff\" onclick=\"action(2)\"><i class=\"far fa-save\"></i>Push Backward</a>";
+    }?>
     </li>
 
 </ul>

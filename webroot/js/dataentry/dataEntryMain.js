@@ -50,7 +50,8 @@ $( function() {
     $("#searchFieldKey").keyup(function(){
         var request={
             'key':$('#searchFieldKey').val(),
-            'caseId':caseId
+            'caseId':caseId,
+            'userId':userId,
         };
         console.log(request);
         if(request['key']!="")
@@ -525,7 +526,7 @@ function saveSection(sectionId){
 };
 function action(type){
     text = "";
-    if(type=1){
+    if(type==1){
         $.ajax({
             headers: {
                 'X-CSRF-Token': csrfToken
@@ -563,6 +564,75 @@ function action(type){
                 console.log(response.responseText);
             },
         });
+    }    
+    if(type==2){
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            type:'POST',
+            url:'/sd-users/searchPreviousAvailable/'+caseId,
+            success:function(response){console.log(response);
+                response = JSON.parse(response);
+                console.log(response);
+                text +="<h2>Push Backward</h2>";
+                text +="<div>Comment:<textarea id=\"query-content\"></textarea></div>";
+                text +="Case Info:";
+                text +="<table>";
+                text +="<thead>";
+                text +="<tr class=\"table-secondary\">";
+                text +="<th scope=\"col\">Activity </th>";
+                text +="<th scope=\"col\">Previous User On This Activity </th>";
+                text +="<th scope=\"col\">Avaliable User </th>";
+                text +="</tr>";
+                text +="</thead>";
+                $.each(response,function(k,activity){
+                    text += "<div id=\"previous_activity-"+activity['id']+"\" hidden>"+JSON.stringify(activity['users'])+"</div> ";
+                    if(activity['previousUserOnPreviousActivity'].length > 0){
+                        text +="<tr>";
+                        text += "<td>"+activity['activity_name']+"</td>";
+                        text +="<td>";
+                        $.each(activity['previousUserOnPreviousActivity'],function(k,v){
+                            text +=v['user']['firstname']+" "+v['user']['lastname']+"("+v['company']['company_name']+")<br>";
+                        });
+                        text += "</td><td>";
+                        $.each(activity['users'],function(k,v){
+                            text +=v['firstname']+" "+v['lastname'];
+                            if(v['sd_cases'].length > 0)
+                                text +="(currently working on "+v['sd_cases']['0']['casesCount']+" cases)<br>";
+                            else text +="(currently working on 0 case)<br>";
+                        });
+                        text +="</tr>";
+                    }  
+                });
+                text +="</table>";
+                //add function to chose most avaiable person
+                text +="<h5>Which you want to push to?:</h5>";
+                text +="<select id=\"next-activity-id\" >";
+                text +="<option value=\"null\">Select Activity</option>";
+                $.each(response,function(k,v){
+                    text += "<option value=\""+v['id']+"\">"+v['activity_name']+"</option>";
+                });
+                text +="</select>";
+                text +="<h5>select person you want to send to:</h5><select id=\"receiverId\">";
+                text +="</select>";
+                text +="<button onclick=\"backward()\">confirm</button>";
+                $('#action-text-hint').html(text);
+                $('#next-activity-id').change(function(){
+                    console.log($('#previous_activity-'+$(this).val()).html());
+                    var users =  $.parseJSON($('#previous_activity-'+$(this).val()).html());
+                    var text =""
+                    $('#receiverId').html(text);
+                    $.each(users,function(k,v){
+                        text += "<option value=\""+v['id']+"\">"+v['firstname']+" "+v['lastname']+"</option>"
+                    });
+                    $('#receiverId').html(text);
+                });
+            },
+            error:function(response){
+                console.log(response.responseText);
+            },
+        });
     }
     
 }
@@ -579,7 +649,7 @@ function forward(){
             'X-CSRF-Token': csrfToken
         },
         type:'POST',
-        url:'/sd-cases/forward/'+caseNo+'/'+version,
+        url:'/sd-cases/forward/'+caseNo+'/'+version+"/0",
         data:request,
         success:function(response){
             console.log(response);
@@ -590,3 +660,28 @@ function forward(){
             }
         }); 
 }
+function backward(){
+    var request ={
+        'senderId':userId,
+        'next-activity-id':$('#next-activity-id').val(),
+        'receiverId':$('#receiverId').val(),
+        'content':$('#query-content').text()
+    }
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/sd-cases/forward/'+caseNo+'/'+version+"/1",
+        data:request,
+        success:function(response){
+            console.log(response);
+            window.location.href = "/sd-cases/caselist";
+        },
+        error:function(response){
+            console.log(response.responseText);    
+            }
+        }); 
+}
+   

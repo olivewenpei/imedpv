@@ -40,11 +40,11 @@
                 $sdCasesTable = TableRegistry::get('SdCases');
                 $sdCases = $sdCasesTable->find()->where(['caseNo'=>$caseNo,'version_no'=>$version])->contain(['SdProductWorkflows.SdProducts'])->first();
                 $caseId = $sdCases['id'];
-                if(empty($caseId)){
-                    $this->Flash->error(__('Cannot find this case.'));
-                    $this->redirect($this->referer());
-                    return;
-                }
+                // if(empty($caseId)){
+                //     $this->Flash->error(__('Cannot find this case.'));
+                //     $this->redirect($this->referer());
+                //     return;
+                // }
                 $currentActivityId = $sdCases['sd_workflow_activity_id'];
                 $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
                 //TODO Permission related
@@ -55,28 +55,45 @@
                         ->where(['sd_user_id'=>$userinfo['id'],'sd_product_workflow_id'=>$sdCases['sd_product_workflow_id']])->toArray();
                 if($sdCases['sd_user_id'] != $userinfo['id']){
                     $writePermission = 0;
-                    if(empty($assignments))
-                    {
-                        $this->Flash->error(__('You don\'t have permission to view this page'));
-                        $this->redirect($this->referer());
-                        return;
-                    }       
+                    // if(empty($assignments))
+                    // {
+                    //     $this->Flash->error(__('You don\'t have permission to view this page'));
+                    //     $this->redirect($this->referer());
+                    //     return;
+                    // } 
+                    $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
+                    ->find('list',[
+                        'keyField' => 'sd_section_id',
+                        'valueField' => 'action'
+                    ])
+                    ->join([
+                        'sections' =>[
+                            'table' =>'sd_sections',
+                            'type'=>'INNER',
+                            'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
+                        ],
+                        'ua'=>[
+                            'table'=>'sd_user_assignments',
+                            'type'=>'INNER',
+                            'conditions'=>['ua.sd_product_workflow_id ='.$sdCases['sd_product_workflow_id'],'ua.sd_user_id ='.$userinfo['id'],'ua.sd_workflow_activity_id = SdActivitySectionPermissions.sd_workflow_activity_id']
+                        ]
+                    ])->toArray();      
                 }else{
+                    $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
+                    ->find('list',[
+                        'keyField' => 'sd_section_id',
+                        'valueField' => 'action'
+                    ])->where(['sd_workflow_activity_id'=>$currentActivityId])
+                    ->join([
+                        'sections' =>[
+                            'table' =>'sd_sections',
+                            'type'=>'INNER',
+                            'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
+                        ],
+                    ])->toArray();
                     //Section permissions
                     $writePermission = 1;
-                }
-                $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
-                                            ->find('list',[
-                                                'keyField' => 'sd_section_id',
-                                                'valueField' => 'action'
-                                            ])->where(['sd_workflow_activity_id'=>$currentActivityId])
-                                            ->join([
-                                                'sections' =>[
-                                                    'table' =>'sd_sections',
-                                                    'type'=>'INNER',
-                                                    'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
-                                                ],
-                                            ])->toArray();
+                }   
                 if(!$writePermission){
                     foreach($activitySectionPermissions as $key => $activitySectionPermission){
                         $activitySectionPermissions[$key] = 2;

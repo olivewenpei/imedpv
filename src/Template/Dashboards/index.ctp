@@ -1,6 +1,7 @@
 <title>Dashboard</title>
 <script>
 var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+var userId = <?= $this->request->session()->read('Auth.User.id')?>;
 </script>
 <div class="container">
   <div class="row mt-3">

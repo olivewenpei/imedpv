@@ -145,10 +145,31 @@ class SdProductsController extends AppController
             $searchKey = $this->request->getData();
             try{
                 $searchResult =  $this->SdProducts->find();
+                $user = TableRegistry::get('SdUsers')->get($searchKey['userId']);
                 if(!empty($searchKey['productName'])) $searchResult = $searchResult->where(['product_name LIKE'=>'%'.$searchKey['productName'].'%']);
                 if(!empty($searchKey['studyName'])) $searchResult = $searchResult->where(['study_no  LIKE'=>'%'.$searchKey['studyName'].'%']);
-                $searchResult->contain(['SdProductWorkflows.SdWorkflows'=>function($q){return $q->select(['name','country','id']);},
-                                                        'SdCompanies'=>function($q){ return $q->select(['company_name']);}])->all();
+                if($user['sd_role_id']<=2) {
+                    $searchResult->contain(['SdProductWorkflows.SdWorkflows'=>function($q){return $q->select(['name','country','id']);},
+                    'SdCompanies'=>function($q){ return $q->select(['company_name']);}])->all();
+                }else{
+                    $searchResult->contain(['SdProductWorkflows'=>function($q)use($searchKey){
+                        return $q->join([
+                            'ua'=>[
+                                'table' =>'sd_user_assignments',
+                                'type'=>'INNER',
+                                'conditions'=>['ua.sd_product_workflow_id = SdProductWorkflows.id','ua.sd_user_id = '.$searchKey['userId']]
+                            ]
+                        ])->contain(['SdWorkflows'=>function($q){return $q->select(['name','country','id']);}]);
+                    },
+                    'SdCompanies'=>function($q){ return $q->select(['company_name']);}])->toArray();
+                    $searchResult = $searchResult->toArray();
+                    foreach($searchResult as $key => $productDetail){
+                        if(empty($productDetail['sd_product_workflows'])) 
+                        unset($searchResult[$key]);
+                    }
+                    // print_r($searchResult);
+                }
+                
             }catch (\PDOException $e){
                 echo "cannot the case find in database";
             }
