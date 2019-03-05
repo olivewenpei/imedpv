@@ -16,8 +16,18 @@ class DashboardsController extends AppController {
             $this->autoRender = false;
             $searchKey = $this->request->getData();
             $sdCases = TableRegistry::get('SdCases');
+            $sdFieldValues = TableRegistry::get('SdFieldValues');
             try{
-                $searchResult = $sdCases->find()->select(['SdCases.id', 'pw.sd_product_id','submission_due_date','activity_due_date','product_type','caseNo','pd.product_name','wa.activity_name'])
+                $user = TableRegistry::get('SdUsers')->get($searchKey['userId']);
+                $searchResult = $sdCases->find()->select([
+                    'versions'=>'SdCases.version_no', 
+                    'pw.sd_product_id',
+                    'submission_due_date'=>'submission_due_date.field_value',
+                    'activity_due_date'=>'activity_due_date.field_value',
+                    'caseNo',
+                    'sd_workflow_activity_id',
+                    'pd.product_name',
+                    'wa.activity_name'])
                     ->join([
                         'pw' => [
                             'table' => 'sd_product_workflows',
@@ -32,12 +42,31 @@ class DashboardsController extends AppController {
                         'wa' => [
                             'table' => 'sd_workflow_activities',
                             'type' => 'LEFT',
-                            'conditions' => ['wa.id = SdCases.id'],
+                            'conditions' => ['wa.id = SdCases.sd_workflow_activity_id'],
                         ],
-                    ]);
+                        'submission_due_date'=>[
+                            'table'=>'sd_field_values',
+                            'type'=>'LEFT',
+                            'conditions'=>['submission_due_date.sd_field_id = 415','submission_due_date.sd_case_id = SdCases.id','submission_due_date.status = 1']
+                        ],
+                        'activity_due_date'=>[
+                            'table'=>'sd_field_values',
+                            'type'=>'LEFT',
+                            'conditions'=>['activity_due_date.sd_field_id = 414','activity_due_date.sd_case_id = SdCases.id','activity_due_date.status = 1']
+                        ]
+                    ])->order(['caseNo'=>'ASC','versions'=>'DESC']);
+                if($user['sd_role_id']>2) {
+                    $searchResult = $searchResult->join([
+                        'ua'=>[
+                            'table' =>'sd_user_assignments',
+                            'type'=>'INNER',
+                            'conditions'=>['ua.sd_product_workflow_id = SdCases.sd_product_workflow_id','ua.sd_user_id = '.$searchKey['userId']]
+                        ]
+                    ]);}
                 if(!empty($searchKey['searchName'])) $searchResult = $searchResult->where(['caseNo LIKE'=>'%'.$searchKey['searchName'].'%']);
                 if(!empty($searchKey['searchProductName'])) $searchResult = $searchResult->where(['product_name  LIKE'=>'%'.$searchKey['searchProductName'].'%']);
                 $searchResult->all();
+                
                 // $searchResult = $sdCases->find();
                 // if(!empty($searchKey['searchName'])) $searchResult = $searchResult->where(['caseNo LIKE'=>'%'.$searchKey['searchName'].'%']);
                 // if(!empty($searchKey['searchProductName'])){
@@ -49,7 +78,7 @@ class DashboardsController extends AppController {
                 //         $flag = 0;
                 //         foreach($sdProducts as $SdProductNo =>$SdProductDetail){
                 //             if($flag = 0) $exp = $exp->or_(['sd_product_id' => $SdProductDetail->id]);
-                //             else $exp = $exp->add(['sd_product_id' => $SdProductDetail->id]);
+                //             else $exp = $exp->activity_due_date(['sd_product_id' => $SdProductDetail->id]);
                 //             $flag ++;
                 //         }
                 //         return $exp;
@@ -58,7 +87,7 @@ class DashboardsController extends AppController {
                 //         $flag = 0;
                 //         foreach($sdProducctWorkflow as $sdProducctWorkflowK =>$sdProducctWorkV){
                 //             if($flag = 0) $exp = $exp->or_(['sd_product_workflow_id' => $sdProducctWorkV->id]);
-                //             else $exp = $exp->add(['sd_product_workflow_id' => $sdProducctWorkV->id]);
+                //             else $exp = $exp->activity_due_date(['sd_product_workflow_id' => $sdProducctWorkV->id]);
                 //             $flag ++;
                 //         }
                 //         return $exp;

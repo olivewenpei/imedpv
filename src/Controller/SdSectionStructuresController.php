@@ -91,7 +91,15 @@ class SdSectionStructuresController extends AppController
         $sdFields = $this->SdSectionStructures->SdFields->find('list', ['limit' => 200]);
         $this->set(compact('sdSectionStructure', 'sdSections', 'sdFields'));
     }
-
+    /**
+     * 
+     * Search Structure
+     * 
+     * 
+     */
+    public function search(){
+        
+    }
     /**
      * Delete method
      *

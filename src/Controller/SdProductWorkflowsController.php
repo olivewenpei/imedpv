@@ -154,11 +154,11 @@ class SdProductWorkflowsController extends AppController
         $sdUserAssignments = TableRegistry::get("SdUserAssignments")->find()
                         ->where(['sd_product_workflow_id'=>$id])
                         ->contain(['SdUsers'=>function($q){
-                            return $q->select(['firstname','lastname'])->contain(['SdCompanies'=>function($q){
+                            return $q->select(['firstname','lastname','id'])->contain(['SdCompanies'=>function($q){
                                 return $q->select('company_name');
                             }]);
                         }]);
         $this->viewBuilder()->layout('main_layout');
-        $this->set(compact('sdProductWorkflow','sdUserAssignments'));
+        $this->set(compact('sdProductWorkflow','sdUserAssignments','id'));
     }
 }

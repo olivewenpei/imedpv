@@ -37,12 +37,16 @@
   <a class="navLogo navbar-brand" href="/Dashboards/index">
     <img src="/img/logo-2.png" alt="logo">
   </a>
-
+  <?php
+     $mailNotice = $this->cell('QueryNotice',[$this->request->getSession()->read('Auth.User.id')]);
+     echo $mailNotice;
+    ?>
   <div class="login dropdown">
     <a class="btn btn-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <h4><i class="fas fa-user-circle"></i> <span id="roleName"> <?php print $this->request->getSession()->read('Auth.User.firstname'); ?>&nbsp;<?php print $this->request->getSession()->read('Auth.User.lastname'); ?> </span> </h4> <br>
-      <h6>Role:  <span id="role"> <?php print $this->request->getSession()->read('Auth.User.job_title'); ?> </span></h6>
+      <h6><span id="role"> <?php echo $this->request->getSession()->read('Auth.User.role_name'); ?> </span></h6>
     </a>
+    
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
       <a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i> My Account</a>
       <a class="dropdown-item" href="/sd-users/logout"><i class="fas fa-sign-out-alt"></i> Log Out</a>
@@ -69,9 +73,9 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="/sd-cases/saeregistration" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">ICSR</a>
+        <a class="nav-link dropdown-toggle" href="/sd-cases/caselist" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ICSR</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/sd-cases/saeregistration">Register SAE/AE</a>
+          <a class="dropdown-item" href="/sd-cases/caseregistration">Register SAE/AE</a>
           <a class="dropdown-item" href="/sd-cases/caselist">Case List</a>
           <!-- Use the following if we need diveder in dropdown menu
           <div class="dropdown-divider"></div>

@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
  * SdCase Entity
  *
  * @property int $id
+ * @property int $version_no
  * @property int $sd_product_workflow_id
  * @property string $caseNo
  * @property int $sd_workflow_activity_id
@@ -37,6 +38,7 @@ class SdCase extends Entity
      * @var array
      */
     protected $_accessible = [
+        'version_no' => true,
         'sd_product_workflow_id' => true,
         'caseNo' => true,
         'sd_workflow_activity_id' => true,

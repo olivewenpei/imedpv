@@ -79,7 +79,7 @@ class SdUserAssignmentsTable extends Table
     {
         $rules->add($rules->existsIn(['sd_product_workflow_id'], 'SdProductWorkflows'));
         $rules->add($rules->existsIn(['sd_user_id'], 'SdUsers'));
-        $rules->add($rules->existsIn(['sd_workflow_activity_id'], 'SdWorkflowActivities'));
+        // $rules->add($rules->existsIn(['sd_workflow_activity_id'], 'SdWorkflowActivities'));
 
         return $rules;
     }

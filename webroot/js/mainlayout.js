@@ -9,9 +9,6 @@ $popover(document).ready(function(){
 });
 
 jQuery(function($) {  // In case of jQuery conflict
-
-
-
   // TO DO: This line should have deleted, BUT will not work if delete directly
 // Date Input Validation ("Latest received date (A.1.7.b)" MUST Greater than "Initial Received date (A.1.6.b)")
     $("#section-1-date-12").change(function () {
@@ -149,7 +146,7 @@ jQuery(function($) {
 });
 
 function onQueryClicked(){
-    var request = {'searchName': $("#searchName").val(), 'searchProductName':$("#searchProductName").val()};
+    var request = {'searchName': $("#searchName").val(), 'searchProductName':$("#searchProductName").val(),'userId':userId};
     console.log(request);
     $.ajax({
         headers: {
@@ -185,16 +182,24 @@ function onQueryClicked(){
                 text += "<tr>";
                 text += "<td>" + caseDetail.caseNo + "</td>";
                 text += "<td></td>";
-                text += "<td></td>";
-                text += "<td>";
-                if(jQuery.isEmptyObject(caseDetail.wa.activity_name)) text += "New"; else text +=caseDetail.wa.activity_name;
+                text += "<td>"+ caseDetail.versions + "</td>";
+                text += "<td id=\"activity-"+caseDetail.caseNo+"\">";
+                if(caseDetail.sd_workflow_activity_id!='9999') text += caseDetail.wa.activity_name;
+                else text += "Completed"
                 text += "</td>";
                 text += "<td></td>";
                 text += "<td>" + caseDetail.pd.product_name + "</td>";
                 text += "<td>"+product_type_id[caseDetail.product_type]+"</td>";
                 text += "<td>"+caseDetail.activity_due_date+"</td>";
                 text += "<td>" + caseDetail.submission_due_date + "</td>";
-                text += "<td><a class=\"btn btn-outline-info\" href=\"/sd-tabs/showdetails/1?caseNo="+caseDetail.caseNo+"\">Data Entry</a> <a class=\"btn btn-outline-info\" href=\"#\">View Case Info</a></td>";
+                text += "<td>";
+                if((jQuery.isEmptyObject(caseDetail.wa.activity_name))&&(caseDetail.sd_workflow_activity_id!='9999') )
+                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-outline-info\">Triage</div></a><div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".confirmClose\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close This Case</div>"; 
+                else{
+                    if(caseDetail.sd_workflow_activity_id!='9999') text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-outline-info\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">"+caseDetail.wa.activity_name+"</div></a><div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close This Case</div>"; 
+                    else text += "<div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>"; 
+                }
+                text +="</td>";
                 text += "</tr>";
             })
             text +="</tbody>";
@@ -203,9 +208,52 @@ function onQueryClicked(){
         },
         error:function(response){
                 console.log(response.responseText);
-
             $("#textHint").html("Sorry, no case matches");
-
+        }
+    });
+}
+function versionUp(caseNo){
+    $('#confirmVersionUp').attr("onclick","confirmVersionUp(\'"+caseNo+"\')");
+}
+function confirmVersionUp(caseNo){
+    var request={
+        "caseNo":caseNo,
+        "version_no":$('#version-'+caseNo).val()
+    };
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/sd-cases/versionUp',
+        data:request,
+        success:function(response){
+            console.log(response);
+        },
+        error:function(response){
+            console.log(response.responseText);
+        }
+    });
+}
+function closeCase(caseNo){
+    var request={
+        "caseNo":caseNo,
+        "version_no":$('#version-'+caseNo).val()
+    };
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/sd-cases/closeCase',
+        data:request,
+        success:function(response){
+            console.log(response);
+        },
+        error:function(response){
+            console.log(response.responseText);
         }
     });
 }

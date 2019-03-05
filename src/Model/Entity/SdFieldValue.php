@@ -8,7 +8,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $sd_case_id
- * @property string $version_no
  * @property int $sd_field_id
  * @property int $set_number
  * @property string $field_value
@@ -32,7 +31,6 @@ class SdFieldValue extends Entity
      */
     protected $_accessible = [
         'sd_case_id' => true,
-        'version_no' => true,
         'sd_field_id' => true,
         'set_number' => true,
         'field_value' => true,

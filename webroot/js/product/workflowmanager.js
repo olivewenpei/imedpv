@@ -38,5 +38,37 @@ $(document).ready(function($){
         }
     });
 
-
 });
+function confirmAllocation(){
+    var request ={};
+    var text = "";
+    $('[id^=activity_card]').each(function(){
+        if($(this).find('[id^=personal]').length>0){
+            var counter = 0;
+            var activity_div = $(this);
+            var activity_set = {};
+            $(this).find('[id^=personal]').each(function()
+            {
+                activity_set[counter] = $(this).attr('id').split('-')[1]
+                counter ++;
+            });
+            request[activity_div.attr('id').split('-')[1]] = activity_set;
+        }
+    });
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/sd-user-assignments/allocateTeam/'+workflowId,
+        data:request,
+        success:function(response){
+            // console.log(response);
+            window.location.href = "/sd-products/search";
+        },
+        error:function(response){
+            console.log(response.responseText);
+        }
+    });
+}

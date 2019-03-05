@@ -5,7 +5,8 @@ function searchProd(){
     var request = {
         'searchName': $("#key_word").val(),
         'productName':$("#product_name").val(),
-        'studyName':$("#study_no").val()
+        'studyName':$("#study_no").val(),
+        'userId':userId
     };
     console.log(request);
     $.ajax({
@@ -44,7 +45,6 @@ function searchProd(){
                 text += "<td>"+caseDetail.mfr_name+"</td>";
                 text += "<td>new</td>";
                 text += "<td>";
-                console.log(caseDetail);
                 $.each(caseDetail.sd_product_workflows, function(k,product_workflowdetail){
                     text += "<div class=\"btn btn-sm btn-outline-info mx-1\" data-toggle=\"modal\" onclick=\"view_workflow("+product_workflowdetail.id+")\" data-target=\".WFlistView\">"+product_workflowdetail.sd_workflow.name+" / "+product_workflowdetail.sd_workflow.country+"</div>";                });
                 text += "</td>";
@@ -70,7 +70,6 @@ function view_product(product_id){
     var blinding_tech = ["","Single blind", "Open-label"]
     var product_flag = ["","Suspect","Concomitant","Interacting"];
     product_detail = $.parseJSON($('#product_'+product_id).text());
-    console.log(product_detail);
     $('#detail_product_name').val(product_detail['product_name']);
     $('#detail_sponsor_company').val(product_detail['sd_company']['company_name']);
     $('#detail_sd_product_flag').val(product_flag[product_detail['sd_product_flag']]);
