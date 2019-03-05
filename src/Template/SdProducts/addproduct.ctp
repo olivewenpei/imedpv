@@ -252,6 +252,7 @@
                                 <h3>Choose Country and Call Center</h3>
                                 <hr>
                                 <div class="form-row justify-content-md-center">
+
                                     <div class="form-group col-md-3">
                                         <label for="">Select Country</label>
                                         <select class="form-control" id="select-country" name="product_workflow[0][country]">
@@ -271,6 +272,7 @@
                                             Country is REQUIRED
                                         </div>
                                     </div>
+
                                     <div class="form-group col-md-3">
                                         <label for="">Select Call Center</label>
                                         <select class="form-control" id="callCenter" name="product_workflow[0][callCenter]">
@@ -352,6 +354,67 @@
                                     <button id="submitworkflow" class="btn btn-primary w-25" style="display:none;">Countinue</button>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Choose Distribution -->
+                        <div id="chooseDistri" class="prodiff text-center" style="display:none;">
+                            <h3>Choose Distribution</h3>
+                            <hr>
+                            <div class="newDistri">
+                                <div class="form-group col-md-3 d-inline-block">
+                                    <label for="">Select Country</label>
+                                    <select class="form-control" id="" name="">
+                                        <option value="">Select Country</option>
+                                        <option value="USA">Unitied States</option>
+                                        <option value="JPN">Japan</option>
+                                        <option value="EU">Europe</option>
+                                    </select>
+                                </div>
+                                <div id="defDistri" class="my-2">
+                                    <button type="button" id="" class="btn btn-success workflow w-25 defDistriBtn"><span>Default Distribution</span></button>
+                                    <div class="defDistriContent" style="display:none;">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="card m-2" style="width: 18rem;">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Generate Report</h5>
+                                                    <p class="card-text">Output a report from system</p>
+                                                </div>
+                                            </div>
+                                            <div class="card m-2" style="width: 18rem;">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Submission</h5>
+                                                    <p class="card-text">Submit report to regulator</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="custDistri" class="my-2">
+                                    <button type="button" id="" class="btn btn-success workflow w-25 custDistriBtn"><span>Customize Distribution</span></button>
+                                    <div class="custDistriOriginal" class="my-3" style="display:none;">
+                                        <div class="addnNewDistriContent">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="card m-2" style="width: 18rem;">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Generate Report</h5>
+                                                        <p class="card-text">Output a report from system</p>
+                                                    </div>
+                                                </div>
+                                                <div class="card m-2" style="width: 18rem;">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Submission</h5>
+                                                        <p class="card-text">Submit report to regulator</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="newDistrictArea"></div>
+                            <button id="addNewDistri" type="button" class="btn btn-sm btn-outline-primary float-left"><i class="fas fa-plus"></i> Add New</button>
+                            <button id="submitDistri" class="btn btn-primary w-25">Countinue</button>
                         </div>
 
                         <!-- Add CROs -->
@@ -442,8 +505,8 @@
                                 <tbody id="crotable">
                                 </tbody>
                             </table>
-                        <button id="undochoWF" type="button" class="btn btn-outline-warning mt-3">Reselect Workflow</button>
-                        <button id="confirmWFlist" type="button" class="btn btn-primary w-25 mt-3 mx-auto">Confirm</button>
+                            <button id="undochoWF" type="button" class="btn btn-outline-warning mt-3">Reselect Workflow</button>
+                            <button id="confirmWFlist" type="button" class="btn btn-primary w-25 mt-3 mx-auto">Confirm</button>
                         </div>
                     </div>
                 </div>
