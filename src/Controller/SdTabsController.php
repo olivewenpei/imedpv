@@ -334,15 +334,20 @@
             }
 
             public function test() {
+                $this->viewBuilder()->layout('main_layout');
+
                 $sdFieldValuesTable = TableRegistry::get('SdFieldValues');
                 $sdFieldValues = $sdFieldValuesTable->find()
-                                ->select(['field_value'])
-                                ->where(['status'=>1,'sd_case_id'=>1,'sd_field_id'=>79])
-                                ->first();
+                                ->select(['created_time'])
+                                ->where(['field_value'=>'asdfa','sd_field_id'=>363])
+                                ->all();
                 $this->set(compact('sdFieldValues'));
 
                 $sdFieldsTable = TableRegistry::get('sdFields');
-                $testValue = $sdFieldsTable->find()->select(['field_label'])->where(['id'=>1])->first();
+                $testValue = $sdFieldsTable->find()
+                                ->select(['field_label'])
+                                ->where(['id'=>1])
+                                ->first();
                 $this->set(compact('testValue'));
             }
 

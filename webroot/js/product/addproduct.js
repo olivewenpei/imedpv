@@ -192,6 +192,7 @@ jQuery(function($) {  // In case of jQuery conflict
             $('#cusworkflow, #defbtn').hide();
             $('#defT, #undochoWF').show();
             $('#ifdef').addClass("mx-auto w-50");
+
         }
         if (($('.defworkflow').is(':hidden') && $('.custworkflow').is(':visible')))
         {
@@ -274,8 +275,8 @@ jQuery(function($) {  // In case of jQuery conflict
     $('#submitworkflow').click(function() {
         $(this).hide();
         $('#undo_activities').hide();
-        $('#undochoWF').show();
-        $('#choosecro').show();
+        $('#undochoWF, #submitDistri, #chooseDistri').show();
+        //$('#choosecro').show();
         var cro_text = "";
         $.each(cro_list, function(k,cro){
             cro_text +="<option value=\""+cro.id+"\">"+cro.name+"</option>";
@@ -335,21 +336,49 @@ jQuery(function($) {  // In case of jQuery conflict
         //TODO While customized
     });
     $('#addNewWL').click(function() {
-        resource_list[workflow_k] = {};
-        workflow_info[workflow_k] = {};
-        var call_center_text = "<option value=\"\">Select Call Center</option>";
-        $.each(call_center_list, function(k,call_center){
-            call_center_text +="<option value=\""+k+"\">"+call_center.name+"</option>";
-            });
-        $("#select-country, #callCenter").prop("disabled", false);
-        $("#select-country").val();
-        $('#callCenter').html(call_center_text);
-        $(this).hide();
-        $('#workflowlist').slideUp();
-        $('#choworkflow').slideDown();
-        $('#exit_workflow').show();
-        $('#submitchocountry').show();
-        $('#choosewf').hide();
+        function addNewWorkflow() {
+            resource_list[workflow_k] = {};
+            workflow_info[workflow_k] = {};
+            var call_center_text = "<option value=\"\">Select Call Center</option>";
+            $.each(call_center_list, function(k,call_center){
+                call_center_text +="<option value=\""+k+"\">"+call_center.name+"</option>";
+                });
+            $("#select-country, #callCenter").prop("disabled", false);
+            $("#select-country").val();
+            $('#callCenter').html(call_center_text);
+            $('#addNewWL').hide();
+            $('#workflowlist').slideUp();
+            $('#choworkflow').slideDown();
+            $('#exit_workflow').show();
+            $('#submitchocountry').show();
+            $('#choosewf').hide();
+        }
+        if(
+            !$('#workflow_table > tr > td').first().text()  ) {
+                addNewWorkflow();
+            }
+        else {
+            swal({
+                title: "Do you want to reuse the previous info?",
+                icon: "info",
+                buttons: ["No", "Yes"]
+                })
+                .then((yes) => {
+                    if (yes) {
+                    swal("New Workflow would based on the previous one", {
+                        icon: "success",
+                    });
+                    addNewWorkflow();
+                    }
+                    else {
+                    swal("New Workflow has been added", {
+                        icon: "success",
+                    });
+                    addNewWorkflow();
+                    $('#choworkflow, #chooseDistri, #choosecro').find('select,input').val('');
+                    }
+                });
+            }
 
 
     });
@@ -359,11 +388,12 @@ jQuery(function($) {  // In case of jQuery conflict
         $('#addNewWL').show();
     });
     $('#submitchocountry').click(function() {
-        if(
-            !$('#select-country').val()  ) {
-            $('#select-country-validate').show().delay(2000).fadeOut();;
-        }
-        else if (
+        // if(
+        //     !$('#select-country').val()  ) {
+        //     $('#select-country-validate').show().delay(2000).fadeOut();;
+        // }
+        // else
+        if (
             !$('#callCenter').val() ) {
             $('#callCenter-validate').show().delay(2000).fadeOut();;
         }
@@ -533,7 +563,7 @@ jQuery(function($) {  // In case of jQuery conflict
         };
         text +="</tr>";
         $('#addNewWL').show();
-        $('#choworkflow, #choosecro').slideUp();
+        $('#choworkflow, #chooseDistri, #choosecro').slideUp();
         $('#workflowlist').slideDown();
         swal({
             title: "Your New Workflow has been SET",
@@ -797,3 +827,23 @@ function confirm_cust_activity(){
         }
     });
 }
+
+// just for demo 02/20/2019
+$(document).ready(function(){
+    $('.defDistriBtn').click(function(){
+        $('.defDistriContent').show();
+        $('.custDistriOriginal').hide();
+    });
+    $('.custDistriBtn').click(function(){
+        $('.custDistriOriginal').show();
+        $('.defDistriContent').hide();
+    });
+    $('#addNewDistri').click(function(){
+        var newDistContent = $('<div class="newDistri"><div class="form-group col-md-3 d-inline-block"><label for="">Select Country</label><select class="form-control" id="" name=""><option value="">Select Country</option><option value="USA">Unitied States</option><option value="JPN">Japan</option><option value="EU">Europe</option></select></div><div id="defDistri" class="my-2"><button type="button" id="" class="btn btn-success workflow w-25 defDistriBtn"><span>Default Distribution</span></button><div class="defDistriContent" style="display:none;"><div class="d-flex justify-content-center"><div class="card m-2" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Generate Report</h5><p class="card-text">Output a report from system</p></div></div><div class="card m-2" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Submission</h5><p class="card-text">Submit report to regulator</p></div></div></div></div></div><div id="custDistri" class="my-2"><button type="button" id="" class="btn btn-success workflow w-25 custDistriBtn"><span>Customize Distribution</span></button><div class="custDistriOriginal" class="my-3" style="display:none;"><div class="addnNewDistriContent"><div class="d-flex justify-content-center"><div class="card m-2" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Generate Report</h5><p class="card-text">Output a report from system</p></div> </div><div class="card m-2" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Submission</h5><p class="card-text">Submit report to regulator</p></div></div></div><hr></div></div></div><button type="button" class="btn btn-sm btn-outline-danger float-right" onclick="$(this).parent().remove();"><i class="fas fa-trash-alt"></i> Remove</button><br></div><hr>')
+        $( ".newDistrictArea" ).append(newDistContent);
+    });
+    $('#submitDistri').click(function(){
+        $(this).hide();
+        $('#choosecro').show();
+    })
+});
