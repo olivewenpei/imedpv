@@ -1,10 +1,13 @@
 <title>Dashboard</title>
+<head>
+<?= $this->Html->script('dashboard/index.js') ?>
+<head>
 <script>
 var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 var userId = <?= $this->request->session()->read('Auth.User.id')?>;
 </script>
-<div class="container">
-  <div class="row mt-3">
+<div class="container" >
+  <div class="row mt-3"style="display:none;">
     <div class="col">
         <div class="card text-center">
             <h5 class="card-header">Serious AE/EOSI Cases Alert (For Medical Review ONLY)</h5>
@@ -43,7 +46,7 @@ var userId = <?= $this->request->session()->read('Auth.User.id')?>;
   </div>
 
 
-  <div class="row mt-3" id="pendcase">
+  <div class="row mt-3" id="pendcase" style="display:none;">
     <div class="col">
         <div class="card text-center">
             <h5 class="card-header"> <span class="badge badge-pill badge-danger" id="alertNew">3</span> Pending Cases (For Data Entry ONLY)</h5>
@@ -52,48 +55,48 @@ var userId = <?= $this->request->session()->read('Auth.User.id')?>;
                 <h5 class="card-title">Special title treatment</h5>
 				<p class="card-text">With additional content.</p>
 				-->
-					<table class="table table-hover">
-						<thead>
-							<tr class="table-secondary">
-							<th scope="col">Flag</th>
-							<th scope="col">Due Date</th>
-							<th scope="col">Version</th>
-							<th scope="col">Country</th>
-							<th scope="col">Product Type</th>
-							<th scope="col">Activity Due Date</th>
-							<th scope="col">Submission Due Date</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr data-href="/sd-tabs/showdetails/1?caseId=1">
-                                <th scope="row"><i class="fas fa-flag text-warning"></i></th>
-                                <th scope="col">12/30/2018</th>
-                                <th scope="col">1</th>
-                                <th scope="col">USA</th>
-                                <th scope="col">Medicine</th>
-                                <th scope="col">03/10/2018</th>
-                                <th scope="col">02/10/2019</th>
-							</tr>
-							<tr data-href="#">
-                                <th scope="row"><i class="fas fa-flag text-danger"></i></th>
-                                <th scope="col">5/30/2018</th>
-                                <th scope="col">1</th>
-                                <th scope="col">Japan</th>
-                                <th scope="col">Device</th>
-                                <th scope="col">01/23/2018</th>
-                                <th scope="col">02/04/2019</th>
-							</tr>
-							<tr data-href="#">
-                                <th scope="row"><i class="fas fa-flag"></i></th>
-                                <th scope="col">12/25/2018</th>
-                                <th scope="col">1</th>
-                                <th scope="col">Canada</th>
-                                <th scope="col">Device</th>
-                                <th scope="col">05/10/2018</th>
-                                <th scope="col">12/12/2019</th>
-							</tr>
-						</tbody>
-					</table>
+                <table class="table table-hover" >
+                    <thead>
+                        <tr class="table-secondary">
+                        <th scope="col">Flag</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Version</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Product Type</th>
+                        <th scope="col">Activity Due Date</th>
+                        <th scope="col">Submission Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-href="/sd-tabs/showdetails/1?caseId=1">
+                            <th scope="row"><i class="fas fa-flag text-warning"></i></th>
+                            <th scope="col">12/30/2018</th>
+                            <th scope="col">1</th>
+                            <th scope="col">USA</th>
+                            <th scope="col">Medicine</th>
+                            <th scope="col">03/10/2018</th>
+                            <th scope="col">02/10/2019</th>
+                        </tr>
+                        <tr data-href="#">
+                            <th scope="row"><i class="fas fa-flag text-danger"></i></th>
+                            <th scope="col">5/30/2018</th>
+                            <th scope="col">1</th>
+                            <th scope="col">Japan</th>
+                            <th scope="col">Device</th>
+                            <th scope="col">01/23/2018</th>
+                            <th scope="col">02/04/2019</th>
+                        </tr>
+                        <tr data-href="#">
+                            <th scope="row"><i class="fas fa-flag"></i></th>
+                            <th scope="col">12/25/2018</th>
+                            <th scope="col">1</th>
+                            <th scope="col">Canada</th>
+                            <th scope="col">Device</th>
+                            <th scope="col">05/10/2018</th>
+                            <th scope="col">12/12/2019</th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -105,6 +108,16 @@ var userId = <?= $this->request->session()->read('Auth.User.id')?>;
         <h5> Case List</h5>
     </div>
     <div class="card-body">
+    <div class="form-row justify-content-center">
+        <?php 
+        foreach($preferrence_list as $preferrence_detail){
+            echo "<div class=\"form-group col-lg-2\" onclick=\"onQueryClicked(".$preferrence_detail['id'].")\"><div class=\"form-control btn btn-outline-danger w-100\">";
+            echo $preferrence_detail['preferrence_name']." ";
+            echo $preferrence_detail['count'];
+            echo "</div></div>";
+        }
+        ?>
+        </div>
         <div class="form-row">
             <div class="form-group col-lg-4">
                 <!-- <label for="recipient-name" class="col-form-label">Recipient:</label> -->

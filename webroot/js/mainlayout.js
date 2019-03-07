@@ -25,8 +25,9 @@ jQuery(function($) {
     $(document).ready(function(){
         // Dashboard popup Advance Search
         $("#advsearch").click(function(){
-            $(this).parent().hide();
-            $("#advsearchfield").slideDown();
+            if($("#advsearchfield").is(':hidden'))
+                $("#advsearchfield").slideDown();
+                else $("#advsearchfield").slideUp();
         });
 
     });
@@ -95,75 +96,32 @@ jQuery(function($) {
             }
         });
     });
-
-// Add Product card
-    $(document).ready(function($){
-        $('#addprobtn').click(function() {
-            var request = {'product_name': $("#product_name").val(), 'study_no':$("#study_no").val(),
-                    'sd_sponsor_company_id':$("#sd_sponsor_company_id").val(),
-                    'sd_product_type_id':$("#sd_product_type_id").val(),
-                    'status':$("#status").val()
-                };
-            console.log(request);
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-Token': csrfToken
-                },
-                type:'POST',
-                url:'/sd-products/create',
-                data:request,
-                success:function(response){
-                    console.log(response);
-                    var result = $.parseJSON(response);
-                    console.log(result);
-                    if (result.result == 1)
-                    {
-                        $('#product_id').val(result.product_id);
-                        $('#choosecon').show();
-                        $("#addpro > div > input, #addpro > div > select").prop("disabled", true);
-                    }
-                    else{
-                        swal({
-                            title: "Failed to add a new product",
-                            text: "All the Fields are REQUIRED",
-                            icon: "warning",
-                            button: "OK",
-                          });
-                        // $("#errorMsg").show();
-                        // $("#errorMsg").html("Failed to add a new product!");
-                    }
-
-                },
-                error:function(response){
-                        console.log(response);
-                }
-            });
-
-
-        });
-    });
 });
 
-function onQueryClicked(){
+function onQueryClicked(preferrenceId = null){
     var request = {'searchName': $("#searchName").val(), 'searchProductName':$("#searchProductName").val(),'userId':userId};
+    if (preferrenceId!=null)
+    request['preferrenceId'] = preferrenceId;
+    var today = new Date();
     console.log(request);
     $.ajax({
         headers: {
             'X-CSRF-Token': csrfToken
         },
         type:'POST',
-        url:'/dashboards/search',
+        url:'/sd-cases/search',
         data:request,
         success:function(response){
             console.log(response);
+            if (response==false) {
+                $("#textHint").html("Sorry, no case matches");
+                return}
             var result = $.parseJSON(response);
             var text = "";
-            text +="<h3>Search Results</h3>";
-            text +="<table class=\"table table-hover\">";
-
+            text +="<table id=\"caseTable\"class=\"table table-hover\">";
             text += "<thead>";
             text +="<tr class=\"table-secondary\">";
+            text +="<th scope=\"col\">Flag</th>";
             text +="<th scope=\"col\">AER No.</th>";
             text +="<th scope=\"col\">Documents</th>";
             text +="<th scope=\"col\">Version</th>";
@@ -179,7 +137,12 @@ function onQueryClicked(){
             text +="<tbody>";
             var product_type_id=["clinical trials", "individual patient use","other studies"]
             $.each(result, function(k,caseDetail){
+                var ad_time = new Date(caseDetail.activity_due_date);
                 text += "<tr>";
+                text += "<td>";
+                if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +="red";  
+                else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +="yellow";  
+                text +="</td>";
                 text += "<td>" + caseDetail.caseNo + "</td>";
                 text += "<td></td>";
                 text += "<td>"+ caseDetail.versions + "</td>";
@@ -205,6 +168,7 @@ function onQueryClicked(){
             text +="</tbody>";
             text +="</table>";
             $("#textHint").html(text);
+            $('#caseTable').DataTable();
         },
         error:function(response){
                 console.log(response.responseText);

@@ -45,9 +45,33 @@
                 //     $this->redirect($this->referer());
                 //     return;
                 // }
+                if ($this->request->is(['patch', 'post', 'put'])) {
+                    $error =[];
+                    $requstData = $this->request->getData();
+                    $sdFieldValues = TableRegistry::get('SdFieldValues');
+                    foreach($requstData['sd_field_values'] as $sectionValueK => $sectionValue) {
+                        foreach($sectionValue as $sectionFieldK =>$sectionFieldValue){
+                            if($sectionFieldValue['id']!=null){//add judging whether updateing Using Validate
+                                $sdFieldValueEntity = $sdFieldValues->get($sectionFieldValue['id']);/**add last-updated time */
+                                $sdFieldValues->patchEntity($sdFieldValueEntity,$sectionFieldValue);
+                                if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in updating!" ;
+                            }elseif(!empty($sectionFieldValue['field_value'])){
+                                $sdFieldValueEntity = $sdFieldValues->newEntity();
+                                $dataSet = [
+                                    'sd_case_id' => $caseId,
+                                    'sd_field_id' => $sectionFieldValue['sd_field_id'],
+                                    'set_number' => $sectionFieldValue['set_number'],
+                                    'created_time' =>date("Y-m-d H:i:s"),
+                                    'field_value' =>$sectionFieldValue['field_value'],
+                                    'status' =>'1',
+                                ];
+                                $sdFieldValueEntity = $sdFieldValues->patchEntity($sdFieldValueEntity, $dataSet);
+                                if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in adding!" ;
+                            }
+                        }
+                    };
+                }
                 $currentActivityId = $sdCases['sd_workflow_activity_id'];
-                $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
-                //TODO Permission related
 
                 //User not allow to this activity
                 $assignments = TableRegistry::get('SdUserAssignments')
@@ -122,31 +146,6 @@
                                     }])->toArray();
                 foreach($sdSections as $sectionKey => $sdSection){
                     if(!array_key_exists($sdSection['id'],$activitySectionPermissions)) unset($sdSections[$sectionKey]);
-                }
-                if ($this->request->is(['patch', 'post', 'put'])) {
-                    $requstData = $this->request->getData();
-                    $sdFieldValues = TableRegistry::get('SdFieldValues');
-                    foreach($requstData['sd_field_values'] as $sectionValueK => $sectionValue) {
-                        foreach($sectionValue as $sectionFieldK =>$sectionFieldValue){
-                            if($sectionFieldValue['id']!=null){//add judging whether updateing Using Validate
-                                $sdFieldValueEntity = $sdFieldValues->get($sectionFieldValue['id']);/**add last-updated time */
-                                $sdFieldValues->patchEntity($sdFieldValueEntity,$sectionFieldValue);
-                                if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in updating!" ;
-                            }elseif(!empty($sectionFieldValue['field_value'])){
-                                $sdFieldValueEntity = $sdFieldValues->newEntity();
-                                $dataSet = [
-                                    'sd_case_id' => $caseId,
-                                    'sd_field_id' => $sectionFieldValue['sd_field_id'],
-                                    'set_number' => $sectionFieldValue['set_number'],
-                                    'created_time' =>date("Y-m-d H:i:s"),
-                                    'field_value' =>$sectionFieldValue['field_value'],
-                                    'status' =>'1',
-                                ];
-                                $sdFieldValueEntity = $sdFieldValues->patchEntity($sdFieldValueEntity, $dataSet);
-                                if(!$sdFieldValues->save($sdFieldValueEntity)) echo "error in adding!" ;
-                            }
-                        }
-                    };
                 }
 
                 $this->set(compact('sdSections','caseNo','version','tabid','caseId','product_name','case_versions','writePermission'));

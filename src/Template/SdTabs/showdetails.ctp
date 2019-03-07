@@ -161,7 +161,7 @@ echo $this->element('generatepdf');
 
 <!-- Data Entry Body -->
 <div class="dataentry">
-    <?= $this->Form->create($sdSections);?>
+    <?= $this->Form->create($sdSections,['id'=> 'dataEntry']);?>
     <?php
         $setNo = "1";
         $exsitSectionNo = [];
@@ -179,7 +179,7 @@ echo $this->element('generatepdf');
     ?>
     <?php if(($writePermission)&&($this->request->getQuery('readonly')!=1)):?>
     <div class="text-center">
-        <button type="submit" class="completeBtn w-25 btn btn-success">Complete</button>
+        <div onclick="submitDataEntry()" class="completeBtn w-25 btn btn-success">Complete</div>
     </div>
     <?php endif;?>
     <hr class="d-inline-block w-100">
@@ -291,6 +291,10 @@ function displaySingleSection($section, $setNo, $sectionKey, $html, $permission)
                     }else{
                         echo"<input id= ".$id_idHolder." name=".$id_nameHolder." value=\"\" type=\"hidden\">";
                     }
+                    if($sd_section_structure_detail->is_required) echo "*" ;
+                    echo "<input id= \"section-".$section->id."-is_required-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][is_required]\" value=";
+                    if($sd_section_structure_detail->is_required) echo "1" ;else echo "0";
+                    echo " type=\"hidden\">";
                     echo "<input id= \"section-".$section->id."-set_number-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][set_number]\" value=".$setNo." type=\"hidden\">";
                     echo "<input id= \"section-".$section->id."-sd_field_id-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][sd_field_id]\" value=".$sd_section_structure_detail->sd_field->id." type=\"hidden\">";
                 }
@@ -308,6 +312,7 @@ function displaySingleSection($section, $setNo, $sectionKey, $html, $permission)
                             echo"</select>";
                             continue;
                         case 'text':
+                            echo "<input id=\"section-".$section->id."-field_rule-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][field_rule]\" value=".$sd_section_structure_detail->sd_field->field_length."-".$sd_section_structure_detail->sd_field->field_type." type=\"hidden\">";
                             echo "<input id=\"section-".$section->id."-text-".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder." type=\"text\"";
                             if($permission==2) echo " disabled ";
                             echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?"value=\"".str_replace("\"","&quot;",$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value):null;
@@ -355,6 +360,7 @@ function displaySingleSection($section, $setNo, $sectionKey, $html, $permission)
                             echo"</div>";
                             continue;
                         case 'textarea':
+                            echo "<input id=\"section-".$section->id."-field_rule-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][field_rule]\" value=".$sd_section_structure_detail->sd_field->field_length."-".$sd_section_structure_detail->sd_field->field_type." type=\"hidden\">";
                             echo "<textarea id=\"section-".$section->id."-textarea-".$sd_section_structure_detail->sd_field->id."\" class=\"form-control\" name=".$field_value_nameHolder;
                             if($permission==2) echo " disabled";
                             echo " rows=".$sd_section_structure_detail->field_height.">";
@@ -362,6 +368,7 @@ function displaySingleSection($section, $setNo, $sectionKey, $html, $permission)
                             echo "</textarea>";
                             continue;
                         case 'date':
+                            echo "<input id=\"section-".$section->id."-field_rule-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][field_rule]\" value=".$sd_section_structure_detail->sd_field->field_length."-".$sd_section_structure_detail->sd_field->field_type." type=\"hidden\">";
                             echo "<input type=\"text\" class=\"form-control\" name=".$field_value_nameHolder." id=\"section-".$section->id."-date-".$sd_section_structure_detail->sd_field->id."\" ";
                             if($permission==2) echo " disabled ";
                             echo "value=\"";
