@@ -19,43 +19,57 @@ class DashboardsController extends AppController {
                 'preferrence_name'=>'Death',
                 'sd_field_id'=>'8',
                 'value_at'=>'1',
-                'match_value'=>'1'
+                'value_length'=>'1',
+                'match_value'=>'= 1'
             ],
             '1'=>[
                 'id'=>'2',
                 'preferrence_name'=>'Life threaten',
                 'sd_field_id'=>'8',
                 'value_at'=>'2',
-                'match_value'=>'1'
+                'value_length'=>'1',
+                'match_value'=>'= 1'
             ],
             '2'=>[
                 'id'=>'3',
                 'preferrence_name'=>'Disability',
                 'sd_field_id'=>'8',
                 'value_at'=>'3',
-                'match_value'=>'1'
+                'value_length'=>'1',
+                'match_value'=>'= 1'
             ],
             '3'=>[
                 'id'=>'4',
                 'preferrence_name'=>'prolonged',
                 'sd_field_id'=>'8',
                 'value_at'=>'4',
-                'match_value'=>'1'
+                'value_length'=>'1',
+                'match_value'=>'= 1'
             ],
             '4'=>[
                 'id'=>'5',
                 'preferrence_name'=>'anomaly',
                 'sd_field_id'=>'8',
                 'value_at'=>'5',
-                'match_value'=>'1'
+                'value_length'=>'1',
+                'match_value'=>'= 1'
             ],
             '5'=>[
                 'id'=>'6',
                 'preferrence_name'=>'Other Serious',
                 'sd_field_id'=>'8',
                 'value_at'=>'6',
-                'match_value'=>'1'
+                'value_length'=>'1',
+                'match_value'=>'= 1'
             ],
+            '6'=>[
+                'id'=>'7',
+                'preferrence_name'=>'Serious Case',
+                'sd_field_id'=>'8',
+                'value_at'=>'1',
+                'value_length'=>'6',
+                'match_value'=>'>= 1'
+            ]
         ];
         $sdCases = TableRegistry::get('SdCases');
         foreach($preferrence_list as $k => $preferrence_detail){
@@ -65,9 +79,9 @@ class DashboardsController extends AppController {
                     'sv' => [
                         'table' => 'sd_field_values',
                         'type' => 'INNER',
-                        'conditions' => ['sv.sd_field_id = '.$preferrence_detail['sd_field_id'],'sv.sd_case_id = SdCases.id'],
-                    ]
-                ])->where(['sd_workflow_activity_id !='=>'9999','SUBSTR(sv.field_value,'.$preferrence_detail['value_at'].','.$preferrence_detail['value_at'].')'=>  $preferrence_detail['match_value']]);
+                        'conditions' => ['sv.sd_field_id = '.$preferrence_detail['sd_field_id'],'sv.sd_case_id = SdCases.id','SUBSTR(sv.field_value,'.$preferrence_detail['value_at'].','.$preferrence_detail['value_length'].') '.$preferrence_detail['match_value']],
+                    ]       
+                ])->where(['sd_workflow_activity_id !='=>'9999']);
             else  $searchResult = $searchResult->join([
                 'sv' => [
                     'table' => 'sd_field_values',
@@ -75,6 +89,7 @@ class DashboardsController extends AppController {
                     'conditions' => ['sv.field_value = '.$preferrence_detail['match_value'],'sv.sd_field_id = '.$preferrence_detail['sd_field_id'],'sv.sd_case_id = SdCases.id'],
                 ]
             ])->where(['sd_workflow_activity_id !='=>'9999']);
+            // debug($searchResult);
             if($userinfo['sd_role_id']>2) {
                 $searchResult = $searchResult->join([
                     'ua'=>[

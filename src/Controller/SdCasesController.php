@@ -122,10 +122,11 @@ class SdCasesController extends AppController
      */
     public function duplicateDetection()
     {
-        if ($this->request->is('post')) {
+        if ($this->request->is('post')) {                       
             $this->autoRender = false;
             try{
-                $searchKey = $this->request->getData();           
+                $searchKey = $this->request->getData();   
+                $user = TableRegistry::get('SdUsers')->get($searchKey['userId']);        
                 $searchResult =  $this->SdCases->find()
                                     ->select([
                                         'versions'=>'SdCases.version_no', 
@@ -264,6 +265,14 @@ class SdCasesController extends AppController
                                             'conditions' => ['wf.id = pdw.sd_workflow_id']
                                         ]
                                     ])->group('SdCases.id');
+                if($user['sd_role_id']<=2) {
+                    $searchResult = $searchResult->join([
+                        'ua'=>[
+                            'table' =>'sd_user_assignments',
+                            'type'=>'INNER',
+                            'conditions'=>['ua.sd_product_workflow_id = SdCases.sd_product_workflow_id','ua.sd_user_id = '.$user['id']]
+                        ]
+                    ]);}
                 if(!empty($searchKey['product_id'])) $searchResult = $searchResult->where(['pd.id '=>$searchKey['product_id']]);
                 if(!empty($searchKey['country'])) $searchResult = $searchResult->where(['wf.country'=>$searchKey['country']]);
                 if(!empty($searchKey['patient_initial'])) $searchResult = $searchResult->where(['pi.field_value LIKE'=>'%'.$searchKey['patient_initial'].'%']);
@@ -303,43 +312,57 @@ class SdCasesController extends AppController
                     'preferrence_name'=>'Death',
                     'sd_field_id'=>'8',
                     'value_at'=>'1',
-                    'match_value'=>'1'
+                    'value_length'=>'1',
+                    'match_value'=>'= 1'
                 ],
                 '1'=>[
                     'id'=>'2',
                     'preferrence_name'=>'Life threaten',
                     'sd_field_id'=>'8',
                     'value_at'=>'2',
-                    'match_value'=>'1'
+                    'value_length'=>'1',
+                    'match_value'=>'= 1'
                 ],
                 '2'=>[
                     'id'=>'3',
                     'preferrence_name'=>'Disability',
                     'sd_field_id'=>'8',
                     'value_at'=>'3',
-                    'match_value'=>'1'
+                    'value_length'=>'1',
+                    'match_value'=>'= 1'
                 ],
                 '3'=>[
                     'id'=>'4',
                     'preferrence_name'=>'prolonged',
                     'sd_field_id'=>'8',
                     'value_at'=>'4',
-                    'match_value'=>'1'
+                    'value_length'=>'1',
+                    'match_value'=>'= 1'
                 ],
                 '4'=>[
                     'id'=>'5',
                     'preferrence_name'=>'anomaly',
                     'sd_field_id'=>'8',
                     'value_at'=>'5',
-                    'match_value'=>'1'
+                    'value_length'=>'1',
+                    'match_value'=>'= 1'
                 ],
                 '5'=>[
                     'id'=>'6',
                     'preferrence_name'=>'Other Serious',
                     'sd_field_id'=>'8',
                     'value_at'=>'6',
-                    'match_value'=>'1'
+                    'value_length'=>'1',
+                    'match_value'=>'= 1'
                 ],
+                '6'=>[
+                    'id'=>'7',
+                    'preferrence_name'=>'Serious Case',
+                    'sd_field_id'=>'8',
+                    'value_at'=>'1',
+                    'value_length'=>'6',
+                    'match_value'=>'>= 1'
+                ]
             ];
             $this->autoRender = false;
             $searchKey = $this->request->getData();
@@ -390,14 +413,14 @@ class SdCasesController extends AppController
                             'sv' => [
                                 'table' => 'sd_field_values',
                                 'type' => 'INNER',
-                                'conditions' => ['sv.sd_field_id = '.$preferrence_detail['sd_field_id'],'sv.sd_case_id = SdCases.id'],
-                            ]
-                        ])->where(['sd_workflow_activity_id !='=>'9999','SUBSTR(sv.field_value,'.$preferrence_detail['value_at'].','.$preferrence_detail['value_at'].')'=>  $preferrence_detail['match_value']]);
+                                'conditions' => ['sv.sd_field_id = '.$preferrence_detail['sd_field_id'],'sv.sd_case_id = SdCases.id','SUBSTR(sv.field_value,'.$preferrence_detail['value_at'].','.$preferrence_detail['value_length'].') '.$preferrence_detail['match_value']],
+                                ]
+                        ])->where(['sd_workflow_activity_id !='=>'9999']);
                     else  $searchResult = $searchResult->join([         
                         'sv' => [
                             'table' => 'sd_field_values',
                             'type' => 'INNER            ',
-                            'conditions' => ['sv.field_value = '.$preferrence_detail['match_value'],'sv.sd_field_id = '.$preferrence_detail['sd_field_id'],'sv.sd_case_id = SdCases.id'],
+                            'conditions' => ['sv.field_value = '.$preferrence_detail['match_value'],'sv.sd_field_id '.$preferrence_detail['sd_field_id'],'sv.sd_case_id = SdCases.id'],
                         ]
                     ])->where(['sd_workflow_activity_id !='=>'9999']);
                 }

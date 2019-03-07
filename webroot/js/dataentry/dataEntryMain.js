@@ -19,6 +19,11 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+    $('[name$=\\[field_value\\]').change(function(){
+        var id = $(this).attr('id').split('-');
+        $('[id=section-'+id[1]+'-error_message-'+id[3]+']').text();
+        $('[id=section-'+id[1]+'-error_message-'+id[3]+']').hide();
+    });
  if(readonly) {
     $('input').prop("disabled", true);
     $('select').prop("disabled", true);
@@ -380,6 +385,8 @@ function validation(sectionId){
             var rule = $(this).find("[name$=\\[field_rule\\]]").val().split("-");
             if((rule[1]=="N")&&(!/^[0-9]+$/.test(field_value)))
             {
+                $(this).find("[id^=section-"+sectionId+"-error_message-]").show();
+                $(this).find("[id^=section-"+sectionId+"-error_message-]").text('numbers only');
                 console.log('number only at '+$(this).attr('id'));
                 validate = 0;
             }else if((rule[1]=="A")&&(!/^[a-zA-Z]+$/.test(field_value))){

@@ -68,6 +68,7 @@ function checkDuplicate(){
     $("[id=checkbutton]").hide();
 
     var request={
+        'userId':userId,
         'product_id':$('#product_id').val(),
         'sd_product_workflow_id':$('#sd_product_workflow_id').val(),
         'patient_initial':$('#patient_initial').val(),

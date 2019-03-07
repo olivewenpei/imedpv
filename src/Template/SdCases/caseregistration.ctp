@@ -145,6 +145,7 @@
 
 </div>
 <script type="text/javascript">
+    var userId = <?= $this->request->session()->read('Auth.User.id')?>;
     var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 var productInfo = <?php $productInfo =$productInfo->toList();
 echo json_encode($productInfo);?>;
