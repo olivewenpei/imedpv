@@ -67,8 +67,7 @@ class SdCaseHistoriesTable extends Table
 
         $validator
             ->scalar('comment')
-            ->requirePresence('comment', 'create')
-            ->notEmpty('comment');
+            ->allowEmpty('comment','create');
 
         $validator
             ->dateTime('enter_time')
@@ -77,8 +76,7 @@ class SdCaseHistoriesTable extends Table
 
         $validator
             ->dateTime('close_time')
-            ->requirePresence('close_time', 'create')
-            ->notEmpty('close_time');
+            ->allowEmpty('close_time','create');
 
         return $validator;
     }

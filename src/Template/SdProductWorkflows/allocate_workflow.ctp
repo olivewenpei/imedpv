@@ -47,7 +47,6 @@
             <div id="workflowResources" class="border border-info p-2 mb-3" style="font-size: 20px;">
             <?php
             foreach($sdUserAssignments as $userDetail){
-                if($userDetail['sd_workflow_activity_id']==0)
                 echo "<div class=\"alert alert-info d-inline-block m-2 wfres\" id=\"personal-".$userDetail['sd_user']['id']."\" role=\"alert\">".$userDetail['sd_user']['firstname']." ".$userDetail['sd_user']['lastname']."</div>";
             }
             ?>

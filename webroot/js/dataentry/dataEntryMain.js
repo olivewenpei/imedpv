@@ -355,6 +355,47 @@ function l2deleteSection(sectionId){
     level2setPageChange(sectionId,pageNo);
     $("[id=section-"+sectionId+"-page_number-"+pageNo+"]").css('font-weight', 'bold');
 }
+function validation(sectionId){
+    var validate = 1;
+    $("div[id^=section-"+sectionId+"-field]").each(function(){
+        var field_value = null;
+        if($(this).find("[name$=\\[field_value\\]]").length){
+            field_type = $(this).find("[name$=\\[field_value\\]]").attr('id').split('-')[2];
+            if((field_type!="radio")&&(field_type!="checkbox")){
+                 field_value = $(this).find("[name$=\\[field_value\\]]").val();
+            }else{
+                if(field_type=="radio"){
+                    $(this).find("[name$=\\[field_value\\]]").each(function(){
+                        if($(this).prop('checked')){
+                            field_value = $(this).val();}
+                    });
+                }else{
+                    field_value = $(this).find("[id$=final]").val();
+                }
+            }
+        }
+        if((parseInt($(this).find("[name$=\\[is_required\\]]").val()))&&(field_value=="")){
+            console.log('required  '+$(this).attr('id'));
+            validate = 0;
+        }
+        else if(($(this).find("[name$=\\[field_rule\\]]").length)&&(field_value!="")){
+            var rule = $(this).find("[name$=\\[field_rule\\]]").val().split("-");
+            if((rule[1]=="N")&&(!/^[0-9]+$/.test(field_value)))
+            {
+                console.log('number only at '+$(this).attr('id'));
+                validate = 0;
+            }else if((rule[1]=="A")&&(!/^[a-zA-Z]+$/.test(field_value))){
+                console.log('alphabet only at '+$(this).attr('id'));
+                validate = 0;
+            }
+            if(rule[0]<field_value.length) {
+                console.log('exccess the length at'+$(this).attr('id'));
+                validate = 0;
+            }
+        };
+    });
+    return validate;
+}
 function deleteSection(sectionId, pcontrol=false){
 
     var request = {};
@@ -437,6 +478,7 @@ function deleteSection(sectionId, pcontrol=false){
 
 }
 function saveSection(sectionId){
+    if(!validation(sectionId)) return;
     var request = {};
     var savedArray = [];
 
@@ -712,4 +754,13 @@ function backward(){
             console.log(response.responseText);
             }
         });
+}
+
+function submitDataEntry()
+{
+    var validated = 1;
+    $.each(section,function(k,v){
+        if(!validation(v.id)) validated = 0;
+    });
+    if(validated) document.getElementById("dataEntry").submit();
 }
