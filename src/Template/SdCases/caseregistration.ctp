@@ -43,10 +43,26 @@
                                 <input type="text" class="form-control" name="field_value[79]" id="patient_initial">
                              </div>
                              <div class="form-group col-md-3">
+                                <label>Patient Gender:</label>
+                                <select type="text" class="form-control" name="field_value[93]" id="patient_gender">
+                                    <option value="">Select Patient Gender</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                    <option value="3">Unknown</option>
+                                    <option value="4">Not Specified</option>
+                                </select>
+                             </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label>Patient Date of Birth:</label>
+                                <input type="text" class="form-control" name="field_value[85]" id="patient_dob">
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label>Patient Age:</label>
                                 <input type="text" class="form-control" name="field_value[86]" id="patient_age">
-                             </div>
-                             <div class="form-group col-md-3">
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label>Age Unit:</label>
                                 <select class="form-control" name="field_value[87]" id="patient_age_unit">
                                     <option value="">select unit</option>
@@ -57,21 +73,7 @@
                                     <option value="804">Day</option>
                                     <option value="805">Hour</option>
                                 </select>
-                             </div>
-                             <div class="form-group col-md-3">
-                                <label>Patient Gender:</label>
-                                <select type="text" class="form-control" name="field_value[93]" id="patient_gender">
-                                    <option value="">Select Patient Gender</option>
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                    <option value="3">Unknown</option>
-                                    <option value="4">Not Specified</option>
-                                </select>
-                             </div>
-                             <div class="form-group col-md-3">
-                                <label>Patient Date of Birth:</label>
-                                <input type="text" class="form-control" name="field_value[85]" id="patient_dob">
-                             </div>
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
@@ -122,8 +124,8 @@
                                 <input type="text" class="form-control" name="field_value[395]" id="meddrahltname">
                              </div>
                         </div>
-                    </div>              
-                    <?= $this->Form->end()?>      
+                    </div>
+                    <?= $this->Form->end()?>
                     <div id="checkbutton">
                         <a role="button" onclick="checkDuplicate()" id="checkbtn" class="completeBtn btn btn-success d-block m-auto w-25">Seach Duplicate</a>
                     </div>

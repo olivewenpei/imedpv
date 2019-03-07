@@ -53,27 +53,6 @@ echo $this->element('generatepdf');
                 <!-- <button type="submit" class="btn btn-primary mx-2">Search</button> -->
             </div>
             <div id="searchFieldResult"></div>
-            <!-- <table class="table table-hover">
-                <thead>
-                    <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Field Name</th>
-                    <th scope="col">Field Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="DE_search_bar" data-href='/sd-tabs/showdetails/1?caseNo=ICSR19015193600001'>
-                    <th scope="row">1</th>
-                    <td>Priority</td>
-                    <td>General / Admin</td>
-                    </tr>
-                    <tr class="DE_search_bar" data-href='/sd-tabs/showdetails/2?caseNo=ICSR19015193600001'>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Reporter / Address</td>
-                    </tr>
-                </tbody>
-            </table> -->
         </div>
     </li>
 
@@ -82,7 +61,7 @@ echo $this->element('generatepdf');
         <a class="btn btn-outline-warning" href="#" title="Version Switch" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-code-branch"></i> Switch Version
         </a>
-        <?php 
+        <?php
         if(sizeof($case_versions->toList())>1){
             echo "<div class=\"dropdown-menu\">";
             foreach($case_versions as $case_version_detail){
@@ -137,22 +116,20 @@ echo $this->element('generatepdf');
     <!-- "Save All" Button -->
     <li class="nav-item">
     <?php if($writePermission==1){
-       echo "<a class=\"btn btn-primary\" title=\"Save All\" data-toggle=\"modal\" data-target=\".signOff\" onclick=\"action(1)\"><i class=\"far fa-save\"></i>Sign Off</a>";
-       echo "<a class=\"btn btn-primary\" title=\"Save All\" data-toggle=\"modal\" data-target=\".signOff\" onclick=\"action(2)\"><i class=\"far fa-save\"></i>Push Backward</a>";
+       echo "<a class=\"btn btn-light text-success mx-1\" title=\"Sign Off\" role=\"button\" data-toggle=\"modal\" data-target=\".signOff\" onclick=\"action(1)\"><i class=\"fas fa-share-square\"></i> Sign Off</a>";
+       echo "<a class=\"btn btn-light text-success mx-1\" title=\"Push Backward\" role=\"button\" data-toggle=\"modal\" data-target=\".signOff\" onclick=\"action(2)\"><i class=\"fab fa-pushed\"></i> Push Backward</a>";
     }?>
     </li>
 
-</ul>
-<?php endif;?>
-<div class="modal fade signOff" tabindex="-1" role="dialog" aria-labelledby="signOff" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-body m-3">
+    <?php endif;?>
+    <div class="modal fade signOff" tabindex="-1" role="dialog" aria-labelledby="signOff" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
                 <div id="action-text-hint"></div>
             </div>
         </div>
     </div>
-</div>
+</ul>
 <div class="maintab container-fluid">
 <?php
      $sectionNavCell = $this->cell('SectionNav',[$tabid,$caseNo,$readonly,$version]);
@@ -374,7 +351,7 @@ function displaySingleSection($section, $setNo, $sectionKey, $html, $permission)
                             if($permission==2) echo " disabled ";
                             echo "value=\"";
                             echo (!empty($sd_section_structure_detail->sd_field->sd_field_values[$j]))?$sd_section_structure_detail->sd_field->sd_field_values[$j]->field_value:null;
-                            
+
                             echo "\">";
                             continue;
                         case 'whodra browser':

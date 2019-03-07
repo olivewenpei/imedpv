@@ -438,3 +438,21 @@ hr.wfhr {
 .DE_search_bar {
     cursor: pointer;
 }
+
+ul.queryBoxLeft > a {
+    width: 100%;
+    padding: 12px;
+}
+
+.queryBoxActive, ul.queryBoxLeft > a:hover {
+    background-color: #dee2e6;
+}
+
+ul.queryBoxLeft > a {
+    text-decoration: none;
+    color: #000000b8;
+}
+
+.queryBoxTable {
+    cursor: pointer;
+}
