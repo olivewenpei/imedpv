@@ -360,7 +360,7 @@
                         <div id="chooseDistri" class="prodiff text-center" style="display:none;">
                             <h3>Choose Distribution</h3>
                             <hr>
-                            <div class="newDistri">
+                            <div id="newDistri-0">
                                 <div class="form-group col-md-3 d-inline-block">
                                     <label for="">Select Country</label>
                                     <select class="form-control" id="" name="">
@@ -371,7 +371,7 @@
                                     </select>
                                 </div>
                                 <div id="defDistri" class="my-2">
-                                    <button type="button" id="" class="btn btn-success workflow w-25 defDistriBtn"><span>Default Distribution</span></button>
+                                    <button type="button" id="defDistriBtn-0" class="btn btn-success workflow w-25 defDistriBtn"><span>Default Distribution</span></button>
                                     <div class="defDistriContent" style="display:none;">
                                         <div class="d-flex justify-content-center">
                                             <div class="card m-2" style="width: 18rem;">
@@ -390,8 +390,8 @@
                                     </div>
                                 </div>
                                 <div id="custDistri" class="my-2">
-                                    <button type="button" id="" class="btn btn-success workflow w-25 custDistriBtn"><span>Customize Distribution</span></button>
-                                    <div class="custDistriOriginal" class="my-3" style="display:none;">
+                                    <button type="button" id="custDistriBtn-0" class="btn btn-success workflow w-25 custDistriBtn"><span>Customize Distribution</span></button>
+                                    <div class="custDistriContent" class="my-3" style="display:none;">
                                         <div class="addnNewDistriContent">
                                             <div class="d-flex justify-content-center">
                                                 <div class="card m-2" style="width: 18rem;">
@@ -407,10 +407,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <hr>
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                             </div>
                             <div class="newDistrictArea"></div>
                             <button id="addNewDistri" type="button" class="btn btn-sm btn-outline-primary float-left"><i class="fas fa-plus"></i> Add New</button>

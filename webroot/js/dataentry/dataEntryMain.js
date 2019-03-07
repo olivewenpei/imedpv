@@ -16,6 +16,50 @@ $(document).ready(function(){
             $(location).attr('href', link);
         }
     });
+
+    $("#searchFieldKey").keyup(function(){
+        var request={
+            'key':$('#searchFieldKey').val(),
+            'caseId':caseId,
+            'userId':userId,
+        };
+        console.log(request);
+        if(request['key']!="")
+        {
+            $.ajax({
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            type:'POST',
+            url:'/sd-sections/search',
+            data:request,
+            success:function(response){
+                $('#searchFieldResult').html("");
+                console.log(response);
+                searchResult = $.parseJSON(response);
+                var text ="<table class=\"table table-hover w-100\">";
+                text +="<tr><th scope=\"col\">Field Lable</th>";
+                text +="<th scope=\"col\">Tab Name</th>";
+                text +="<th scope=\"col\">Section Name</th>";
+                text +="<th scope=\"col\">Action</th><tr>";
+                $.each(searchResult,function(k,v){
+
+                    text +="<tr>";
+                    text +="<td class=\"DE_search_bar\" data-href='/sd-tabs/showdetails/1?caseNo=ICSR19015193600001'>"+v['field']['field_label']+"</td>";
+                    text +="<td>"+v['tab']['tab_name']+"</td>";
+                    text +="<td>"+v['section_name']+"</td>";
+                    text +="<td><a class=\"btn btn-outline-info btn-sm\" role=\"button\" href=\"/sd-tabs/showdetails/"+caseNo+"/"+version+"/"+v['tab']['id']+"#secdiff-"+v['id']+"\">Go</a></td></tr>";
+                });
+                text +="</table>";
+                $('#searchFieldResult').html(text);
+
+            },
+            error:function(response){
+                console.log(response.responseText);
+            }
+        });}
+        else $('#searchFieldResult').html("");
+    });
 });
 
 $(document).ready(function(){
@@ -47,48 +91,6 @@ $( function() {
         });
     });
 
-    $("#searchFieldKey").keyup(function(){
-        var request={
-            'key':$('#searchFieldKey').val(),
-            'caseId':caseId,
-            'userId':userId,
-        };
-        console.log(request);
-        if(request['key']!="")
-        {
-            $.ajax({
-            headers: {
-                'X-CSRF-Token': csrfToken
-            },
-            type:'POST',
-            url:'/sd-sections/search',
-            data:request,
-            success:function(response){ 
-                $('#searchFieldResult').html("");
-                console.log(response);
-                searchResult = $.parseJSON(response);
-                var text ="<table class=\"table table-hover\">";                    
-                text +="<tr><th scope=\"col\">Field Lable</th>";
-                text +="<th scope=\"col\">Tab Name</th>";
-                text +="<th scope=\"col\">Section Name</th><tr>";
-                $.each(searchResult,function(k,v){
-
-                    text +="<tr>";
-                    text +="<td class=\"DE_search_bar\" data-href='/sd-tabs/showdetails/1?caseNo=ICSR19015193600001'>"+v['field']['field_label']+"</td>";
-                    text +="<td>"+v['tab']['tab_name']+"</td>";
-                    text +="<td>"+v['section_name']+"</td>";
-                    text +="<td><a href=\"/sd-tabs/showdetails/"+caseNo+"/"+version+"/"+v['tab']['id']+"#secdiff-"+v['id']+"\">turn to</a></td></tr>";
-                });
-                text +="</table>";
-                $('#searchFieldResult').html(text);
-    
-            },
-            error:function(response){
-                console.log(response.responseText);
-            }
-        });}
-        else $('#searchFieldResult').html("");
-  });
 
     $('input:checkbox').change(
         function(){
@@ -536,19 +538,31 @@ function action(type){
             success:function(response){console.log(response);
                 response = JSON.parse(response);
                 console.log(response);
-                text +="<h2>Sign Off</h2>"
-                text +="<h3>Next activity is:"+response['actvity']['activity_name']+"</h3>";
+                text +="<div class=\"modal-header\">";
+                text +="<h3 class=\"modal-title text-center w-100\" id=\"exampleModalLabel\">Sign Off</h3>";
+                text +="<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">";
+                text +="<span aria-hidden=\"true\">&times;</span>";
+                text +="</button>";
+                text +="</div>";
+                text +="<div class=\"modal-body text-center m-3\">";
+                text +="<p class=\"lead\">Next activity is: "+response['actvity']['activity_name']+"</p>";
                 text +="<input type=\"hidden\" id=\"next-activity-id\" value=\""+response['actvity']['id']+"\">";
-                text +="<div>Comment:<textarea id=\"query-content\"></textarea></div>";
+                text +="<div class=\"form-group\">";
+                text +="<label><h5>Comment</h5></label>";
+                text +="<textarea class=\"form-control\" id=\"query-content\" rows=\"3\"></textarea>";
+                text +="</div>";
+                text +="<hr class=\"my-4\">";
                 if(response['previousUserOnNextActivity'].length > 0){
-                    text +="<div>Previous User On This Case On Next Activity:";
+                    text +="<div><h6>Previous User On This Case On Next Activity: </h6>";
                     $.each(response['previousUserOnNextActivity'],function(k,v){
                         text +=v['user']['firstname']+" "+v['user']['lastname']+"("+v['company']['company_name']+"), ";
                     });
                     text +="</div>";
+                    text +="<hr class=\"my-4\">";
                 }
                 //add function to chose most avaiable person
-                text +="select person you want to send to:<select id=\"receiverId\">";
+                text +="<div class=\"form-group\">";
+                text +="<label><h6>Select person you want to send to:</h6></label><select class=\"form-control\" id=\"receiverId\">";
                 $.each(response['users'],function(k,v){
                     text +="<option value="+v['id']+">"+v['firstname']+" "+v['lastname'];
                     if(v['sd_cases'].length > 0)
@@ -557,14 +571,16 @@ function action(type){
                     text +="</option>";
                 });
                 text +="</select>";
-                text +="<button onclick=\"forward()\">confirm</button>";
+                text +="</div>";
+                text +="<div class=\"text-center\"><button class=\"btn btn-primary w-25\" onclick=\"forward()\">Confirm</button></div>";
+                text +="</div>";
                 $('#action-text-hint').html(text);
             },
             error:function(response){
                 console.log(response.responseText);
             },
         });
-    }    
+    }
     if(type==2){
         $.ajax({
             headers: {
@@ -575,12 +591,21 @@ function action(type){
             success:function(response){console.log(response);
                 response = JSON.parse(response);
                 console.log(response);
-                text +="<h2>Push Backward</h2>";
-                text +="<div>Comment:<textarea id=\"query-content\"></textarea></div>";
-                text +="Case Info:";
-                text +="<table>";
+                text +="<div class=\"modal-header\">";
+                text +="<h3 class=\"modal-title text-center w-100\" id=\"exampleModalLabel\">Push Backward</h3>";
+                text +="<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">";
+                text +="<span aria-hidden=\"true\">&times;</span>";
+                text +="</button>";
+                text +="</div>";
+                text +="<div class=\"modal-body text-center m-3\">";
+                text +="<div class=\"form-group\">";
+                text +="<label><h5>Comment</h5></label>";
+                text +="<textarea class=\"form-control\" id=\"query-content\" rows=\"3\"></textarea>";
+                text +="</div>";
+                text +="<h5>Case Info:</h5>";
+                text +="<table class=\"table table-hover\">";
                 text +="<thead>";
-                text +="<tr class=\"table-secondary\">";
+                text +="<tr>";
                 text +="<th scope=\"col\">Activity </th>";
                 text +="<th scope=\"col\">Previous User On This Activity </th>";
                 text +="<th scope=\"col\">Avaliable User </th>";
@@ -603,20 +628,24 @@ function action(type){
                             else text +="(currently working on 0 case)<br>";
                         });
                         text +="</tr>";
-                    }  
+                    }
                 });
                 text +="</table>";
+                text +="<hr class=\"my-4\">";
                 //add function to chose most avaiable person
-                text +="<h5>Which you want to push to?:</h5>";
-                text +="<select id=\"next-activity-id\" >";
+                text +="<div class=\"form-group\">";
+                text +="<label>Which you want to push to?</label>";
+                text +="<select class=\"form-control w-50 mx-auto\" id=\"next-activity-id\" >";
                 text +="<option value=\"null\">Select Activity</option>";
                 $.each(response,function(k,v){
                     text += "<option value=\""+v['id']+"\">"+v['activity_name']+"</option>";
                 });
                 text +="</select>";
-                text +="<h5>select person you want to send to:</h5><select id=\"receiverId\">";
+                text +="<label class=\"my-2\">Select person you want to send to:</label><select class=\"form-control w-50 mx-auto\" id=\"receiverId\">";
                 text +="</select>";
-                text +="<button onclick=\"backward()\">confirm</button>";
+                text +="</div>";
+                text +="<div class=\"text-center\"><button class=\"btn btn-primary w-25\" onclick=\"backward()\">Confirm</button></div>";
+                text +="</div>";
                 $('#action-text-hint').html(text);
                 $('#next-activity-id').change(function(){
                     console.log($('#previous_activity-'+$(this).val()).html());
@@ -634,7 +663,7 @@ function action(type){
             },
         });
     }
-    
+
 }
 function forward(){
     var request ={
@@ -656,9 +685,9 @@ function forward(){
             window.location.href = "/sd-cases/caselist";
         },
         error:function(response){
-            console.log(response.responseText);    
+            console.log(response.responseText);
             }
-        }); 
+        });
 }
 function backward(){
     var request ={
@@ -680,8 +709,7 @@ function backward(){
             window.location.href = "/sd-cases/caselist";
         },
         error:function(response){
-            console.log(response.responseText);    
+            console.log(response.responseText);
             }
-        }); 
+        });
 }
-   

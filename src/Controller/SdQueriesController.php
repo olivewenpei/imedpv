@@ -117,7 +117,7 @@ class SdQueriesController extends AppController
     }
     /**
      * Query Inbox
-     * 
+     *
      */
     public function queries($type = null){
         $userId = $this->request->getSession()->read('Auth.User.id');
@@ -143,5 +143,28 @@ class SdQueriesController extends AppController
                 continue;
         }
         $this->set(compact('sdQueries'));
+    }
+    /**
+     * Query Inbox Query Content
+     *
+     */
+    public function querycontent($id = null)
+    {
+        $this->viewBuilder()->layout('main_layout');
+        $sdQuery = $this->SdQueries->get($id);
+        $userinfo = $this->request->session()->read('Auth.User');
+        if(($sdQuery['sender']!=$userinfo['id'])&&($sdQuery['receiver']!=$userinfo['id']))
+        {
+            $this->Flash->error(__('Cannot find this query.'));
+            $this->redirect($this->referer());
+        }
+
+        if($sdQuery['receiver']==$userinfo['id']){
+            if(empty($sdQuery['read_date'])){
+                $sdQuery['read_date'] = date("Y-m-d H:i:s");
+                $this->SdQueries->save($sdQuery);
+            }
+        }
+        $this->set('sdQuery', $sdQuery);
     }
 }

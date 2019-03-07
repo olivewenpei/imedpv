@@ -96,6 +96,17 @@ jQuery(function($) {
         });
     });
 
+// Make Query Box left nav button has "active" effect
+$(function(){
+    // If clicked the first level menu
+    $('ul.queryBoxLeft > a').each(function(){
+        if (
+            $(this).prop('href').split('/').slice(5,6).toString() == (window.location.href).split('/').slice(5,6).toString()) {
+                $(this).addClass('queryBoxActive');
+        }
+    });
+});
+
 // Add Product card
     $(document).ready(function($){
         $('#addprobtn').click(function() {
@@ -194,10 +205,10 @@ function onQueryClicked(){
                 text += "<td>" + caseDetail.submission_due_date + "</td>";
                 text += "<td>";
                 if((jQuery.isEmptyObject(caseDetail.wa.activity_name))&&(caseDetail.sd_workflow_activity_id!='9999') )
-                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-outline-info\">Triage</div></a><div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".confirmClose\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close This Case</div>"; 
+                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Triage</div></a><div class=\"btn btn-outline-danger mx-1\" data-toggle=\"modal\" data-target=\".confirmClose\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close Case</div>";
                 else{
-                    if(caseDetail.sd_workflow_activity_id!='9999') text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-outline-info\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">"+caseDetail.wa.activity_name+"</div></a><div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close This Case</div>"; 
-                    else text += "<div class=\"btn btn-outline-info\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>"; 
+                    if(caseDetail.sd_workflow_activity_id!='9999') text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">"+caseDetail.wa.activity_name+"</div></a><div class=\"btn btn-outline-danger mx-1\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close Case</div>";
+                    else text += "<div class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>";
                 }
                 text +="</td>";
                 text += "</tr>";
@@ -257,3 +268,9 @@ function closeCase(caseNo){
         }
     });
 }
+
+jQuery(document).ready(function($) {
+    $(".queryBoxTable").click(function() {
+        window.location = $(this).data("href");
+    });
+});
