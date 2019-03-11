@@ -159,7 +159,7 @@ class SdProductsController extends AppController
                                 'type'=>'INNER',
                                 'conditions'=>['ua.sd_product_workflow_id = SdProductWorkflows.id','ua.sd_user_id = '.$searchKey['userId']]
                             ]
-                        ])->contain(['SdWorkflows'=>function($q){return $q->select(['name','country','id']);}]);
+                        ])->distinct()->contain(['SdWorkflows'=>function($q){return $q->select(['name','country','id']);}]);
                     },
                     'SdCompanies'=>function($q){ return $q->select(['company_name']);}])->toArray();
                     $searchResult = $searchResult->toArray();

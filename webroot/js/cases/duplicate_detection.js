@@ -155,8 +155,8 @@ function checkDuplicate(){
             })
             text +="</tbody>";
             text +="</table>";
-            text +="<button onclick=\"clearResult()\" id=\"create_case\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Re-entry</button>";
-            text +="<button type=\"submit\" id=\"create_case\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Create This Case</button>";
+            text +="<button onclick=\"clearResult()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Re-entry</button>";
+            text +="<button type=\"submit\" onclick=\"createCase()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Create This Case</button>";
             $("#caseTable").html(text);
         },
         error:function(response){
@@ -167,6 +167,11 @@ function checkDuplicate(){
         }
     });
 
+}
+function createCase(){
+    $("select").each(function(){
+        $(this).prop("disabled", false);;
+    });
 }
 function clearResult(){
     $('#caseTable').html("");

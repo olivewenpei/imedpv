@@ -182,7 +182,7 @@ function onQueryClicked(preferrenceId = null){
             text +="<tr class=\"table-secondary\">";
             text +="<th scope=\"col\">Flag</th>";
             text +="<th scope=\"col\">AER No.</th>";
-            text +="<th scope=\"col\">Documents</th>";
+            // text +="<th scope=\"col\">Documents</th>";
             text +="<th scope=\"col\">Version</th>";
             text +="<th scope=\"col\">Activity</th>";
             text +="<th scope=\"col\">Country</th>";
@@ -201,13 +201,15 @@ function onQueryClicked(preferrenceId = null){
                 text += "<td>";
                 if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +="red";
                 else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +="yellow";
+                if(caseDetail.serious_case.id!=null) text +="<i class=\"fas fa-exclamation-triangle\" style=\"color:red;\"></i>";
+                if(caseDetail.clinical_trial.id!=null) text +="<i class=\"fas fa-vials\" style=\"color:#845ef7;\"></i>";
                 text +="</td>";
                 text += "<td>" + caseDetail.caseNo + "</td>";
-                text += "<td></td>";
+                // text += "<td></td>";
                 text += "<td>"+ caseDetail.versions + "</td>";
                 text += "<td id=\"activity-"+caseDetail.caseNo+"\">";
                 if(caseDetail.sd_workflow_activity_id!='9999') text += caseDetail.wa.activity_name;
-                else text += "Completed"
+                else text += "Finished Data Accessment"
                 text += "</td>";
                 text += "<td></td>";
                 text += "<td>" + caseDetail.pd.product_name + "</td>";
@@ -215,12 +217,11 @@ function onQueryClicked(preferrenceId = null){
                 text += "<td>"+caseDetail.activity_due_date+"</td>";
                 text += "<td>" + caseDetail.submission_due_date + "</td>";
                 text += "<td>";
-                if((jQuery.isEmptyObject(caseDetail.wa.activity_name))&&(caseDetail.sd_workflow_activity_id!='9999') )
-                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Triage</div></a><div class=\"btn btn-outline-danger mx-1\" data-toggle=\"modal\" data-target=\".confirmClose\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close Case</div>";
-                else{
-                    if(caseDetail.sd_workflow_activity_id!='9999') text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">"+caseDetail.wa.activity_name+"</div></a><div class=\"btn btn-outline-danger mx-1\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close Case</div>";
-                    else text += "<div class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>";
-                }
+                if(caseDetail.sd_user_id == userId)
+                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Enter</div></a>";
+                else text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Check Detail</div></a>";
+                if(caseDetail.sd_workflow_activity_id=='9999')
+                    text += "<div class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>";
                 text +="</td>";
                 text += "</tr>";
             })
