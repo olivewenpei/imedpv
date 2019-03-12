@@ -127,7 +127,8 @@
                     </div>
                     <?= $this->Form->end()?>
                     <div id="checkbutton">
-                        <a role="button" onclick="checkDuplicate()" id="checkbtn" class="completeBtn btn btn-success d-block m-auto w-25">Seach Duplicate</a>
+                        <input class="completeBtn btn btn-success d-block m-auto w-25" onclick="checkDuplicate()" id="checkbtn" type="button" value="Seach Duplicate">
+                        <!-- <a role="button" onclick="checkDuplicate()" id="checkbtn" class="completeBtn btn btn-success d-block m-auto w-25">Seach Duplicate</a> -->
                     </div>
                     <div class="modal fade CaseDetail" tabindex="-1" role="dialog" aria-labelledby="CaseDetail" aria-hidden="true">
                         <div class="modal-dialog modal-lg">

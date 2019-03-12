@@ -23,7 +23,7 @@ class DashboardsController extends AppController {
             ],
             '1'=>[
                 'id'=>'2',
-                'preferrence_name'=>'Life threaten',
+                'preferrence_name'=>'Life Threaten',
                 'sd_field_id'=>'8',
                 'value_at'=>'2',
                 'value_length'=>'1',
@@ -39,7 +39,7 @@ class DashboardsController extends AppController {
             ],
             '3'=>[
                 'id'=>'4',
-                'preferrence_name'=>'prolonged',
+                'preferrence_name'=>'Prolonged',
                 'sd_field_id'=>'8',
                 'value_at'=>'4',
                 'value_length'=>'1',
@@ -47,7 +47,7 @@ class DashboardsController extends AppController {
             ],
             '4'=>[
                 'id'=>'5',
-                'preferrence_name'=>'anomaly',
+                'preferrence_name'=>'Anomaly',
                 'sd_field_id'=>'8',
                 'value_at'=>'5',
                 'value_length'=>'1',
@@ -70,7 +70,7 @@ class DashboardsController extends AppController {
                 'match_value'=>'>= 1'
             ]
         ];
-        $userinfo = $this->request->session()->read('Auth.User');               
+        $userinfo = $this->request->session()->read('Auth.User');
         $sdCases = TableRegistry::get('SdCases');
         foreach($preferrence_list as $k => $preferrence_detail){
             $searchResult = $sdCases->find()->select(['caseNo','id']);
@@ -80,7 +80,7 @@ class DashboardsController extends AppController {
                         'table' => 'sd_field_values',
                         'type' => 'INNER',
                         'conditions' => ['sv.sd_field_id = '.$preferrence_detail['sd_field_id'],'sv.sd_case_id = SdCases.id','SUBSTR(sv.field_value,'.$preferrence_detail['value_at'].','.$preferrence_detail['value_length'].') '.$preferrence_detail['match_value']],
-                    ]       
+                    ]
                 ])->where(['SdCases.sd_workflow_activity_id !='=>'9999']);
             else  $searchResult = $searchResult->join([
                 'sv' => [
@@ -101,7 +101,7 @@ class DashboardsController extends AppController {
             }
             $preferrence_list[$k]['sql'] = $userinfo;
             $preferrence_list[$k]['count'] = $searchResult->distinct()->count();
-        } 
+        }
         $this->set(compact('preferrence_list'));
     }
 }
