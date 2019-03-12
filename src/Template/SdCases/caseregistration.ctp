@@ -131,10 +131,13 @@
                     </div>
                     <div class="modal fade CaseDetail" tabindex="-1" role="dialog" aria-labelledby="CaseDetail" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
+                            <div class="modal-content" style="width:1250px;left: -220px;">
                                 <div class="modal-body m-3">
                                     <h5 id="caseLabel"></h5>
-                                    <iframe id="iframeDiv" src="" width="700" height="730"></iframe>
+                                    <div class="embed-responsive embed-responsive-4by3">
+                                        <iframe id="iframeDiv" class="embed-responsive-item" src=""></iframe>
+                                    </div>
+                                    <!-- <iframe id="iframeDiv" src="" width="700" height="730"></iframe> -->
                                 </div>
                             </div>
                         </div>

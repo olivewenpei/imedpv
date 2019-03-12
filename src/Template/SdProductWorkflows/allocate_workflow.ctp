@@ -56,9 +56,9 @@
             <div id="workflowActivityDropzone">
             <?php
             foreach($sdProductWorkflow['sd_workflow']['sd_workflow_activities'] as $activityDetail){
-                echo "<div id=\"activity_card-".$activityDetail['id']."\" class=\"badge badge-info p-3 resourceDropzone\">";
+                echo "<div id=\"activity_card-".$activityDetail['id']."\" class=\"badge badge-info p-3 resourceDropzone m-3 mw-100\">";
                 echo "<div class=\"card-header\"><h5>".$activityDetail['activity_name']."</h5><p>".$activityDetail['description']."</p></div>";
-                
+
                 foreach($sdUserAssignments as $userDetail){
                     if($userDetail['sd_workflow_activity_id']==$activityDetail['id'])
                         echo "<div class=\"alert alert-info d-inline-block m-2 wfres\" id=\"personal-".$userDetail['sd_user']['id']."\" role=\"alert\">".$userDetail['sd_user']['firstname']." ".$userDetail['sd_user']['lastname']."</div>";

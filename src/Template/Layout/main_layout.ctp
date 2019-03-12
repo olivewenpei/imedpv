@@ -33,26 +33,29 @@
 </head>
 <body>
 
-<nav class="topNav navbar navbar-light">
-  <a class="navLogo navbar-brand" href="/Dashboards/index">
-    <img src="/img/logo-2.png" alt="logo">
-  </a>
-  <?php
-     $mailNotice = $this->cell('QueryNotice',[$this->request->getSession()->read('Auth.User.id')]);
-     echo $mailNotice;
-    ?>
-  <div class="login dropdown">
-    <a class="btn btn-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <h4><i class="fas fa-user-circle"></i> <span id="roleName"> <?php print $this->request->getSession()->read('Auth.User.firstname'); ?>&nbsp;<?php print $this->request->getSession()->read('Auth.User.lastname'); ?> </span> </h4> <br>
-      <h6><span id="role"> <?php echo $this->request->getSession()->read('Auth.User.role_name'); ?> </span></h6>
-    </a>
-    
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i> My Account</a>
-      <a class="dropdown-item" href="/sd-users/logout"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+<div class="topNav">
+    <div class="navInner mx-auto d-flex bd-highlight">
+      <a class="navLogo navbar-brand mr-auto my-auto bd-highlight" href="/Dashboards/index">
+        <img src="/img/logo-mds.png" title="MDS" alt="logo" style="width:200px;">
+      </a>
+      <div class="d-flex p-2 bd-highlight">
+        <?php
+        $mailNotice = $this->cell('QueryNotice',[$this->request->getSession()->read('Auth.User.id')]);
+        echo $mailNotice;
+        ?>
+      </div>
+      <div class="nav-item dropdown p-2 bd-highlight">
+        <a class="nav-link text-dark bg-light" href="/sd-users/myaccount" id="accountInfo" role="button" aria-haspopup="true" aria-expanded="false">
+          <h5>Hi, <span id="roleName"> <?php print $this->request->getSession()->read('Auth.User.firstname'); ?>&nbsp;<?php print $this->request->getSession()->read('Auth.User.lastname'); ?> </span> </h5>
+        </a>
+        <div class="dropdown-menu login" aria-labelledby="accountInfo">
+          <h5 class="dropdown-header"><?php echo $this->request->getSession()->read('Auth.User.role_name'); ?></h5>
+          <a class="dropdown-item my-1" href="/sd-users/myaccount"><i class="fas fa-user-cog"></i> My Account</a>
+          <a class="dropdown-item my-1" href="/sd-users/logout"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        </div>
+      </div>
     </div>
-  </div>
-</nav>
+</div>
 
 <nav class="mainNav navbar navbar-expand-lg navbar-dark">
   <!-- <a class="navbar-brand" href="#">Navbar</a>
@@ -61,7 +64,7 @@
   </button> -->
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navMenu navbar-nav mr-auto">
+    <ul class="navMenu navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="/Dashboards/index">Dashboard <span class="sr-only">(current)</span></a>
       </li>

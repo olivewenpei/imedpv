@@ -13,10 +13,9 @@ $(document).ready(function($){
         revert: "invalid",
         snapTolerance: 30,
         stop: function(event, ui) {
-            $('.resourceDropzone').find('.closewf').show();
+            $('.resourceDropzone').find(".wfres").addClass("pr-5").prepend('<button class="close closewa" onclick=\"$(this).parent().remove();\">' +  '&times;' +  '</button>');
         }
     });
-
     // Workflow Resouces Container
     $("#workflowResources").droppable({
         tolerance: "intersect",
@@ -24,7 +23,7 @@ $(document).ready(function($){
         activeClass: "ui-state-default",
         hoverClass: "ui-state-hover",
         drop: function(event, ui) {
-            $("#workflowResources").append($(ui.draggable));
+            $(this).append($(ui.draggable));
         }
     });
 
@@ -35,6 +34,11 @@ $(document).ready(function($){
         hoverClass: "ui-state-hover",
         drop: function(event, ui) {
             $(this).append($(ui.draggable).clone());
+            var workactivityID = ui.draggable.attr("id");
+            console.log(workactivityID);
+            // if (workactivityID.filter(distinct) == true ) {
+            //     $(this).droppable( "disable" );
+            // }
         }
     });
 

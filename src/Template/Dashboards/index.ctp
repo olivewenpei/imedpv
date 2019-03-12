@@ -105,96 +105,111 @@ var userId = <?= $this->request->session()->read('Auth.User.id')?>;
 
   <div class="card my-3 searchmodal">
     <div class="card-header text-center">
-        <h5> Case List</h5>
+        <h3>Dashboard</h3>
     </div>
     <div class="card-body">
-    <div class="form-row justify-content-center">
-        <?php 
-        foreach($preferrence_list as $preferrence_detail){
-            echo "<div class=\"form-group col-lg-2\" onclick=\"onQueryClicked(".$preferrence_detail['id'].")\"><div class=\"form-control btn btn-outline-danger w-100\">";
-            echo $preferrence_detail['preferrence_name']." ";
-            echo $preferrence_detail['count'];
-            echo "</div></div>";
-        }
-        ?>
+        <h5 class="display-8">Quick Look</h5>
+        <div class="form-row justify-content-center">
+            <?php
+            foreach($preferrence_list as $preferrence_detail){
+                echo "<div class=\"form-group col-lg-2\" onclick=\"onQueryClicked(".$preferrence_detail['id'].")\"><div class=\"form-control btn btn-outline-primary w-100\">";
+                echo $preferrence_detail['preferrence_name']." ";
+                echo "<span class=\"badge badge-danger\">".$preferrence_detail['count']."</span>";
+                echo "</div></div>";
+            }
+            ?>
         </div>
-        <div class="form-row">
-            <div class="form-group col-lg-4">
-                <!-- <label for="recipient-name" class="col-form-label">Recipient:</label> -->
-                <input type="text" class="form-control form-control-lg" id="searchProductName" name="searchProductName" placeholder="Search by Product Name">
+        <hr class="my-2">
+        <h5 class="display-8">Search</h5>
+        <div class="form-row" id="basicSearch">
+            <div class="form-group col-lg-3">
+                <input type="text" class="form-control" id="searchProductName" name="searchProductName" placeholder="Search by Product Name">
             </div>
-            <div class="form-group col-lg-4">
-                <input type="text" class="form-control form-control-lg"  id="searchName" name="searchName" placeholder="Select Case No.">
+            <div class="form-group col-lg-2">
+                <div id="searchBtn" onclick="onQueryClicked()" class="form-control btn btn-primary"><i class="fas fa-search"></i> Search</div>
             </div>
-            <div class="form-group col-lg-4">
-                <input type="text" class="form-control form-control-lg" id="case_status" placeholder="Select Case Status">
+            <div class="form-group col-lg-2">
+                <div id="fullSearchBtn" class="form-control btn btn-outline-info"><i class="fas fa-keyboard"></i> Advanced Search</div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="duedate form-group col-2">Activity Due Date:</div>
-            <div class="form-group col-1">
-                <input type="text" class="form-control" id="datepicker1" placeholder="[mm/dd/yyyy]">
+        <div id="fullSearch" style="display:none;">
+            <div class="form-row">
+                <div class="form-group col-lg-4">
+                    <input type="text" class="form-control" id="searchProductName" name="searchProductName" placeholder="Search by Product Name">
+                </div>
+                <div class="form-group col-lg-4">
+                    <input type="text" class="form-control"  id="searchName" name="searchName" placeholder="Select Case No.">
+                </div>
+                <div class="form-group col-lg-4">
+                    <input type="text" class="form-control" id="case_status" placeholder="Select Case Status">
+                </div>
             </div>
-            <div class="arrow">
-                <i class="far fa-window-minimize"></i>
-            </div>
-            <div class="form-group col-1">
-                <input type="text" class="form-control" id="datepicker2" placeholder="[mm/dd/yyyy]">
-            </div>
+            <div class="form-row">
+                <p class="duedate form-group col-2">Activity Due Date:</p>
+                <div class="form-group col-1">
+                    <input type="text" class="form-control" id="datepicker1" placeholder="[mm/dd/yyyy]">
+                </div>
+                <div class="arrow">
+                    <i class="far fa-window-minimize"></i>
+                </div>
+                <div class="form-group col-1">
+                    <input type="text" class="form-control" id="datepicker2" placeholder="[mm/dd/yyyy]">
+                </div>
 
-            <div class="duedate form-group col-2 float-right">Submission Due Date:</div>
-            <div class="form-group col-1">
-                <input type="text" class="form-control" id="datepicker3" placeholder="[mm/dd/yyyy]">
+                <p class="duedate form-group col-2 float-right">Submission Due Date:</p>
+                <div class="form-group col-1">
+                    <input type="text" class="form-control" id="datepicker3" placeholder="[mm/dd/yyyy]">
+                </div>
+                <div class="arrow">
+                    <i class="far fa-window-minimize"></i>
+                </div>
+                <div class="form-group col-1">
+                    <input type="text" class="form-control" id="datepicker4" placeholder="[mm/dd/yyyy]">
+                </div>
             </div>
-            <div class="arrow">
-                <i class="far fa-window-minimize"></i>
+            <div class="form-row">
+                <div class="form-group col-lg-2">
+                    <input type="text" class="form-control" id="patient_id" placeholder="Search by Patient ID">
+                </div>
+                <div class="form-group col-lg-2">
+                    <input type="text" class="form-control" id="datepicker5" placeholder="Choose Date of Birth">
+                </div>
+                <div class="form-group col-lg-2">
+                    <select id="inputState" class="form-control">
+                        <option selected>Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Unknown</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group col-1">
-                <input type="text" class="form-control" id="datepicker4" placeholder="[mm/dd/yyyy]">
-            </div>
-        </div>
-        <div class="form-row" id="advsearchfield" style="display:none;">
-            <div class="form-group col-lg-2">
-                <input type="text" class="form-control form-control-lg" id="patient_id" placeholder="Search by Patient ID">
-            </div>
-            <div class="form-group col-lg-2">
-                <input type="text" class="form-control form-control-lg" id="datepicker5" placeholder="Choose Date of Birth">
-            </div>
-            <div class="form-group col-lg-2">
-                <select id="inputState" class="form-control form-control-lg">
-                    <option selected>Select Gender</option>
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Unknown</option>
-                </select>
-            </div>
-        </div>
-        <div class="modal fade versionUpFrame" tabindex="-1" role="dialog" aria-labelledby="versionUpFrame" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-body m-3">
-                        Reason For Version Up:
-                        <select>
-                            <option>Select reason for version up</option>
-                            <option>Data Correction</option>
-                            <option>Follow Up</option>
-                        </select>
-                        <div class="form-control btn btn-primary w-300" id="confirmVersionUp" onclick="">Confirm </div>
+            <div class="modal fade versionUpFrame" tabindex="-1" role="dialog" aria-labelledby="versionUpFrame" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-body m-3">
+                            <div class="form-group">
+                                <label for="">Reason For Version Up:</label>
+                                <select  class="form-control">
+                                    <option>Select reason for version up</option>
+                                    <option>Data Correction</option>
+                                    <option>Follow Up</option>
+                                </select>
+                            </div>
+                            <div class="form-control btn btn-primary w-50 float-right" id="confirmVersionUp" onclick="">Confirm </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-row justify-content-center">
-            <div class="form-group col-lg-3">
-                <div id="searchBtn" onclick="onQueryClicked()" class="form-control btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
-            </div>
-            <div class="form-group col-lg-2">
-                <div id="advsearch" class="form-control btn btn-outline-info w-100"><i class="fas fa-keyboard"></i> Advanced</div>
-            </div>
-            <div class="form-group col-lg-1">
-                <div class="clearsearch form-control btn btn-outline-danger w-100"><i class="fas fa-eraser"></i> Clear</div>
+            <div class="form-row justify-content-center">
+                <div class="form-group col-lg-3">
+                    <div id="searchBtn" onclick="onQueryClicked()" class="form-control btn btn-primary w-100"><i class="fas fa-search"></i> Search</div>
+                </div>
+                <div class="form-group col-lg-1">
+                    <div class="clearsearch form-control btn btn-outline-danger w-100"><i class="fas fa-eraser"></i> Clear</div>
+                </div>
             </div>
         </div>
+        <hr class="my-2">
         <div id="textHint" class="d-block w-100 text-center"></div>
     </div>
   </div>

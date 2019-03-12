@@ -21,17 +21,17 @@ jQuery(function($) {  // In case of jQuery conflict
         }
     });
 
-jQuery(function($) {
-    $(document).ready(function(){
-        // Dashboard popup Advance Search
-        $("#advsearch").click(function(){
-            if($("#advsearchfield").is(':hidden'))
-                $("#advsearchfield").slideDown();
-                else $("#advsearchfield").slideUp();
-        });
+// jQuery(function($) {
+//     $(document).ready(function(){
+//         // Dashboard popup Advance Search
+//         $("#advsearch").click(function(){
+//             if($("#advsearchfield").is(':hidden'))
+//                 $("#advsearchfield").slideDown();
+//                 else $("#advsearchfield").slideUp();
+//         });
 
-    });
-});
+//     });
+// });
 
 
 // Control the topNav and leftNav running with the scroll
@@ -180,7 +180,7 @@ function onQueryClicked(preferrenceId = null){
             text +="<table id=\"caseTable\"class=\"table table-hover\">";
             text += "<thead>";
             text +="<tr class=\"table-secondary\">";
-            text +="<th scope=\"col\">Flag</th>";
+            text +="<th scope=\"col\">Priority SUSAR</th>";
             text +="<th scope=\"col\">AER No.</th>";
             text +="<th scope=\"col\">Documents</th>";
             text +="<th scope=\"col\">Version</th>";
@@ -199,8 +199,8 @@ function onQueryClicked(preferrenceId = null){
                 var ad_time = new Date(caseDetail.activity_due_date);
                 text += "<tr>";
                 text += "<td>";
-                if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +="red";
-                else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +="yellow";
+                if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +="<i class=\"fas fa-flag\" style=\"color:red;\"></i>";
+                else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +="<i class=\"fas fa-flag\" style=\"color:orange;\"></i>";
                 text +="</td>";
                 text += "<td>" + caseDetail.caseNo + "</td>";
                 text += "<td></td>";
@@ -216,10 +216,10 @@ function onQueryClicked(preferrenceId = null){
                 text += "<td>" + caseDetail.submission_due_date + "</td>";
                 text += "<td>";
                 if((jQuery.isEmptyObject(caseDetail.wa.activity_name))&&(caseDetail.sd_workflow_activity_id!='9999') )
-                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Triage</div></a><div class=\"btn btn-outline-danger mx-1\" data-toggle=\"modal\" data-target=\".confirmClose\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close Case</div>";
+                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-infon btn-sm m-1\">Triage</div></a><div class=\"btn btn-outline-danger btn-sm m-1\" data-toggle=\"modal\" data-target=\".confirmClose\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close Case</div>";
                 else{
-                    if(caseDetail.sd_workflow_activity_id!='9999') text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">"+caseDetail.wa.activity_name+"</div></a><div class=\"btn btn-outline-danger mx-1\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close Case</div>";
-                    else text += "<div class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>";
+                    if(caseDetail.sd_workflow_activity_id!='9999') text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info btn-sm m-1\" onclick=\"actionRouting(\'"+caseDetail.caseNo+"\')\">"+caseDetail.wa.activity_name+"</div></a><div class=\"btn btn-outline-danger btn-sm m-1\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"closeCase(\'"+caseDetail.caseNo+"\')\">Close Case</div>";
+                    else text += "<div class=\"btn btn-warning btn-sm\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>";
                 }
                 text +="</td>";
                 text += "</tr>";
