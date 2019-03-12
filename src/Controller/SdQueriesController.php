@@ -35,7 +35,22 @@ class SdQueriesController extends AppController
     public function view($id = null)
     {
         $this->viewBuilder()->layout('main_layout');
-        $sdQuery = $this->SdQueries->get($id);
+        $sdQuery = $this->SdQueries->find()
+                ->select(['id','title','content','query_type','sender','receiver','send_date','read_date','query_status',
+                        'senderEmail'=>'sender_info.email','senderCompany'=>'sender_info.company_name','senderfirstname'=>'sender_info.firstname','senderlastname'=>'sender_info.lastname',
+                        'receiverEmail'=>'receiver_info.email','receiverCompany'=>'receiver_info.company_name','receiverfirstname'=>'receiver_info.firstname','receiverlastname'=>'receiver_info.lastname'])
+                ->join([
+                'sender_info'=>[
+                    'table'=>'user_role_company',
+                    'type'=>'LEFT',
+                    'conditions'=>['sender_info.id = SdQueries.sender']
+                ],
+                'receiver_info'=>[
+                    'table'=>'user_role_company',
+                    'type'=>'LEFT',
+                    'conditions'=>['receiver_info.id = SdQueries.receiver']
+                ]
+                ])->where(['SdQueries.id'=>$id])->first();
         $userinfo = $this->request->session()->read('Auth.User');
         if(($sdQuery['sender']!=$userinfo['id'])&&($sdQuery['receiver']!=$userinfo['id']))
         {
@@ -124,47 +139,74 @@ class SdQueriesController extends AppController
         $this->viewBuilder()->layout('main_layout');
         switch ($type){
             case null:
-                $sdQueries = $this->SdQueries->find()->where(['receiver'=>$userId,'receiver_status'=>1]);
+                $sdQueries = $this->SdQueries->find()
+                                ->select(['id','title','content','query_type','sender','receiver','send_date','read_date','query_status','senderfirstname'=>'sender_info.firstname','senderlastname'=>'sender_info.lastname'])
+                                ->where(['receiver'=>$userId,'receiver_status'=>1])
+                                ->join([
+                                    'sender_info'=>[
+                                        'table'=>'sd_users',
+                                        'type'=>'LEFT',
+                                        'conditions'=>['sender_info.id = SdQueries.sender']
+                                    ]
+                                ]);
                 continue;
             case "unread":
-                $sdQueries = $this->SdQueries->find()->where(['receiver'=>$userId,'receiver_status'=>1,'read_date IS NULL']);
+                $sdQueries = $this->SdQueries->find()
+                            ->select(['id','title','content','query_type','sender','receiver','send_date','read_date','query_status','senderfirstname'=>'sender_info.firstname','senderlastname'=>'sender_info.lastname'])
+                            ->where(['receiver'=>$userId,'receiver_status'=>1,'read_date IS NULL'])
+                            ->join([
+                                'sender_info'=>[
+                                    'table'=>'sd_users',
+                                    'type'=>'LEFT',
+                                    'conditions'=>['sender_info.id = SdQueries.sender']
+                                ]
+                            ]);
                 continue;
             case "deleted";
-                $sdQueries = $this->SdQueries->find()->where(['receiver'=>$userId,'receiver_status'=>0]);
+                $sdQueries = $this->SdQueries->find()->where(['receiver'=>$userId,'receiver_status'=>0])
+                            ->select(['id','title','content','query_type','sender','receiver','send_date','read_date','query_status','senderfirstname'=>'sender_info.firstname','senderlastname'=>'sender_info.lastname'])
+                            ->join([
+                                'sender_info'=>[
+                                    'table'=>'sd_users',
+                                    'type'=>'LEFT',
+                                    'conditions'=>['sender_info.id = SdQueries.sender']
+                                ]
+                            ]);
                 continue;
             case "flaged";
-                $sdQueries = $this->SdQueries->find()->where(['receiver'=>$userId,'receiver_status'=>2]);
+                $sdQueries = $this->SdQueries->find()->where(['receiver'=>$userId,'receiver_status'=>2])
+                            ->select(['id','title','content','query_type','sender','receiver','send_date','read_date','query_status','senderfirstname'=>'sender_info.firstname','senderlastname'=>'sender_info.lastname'])
+                            ->join([
+                                'sender_info'=>[
+                                    'table'=>'sd_users',
+                                    'type'=>'LEFT',
+                                    'conditions'=>['sender_info.id = SdQueries.sender']
+                                ]
+                            ]);
                 continue;
             case "system":
-                $sdQueries = $this->SdQueries->find()->where(['receiver'=>$userId,'receiver_status'=>1,'query_type'=>1]);
+                $sdQueries = $this->SdQueries->find()->where(['receiver'=>$userId,'receiver_status'=>1,'query_type'=>1])
+                            ->select(['id','title','content','query_type','sender','receiver','send_date','read_date','query_status','senderfirstname'=>'sender_info.firstname','senderlastname'=>'sender_info.lastname'])
+                            ->join([
+                                'sender_info'=>[
+                                    'table'=>'sd_users',
+                                    'type'=>'LEFT',
+                                    'conditions'=>['sender_info.id = SdQueries.sender']
+                                ]
+                            ]);
                 continue;
             case "sent":
-                $sdQueries = $this->SdQueries->find()->where(['sender'=>$userId,'sender_deleted'=>0]);
+                $sdQueries = $this->SdQueries->find()->where(['sender'=>$userId,'sender_deleted'=>0])
+                            ->select(['id','title','content','query_type','sender','receiver','send_date','read_date','query_status','senderfirstname'=>'sender_info.firstname','senderlastname'=>'sender_info.lastname'])
+                            ->join([
+                                'sender_info'=>[
+                                    'table'=>'sd_users',
+                                    'type'=>'LEFT',
+                                    'conditions'=>['sender_info.id = SdQueries.sender']
+                                ]
+                            ]);
                 continue;
         }
         $this->set(compact('sdQueries'));
-    }
-    /**
-     * Query Inbox Query Content
-     *
-     */
-    public function querycontent($id = null)
-    {
-        $this->viewBuilder()->layout('main_layout');
-        $sdQuery = $this->SdQueries->get($id);
-        $userinfo = $this->request->session()->read('Auth.User');
-        if(($sdQuery['sender']!=$userinfo['id'])&&($sdQuery['receiver']!=$userinfo['id']))
-        {
-            $this->Flash->error(__('Cannot find this query.'));
-            $this->redirect($this->referer());
-        }
-
-        if($sdQuery['receiver']==$userinfo['id']){
-            if(empty($sdQuery['read_date'])){
-                $sdQuery['read_date'] = date("Y-m-d H:i:s");
-                $this->SdQueries->save($sdQuery);
-            }
-        }
-        $this->set('sdQuery', $sdQuery);
     }
 }

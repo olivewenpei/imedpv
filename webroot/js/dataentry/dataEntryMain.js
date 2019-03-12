@@ -2,12 +2,87 @@ jQuery(function($) {
     $(document).ready(paginationReady());
 });
 
-function hightlightField (fieldID) {
-    $("div[id*='"+fieldID+"']").css("border", "3px dotted red").delay(2000);
-};
-
 // Search Bar
 $(document).ready(function(){
+    function hightlightField (fieldID) {
+        $("div[id*='"+fieldID+"']").css("border", "3px dotted red").delay(2000);
+    };
+});
+
+$(document).ready(function(){
+    $('[name$=\\[field_value\\]').change(function(){
+        var id = $(this).attr('id').split('-');
+        $('[id=section-'+id[1]+'-error_message-'+id[3]+']').text();
+        $('[id=section-'+id[1]+'-error_message-'+id[3]+']').hide();
+
+        $("div[id=section-"+id[1]+"-field-"+id[3]+']').each(function(){
+            var field_value = null;
+            if($(this).find("[name$=\\[field_value\\]]").length){
+                field_type = $(this).find("[name$=\\[field_value\\]]").attr('id').split('-')[2];
+                if((field_type!="radio")&&(field_type!="checkbox")){
+                     field_value = $(this).find("[name$=\\[field_value\\]]").val();
+                }else{
+                    if(field_type=="radio"){
+                        $(this).find("[name$=\\[field_value\\]]").each(function(){
+                            if($(this).prop('checked')){
+                                field_value = $(this).val();}
+                        });
+                    }else{
+                        field_value = $(this).find("[id$=final]").val();
+                    }
+                }
+            }
+            if(($(this).find("[name$=\\[field_rule\\]]").length)&&(field_value!="")){
+                var rule = $(this).find("[name$=\\[field_rule\\]]").val().split("-");
+                if((rule[1]=="N")&&(!/^[0-9]+$/.test(field_value)))
+                {
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").show();
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").text('/numbers only');
+                    console.log('number only at '+$(this).attr('id'));
+                    validate = 0;
+                }else if((rule[1]=="A")&&(!/^[a-zA-Z]+$/.test(field_value))){
+                    console.log('alphabet only at '+$(this).attr('id'));
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").show();
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").text('/alphabet only');
+                    validate = 0;
+                }
+                if(rule[0]<field_value.length) {
+                    console.log('exccess the length at'+$(this).attr('id'));
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").show();
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").text( $(this).find("[id^=section-"+id[1]+"-error_message-]").text()+'/exccess the length');
+                    validate = 0;
+                }
+            };
+        });
+    });
+ if(readonly) {
+    $('input').prop("disabled", true);
+    $('select').prop("disabled", true);
+    $('textarea').prop("disabled", true);
+};
+    // Datepicker Script
+$( function() {
+    // $( "[id*=date]" ).datepicker({
+    //     changeMonth: true,
+    //     changeYear: true
+    // });
+    $("#section-1-field-355").hide();
+} );
+
+// For Additional documents (A.1.8.1) select in General Tab
+    // If choose "Yes", show "Choose file"
+    $(document).ready(function(){
+        $("#section-1-radio-13-option-1").click(function(){
+            $("#section-1-field-355").show(1000);
+        });
+    });
+    // If choose "No", hide "Choose file"
+    $(document).ready(function(){
+        $("#section-1-radio-13-option-2").click(function(){
+            $("#section-1-field-355").hide(1000);
+        });
+    });
+
     $("#searchFieldKey").keyup(function(){
         var request={
             'key':$('#searchFieldKey').val(),
@@ -367,23 +442,10 @@ function validation(sectionId){
         }
         if((parseInt($(this).find("[name$=\\[is_required\\]]").val()))&&(field_value=="")){
             console.log('required  '+$(this).attr('id'));
-            validate = 0;
+            $(this).find("[id^=section-"+sectionId+"-error_message-]").show();
+            $(this).find("[id^=section-"+sectionId+"-error_message-]").text('is required');
         }
-        else if(($(this).find("[name$=\\[field_rule\\]]").length)&&(field_value!="")){
-            var rule = $(this).find("[name$=\\[field_rule\\]]").val().split("-");
-            if((rule[1]=="N")&&(!/^[0-9]+$/.test(field_value)))
-            {
-                console.log('number only at '+$(this).attr('id'));
-                validate = 0;
-            }else if((rule[1]=="A")&&(!/^[a-zA-Z]+$/.test(field_value))){
-                console.log('alphabet only at '+$(this).attr('id'));
-                validate = 0;
-            }
-            if(rule[0]<field_value.length) {
-                console.log('exccess the length at'+$(this).attr('id'));
-                validate = 0;
-            }
-        };
+        if($(this).find("[id^=section-"+sectionId+"-error_message-]").is(":visible")) validate = 0;
     });
     return validate;
 }

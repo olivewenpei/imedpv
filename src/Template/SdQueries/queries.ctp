@@ -70,11 +70,19 @@
                     <tbody>
                         <?php
                         foreach($sdQueries as $sdQuery){
-                            echo "<tr class=\"queryBoxTable\" data-href=\"/sd-queries/querycontent/".$sdQuery['id']."\">";
+                            echo "<tr class=\"queryBoxTable\" data-href=\"/sd-queries/view/".$sdQuery['id']."\">";
+                            echo "<td>";
+                            if(empty($sdQuery['senderfirstname']))
+                            echo "System";
+                            else echo $sdQuery['senderfirstname']." ".$sdQuery['senderlastname'];
+                            echo "</td>";
+                            echo "<td>";
                             if(empty($sdQuery['read_date']))
-                            echo "<td></td>";
-                            echo "<td>".$sdQuery['sender']."</td>";
-                            echo "<td>".$sdQuery['title']."</td>";
+                            echo "<b>";
+                            echo $sdQuery['title'];
+                            if(empty($sdQuery['read_date']))
+                            echo "</b>";
+                            echo "</td>";
                             echo "<td>".$sdQuery['send_date']."</td>";
                             //echo "<td><button type=\"button\" class=\"btn btn-outline-danger btn-sm\"><i class=\"fas fa-trash-alt\"></i></button></td>";
                             if(empty($sdQuery['read_date']))

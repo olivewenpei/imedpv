@@ -86,13 +86,13 @@
           -->
         </div>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Form Builder</a>
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Form Builder</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/">Add Form</a>
           <a class="dropdown-item" href="/">Form List</a>
         </div>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" href="/sd-users/myaccount">My Account</a>
       </li>

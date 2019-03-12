@@ -11,7 +11,7 @@
                 <div class="card-header text-center">
                     <h3>Case Registration / Duplicate Detection</h3>
                 </div>
-                <?= $this->Form->create();?>
+                <?= $this->Form->create($productInfo,['id'=>'caseRegistration']);?>
                 <div class="card-body">
                     <div class="text-center">
                         <!-- Add Product --><h3>Case General Information</h3><hr>
@@ -150,6 +150,7 @@
 
 </div>
 <script type="text/javascript">
+    var userId = <?= $this->request->session()->read('Auth.User.id')?>;
     var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
 var productInfo = <?php $productInfo =$productInfo->toList();
 echo json_encode($productInfo);?>;

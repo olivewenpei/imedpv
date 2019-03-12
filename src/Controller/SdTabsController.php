@@ -77,45 +77,26 @@
                 $assignments = TableRegistry::get('SdUserAssignments')
                         ->find()->select(['sd_workflow_activity_id'])    
                         ->where(['sd_user_id'=>$userinfo['id'],'sd_product_workflow_id'=>$sdCases['sd_product_workflow_id']])->toArray();
+                $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
+                        ->find('list',[
+                            'keyField' => 'sd_section_id',
+                            'valueField' => 'action'
+                        ])
+                        ->join([
+                            'sections' =>[
+                                'table' =>'sd_sections',
+                                'type'=>'INNER',
+                                'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
+                            ],
+                            'ua'=>[
+                                'table'=>'sd_user_assignments',
+                                'type'=>'INNER',
+                                'conditions'=>['ua.sd_product_workflow_id ='.$sdCases['sd_product_workflow_id'],'ua.sd_user_id ='.$userinfo['id'],'ua.sd_workflow_activity_id = SdActivitySectionPermissions.sd_workflow_activity_id']
+                            ]
+                        ])->toArray();   
                 if($sdCases['sd_user_id'] != $userinfo['id']){
-                    $writePermission = 0;
-                    // if(empty($assignments))
-                    // {
-                    //     $this->Flash->error(__('You don\'t have permission to view this page'));
-                    //     $this->redirect($this->referer());
-                    //     return;
-                    // } 
-                    $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
-                    ->find('list',[
-                        'keyField' => 'sd_section_id',
-                        'valueField' => 'action'
-                    ])
-                    ->join([
-                        'sections' =>[
-                            'table' =>'sd_sections',
-                            'type'=>'INNER',
-                            'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
-                        ],
-                        'ua'=>[
-                            'table'=>'sd_user_assignments',
-                            'type'=>'INNER',
-                            'conditions'=>['ua.sd_product_workflow_id ='.$sdCases['sd_product_workflow_id'],'ua.sd_user_id ='.$userinfo['id'],'ua.sd_workflow_activity_id = SdActivitySectionPermissions.sd_workflow_activity_id']
-                        ]
-                    ])->toArray();      
+                    $writePermission = 0; 
                 }else{
-                    $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
-                    ->find('list',[
-                        'keyField' => 'sd_section_id',
-                        'valueField' => 'action'
-                    ])->where(['sd_workflow_activity_id'=>$currentActivityId])
-                    ->join([
-                        'sections' =>[
-                            'table' =>'sd_sections',
-                            'type'=>'INNER',
-                            'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
-                        ],
-                    ])->toArray();
-                    //Section permissions
                     $writePermission = 1;
                 }   
                 if(!$writePermission){
