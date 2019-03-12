@@ -108,20 +108,28 @@ var userId = <?= $this->request->session()->read('Auth.User.id')?>;
         <h3>Dashboard</h3>
     </div>
     <div class="card-body">
-        <h5 class="display-8">Quick Look</h5>
+        <h4 class="display-8 text-center">Quick Look</h4>
         <div class="form-row justify-content-center">
             <?php
             foreach($preferrence_list as $preferrence_detail){
-                echo "<div class=\"form-group col-lg-2\" onclick=\"onQueryClicked(".$preferrence_detail['id'].")\"><div class=\"form-control btn btn-outline-primary w-100\">";
-                echo $preferrence_detail['preferrence_name']." ";
-                echo "<span class=\"badge badge-danger\">".$preferrence_detail['count']."</span>";
-                echo "</div></div>";
+                if ($preferrence_detail['id']==7) {
+                    echo "<div class=\"form-group col-lg-4\" onclick=\"onQueryClicked(".$preferrence_detail['id'].")\"><div class=\"form-control btn btn-danger w-100\">";
+                    echo $preferrence_detail['preferrence_name']." ";
+                    echo "<span class=\"badge badge-light\">".$preferrence_detail['count']."</span>";
+                    echo "</div></div>";
+                }
+                else {
+                    echo "<div class=\"form-group col-lg-2\" onclick=\"onQueryClicked(".$preferrence_detail['id'].")\"><div class=\"form-control btn btn-outline-primary w-100\">";
+                    echo $preferrence_detail['preferrence_name']." ";
+                    echo "<span class=\"badge badge-danger\">".$preferrence_detail['count']."</span>";
+                    echo "</div></div>";
+                }
             }
             ?>
         </div>
-        <hr class="my-2">
-        <h5 class="display-8">Search</h5>
-        <div class="form-row" id="basicSearch">
+        <hr class="my-4">
+        <h4 class="display-8 text-center">Search</h4>
+        <div class="form-row  justify-content-center" id="basicSearch">
             <div class="form-group col-lg-3">
                 <input type="text" class="form-control" id="searchProductName" name="searchProductName" placeholder="Search by Product Name">
             </div>
@@ -209,7 +217,7 @@ var userId = <?= $this->request->session()->read('Auth.User.id')?>;
                 </div>
             </div>
         </div>
-        <hr class="my-2">
+        <hr class="my-3">
         <div id="textHint" class="d-block w-100 text-center"></div>
     </div>
   </div>
