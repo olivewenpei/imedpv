@@ -179,7 +179,7 @@ class SdCasesController extends AppController
                                         'pau'=>[
                                             'table' =>'sd_field_values',
                                             'type'=>'LEFT',
-                                            'conditions' => ['pa.sd_field_id = 87','pa.status = 1','pa.sd_case_id = SdCases.id','pau.set_number=pa.set_number'
+                                            'conditions' => ['pau.sd_field_id = 87','pau.status = 1','pau.sd_case_id = SdCases.id','pau.set_number=pa.set_number'
                                             ]
                                         ],
                                         'pg' =>[
@@ -382,6 +382,8 @@ class SdCasesController extends AppController
                     'wa.activity_name',
                     'SdCases.sd_user_id',
                     'serious_case.id',
+                    'product_type_label'=>'product_type_look_up.caption',
+                    'product_type.field_value',
                     'clinical_trial.id'])
                     ->distinct()
                     ->join([
@@ -414,6 +416,16 @@ class SdCasesController extends AppController
                             'table'=>'sd_field_values',
                             'type'=>'LEFT',
                             'conditions' => ['serious_case.sd_field_id = 8','serious_case.sd_case_id = SdCases.id','SUBSTR(serious_case.field_value,1,6) >= 1'],
+                        ],
+                        'product_type'=>[
+                            'table'=>'sd_field_values',
+                            'type'=>'LEFT',
+                            'conditions'=>['product_type.sd_field_id = 282','product_type.sd_case_id = SdCases.id'],
+                        ],
+                        'product_type_look_up'=>[
+                            'table'=>'sd_field_value_look_ups',
+                            'type'=>'LEFT',
+                            'conditions'=>['product_type_look_up.sd_field_id = 282','product_type_look_up.value = product_type.field_value'],
                         ],
                         'clinical_trial'=>[
                             'table'=>'sd_field_values',
@@ -628,6 +640,22 @@ class SdCasesController extends AppController
                 $savedFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
                 if(!$sdFieldValueTable->save($savedFieldValueEntity)) {
                     echo "problem in saving mfr_name sdfields";
+                    return null;
+                }
+
+                //save day 0 
+                $sdFieldValueEntity = $sdFieldValueTable->newEntity();
+                $dataSet = [
+                    'sd_case_id' => $savedCase->id,
+                    'sd_field_id' => '225',
+                    'set_number' => '1',
+                    'created_time' =>date("Y-m-d H:i:s"),
+                    'field_value' =>date("Ymd"),
+                    'status' =>'1',
+                ];
+                $savedFieldValueEntity = $sdFieldValueTable->patchEntity($sdFieldValueEntity, $dataSet);
+                if(!$sdFieldValueTable->save($savedFieldValueEntity)){
+                    echo "problem in saving WHODD_name sdfields";
                     return null;
                 }
                 foreach($requestData['field_value'] as $field_id => $detail_data){

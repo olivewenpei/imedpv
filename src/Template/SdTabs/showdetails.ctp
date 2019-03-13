@@ -211,7 +211,8 @@ function displaySection($section, $exsitSectionNo, $sdSections, $setNo, $html, $
 
 function displaySingleSection($section, $setNo, $sectionKey, $html, $permission){
     $i = 0;
-    $permission = $permission[$section['id']];
+    if($permission == null) $permission = 1;
+    else $permission = $permission[$section['id']];
     if($section->section_level == 2){
         echo "<div id=\"section_label-".$section->id."\" class=\"subtabtitle col-md-12\">".$section->section_name."</div>";
         if(($section->is_addable == 1)&&($permission==1))

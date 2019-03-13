@@ -108,53 +108,6 @@ $(function(){
     });
 });
 
-// Add Product card
-    $(document).ready(function($){
-        $('#addprobtn').click(function() {
-            var request = {'product_name': $("#product_name").val(), 'study_no':$("#study_no").val(),
-                    'sd_sponsor_company_id':$("#sd_sponsor_company_id").val(),
-                    'sd_product_type_id':$("#sd_product_type_id").val(),
-                    'status':$("#status").val()
-                };
-            console.log(request);
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-Token': csrfToken
-                },
-                type:'POST',
-                url:'/sd-products/create',
-                data:request,
-                success:function(response){
-                    console.log(response);
-                    var result = $.parseJSON(response);
-                    console.log(result);
-                    if (result.result == 1)
-                    {
-                        $('#product_id').val(result.product_id);
-                        $('#choosecon').show();
-                        $("#addpro > div > input, #addpro > div > select").prop("disabled", true);
-                    }
-                    else{
-                        swal({
-                            title: "Failed to add a new product",
-                            text: "All the Fields are REQUIRED",
-                            icon: "warning",
-                            button: "OK",
-                          });
-                        // $("#errorMsg").show();
-                        // $("#errorMsg").html("Failed to add a new product!");
-                    }
-
-                },
-                error:function(response){
-                        console.log(response);
-                }
-            });
-
-
-        });
-    });
 });
 
 function onQueryClicked(preferrenceId = null){
@@ -194,7 +147,8 @@ function onQueryClicked(preferrenceId = null){
             text +="</tr>";
             text +="</thead>";
             text +="<tbody>";
-            var product_type_id=["clinical trials", "individual patient use","other studies"]
+            var product_type_id=["clinical trials", "individual patient use","other studies"];
+            var previous_case = "";
             $.each(result, function(k,caseDetail){
                 var ad_time = new Date(caseDetail.activity_due_date);
                 text += "<tr>";
@@ -213,17 +167,20 @@ function onQueryClicked(preferrenceId = null){
                 text += "</td>";
                 text += "<td></td>";
                 text += "<td>" + caseDetail.pd.product_name + "</td>";
-                text += "<td>"+product_type_id[caseDetail.product_type]+"</td>";
+                text += "<td>";
+                if(caseDetail.product_type_label!=null) text += caseDetail.product_type_label;
+                text += "</td>";
                 text += "<td>"+caseDetail.activity_due_date+"</td>";
                 text += "<td>" + caseDetail.submission_due_date + "</td>";
                 text += "<td>";
                 if(caseDetail.sd_user_id == userId)
                     text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Enter</div></a>";
                 else text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Check Detail</div></a>";
-                if(caseDetail.sd_workflow_activity_id=='9999')
+                if((caseDetail.sd_workflow_activity_id=='9999')&&(previous_case!=caseDetail.caseNo))
                     text += "<div class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>";
                 text +="</td>";
                 text += "</tr>";
+                previous_case = caseDetail.caseNo;
             })
             text +="</tbody>";
             text +="</table>";

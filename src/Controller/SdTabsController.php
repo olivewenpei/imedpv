@@ -74,35 +74,40 @@
                 $currentActivityId = $sdCases['sd_workflow_activity_id'];
 
                 //User not allow to this activity
-                $assignments = TableRegistry::get('SdUserAssignments')
-                        ->find()->select(['sd_workflow_activity_id'])    
-                        ->where(['sd_user_id'=>$userinfo['id'],'sd_product_workflow_id'=>$sdCases['sd_product_workflow_id']])->toArray();
-                $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
-                        ->find('list',[
-                            'keyField' => 'sd_section_id',
-                            'valueField' => 'action'
-                        ])
-                        ->join([
-                            'sections' =>[
-                                'table' =>'sd_sections',
-                                'type'=>'INNER',
-                                'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
-                            ],
-                            'ua'=>[
-                                'table'=>'sd_user_assignments',
-                                'type'=>'INNER',
-                                'conditions'=>['ua.sd_product_workflow_id ='.$sdCases['sd_product_workflow_id'],'ua.sd_user_id ='.$userinfo['id'],'ua.sd_workflow_activity_id = SdActivitySectionPermissions.sd_workflow_activity_id']
-                            ]
-                        ])->toArray();   
-                if($sdCases['sd_user_id'] != $userinfo['id']){
-                    $writePermission = 0; 
-                }else{
-                    $writePermission = 1;
-                }   
-                if(!$writePermission){
-                    foreach($activitySectionPermissions as $key => $activitySectionPermission){
-                        $activitySectionPermissions[$key] = 2;
+                if($userinfo['sd_role_id']>2){
+                    $assignments = TableRegistry::get('SdUserAssignments')
+                            ->find()->select(['sd_workflow_activity_id'])    
+                            ->where(['sd_user_id'=>$userinfo['id'],'sd_product_workflow_id'=>$sdCases['sd_product_workflow_id']])->toArray();
+                    $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
+                            ->find('list',[
+                                'keyField' => 'sd_section_id',
+                                'valueField' => 'action'
+                            ])
+                            ->join([
+                                'sections' =>[
+                                    'table' =>'sd_sections',
+                                    'type'=>'INNER',
+                                    'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
+                                ],
+                                'ua'=>[
+                                    'table'=>'sd_user_assignments',
+                                    'type'=>'INNER',
+                                    'conditions'=>['ua.sd_product_workflow_id ='.$sdCases['sd_product_workflow_id'],'ua.sd_user_id ='.$userinfo['id'],'ua.sd_workflow_activity_id = SdActivitySectionPermissions.sd_workflow_activity_id']
+                                ]
+                            ])->toArray();   
+                    if($sdCases['sd_user_id'] != $userinfo['id']){
+                        $writePermission = 0; 
+                    }else{
+                        $writePermission = 1;
+                    }   
+                    if(!$writePermission){
+                        foreach($activitySectionPermissions as $key => $activitySectionPermission){
+                            $activitySectionPermissions[$key] = 2;
+                        }
                     }
+                }else {
+                    $activitySectionPermissions = null;
+                    $writePermission =1;
                 }
                 $this->set(compact('activitySectionPermissions'));
                 //For readonly status, donot render layout
@@ -125,8 +130,10 @@
                                             return $q->select('type_name')->where(['SdElementTypes.status'=>true]);
                                                 }]]);
                                     }])->toArray();
-                foreach($sdSections as $sectionKey => $sdSection){
-                    if(!array_key_exists($sdSection['id'],$activitySectionPermissions)) unset($sdSections[$sectionKey]);
+                if($userinfo['sd_role_id']>2){
+                    foreach($sdSections as $sectionKey => $sdSection){
+                        if(!array_key_exists($sdSection['id'],$activitySectionPermissions)) unset($sdSections[$sectionKey]);
+                    }
                 }
 
                 $this->set(compact('sdSections','caseNo','version','tabid','caseId','product_name','case_versions','writePermission'));
