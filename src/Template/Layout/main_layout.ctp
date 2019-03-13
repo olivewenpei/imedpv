@@ -22,14 +22,17 @@
     <?= $this->Html->css('bootstrap/bootstrap-grid.min.css') ?>
     <?= $this->Html->css('bootstrap/bootstrap-reboot.min.css') ?>
     <?= $this->Html->css('bootstrap/bootstrap.min.css') ?>
+
     <!-- For local Bootstrap/JS link -->
     <?= $this->Html->script('bootstrap/bootstrap.bundle.min.js') ?>
     <?= $this->Html->script('bootstrap/bootstrap.min.js') ?>
     <?= $this->Html->script('bootstrap/jquery-1.12.4.js') ?>
     <?= $this->Html->script('bootstrap/jquery-ui.js') ?>
 
-    <?= $this->Html->css('datatable/datatables.css') ?>
-    <?= $this->Html->script('datatable/datatables.min.js') ?>
+    <!-- For local DataTable CSS/JS link -->
+    <?= $this->Html->css('datatable/DataTables/css/dataTables.bootstrap4.min.css') ?>
+    <?= $this->Html->script('datatable/DataTables/js/jquery.dataTables.min.js') ?>
+    <?= $this->Html->script('datatable/DataTables/js/dataTables.bootstrap4.min.js') ?>
 </head>
 <body>
 

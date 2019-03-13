@@ -218,7 +218,7 @@ var userId = <?= $this->request->session()->read('Auth.User.id')?>;
             </div>
         </div>
         <hr class="my-3">
-        <div id="textHint" class="d-block w-100 text-center"></div>
+        <div id="textHint" class="text-center align-middle"></div>
     </div>
   </div>
 

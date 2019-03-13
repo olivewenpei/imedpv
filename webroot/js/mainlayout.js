@@ -177,20 +177,20 @@ function onQueryClicked(preferrenceId = null){
                 return}
             var result = $.parseJSON(response);
             var text = "";
-            text +="<table id=\"caseTable\"class=\"table table-hover\">";
+            text +="<table id=\"caseTable\" class=\"table table-striped table-bordered table-hover\">";
             text += "<thead>";
-            text +="<tr class=\"table-secondary\">";
-            text +="<th scope=\"col\">Priority SUSAR</th>";
-            text +="<th scope=\"col\">AER No.</th>";
+            text +="<tr>";
+            text +="<th class=\"align-middle\" scope=\"col\">Priority SUSAR</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">AER No.</th>";
             // text +="<th scope=\"col\">Documents</th>";
-            text +="<th scope=\"col\">Version</th>";
-            text +="<th scope=\"col\">Activity</th>";
-            text +="<th scope=\"col\">Country</th>";
-            text +="<th scope=\"col\">Project No.</th>";
-            text +="<th scope=\"col\">Product Type</th>";
-            text +="<th scope=\"col\">Activity Due Date</th>";
-            text +="<th scope=\"col\">Submission Due Date</th>";
-            text +="<th scope=\"col\">Action</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">Version</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">Activity</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">Country</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">Project No.</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">Product Type</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">Activity Due Date</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">Submission Due Date</th>";
+            text +="<th class=\"align-middle\" scope=\"col\">Action</th>";
             text +="</tr>";
             text +="</thead>";
             text +="<tbody>";
@@ -198,25 +198,25 @@ function onQueryClicked(preferrenceId = null){
             $.each(result, function(k,caseDetail){
                 var ad_time = new Date(caseDetail.activity_due_date);
                 text += "<tr>";
-                text += "<td>";
+                text += "<td class=\"align-middle\">";
                 if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +="<i class=\"fas fa-flag\" style=\"color:red;\"></i>";
                 else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +="<i class=\"fas fa-flag\" style=\"color:yellow;\"></i>";
                 if(caseDetail.serious_case.id!=null) text +="<i class=\"fas fa-exclamation-triangle\" style=\"color:red;\"></i>";
                 if(caseDetail.clinical_trial.id!=null) text +="<i class=\"fas fa-user-md\" style=\"color:#845ef7;\"></i>";
                 text +="</td>";
-                text += "<td>" + caseDetail.caseNo + "</td>";
+                text += "<td class=\"align-middle\">" + caseDetail.caseNo + "</td>";
                 // text += "<td></td>";
-                text += "<td>"+ caseDetail.versions + "</td>";
-                text += "<td id=\"activity-"+caseDetail.caseNo+"\">";
+                text += "<td class=\"align-middle\">"+ caseDetail.versions + "</td>";
+                text += "<td id=\"activity-"+caseDetail.caseNo+"\" class=\"align-middle\">";
                 if(caseDetail.sd_workflow_activity_id!='9999') text += caseDetail.wa.activity_name;
                 else text += "Finished Data Accessment"
                 text += "</td>";
-                text += "<td></td>";
-                text += "<td>" + caseDetail.pd.product_name + "</td>";
-                text += "<td>"+product_type_id[caseDetail.product_type]+"</td>";
-                text += "<td>"+caseDetail.activity_due_date+"</td>";
-                text += "<td>" + caseDetail.submission_due_date + "</td>";
-                text += "<td>";
+                text += "<td class=\"align-middle\"></td>";
+                text += "<td class=\"align-middle\">" + caseDetail.pd.product_name + "</td>";
+                text += "<td class=\"align-middle\">"+product_type_id[caseDetail.product_type]+"</td>";
+                text += "<td class=\"align-middle\">"+caseDetail.activity_due_date+"</td>";
+                text += "<td class=\"align-middle\">" + caseDetail.submission_due_date + "</td>";
+                text += "<td class=\"align-middle\">";
                 if(caseDetail.sd_user_id == userId)
                     text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-outline-info m-1\">Enter</div></a>";
                 else text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info m-1\">Check Detail</div></a>";
