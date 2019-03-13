@@ -153,10 +153,10 @@ function onQueryClicked(preferrenceId = null){
                 var ad_time = new Date(caseDetail.activity_due_date);
                 text += "<tr>";
                 text += "<td class=\"align-middle\">";
-                if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +="<i class=\"fas fa-flag\" style=\"color:red;\"></i>";
-                else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +="<i class=\"fas fa-flag\" style=\"color:yellow;\"></i>";
-                if(caseDetail.serious_case.id!=null) text +="<i class=\"fas fa-exclamation-triangle\" style=\"color:red;\"></i>";
-                if(caseDetail.clinical_trial.id!=null) text +="<i class=\"fas fa-user-md\" style=\"color:#845ef7;\"></i>";
+                if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +=" <i class=\"fas fa-flag\" style=\"color:red;\"></i>\n";
+                else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +=" <i class=\"fas fa-flag\" style=\"color:yellow;\"></i>\n";
+                if(caseDetail.serious_case.id!=null) text +=" <i class=\"fas fa-exclamation-triangle\" style=\"color:red;\"></i>\n";
+                if(caseDetail.clinical_trial.id!=null) text +=" <i class=\"fas fa-user-md\" style=\"color:#845ef7;\"></i>\n";
                 text +="</td>";
                 text += "<td class=\"align-middle\">" + caseDetail.caseNo + "</td>";
                 // text += "<td></td>";
