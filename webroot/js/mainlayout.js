@@ -21,17 +21,17 @@ jQuery(function($) {  // In case of jQuery conflict
         }
     });
 
-jQuery(function($) {
-    $(document).ready(function(){
-        // Dashboard popup Advance Search
-        $("#advsearch").click(function(){
-            if($("#advsearchfield").is(':hidden'))
-                $("#advsearchfield").slideDown();
-                else $("#advsearchfield").slideUp();
-        });
+// jQuery(function($) {
+//     $(document).ready(function(){
+//         // Dashboard popup Advance Search
+//         $("#advsearch").click(function(){
+//             if($("#advsearchfield").is(':hidden'))
+//                 $("#advsearchfield").slideDown();
+//                 else $("#advsearchfield").slideUp();
+//         });
 
-    });
-});
+//     });
+// });
 
 
 // Control the topNav and leftNav running with the scroll
@@ -133,7 +133,7 @@ function onQueryClicked(preferrenceId = null){
             text +="<table id=\"caseTable\"class=\"table table-hover\">";
             text += "<thead>";
             text +="<tr class=\"table-secondary\">";
-            text +="<th scope=\"col\">Flag</th>";
+            text +="<th scope=\"col\">Priority SUSAR</th>";
             text +="<th scope=\"col\">AER No.</th>";
             // text +="<th scope=\"col\">Documents</th>";
             text +="<th scope=\"col\">Version</th>";
@@ -153,10 +153,10 @@ function onQueryClicked(preferrenceId = null){
                 var ad_time = new Date(caseDetail.activity_due_date);
                 text += "<tr>";
                 text += "<td>";
-                if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +="red";
-                else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +="yellow";
+                if((caseDetail.activity_due_date!=null)&&(ad_time.getTime()+1000*60*60*24 - today.getTime() < 0)) text +="<i class=\"fas fa-flag\" style=\"color:red;\"></i>";
+                else if((caseDetail.activity_due_date!=null)&&(ad_time.getTime() - today.getTime() < 0)) text +="<i class=\"fas fa-flag\" style=\"color:yellow;\"></i>";
                 if(caseDetail.serious_case.id!=null) text +="<i class=\"fas fa-exclamation-triangle\" style=\"color:red;\"></i>";
-                if(caseDetail.clinical_trial.id!=null) text +="<i class=\"fas fa-vials\" style=\"color:#845ef7;\"></i>";
+                if(caseDetail.clinical_trial.id!=null) text +="<i class=\"fas fa-user-md\" style=\"color:#845ef7;\"></i>";
                 text +="</td>";
                 text += "<td>" + caseDetail.caseNo + "</td>";
                 // text += "<td></td>";
@@ -174,10 +174,17 @@ function onQueryClicked(preferrenceId = null){
                 text += "<td>" + caseDetail.submission_due_date + "</td>";
                 text += "<td>";
                 if(caseDetail.sd_user_id == userId)
+<<<<<<< HEAD
                     text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Enter</div></a>";
                 else text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info mx-1\">Check Detail</div></a>";
                 if((caseDetail.sd_workflow_activity_id=='9999')&&(previous_case!=caseDetail.caseNo))
                     text += "<div class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>";
+=======
+                    text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-outline-info m-1\">Enter</div></a>";
+                else text += "<a href=\"/sd-tabs/showdetails/"+caseDetail.caseNo+"/"+caseDetail.versions+"\"><div class=\"btn btn-info m-1\">Check Detail</div></a>";
+                if(caseDetail.sd_workflow_activity_id=='9999')
+                    text += "<div class=\"btn btn-warning m-1\" data-toggle=\"modal\" data-target=\".versionUpFrame\" onclick=\"versionUp(\'"+caseDetail.caseNo+"\')\">Version Up</div>";
+>>>>>>> c3e3da9d6facc8c2333e759d0df92042593c2254
                 text +="</td>";
                 text += "</tr>";
                 previous_case = caseDetail.caseNo;

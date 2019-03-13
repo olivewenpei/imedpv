@@ -23,24 +23,20 @@ ul.topbar > li.nav-item {
 }
 
 .navLogo {
-    display: contents !important;
 }
 
-.login {
-    display: block;
-}
-
-.login a {
-    line-height: 0;
-    color: #5c5c5c;
+.searchHighlight {
+    background-color: rgb(255, 130, 130);
 }
 
 .login a:hover {
-    color: #0059ff;
+    background-color: #277fe1;
+    color: rgb(255, 255, 255);
+
 }
 
 .mainNav {
-    height: 60px;
+    height: 50px;
     background-color: #3793f7 !important;
     padding-left: 255px !important;
     font-size: 1.5rem;
@@ -435,6 +431,14 @@ hr.wfhr {
     color: red;
 }
 
+.closewa {
+    font-size: 22px;
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    color: red;
+}
+
 .DE_search_bar {
     cursor: pointer;
 }
@@ -455,4 +459,15 @@ ul.queryBoxLeft > a {
 
 .queryBoxTable {
     cursor: pointer;
+}
+
+.querybox{
+}
+
+.querybox:hover{
+    color: #007bff !important;
+}
+
+.navInner {
+    width: 80%;
 }

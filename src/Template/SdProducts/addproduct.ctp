@@ -347,6 +347,37 @@
                                     </div>
                                 </div>
 
+                                <!-- Select Permission  -->
+                                <div class="modal fade bd-example-modal-lg" id="selectPermission" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Permission Assignment</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="my-1">
+                                            <div class="custom-control custom-checkbox text-left">
+                                                <h5 class="mr-5 d-inline">General</h5>
+                                                <label class="mx-1"><input type="checkbox" class="checkAll" value=""> Check All</label>
+                                            </div>
+                                            <hr class="my-1">
+                                            <div class="my-2 checkboxContent">
+                                                <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary">Save</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
                                 <div class="d-block mt-3">
                                     <button id="undochocon" type="button" class="btn btn-outline-warning" style="display:none;">Go back to last step</button>
                                     <button id="confirm_activities" class="btn btn-primary w-25" style="display:none;">Countinue</button>

@@ -1,21 +1,12 @@
 jQuery(function($) {
     $(document).ready(paginationReady());
 });
+
 // Search Bar
 $(document).ready(function(){
-    $('.DE_search_bar[data-href]').on('click', function() {
-        var link = $(this).data("href");
-        if (
-            $(this).data("href").split('/').slice(3).toString().slice(0,1) == ((window.location.pathname).split('/').slice(3)).toString() ) {
-                $('html, body').animate({
-                    scrollTop: $("#section-1-select-413").offset().top-100
-                }, 2000);
-                $("#section-1-select-413").css("background-color","red");
-            }
-        else {
-            $(location).attr('href', link);
-        }
-    });
+    function hightlightField (fieldID) {
+        $("div[id*='"+fieldID+"']").css("border", "3px dotted red").delay(2000);
+    };
 });
 
 $(document).ready(function(){
@@ -58,7 +49,7 @@ $(document).ready(function(){
                 if(rule[0]<field_value.length) {
                     console.log('exccess the length at'+$(this).attr('id'));
                     $(this).find("[id^=section-"+id[1]+"-error_message-]").show();
-                    $(this).find("[id^=section-"+id[1]+"-error_message-]").text( $(this).find("[id^=section-"+id[1]+"-error_message-]").text()+'/exccess the length');                    
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").text( $(this).find("[id^=section-"+id[1]+"-error_message-]").text()+'/exccess the length');
                     validate = 0;
                 }
             };
@@ -118,12 +109,11 @@ $( function() {
                 text +="<th scope=\"col\">Section Name</th>";
                 text +="<th scope=\"col\">Action</th><tr>";
                 $.each(searchResult,function(k,v){
-
                     text +="<tr>";
-                    text +="<td class=\"DE_search_bar\" data-href='/sd-tabs/showdetails/1?caseNo=ICSR19015193600001'>"+v['field']['field_label']+"</td>";
+                    text +="<td>"+v['field']['field_label']+"</td>";
                     text +="<td>"+v['tab']['tab_name']+"</td>";
                     text +="<td>"+v['section_name']+"</td>";
-                    text +="<td><a class=\"btn btn-outline-info btn-sm\" role=\"button\" href=\"/sd-tabs/showdetails/"+caseNo+"/"+version+"/"+v['tab']['id']+"#secdiff-"+v['id']+"\">Go</a></td></tr>";
+                    text +="<td><a class=\"btn btn-outline-info btn-sm\" onclick=\"hightlightField("+v['field']['id']+")\" role=\"button\" href=\"/sd-tabs/showdetails/"+caseNo+"/"+version+"/"+v['tab']['id']+"#secdiff-"+v['id']+"\">Go</a></td></tr>";
                 });
                 text +="</table>";
                 $('#searchFieldResult').html(text);
@@ -135,6 +125,7 @@ $( function() {
         });}
         else $('#searchFieldResult').html("");
     });
+
 });
 
 $(document).ready(function(){

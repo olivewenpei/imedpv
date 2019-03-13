@@ -127,14 +127,18 @@
                     </div>
                     <?= $this->Form->end()?>
                     <div id="checkbutton">
-                        <a role="button" onclick="checkDuplicate()" id="checkbtn" class="completeBtn btn btn-success d-block m-auto w-25">Seach Duplicate</a>
+                        <input class="completeBtn btn btn-success d-block m-auto w-25" onclick="checkDuplicate()" id="checkbtn" type="button" value="Seach Duplicate">
+                        <!-- <a role="button" onclick="checkDuplicate()" id="checkbtn" class="completeBtn btn btn-success d-block m-auto w-25">Seach Duplicate</a> -->
                     </div>
                     <div class="modal fade CaseDetail" tabindex="-1" role="dialog" aria-labelledby="CaseDetail" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
+                            <div class="modal-content" style="width:1250px;left: -220px;">
                                 <div class="modal-body m-3">
                                     <h5 id="caseLabel"></h5>
-                                    <iframe id="iframeDiv" src="" width="700" height="730"></iframe>
+                                    <div class="embed-responsive embed-responsive-4by3">
+                                        <iframe id="iframeDiv" class="embed-responsive-item" src=""></iframe>
+                                    </div>
+                                    <!-- <iframe id="iframeDiv" src="" width="700" height="730"></iframe> -->
                                 </div>
                             </div>
                         </div>

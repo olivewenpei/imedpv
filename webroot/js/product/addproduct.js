@@ -446,6 +446,7 @@ jQuery(function($) {  // In case of jQuery conflict
                             default_text +="<div class=\"input-group w-25 mx-auto\">";
                                 default_text +="<i class=\"fas fa-arrow-up gobackstep\"></i>";
                                 default_text +="<input type=\"text\" readonly=\"readonly\" value="+v.step_backward+" class=\"step_backward form-control form-control-sm\" aria-label=\"Back Steps\" aria-describedby=\"backSteps\">"
+                                default_text +="<button type=\"button\" class=\"btn btn-primary btn-sm mx-2\" data-toggle=\"modal\" data-target=\"#selectPermission\"><i class=\"fas fa-grip-horizontal\"></i></button>";
                             default_text +="</div>"
                         default_text +="</div>";
                     default_text +="</div>";
@@ -852,4 +853,10 @@ jQuery(function($) {
             $(this).hide();
             $('#choosecro').show();
         });
+});
+
+$(document).ready(function(){
+    $(".checkAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
 });
