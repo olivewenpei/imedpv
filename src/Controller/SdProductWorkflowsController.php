@@ -44,9 +44,18 @@ class SdProductWorkflowsController extends AppController
         ]);
         if ($this->request->is('post')) {
             $this->autoRender = false;
-            $sdProductWorkflow = $this->SdProductWorkflows->get($id, [
-                'contain' => ['SdWorkflows.SdWorkflowActivities'=>function($q){return $q->order(['order_no'=>'ASC']);}, 'SdUsers.SdCompanies'=>function($q){return $q->select(['id','company_name']);}, 'SdUserAssignments.SdUsers.SdCompanies'=>function($q){return $q->select(['id','company_name']);},'SdCompanies']
-            ]);
+            $sdProductWorkflow = $this->SdProductWorkflows->find()
+            ->where(['SdProductWorkflows.id'=>$id])
+            ->contain(['SdWorkflows.SdWorkflowActivities'=>function($q){return $q->order(['order_no'=>'ASC']);}, 'SdUsers.SdCompanies'=>function($q){return $q->select(['id','company_name']);}, 
+                'SdUserAssignments'=>function($q){
+                    return $q->select(['sd_product_workflow_id','sd_user_id','urc.firstname','urc.lastname','urc.company_name'])
+                                ->join(['urc'=>[
+                                    'table'=>'user_role_company',
+                                    'type'=>'INNER',
+                                    'conditions'=>['urc.id = SdUserAssignments.sd_user_id']
+                                ]])->distinct();
+                },'SdCompanies'])
+            ->first();
             echo json_encode($sdProductWorkflow);
             die();
         }
@@ -158,7 +167,15 @@ class SdProductWorkflowsController extends AppController
                                 return $q->select('company_name');
                             }]);
                         }]);
+        $sdUserDistinctAssignments = TableRegistry::get("SdUserAssignments")->find()
+                        ->select('sd_product_workflow_id','sd_user_id')
+                        ->where(['sd_product_workflow_id'=>$id])
+                        ->contain(['SdUsers'=>function($q){
+                            return $q->select(['firstname','lastname','id'])->contain(['SdCompanies'=>function($q){
+                                return $q->select('company_name');
+                            }]);
+                        }])->distinct();
         $this->viewBuilder()->layout('main_layout');
-        $this->set(compact('sdProductWorkflow','sdUserAssignments','id'));
+        $this->set(compact('sdProductWorkflow','sdUserAssignments','id','sdUserDistinctAssignments'));
     }
 }

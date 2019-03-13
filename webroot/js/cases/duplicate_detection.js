@@ -89,12 +89,6 @@ function checkDuplicate(){
         'submission_due_date':$('#submission_due_date').val(),
 
     };
-    $("input").each(function(){
-        $(this).prop('readonly', true);
-    });
-    $("select").each(function(){
-        $(this).prop("disabled", true);;
-    });
     console.log(request);
     $.ajax({
         headers: {
@@ -119,15 +113,14 @@ function checkDuplicate(){
             text +="<th scope=\"col\">Reporter Name</th>";
             text +="<th scope=\"col\">Event Report Term</th>";
             text +="<th scope=\"col\">Meddra Pt Term</th>";
-            text +="<th scope=\"col\">Action</th>";
             text +="</tr>";
             text +="</thead>";
             text +="<tbody>";
             $.each(result, function(k,caseDetail){
                 text += "<tr>";
-                text += "<td><b>" + caseDetail.caseNo;
+                text += "<td><a class=\"btn btn-outline-info\" onclick=\"caseDetail(\'"+caseDetail.caseNo+"\')\" data-toggle=\"modal\" data-target=\".CaseDetail\">" + caseDetail.caseNo;
                 text += "<div id=\"version-"+ caseDetail.caseNo+"\"></b>(ver:"+caseDetail.versions+")";
-                text +="</td>";
+                text +="</a></td>";
                 text += "<td>";
                 if(!jQuery.isEmptyObject(caseDetail.patient_initial)) text +=caseDetail.patient_initial;
                 text +=  "</td>";
@@ -150,12 +143,11 @@ function checkDuplicate(){
                 text += "<td>";
                 if(!jQuery.isEmptyObject(caseDetail.meddra_pt)) text +=caseDetail.meddra_pt;
                 text += "</td>";
-                text +="<td><a class=\"btn btn-outline-info\" onclick=\"caseDetail(\'"+caseDetail.caseNo+"\')\" data-toggle=\"modal\" data-target=\".CaseDetail\">Case Detail</a></td>"
                 text += "</tr>";
             })
             text +="</tbody>";
             text +="</table>";
-            text +="<button onclick=\"clearResult()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Re-entry</button>";
+            text +="<button onclick=\"clearResult()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Search Again</button>";
             text +="<button type=\"submit\" onclick=\"createCase()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Create This Case</button>";
             $("#caseTable").html(text);
         },
@@ -165,6 +157,12 @@ function checkDuplicate(){
             $("#textHint").html("Sorry, no case matches");
 
         }
+    });
+    $("input").each(function(){
+        $(this).prop('readonly', true);
+    });
+    $("select").each(function(){
+        $(this).prop("disabled", true);;
     });
 
 }

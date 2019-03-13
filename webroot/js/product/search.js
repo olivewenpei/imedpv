@@ -108,7 +108,7 @@ function view_workflow(workflow_k){
             var team_resources_text="";
             $.each(result['sd_user_assignments'], function(k, v){
                     console.log(v);
-                    team_resources_text += "<div><b>"+v['sd_user']['firstname']+" "+v['sd_user']['lastname']+"</b> From"+v['sd_user']['sd_company']['company_name']+"</div>";
+                    team_resources_text += "<div><b>"+v['urc']['firstname']+" "+v['urc']['lastname']+"</b> From"+v['urc']['company_name']+"</div>";
             });
             $('#viewRes').html(team_resources_text);
             var activities_text="";
