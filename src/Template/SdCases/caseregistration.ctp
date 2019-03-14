@@ -52,6 +52,21 @@
                                     <option value="4">Not Specified</option>
                                 </select>
                              </div>
+                             <div class="form-group col-md-3">
+                                <label>Patient Ethnic origin:</label>
+                                <select class="form-control" id="patient_ethnic_origin" name="field_value[235]">
+                                    <option value=""></option>
+                                    <option  value="1">American Indian or Alaskan Native</option>
+                                    <option  value="2">Asian</option>
+                                    <option  value="3">Black or African American</option>
+                                    <option  value="4">Hispanic/Latino</option>
+                                    <option  value="5">Native Hawaiian or Other Pacific Islander</option>
+                                    <option  value="6">Not Hispanic/Latino</option>
+                                    <option  value="7">Other</option>
+                                    <option  value="8">Unknown</option>
+                                    <option  value="9">White</option>
+                                </select>
+                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
@@ -74,6 +89,18 @@
                                     <option value="805">Hour</option>
                                 </select>
                             </div>
+                            <div class="form-group col-md-3">
+                                <label>Patient Age group:</label>
+                                <select class="form-control" name="field_value[90]" id="patient_age_group">
+                                    <option value=""></option>
+                                    <option value="1">Neonate</option>
+                                    <option value="2">Infant</option>
+                                    <option value="3">Child</option>
+                                    <option value="4">Adolescent</option>
+                                    <option value="5">Adult</option>
+                                    <option value="6">Elderly</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
@@ -92,16 +119,8 @@
                                 <input type="text" class="form-control" name="field_value[149]" id="report_term">
                              </div>
                              <div class="form-group col-md-3">
-                                <label>Reaction Duration:</label>
-                                <input type="text" class="form-control" name="field_value[159]" id="reaction_duration">
-                             </div>
-                             <div class="form-group col-md-3">
-                                <label>Reaction First Time:</label>
-                                <input type="text" class="form-control" name="field_value[161]" id="reaction_first_time">
-                             </div>
-                             <div class="form-group col-md-3">
-                                <label>Reaction Last Time:</label>
-                                <input type="text" class="form-control" name="field_value[163]" id="reaction_last_time">
+                                <label>Event Onset Date:</label>
+                                <input type="text" class="form-control" name="field_value[159]" id="event_onset_date">
                              </div>
                         </div>
                         <div class="form-row">

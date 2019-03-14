@@ -109,4 +109,36 @@ class SdCompaniesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    /**
+     * 
+     * After Login, select Company that user work for
+     */
+    public function selectCompany()
+    {
+        $userinfo = $this->request->session()->read('Auth.User');
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $company = $this->request->getData();
+            $this->request->session()->write('Auth.User.company_id', $company['company_id']);
+            return $this->redirect(['controller'=>'dashboards','action' => 'index']);
+        }
+        $sdCompany = $this->SdCompanies->find()
+        ->select(['SdCompanies.id','SdCompanies.company_name'])->join([
+            'pd'=>[
+                'table'=>'sd_products',
+                'type'=>'INNER',
+                'conditions'=>['pd.sd_company_id = SdCompanies.id']
+            ],
+            'pwf'=>[
+                'table'=>'sd_product_workflows',
+                'type'=>'INNER',
+                'conditions'=>['pwf.sd_product_id = pd.id']
+            ],
+            'ua'=>[
+                'table'=>'sd_user_assignments',
+                'type'=>'INNER',
+                'conditions'=>['ua.sd_user_id ='.$userinfo['id'],'ua.sd_product_workflow_id = pwf.id']
+            ]
+        ])->distinct();
+        $this->set(compact('sdCompany'));
+    }
 }

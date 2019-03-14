@@ -117,8 +117,7 @@
                 $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
 
                 //Fetch tab structures
-                $sdTabs = $this->SdTabs->find()->select(['tab_name','display_order'])->where(['status'=>1])->order(['display_order' => 'ASC']);
-                $associated = ['SdSectionStructures','SdSectionStructures'=>['SdFields'=>['SdElementTypes','SdFieldValues']]];
+                //TODO according to model
                 $sdTab = TableRegistry::get('SdSections');
                 $sdSections = $sdTab ->find()->where(['sd_tab_id'=>$tabid,'status'=>true])
                                     ->order(['SdSections.section_level'=>'DESC','SdSections.display_order'=>'ASC'])

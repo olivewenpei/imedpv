@@ -155,7 +155,7 @@ class SdUsersController extends AppController
                     $session->write('Auth.User.role_name', $SdRoles['description']);
                     return $this->redirect($this->Auth->redirectUrl(
                         // Set the first page after user logged in
-                        ['controller' => 'dashboards','action' => 'index']
+                        ['controller' => 'SdCompanies','action' => 'selectCompany']
                     )
                 );
                 }else {

@@ -79,9 +79,9 @@ function checkDuplicate(){
         'reporter_firstname':$('#reporter_firstname').val(),
         'reporter_lastname':$('#reporter_lastname').val(),
         'report_term':$('#report_term').val(),
-        'reaction_duration':$('#reaction_duration').val(),
-        'reaction_first_time':$('#reaction_first_time').val(),
-        'reaction_last_time':$('#reaction_last_time').val(),
+        'event_onset_date':$('#event_onset_date').val(),
+        'patient_ethnic_origin':$('#patient_ethnic_origin').val(),
+        'patient_age_group':$('#patient_age_group').val(),
         'meddraptname':$('#meddraptname').val(),
         'meddralltname':$('#meddralltname').val(),
         'meddrahltname':$('#meddrahltname').val(),
@@ -101,52 +101,54 @@ function checkDuplicate(){
             console.log(response);
             var result = $.parseJSON(response);
             var text = "";
-            text +="<h3>Search Results</h3>";
-            text +="<table class=\"table table-hover\">";
-            text +="<thead>";
-            text +="<tr class=\"table-secondary\">";
-            text +="<th scope=\"col\">Caes No.</th>";
-            text +="<th scope=\"col\">Patient Initial</th>";
-            text +="<th scope=\"col\">Patient Age</th>";
-            text +="<th scope=\"col\">Patient Gender</th>";
-            text +="<th scope=\"col\">Patient Date of Birth</th>";
-            text +="<th scope=\"col\">Reporter Name</th>";
-            text +="<th scope=\"col\">Event Report Term</th>";
-            text +="<th scope=\"col\">Meddra Pt Term</th>";
-            text +="</tr>";
-            text +="</thead>";
-            text +="<tbody>";
-            $.each(result, function(k,caseDetail){
-                text += "<tr>";
-                text += "<td><a class=\"btn btn-outline-info\" onclick=\"caseDetail(\'"+caseDetail.caseNo+"\')\" data-toggle=\"modal\" data-target=\".CaseDetail\">" + caseDetail.caseNo;
-                text += "<div id=\"version-"+ caseDetail.caseNo+"\"></b>(ver:"+caseDetail.versions+")";
-                text +="</a></td>";
-                text += "<td>";
-                if(!jQuery.isEmptyObject(caseDetail.patient_initial)) text +=caseDetail.patient_initial;
-                text +=  "</td>";
-                text += "<td>";
-                if(!jQuery.isEmptyObject(caseDetail.patient_age)) text +=caseDetail.patient_age;
-                text += "</td>";
-                text += "<td>";
-                if(!jQuery.isEmptyObject(caseDetail.patient_gender)) text +=caseDetail.patient_gender;
-                text += "</td>";
-                text += "<td>";
-                if(!jQuery.isEmptyObject(caseDetail.patient_dob)) text += caseDetail.patient_dob;
-                text += "</td>";
-                text += "<td>";
-                if(!jQuery.isEmptyObject(caseDetail.reporter_firstname)) text +=caseDetail.reporter_firstname+" ";
-                if(!jQuery.isEmptyObject(caseDetail.reporter_lastname)) text += caseDetail.reporter_lastname;
-                text += "</td>";
-                text += "<td>";
-                if(!jQuery.isEmptyObject(caseDetail.event_report_term)) text +=caseDetail.event_report_term;
-                text += "</td>";
-                text += "<td>";
-                if(!jQuery.isEmptyObject(caseDetail.meddra_pt)) text +=caseDetail.meddra_pt;
-                text += "</td>";
-                text += "</tr>";
-            })
-            text +="</tbody>";
-            text +="</table>";
+            if(response!="[]"){
+                text +="<h3>Search Results</h3>";
+                text +="<table class=\"table table-hover\">";
+                text +="<thead>";
+                text +="<tr class=\"table-secondary\">";
+                text +="<th scope=\"col\">Caes No.</th>";
+                text +="<th scope=\"col\">Patient Initial</th>";
+                text +="<th scope=\"col\">Patient Age</th>";
+                text +="<th scope=\"col\">Patient Gender</th>";
+                text +="<th scope=\"col\">Patient Date of Birth</th>";
+                text +="<th scope=\"col\">Reporter Name</th>";
+                text +="<th scope=\"col\">Event Report Term</th>";
+                text +="<th scope=\"col\">Meddra Pt Term</th>";
+                text +="</tr>";
+                text +="</thead>";
+                text +="<tbody>";
+                $.each(result, function(k,caseDetail){
+                    text += "<tr>";
+                    text += "<td><a class=\"btn btn-outline-info\" onclick=\"caseDetail(\'"+caseDetail.caseNo+"\')\" data-toggle=\"modal\" data-target=\".CaseDetail\">" + caseDetail.caseNo;
+                    text += "<div id=\"version-"+ caseDetail.caseNo+"\"></b>(ver:"+caseDetail.versions+")";
+                    text +="</a></td>";
+                    text += "<td>";
+                    if(!jQuery.isEmptyObject(caseDetail.patient_initial)) text +=caseDetail.patient_initial;
+                    text +=  "</td>";
+                    text += "<td>";
+                    if(!jQuery.isEmptyObject(caseDetail.patient_age)) text +=caseDetail.patient_age;
+                    text += "</td>";
+                    text += "<td>";
+                    if(!jQuery.isEmptyObject(caseDetail.patient_gender)) text +=caseDetail.patient_gender;
+                    text += "</td>";
+                    text += "<td>";
+                    if(!jQuery.isEmptyObject(caseDetail.patient_dob)) text += caseDetail.patient_dob;
+                    text += "</td>";
+                    text += "<td>";
+                    if(!jQuery.isEmptyObject(caseDetail.reporter_firstname)) text +=caseDetail.reporter_firstname+" ";
+                    if(!jQuery.isEmptyObject(caseDetail.reporter_lastname)) text += caseDetail.reporter_lastname;
+                    text += "</td>";
+                    text += "<td>";
+                    if(!jQuery.isEmptyObject(caseDetail.event_report_term)) text +=caseDetail.event_report_term;
+                    text += "</td>";
+                    text += "<td>";
+                    if(!jQuery.isEmptyObject(caseDetail.meddra_pt)) text +=caseDetail.meddra_pt;
+                    text += "</td>";
+                    text += "</tr>";
+                })
+                text +="</tbody>";
+                text +="</table>";
+            }else text+="<div>No Case Matches</div>"
             text +="<button onclick=\"clearResult()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Search Again</button>";
             text +="<button type=\"submit\" onclick=\"createCase()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Create This Case</button>";
             $("#caseTable").html(text);

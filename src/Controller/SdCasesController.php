@@ -148,12 +148,12 @@ class SdCasesController extends AppController
                                         'rln.set_number',
                                         'event_report_term' =>'ert.field_value',
                                         'ert.set_number',
-                                        'reaction_duration'=>'rd.field_value',
-                                        'rd.set_number',
-                                        'reaction_first_time' => 'rft.field_value',
-                                        'rft.set_number',
-                                        'reaction_last_time'=>'rlt.field_value',
-                                        'rlt.set_number',
+                                        'event_onset_date'=>'eod.field_value',
+                                        'eod.set_number',
+                                        'patient_ethnic_origin' => 'peo.field_value',
+                                        'peo.set_number',
+                                        'patient_age_group'=>'pag.field_value',
+                                        'pag.set_number',
                                         'meddra_pt'=>'mpt.field_value',
                                         'mpt.set_number',
                                         'meddra_llt'=>'mllt.field_value',
@@ -212,22 +212,22 @@ class SdCasesController extends AppController
                                             'conditions' => ['ert.sd_field_id = 149','ert.status = 1','ert.sd_case_id = SdCases.id'
                                             ]
                                         ],
-                                        'rd' =>[
+                                        'peo' =>[
                                             'table' =>'sd_field_values',
                                             'type'=>'LEFT',
-                                            'conditions' => ['rd.sd_field_id = 159','rd.status = 1','rd.sd_case_id = SdCases.id'
+                                            'conditions' => ['peo.sd_field_id = 235','peo.status = 1','peo.sd_case_id = SdCases.id'
                                             ]
                                         ],
-                                        'rft' =>[
+                                        'pag' =>[
                                             'table' =>'sd_field_values',
                                             'type'=>'LEFT',
-                                            'conditions' => ['rft.sd_field_id = 161','rft.status = 1','rft.sd_case_id = SdCases.id'
+                                            'conditions' => ['pag.sd_field_id = 90','pag.status = 1','pag.sd_case_id = SdCases.id'
                                             ]
                                         ],
-                                        'rlt' =>[
+                                        'eod' =>[
                                             'table' =>'sd_field_values',
                                             'type'=>'LEFT',
-                                            'conditions' => ['rlt.sd_field_id = 163','rlt.status = 1','rlt.sd_case_id = SdCases.id'
+                                            'conditions' => ['eod.sd_field_id = 159','eod.status = 1','eod.sd_case_id = SdCases.id'
                                             ]
                                         ],
                                         'mpt' =>[
@@ -283,13 +283,13 @@ class SdCasesController extends AppController
                 if(!empty($searchKey['reporter_first_name'])) $searchResult = $searchResult->where(['rfn.field_value  LIKE'=>'%'.$searchKey['reporter_first_name'].'%']);
                 if(!empty($searchKey['reporter_last_name'])) $searchResult = $searchResult->where(['rln.field_value  LIKE'=>'%'.$searchKey['reporter_last_name'].'%']);
                 if(!empty($searchKey['event_report_term'])) $searchResult = $searchResult->where(['ert.field_value  LIKE'=>'%'.$searchKey['event_report_term'].'%']);
-                if(!empty($searchKey['reaction_duration'])) $searchResult = $searchResult->where(['rd.field_value  LIKE'=>'%'.$searchKey['reaction_duration'].'%']);
-                if(!empty($searchKey['reaction_first_time'])) $searchResult = $searchResult->where(['rft.field_value  LIKE'=>'%'.$searchKey['reaction_first_time'].'%']);
-                if(!empty($searchKey['reaction_last_time'])) $searchResult = $searchResult->where(['rlt.field_value  LIKE'=>'%'.$searchKey['reaction_last_time'].'%']);
+                if(!empty($searchKey['patient_ethnic_origin'])) $searchResult = $searchResult->where(['peo.field_value  LIKE'=>'%'.$searchKey['patient_ethnic_origin'].'%']);
+                if(!empty($searchKey['patient_age_group'])) $searchResult = $searchResult->where(['pag.field_value  LIKE'=>'%'.$searchKey['patient_age_group'].'%']);
+                if(!empty($searchKey['event_onset_date'])) $searchResult = $searchResult->where(['eod.field_value  LIKE'=>'%'.$searchKey['event_onset_date'].'%']);
                 if(!empty($searchKey['meddraptname'])) $searchResult = $searchResult->where(['mpt.field_value  LIKE'=>'%'.$searchKey['meddraptname'].'%']);
                 if(!empty($searchKey['meddralltname'])) $searchResult = $searchResult->where(['mllt.field_value  LIKE'=>'%'.$searchKey['meddralltname'].'%']);
                 if(!empty($searchKey['meddrahltname'])) $searchResult = $searchResult->where(['mhlt.field_value  LIKE'=>'%'.$searchKey['meddrahltname'].'%']);
-                // echo $searchResult;
+                // print_r($searchResult);
             }catch (\PDOException $e){
                 echo "cannot the case find in database";
             }
@@ -304,7 +304,7 @@ class SdCasesController extends AppController
      * Use when case list
      */
     public function search(){
-        $userinfo = $this->request->session()->read('Auth.user');
+        $userinfo = $this->request->session()->read('Auth.User');
         if($this->request->is('POST')){
             $preferrence_list = [
                 '0'=>[
@@ -395,7 +395,7 @@ class SdCasesController extends AppController
                         'pd' => [
                             'table' => 'sd_products',
                             'type' => 'LEFT',
-                            'conditions' => ['pw.sd_product_id = pd.id'],
+                            'conditions' => ['pw.sd_product_id = pd.id','pd.sd_company_id ='.$userinfo['company_id']],
                         ],                                            
                         'wa' => [
                             'table' => 'sd_workflow_activities',
@@ -462,7 +462,6 @@ class SdCasesController extends AppController
                 if(!empty($searchKey['searchName'])) $searchResult = $searchResult->where(['caseNo LIKE'=>'%'.$searchKey['searchName'].'%']);
                 if(!empty($searchKey['searchProductName'])) $searchResult = $searchResult->where(['product_name  LIKE'=>'%'.$searchKey['searchProductName'].'%']);
                 $searchResult->all();
-                // debug( $searchResult);
             }catch (\PDOException $e){
                 echo "cannot the case find in database";
             }
