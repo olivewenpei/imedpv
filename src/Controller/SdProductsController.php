@@ -275,9 +275,35 @@ class SdProductsController extends AppController
             $this->Flash->success(__('The sd product has been saved.'));
             return $this->redirect(['action' => 'search']);
         }
-        $company_table=TableRegistry::get("sd_companies");
-        $sdSponsorCompanies = $company_table->find();
-        $this->set(compact('sdSponsorCompanies'));
+        $userinfo = $this->request->session()->read('Auth.User');
+        $cro_companies = TableRegistry::get("SdSponsorCros");
+        $query = $cro_companies->find()
+        ->select(['SdCompanies.id', 'SdCompanies.company_name'])
+        ->join([
+            'SdCompanies' =>[
+                'table' =>'sd_companies',
+                'type'=>'LEFT',
+                'conditions'=>['SdCompanies.id = SdSponsorCros.cro_company'],
+            ]])->where(['SdSponsorCros.sponsor'=>$userinfo['company_id']]);
+        foreach ($query as $company_info){
+            $result[$company_info->SdCompanies['id']] = $company_info->SdCompanies['company_name'];
+        }
+        $this->set('cro_companies', $result);
+        $call_ctr_companies = TableRegistry::get("SdSponsorCallcenters");
+        $query = $call_ctr_companies->find()
+        ->select(['SdCompanies.id', 'SdCompanies.company_name'])
+        ->join([
+            'SdCompanies' =>[
+                'table' =>'sd_companies',
+                'type'=>'LEFT',
+                'conditions'=>['SdCompanies.id = SdSponsorCallcenters.call_center'],
+            ]])->where(['SdSponsorCallcenters.sponsor'=>$userinfo['company_id']]);
+        foreach ($query as $company_info){
+            $calresult[$company_info->SdCompanies['id']] = $company_info->SdCompanies['company_name'];
+        }
+        $this->set('call_ctr_companies', $calresult);
+        $loadPermissions = $this->loadPermissions();
+        $this->set('loadPermissions', $loadPermissions);
     }
 
     public function loadProductTypes()
@@ -328,39 +354,6 @@ class SdProductsController extends AppController
     }
     /**
      *
-     *
-     * for ajax use
-     * fetch related Cro companies
-     */
-    public function searchCroCompanies()
-    {
-        $result = array();
-        if($this->request->is('POST')){
-            $this->autoRender = false;
-            $searchKey = $this->request->getData();
-            $cro_ids = TableRegistry::get("sd_sponsor_cros");
-            try{
-                $query = $cro_ids->find()
-                                ->select(['SdCompanies.id', 'SdCompanies.company_name'])
-                                ->join([
-                                    'SdCompanies' =>[
-                                        'table' =>'sd_companies',
-                                        'type'=>'LEFT',
-                                        'conditions'=>['SdCompanies.id = sd_sponsor_cros.cro_company'],
-                                    ]]);
-                                // ->order(['sponsor_id' => 'ASC'])
-                foreach ($query as $company_info){
-                    $result[$company_info->SdCompanies['id']] = $company_info->SdCompanies['company_name'];
-                }
-            }catch (\PDOException $e){
-                echo "cannot the case find in database";
-            };
-            echo json_encode($result);
-            die();
-        } else $this->autoRender = true;
-    }
-    /**
-     *
      * for add product add workflows
      */
     public function loadWorkflowsStructure()
@@ -394,4 +387,30 @@ class SdProductsController extends AppController
 
     //     return $result;
     // }
+
+
+    /**
+     * 
+     * In addproduct page 
+     * 
+     */
+    public function loadPermissions()
+    {
+        $activity_section_permission_table = TableRegistry::get('SdActivitySectionPermissions');
+        $activity_section_permissions = $activity_section_permission_table->find();
+        $sd_tabs_table = TableRegistry::get('SdTabs');
+        $sd_tabs = $sd_tabs_table->find()
+                    ->contain(['SdSections'=>function($q){
+                        return $q->order(['SdSections.section_level'=>'DESC','SdSections.display_order'=>'ASC'])
+                                ->select(['SdSections.sd_tab_id','asp.action','asp.sd_workflow_activity_id','SdSections.section_name','SdSections.section_level','SdSections.child_section'])
+                                ->join([
+                                    'asp'=>[
+                                        'table'=>'sd_activity_section_permissions',
+                                        'type'=>'LEFT',
+                                        'conditions'=>['asp.sd_section_id = SdSections.id']
+                                    ]
+                                ]);
+                    }])->order(['SdTabs.display_order'=>'ASC']);
+        return $sd_tabs->toList();
+    }
 }

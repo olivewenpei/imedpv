@@ -491,8 +491,6 @@ class SdCasesController extends AppController
         $date_str = $this->caseNoGenerator()."00001";
         if ($this->request->is(['patch', 'post', 'put'])) {
             $requestData = $this->request->getData();
-            debug($requestData);
-            die();
             $sdFieldValueTable = TableRegistry::get('SdFieldValues');
             // $requestDataField = $requestData['field_value'];
             /**

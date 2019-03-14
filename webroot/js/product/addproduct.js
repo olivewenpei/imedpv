@@ -93,46 +93,46 @@ jQuery(function($) {  // In case of jQuery conflict
         //     $('#default_workflow').html(default_text);
         //     $('#sortable').html(customize_text);
         // });
-        $("#sd_sponsor_company_id").change(function(){
-            var request = {'sponsor_id': $("#sd_sponsor_company_id").val()};
+        // $("#sd_sponsor_company_id").change(function(){ 
+        //     var request = {'sponsor_id': $("#sd_sponsor_company_id").val()};
 
-            console.log(request);
-            $.ajax({
-                headers: {
-                    'X-CSRF-Token': csrfToken
-                },
-                type:'POST',
-                url:'/sd-products/searchCroCompanies',
-                data:request,
-                success:function(response){
-                    console.log(response);
-                    cro_list = [];
-                    var result = $.parseJSON(response);
-                    $.each(result, function(k,caseDetail){
-                            cro_list.push({'id':k, 'name':caseDetail});
-                        });
-                },
-                error:function(response){
+        //     console.log(request);
+        //     $.ajax({
+        //         headers: {
+        //             'X-CSRF-Token': csrfToken
+        //         },
+        //         type:'POST',
+        //         url:'/sd-products/searchCroCompanies',
+        //         data:request,
+        //         success:function(response){
+        //             console.log(response);
+        //             cro_list = [];
+        //             var result = $.parseJSON(response);
+        //             $.each(result, function(k,caseDetail){
+        //                     cro_list.push({'id':k, 'name':caseDetail});
+        //                 });
+        //         },
+        //         error:function(response){
 
-                }
-            });
-            $.ajax({
-                headers: {
-                    'X-CSRF-Token': csrfToken
-                },
-                type:'POST',
-                url:'/sd-products/searchCallcenterCompanies',
-                data:request,
-                success:function(response){
-                    console.log(response);
-                    var result = $.parseJSON(response);
-                    $.each(result, function(k,caseDetail){
-                            call_center_list[k]={'name': caseDetail};
-                        });
-                },
-                error:function(response){}
-            });
-        });
+        //         }
+        //     });
+        //     $.ajax({
+        //         headers: {
+        //             'X-CSRF-Token': csrfToken
+        //         },
+        //         type:'POST',
+        //         url:'/sd-products/searchCallcenterCompanies',
+        //         data:request,
+        //         success:function(response){
+        //             console.log(response);
+        //             var result = $.parseJSON(response);
+        //             $.each(result, function(k,caseDetail){
+        //                     call_center_list[k]={'name': caseDetail};
+        //                 });
+        //         },
+        //         error:function(response){}
+        //     });
+        // });
     })
     // Select workflow manager and staff to CRO
     $('[id^=conass]').click(function() {
@@ -277,11 +277,11 @@ jQuery(function($) {  // In case of jQuery conflict
         $('#undo_activities').hide();
         $('#undochoWF, #submitDistri, #chooseDistri').show();
         //$('#choosecro').show();
-        var cro_text = "";
-        $.each(cro_list, function(k,cro){
-            cro_text +="<option value=\""+cro.id+"\">"+cro.name+"</option>";
-            });
-        $('#croname').html(cro_text);
+        // var cro_text = "";
+        // $.each(cro_list, function(k,cro){
+        //     cro_text +="<option value=\""+cro.id+"\">"+cro.name+"</option>";
+        //     });
+        // $('#croname').html(cro_text);
         workflow_info[workflow_k].activities = [];
         $('#crotable').html("");
         if ($('.defworkflow').is(':visible') && $('.custworkflow').is(':hidden'))
@@ -339,13 +339,13 @@ jQuery(function($) {  // In case of jQuery conflict
         function addNewWorkflow() {
             resource_list[workflow_k] = {};
             workflow_info[workflow_k] = {};
-            var call_center_text = "<option value=\"\">Select Call Center</option>";
-            $.each(call_center_list, function(k,call_center){
-                call_center_text +="<option value=\""+k+"\">"+call_center.name+"</option>";
-                });
+            // var call_center_text = "<option value=\"\">Select Call Center</option>";
+            // $.each(call_center_list, function(k,call_center){
+            //     call_center_text +="<option value=\""+k+"\">"+call_center.name+"</option>";
+            //     });
             $("#select-country, #callCenter").prop("disabled", false);
             $("#select-country").val();
-            $('#callCenter').html(call_center_text);
+            // $('#callCenter').html(call_center_text);
             $('#addNewWL').hide();
             $('#workflowlist').slideUp();
             $('#choworkflow').slideDown();

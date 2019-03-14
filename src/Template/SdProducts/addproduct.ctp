@@ -125,19 +125,6 @@
                                 <input type="text" class="form-control" id="study_no" name="product[study_no]" placeholder="Study Number">
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Sponsor Company</label>
-                                <select class="form-control" id="sd_sponsor_company_id" name="product[sd_company_id]" required oninvalid="this.setCustomValidity('Sponsor Company is REQUIRED')" oninput="this.setCustomValidity('')">
-                                <?php
-                                    echo "<option value=''>Select Sponsor Company</option>";
-                                    foreach ($sdSponsorCompanies  as $eachType)
-                                    {
-                                        //echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']."</option>";
-                                        echo "<option value=\"1\">".$eachType['company_name']."</option>";
-                                    }
-                                ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
                                 <label>Study Type (A.2.3.3)</label>
                                 <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Study type in which the reactions or events were observed (A.2.3.3)" data-content="<div><ol>Clinical trials</ol><ol>Individual patient use; (e.g., compassionate use or named patient basis)</ol><ol>Other studies (e.g., pharmacoepidemiology, pharmacoeconomics, intensive monitoring, PMS)</ol></div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <select class="form-control" id="sd_study_type_id" name="product[study_type]" required oninvalid="this.setCustomValidity('Study Type is REQUIRED')" oninput="this.setCustomValidity('')">
@@ -276,9 +263,11 @@
                                     <div class="form-group col-md-3">
                                         <label for="">Select Call Center</label>
                                         <select class="form-control" id="callCenter" name="product_workflow[0][callCenter]">
-                                            <option value="Global">Global</option>
-                                            <option value="Europe">Europe</option>
-                                            <option value="Japan">Japan</option>
+                                        <?php 
+                                        foreach($call_ctr_companies as $k => $call_ctr_company){
+                                            echo "<option value=\"".$k."\">".$call_ctr_company."</option>";
+                                        }
+                                        ?>
                                         </select>
                                         <div id="callCenter-validate" class="alert alert-danger mt-2" role="alert" style="display:none;">
                                             Call Center is REQUIRED
@@ -360,6 +349,30 @@
                                     <div class="modal-body">
                                         <div class="container-fluid">
                                             <div class="permissionSec my-4">
+                                            <!-- TODO LOAD STRUCTURE OF SECTIONS -->
+                                            <?php 
+                                            foreach($loadPermissions as $tab){
+                                                echo "<div class=\"row\"><div class=\"col-md-12\"><h5 class=\"text-center\">".$tab['tab_name']."</h5></div></div>";
+                                                $exsitSectionNo = [];
+                                                foreach($tab['sd_sections'] as $key => $sdSection){
+                                                    $exsitSectionNo[$key] = $sdSection['id'];
+                                                }
+                                                foreach($tab['sd_sections'] as $section){
+                                                    if(!in_array($section['id'], $exsitSectionNo))
+                                                    continue;
+                                                    if($section['section_level']>1){
+                                                        echo "<div id=\"section-".$sdSection['id']."\">".$section['section_name']."</div>";
+                                                        // debug($section['child_section']);
+                                                        $child_sections = explode(',', $section['child_section']);
+                                                        foreach($child_sections as $child_sections){
+                                                            $sectionKey = array_search($child_sections,$exsitSectionNo);
+                                                            echo "<div id=\"section-".$child_sections."\">".$tab['sectionKey']['section_name']."</div>";
+                                                            $exsitSectionNo[$sectionKey]= null;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            ?>
                                                 <div class="row">
                                                     <div class="col-md-12"><h5 class="text-center">General</h5></div>
                                                 </div>
@@ -481,6 +494,11 @@
                                     <div class="modal-body">
                                         <label for="">Add Resources</label>
                                         <select class="custom-select" id="croname">
+                                        <?php 
+                                            foreach($cro_companies as $k => $cro_company){
+                                                echo "<option value=\"".$k."\">".$cro_company."</option>";
+                                            }
+                                        ?>
                                         </select>
                                     </div>
                                     <div class="modal-footer">
