@@ -110,11 +110,12 @@ class SdCompaniesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
     /**
-     * 
+     *
      * After Login, select Company that user work for
      */
     public function selectCompany()
     {
+        $this->viewBuilder()->layout('login');
         $userinfo = $this->request->session()->read('Auth.User');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $company = $this->request->getData();
