@@ -471,3 +471,11 @@ ul.queryBoxLeft > a {
 .navInner {
     width: 80%;
 }
+
+.reqField {
+    color: red;
+    font-size: 8px;
+    position: relative;
+    top: -5px;
+    left: 3px;
+}

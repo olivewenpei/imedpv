@@ -269,7 +269,7 @@ function displaySingleSection($section, $setNo, $sectionKey, $html, $permission)
                     }else{
                         echo"<input id= ".$id_idHolder." name=".$id_nameHolder." value=\"\" type=\"hidden\">";
                     }
-                    if($sd_section_structure_detail->is_required) echo "*" ;
+                    if($sd_section_structure_detail->is_required) echo "<i class=\"fas fa-asterisk reqField\"></i>" ;
                     echo "<input id= \"section-".$section->id."-is_required-".$sd_section_structure_detail->sd_field->id."\" name=\"sd_field_values[".$section->id."][".$sd_section_structureK."][is_required]\" value=";
                     if($sd_section_structure_detail->is_required) echo "1" ;else echo "0";
                     echo " type=\"hidden\">";

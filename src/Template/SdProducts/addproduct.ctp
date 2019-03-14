@@ -358,16 +358,31 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="my-1">
-                                            <div class="custom-control custom-checkbox text-left">
-                                                <h5 class="mr-5 d-inline">General</h5>
-                                                <label class="mx-1"><input type="checkbox" class="checkAll" value=""> Check All</label>
-                                            </div>
-                                            <hr class="my-1">
-                                            <div class="my-2 checkboxContent">
-                                                <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
-                                                <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
-                                                <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                        <div class="container-fluid">
+                                            <div class="permissionSec my-4">
+                                                <div class="row">
+                                                    <div class="col-md-12"><h5 class="text-center">General</h5></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="mx-3"><input type="checkbox" class="read" value=""> READ</label>
+                                                        <label class="mx-3"><input type="checkbox" class="checkAll" value=""> Check ALL</label>
+                                                        <hr class="my-2">
+                                                        <div class="checkboxContent">
+                                                            <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                            <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="mx-3"><input type="checkbox" class="read" value=""> WRITE</label>
+                                                        <label class="mx-3"><input type="checkbox" class="checkAll" value=""> Check ALL</label>
+                                                        <hr class="my-2">
+                                                        <div class="checkboxContent">
+                                                            <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                            <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
