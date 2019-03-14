@@ -13,7 +13,7 @@ $(document).ready(function() {
 });
 $(document).ready(function(){
     /**
-     * 
+     *
      * change Workflow Name according to Product selection
      */
     $('#product_id').change(function(){
@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 
     /**
-     *show caseNo 
+     *show caseNo
      */
     // $('#no_of_sae').change(function(){console.log($('#no_of_sae').val());
     //     var text = "";
@@ -148,9 +148,9 @@ function checkDuplicate(){
                 })
                 text +="</tbody>";
                 text +="</table>";
-            }else text+="<div>No Case Matches</div>"
+            }else text+="<div>No Duplicate AER(s) Found</div>"
             text +="<button onclick=\"clearResult()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Search Again</button>";
-            text +="<button type=\"submit\" onclick=\"createCase()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Create This Case</button>";
+            text +="<button onclick=\"createCase()\" class=\"completeBtn btn btn-success d-block m-auto w-25\">Create This Case</button>";
             $("#caseTable").html(text);
         },
         error:function(response){

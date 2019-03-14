@@ -111,9 +111,6 @@
                                 <label>Reporter Last name:</label>
                                 <input type="text" class="form-control" name="field_value[28]" id="reporter_lastname">
                              </div>
-
-                        </div>
-                        <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label>Event report term:</label>
                                 <input type="text" class="form-control" name="field_value[149]" id="report_term">
@@ -122,6 +119,7 @@
                                 <label>Event Onset Date:</label>
                                 <input type="text" class="form-control" name="field_value[159]" id="event_onset_date">
                              </div>
+
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
