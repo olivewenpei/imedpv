@@ -690,8 +690,8 @@ class SdCasesController extends AppController
                     return null;
                 }
 
-            $this->Flash->success(__('The case number is'.$date_str));
-            return $this->redirect('/sd-tabs/showdetails/'.$date_str);
+            //$this->Flash->success(__('The case number is'.$date_str));
+            return $this->redirect('/sd-cases/createcase/');
         }
         $this->set(compact('productInfo','date_str'));
     }
