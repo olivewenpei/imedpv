@@ -23,25 +23,21 @@ ul.topbar > li.nav-item {
 }
 
 .navLogo {
-    display: contents !important;
 }
 
-.login {
-    display: block;
-}
-
-.login a {
-    line-height: 0;
-    color: #5c5c5c
+.searchHighlight {
+    background-color: rgb(255, 130, 130);
 }
 
 .login a:hover {
-    color: #0059ff;
+    background-color: #277fe1;
+    color: rgb(255, 255, 255);
+
 }
 
 .mainNav {
-    height: 60px;
-    background-color: #D5D5D5 !important;
+    height: 50px;
+    background-color: #3793f7 !important;
     padding-left: 255px !important;
     font-size: 1.5rem;
 }
@@ -416,6 +412,7 @@ hr.wfhr {
 
 .resourceDropzone {
     min-height: 140px;
+    min-width: 300px;
 }
 
 .searchProductContainer {
@@ -423,4 +420,62 @@ hr.wfhr {
     min-width: -webkit-fill-available;
     position: relative;
     right: 135px;
+}
+
+.closewf {
+    display: none;
+    font-size: 12px;
+    position: absolute;
+    top: 12px;
+    right: 2px;
+    color: red;
+}
+
+.closewa {
+    font-size: 22px;
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    color: red;
+}
+
+.DE_search_bar {
+    cursor: pointer;
+}
+
+ul.queryBoxLeft > a {
+    width: 100%;
+    padding: 12px;
+}
+
+.queryBoxActive, ul.queryBoxLeft > a:hover {
+    background-color: #dee2e6;
+}
+
+ul.queryBoxLeft > a {
+    text-decoration: none;
+    color: #000000b8;
+}
+
+.queryBoxTable {
+    cursor: pointer;
+}
+
+.querybox{
+}
+
+.querybox:hover{
+    color: #007bff !important;
+}
+
+.navInner {
+    width: 80%;
+}
+
+.reqField {
+    color: red;
+    font-size: 8px;
+    position: relative;
+    top: -5px;
+    left: 3px;
 }

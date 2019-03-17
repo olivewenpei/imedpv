@@ -61,12 +61,6 @@ class SdFieldValuesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('version_no')
-            ->maxLength('version_no', 100)
-            ->requirePresence('version_no', 'create')
-            ->notEmpty('version_no');
-
-        $validator
             ->integer('set_number')
             ->requirePresence('set_number', 'create')
             ->notEmpty('set_number');

@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use Cake\ORM\TableRegistry;
 
 use App\Controller\AppController;
 
@@ -112,5 +113,49 @@ class SdUserAssignmentsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    /**
+     * Method for allocating teamresource
+     * 
+     * 
+     */
+    public function allocateTeam($productWorkflowId){
+        if ($this->request->is('post')) {
+            $this->autoRender = false;
+            try{
+                $searchKey = $this->request->getData();
+                // delete all data of this workflow
+                $sdUserAssignment = $this->SdUserAssignments->find()->where(['sd_workflow_activity_id !='=>'0','sd_product_workflow_id'=>$productWorkflowId])->first();
+                debug($sdUserAssignment);
+                while($sdUserAssignment!=null){
+                    if (!$deletedSet = $this->SdUserAssignments->delete($sdUserAssignment)) {
+                        debug($deletedSet);
+                    }
+                    $sdUserAssignment = $this->SdUserAssignments->find()->where(['sd_workflow_activity_id !='=>'0','sd_product_workflow_id'=>$productWorkflowId])->first();
+                };
+                foreach($searchKey as $sdWorkflowActivtiyId =>$assignmentDetail){
+                    foreach($assignmentDetail as $sdUserId){
+                        $dataSet = [
+                            'sd_user_id'=>$sdUserId,
+                            'sd_product_workflow_id'=>$productWorkflowId,
+                            'sd_workflow_activity_id' => $sdWorkflowActivtiyId
+                        ];
+                        $sdUserAssignment = $this->SdUserAssignments->newEntity();
+                        $sdUserAssignment = $this->SdUserAssignments->patchEntity($sdUserAssignment, $dataSet);
+                        debug($sdUserAssignment);
+                        if (!$this->SdUserAssignments->save($sdUserAssignment)) echo "error in saving";
+                    }
+                }
+                $sdProductWorkflow = TableRegistry::get("SdUserAssignments")->get($productWorkflowId);
+                $sdProductWorkflow['status'] = 2;
+                if (!$this->SdUserAssignments->save($sdProductWorkflow)){
+                    $this->Flash->error(__('The sdProductWorkflow could not be updated. Please, try again.'));
+                }
+            }catch (\PDOException $e){
+                echo "cannot save into database";
+            }
+            // $this->set(compact('searchResult'));
+            die();
+        }
     }
 }

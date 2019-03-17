@@ -93,46 +93,46 @@ jQuery(function($) {  // In case of jQuery conflict
         //     $('#default_workflow').html(default_text);
         //     $('#sortable').html(customize_text);
         // });
-        $("#sd_sponsor_company_id").change(function(){
-            var request = {'sponsor_id': $("#sd_sponsor_company_id").val()};
+        // $("#sd_sponsor_company_id").change(function(){ 
+        //     var request = {'sponsor_id': $("#sd_sponsor_company_id").val()};
 
-            console.log(request);
-            $.ajax({
-                headers: {
-                    'X-CSRF-Token': csrfToken
-                },
-                type:'POST',
-                url:'/sd-products/searchCroCompanies',
-                data:request,
-                success:function(response){
-                    console.log(response);
-                    cro_list = [];
-                    var result = $.parseJSON(response);
-                    $.each(result, function(k,caseDetail){
-                            cro_list.push({'id':k, 'name':caseDetail});
-                        });
-                },
-                error:function(response){
+        //     console.log(request);
+        //     $.ajax({
+        //         headers: {
+        //             'X-CSRF-Token': csrfToken
+        //         },
+        //         type:'POST',
+        //         url:'/sd-products/searchCroCompanies',
+        //         data:request,
+        //         success:function(response){
+        //             console.log(response);
+        //             cro_list = [];
+        //             var result = $.parseJSON(response);
+        //             $.each(result, function(k,caseDetail){
+        //                     cro_list.push({'id':k, 'name':caseDetail});
+        //                 });
+        //         },
+        //         error:function(response){
 
-                }
-            });
-            $.ajax({
-                headers: {
-                    'X-CSRF-Token': csrfToken
-                },
-                type:'POST',
-                url:'/sd-products/searchCallcenterCompanies',
-                data:request,
-                success:function(response){
-                    console.log(response);
-                    var result = $.parseJSON(response);
-                    $.each(result, function(k,caseDetail){
-                            call_center_list[k]={'name': caseDetail};
-                        });
-                },
-                error:function(response){}
-            });
-        });
+        //         }
+        //     });
+        //     $.ajax({
+        //         headers: {
+        //             'X-CSRF-Token': csrfToken
+        //         },
+        //         type:'POST',
+        //         url:'/sd-products/searchCallcenterCompanies',
+        //         data:request,
+        //         success:function(response){
+        //             console.log(response);
+        //             var result = $.parseJSON(response);
+        //             $.each(result, function(k,caseDetail){
+        //                     call_center_list[k]={'name': caseDetail};
+        //                 });
+        //         },
+        //         error:function(response){}
+        //     });
+        // });
     })
     // Select workflow manager and staff to CRO
     $('[id^=conass]').click(function() {
@@ -192,6 +192,7 @@ jQuery(function($) {  // In case of jQuery conflict
             $('#cusworkflow, #defbtn').hide();
             $('#defT, #undochoWF').show();
             $('#ifdef').addClass("mx-auto w-50");
+
         }
         if (($('.defworkflow').is(':hidden') && $('.custworkflow').is(':visible')))
         {
@@ -274,13 +275,13 @@ jQuery(function($) {  // In case of jQuery conflict
     $('#submitworkflow').click(function() {
         $(this).hide();
         $('#undo_activities').hide();
-        $('#undochoWF').show();
-        $('#choosecro').show();
-        var cro_text = "";
-        $.each(cro_list, function(k,cro){
-            cro_text +="<option value=\""+cro.id+"\">"+cro.name+"</option>";
-            });
-        $('#croname').html(cro_text);
+        $('#undochoWF, #submitDistri, #chooseDistri').show();
+        //$('#choosecro').show();
+        // var cro_text = "";
+        // $.each(cro_list, function(k,cro){
+        //     cro_text +="<option value=\""+cro.id+"\">"+cro.name+"</option>";
+        //     });
+        // $('#croname').html(cro_text);
         workflow_info[workflow_k].activities = [];
         $('#crotable').html("");
         if ($('.defworkflow').is(':visible') && $('.custworkflow').is(':hidden'))
@@ -335,21 +336,49 @@ jQuery(function($) {  // In case of jQuery conflict
         //TODO While customized
     });
     $('#addNewWL').click(function() {
-        resource_list[workflow_k] = {};
-        workflow_info[workflow_k] = {};
-        var call_center_text = "<option value=\"\">Select Call Center</option>";
-        $.each(call_center_list, function(k,call_center){
-            call_center_text +="<option value=\""+k+"\">"+call_center.name+"</option>";
-            });
-        $("#select-country, #callCenter").prop("disabled", false);
-        $("#select-country").val();
-        $('#callCenter').html(call_center_text);
-        $(this).hide();
-        $('#workflowlist').slideUp();
-        $('#choworkflow').slideDown();
-        $('#exit_workflow').show();
-        $('#submitchocountry').show();
-        $('#choosewf').hide();
+        function addNewWorkflow() {
+            resource_list[workflow_k] = {};
+            workflow_info[workflow_k] = {};
+            // var call_center_text = "<option value=\"\">Select Call Center</option>";
+            // $.each(call_center_list, function(k,call_center){
+            //     call_center_text +="<option value=\""+k+"\">"+call_center.name+"</option>";
+            //     });
+            $("#select-country, #callCenter").prop("disabled", false);
+            $("#select-country").val();
+            // $('#callCenter').html(call_center_text);
+            $('#addNewWL').hide();
+            $('#workflowlist').slideUp();
+            $('#choworkflow').slideDown();
+            $('#exit_workflow').show();
+            $('#submitchocountry').show();
+            $('#choosewf').hide();
+        }
+        if(
+            !$('#workflow_table > tr > td').first().text()  ) {
+                addNewWorkflow();
+            }
+        else {
+            swal({
+                title: "Do you want to reuse the previous info?",
+                icon: "info",
+                buttons: ["No", "Yes"]
+                })
+                .then((yes) => {
+                    if (yes) {
+                    swal("New Workflow would based on the previous one", {
+                        icon: "success",
+                    });
+                    addNewWorkflow();
+                    }
+                    else {
+                    swal("New Workflow has been added", {
+                        icon: "success",
+                    });
+                    addNewWorkflow();
+                    $('#choworkflow, #chooseDistri, #choosecro').find('select,input').val('');
+                    }
+                });
+            }
 
 
     });
@@ -359,11 +388,12 @@ jQuery(function($) {  // In case of jQuery conflict
         $('#addNewWL').show();
     });
     $('#submitchocountry').click(function() {
-        if(
-            !$('#select-country').val()  ) {
-            $('#select-country-validate').show().delay(2000).fadeOut();;
-        }
-        else if (
+        // if(
+        //     !$('#select-country').val()  ) {
+        //     $('#select-country-validate').show().delay(2000).fadeOut();;
+        // }
+        // else
+        if (
             !$('#callCenter').val() ) {
             $('#callCenter-validate').show().delay(2000).fadeOut();;
         }
@@ -416,6 +446,7 @@ jQuery(function($) {  // In case of jQuery conflict
                             default_text +="<div class=\"input-group w-25 mx-auto\">";
                                 default_text +="<i class=\"fas fa-arrow-up gobackstep\"></i>";
                                 default_text +="<input type=\"text\" readonly=\"readonly\" value="+v.step_backward+" class=\"step_backward form-control form-control-sm\" aria-label=\"Back Steps\" aria-describedby=\"backSteps\">"
+                                default_text +="<button type=\"button\" class=\"btn btn-primary btn-sm mx-2\" data-toggle=\"modal\" data-target=\"#selectPermission\"><i class=\"fas fa-grip-horizontal\"></i></button>";
                             default_text +="</div>"
                         default_text +="</div>";
                     default_text +="</div>";
@@ -441,7 +472,7 @@ jQuery(function($) {  // In case of jQuery conflict
         $('.step_backward').each(function(){
             $(this).prop("disabled", false);
         });
-        $('#undo_activities').show();
+        $('#undo_activities, #submitDistri,.distRmBtn, #addNewDistri').show();
         $('#choosecro').hide();
         $('#submitworkflow').show();
     });
@@ -533,7 +564,7 @@ jQuery(function($) {  // In case of jQuery conflict
         };
         text +="</tr>";
         $('#addNewWL').show();
-        $('#choworkflow, #choosecro').slideUp();
+        $('#choworkflow, #chooseDistri, #choosecro').slideUp();
         $('#workflowlist').slideDown();
         swal({
             title: "Your New Workflow has been SET",
@@ -797,3 +828,35 @@ function confirm_cust_activity(){
         }
     });
 }
+
+// Dynamic create new distribution ID
+jQuery(function($) {
+        var distriNo = 1;
+        $('#addNewDistri').click(function(){
+            $( ".newDistrictArea" ).append('<div id="newDistri-'+ distriNo + '"><div class="form-group col-md-3 d-inline-block"><label for="">Select Country</label><select class="form-control" id="" name=""><option value="">Select Country</option><option value="USA">Unitied States</option><option value="JPN">Japan</option><option value="EU">Europe</option></select></div><div class="my-2"><button type="button" id="defDistriBtn-'+ distriNo +'" class="btn btn-success workflow w-25"><span>Default Distribution</span></button><div id="defDistriContent-'+ distriNo +'" style="display:none;"><div class="d-flex justify-content-center"><div class="card m-2" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Generate Report</h5><p class="card-text">Output a report from system</p></div></div><div class="card m-2" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Submission</h5><p class="card-text">Submit report to regulator</p></div></div></div></div></div><div class="my-2"><button type="button" id="custDistriBtn-'+ distriNo +'" class="btn btn-success workflow w-25"><span>Customize Distribution</span></button><div id="custDistriContent-'+ distriNo +'" class="my-3" style="display:none;"><div class="d-flex justify-content-center"><div class="card m-2" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Generate Report</h5><p class="card-text">Output a report from system</p></div> </div><div class="card m-2" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Submission</h5><p class="card-text">Submit report to regulator</p></div></div></div></div></div><button type="button" class="btn btn-sm btn-outline-danger float-right distRmBtn" onclick="$(this).parent().remove();"><i class="fas fa-trash-alt"></i> Remove</button><br><hr></div>');
+            distriNo++;
+        });
+        $('[id^=defDistriBtn]').click(function(){
+            var defDistriSequence = $(this).attr('id').split('-')[1];
+            console.log(defDistriSequence)
+            $('#defDistriContent-' + defDistriSequence).show();
+            $('#custDistriContent-' + defDistriSequence).hide();
+        });
+        $('[id^=custDistriBtn]').click(function(){
+            var custDistriSequence = $(this).attr('id').split('-')[1];
+            console.log(custDistriSequence);
+            $('#custDistriContent-' + custDistriSequence).show();
+            $('#defDistriContent-' + custDistriSequence).hide();
+        });
+        $('#submitDistri').click(function(){
+            $('.distRmBtn, #addNewDistri').hide();
+            $(this).hide();
+            $('#choosecro').show();
+        });
+});
+
+$(document).ready(function(){
+    $(".checkAll").click(function () {
+        $('.checkboxContent').find('input:checkbox').not(this).prop('checked', this.checked);
+    });
+});

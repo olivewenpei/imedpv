@@ -23,11 +23,14 @@
                         <?= $this->Form->create();?>
 
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label>Product Name (B.4.k.2.1)</label>
                                 <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Proprietary medicinal product name (B.4.k.2.1)" data-content="<div>The name should be that used by the reporter. It is recognized that a single product may have different proprietary names in different countries, even when produced by a single manufacturer.</div>" ><i class="qco fas fa-info-circle"></i></a>
-                                <input type="text" class="form-control" id="product_name" name="product[product_name]" placeholder="Product Name" required oninvalid="this.setCustomValidity('Product Name is REQUIRED')" oninput="this.setCustomValidity('')">
+                                <input type="text" class="form-control" id="product_name" name="product[product_name]" placeholder="Proprietary Medicinal Product Name" required oninvalid="this.setCustomValidity('Product Name is REQUIRED')" oninput="this.setCustomValidity('')">
                             </div>
+                        </div>
+
+                        <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label>Product Type:</label>
                                 <div class="option_group">
@@ -49,6 +52,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group col-md-6">
+                                <label>Mfr. name</label>
+                                <input type="text" class="form-control" id="mfr_name" name="product[mfr_name]" placeholder="Mfr. name">
+                            </div>
                         </div>
 
                         <div class="form-row">
@@ -56,60 +63,72 @@
                                 <label>Drug Role / Product flag (B.4.k.1)</label>
                                 <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Characterization of drug role (B.4.k.1)" data-content="<div>Characterization of the drug as provided by primary reporter. All spontaneous reports should have at least one suspect drug. If the reporter indicates a suspected interaction, interacting should be selected. All interacting drugs are considered to be suspect drugs.</div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <select class="form-control" id="sd_product_flag" name="product[sd_product_flag]" required oninvalid="this.setCustomValidity('Product flag is REQUIRED')" oninput="this.setCustomValidity('')">
-                                    <option value="">Select</option>
+                                    <option value="">Select Characterization of Drug Role</option>
                                     <option value="1">Suspect</option>
                                     <option value="2">Concomitant</option>
                                     <option value="3">Interacting</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Mfr. name</label>
-                                <input type="text" class="form-control" id="mfr_name" name="product[mfr_name]" placeholder="Mfr. name">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label>Status</label>
+                                <label>Product Status</label>
                                 <select class="form-control" id="status" name="product[status]" required oninvalid="this.setCustomValidity('Status is REQUIRED')" oninput="this.setCustomValidity('')">
+                                    <option value="">Select Product Status</option>
                                     <option value="1">Active</option>
                                     <option value="2">Close</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-2">
-                                <label>Blinding technique</label>
+                            <div class="form-group col-md-4">
+                                <label>Blinding Method</label>
                                 <select class="form-control" id="blinding_tech" name="product[blinding_tech]">
-                                    <option value="">Select</option>
+                                    <option value="">Select Blinding Method</option>
                                     <option value="1">Single blind</option>
-                                    <option value="2">Open-label</option>
+                                    <option value="2">Double blind</option>
+                                    <option value="3">Open-label</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label>Study Name</label>
+                                <label>WHO-DD Browser</label>
+                                <div style="margin-left: 47px;">
+                                    <?php
+                                    $whodraCell = $this->cell('Whodd');
+                                    echo $whodraCell;?>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>WHO-DD Code</label>
+                                <input type="text" readonly="readonly" class="form-control" id="whodracode" name="product[WHODD_code]" placeholder="WHO-DD Code">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>WHO-DD Name</label>
+                                <input type="text" readonly="readonly" class="form-control" id="whodraname" name="product[WHODD_name]" placeholder="WHO-DD Name">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>WHO-DD Preferred Name</label>
+                                <input type="text" class="form-control" id="WHODD_decode" name="product[WHODD_decode]" placeholder="WHO-DD Preferred Name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Study Name (A.2.3.1)</label>
                                 <input type="text" class="form-control" id="study_name" name="product[study_name]" placeholder="Study Name">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>Study Number</label>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Sponsor Study Number (A.2.3.2)</label>
+                                <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Sponsor Study Number (A.2.3.2)" data-content="<div>This section would be completed only if the sender is the study sponsor or has been informed of the study number by the sponsor.</div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <input type="text" class="form-control" id="study_no" name="product[study_no]" placeholder="Study Number">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>Sponsor Company</label>
-                                <select class="form-control" id="sd_sponsor_company_id" name="product[sd_company_id]" required oninvalid="this.setCustomValidity('Sponsor Company is REQUIRED')" oninput="this.setCustomValidity('')">
-                                <?php
-                                    echo "<option value=''>Select Sponsor Company</option>";
-                                    foreach ($sdSponsorCompanies  as $eachType)
-                                    {
-                                        //echo "<option value=\"".$eachType['id']."\">".$eachType['company_name']."</option>";
-                                        echo "<option value=\"1\">".$eachType['company_name']."</option>";
-                                    }
-                                ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <label>Study Type (A.2.3.3)</label>
                                 <a tabindex="0" role="button" data-toggle="popover" title="" data-original-title="Study type in which the reactions or events were observed (A.2.3.3)" data-content="<div><ol>Clinical trials</ol><ol>Individual patient use; (e.g., compassionate use or named patient basis)</ol><ol>Other studies (e.g., pharmacoepidemiology, pharmacoeconomics, intensive monitoring, PMS)</ol></div>" ><i class="qco fas fa-info-circle"></i></a>
                                 <select class="form-control" id="sd_study_type_id" name="product[study_type]" required oninvalid="this.setCustomValidity('Study Type is REQUIRED')" oninput="this.setCustomValidity('')">
-                                    <option value="">Select</option>
+                                    <option value="">Select Study Type</option>
                                     <option value="1">Clinical trials</option>
                                     <option value="2">Individual patient use</option>
                                     <option value="3">Other studies</option>
@@ -118,35 +137,12 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label>WHODD Browser</label>
-                                <div style="margin-left: 47px;">
-                                    <?php
-                                    $meddraCell = $this->cell('Whodd');
-                                    echo $meddraCell;?>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>WHODD Code</label>
-                                <input type="text" readonly="readonly" class="form-control" id="whodracode" name="product[WHODD_code]" placeholder="WHODD Code">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>WHODD Name</label>
-                                <input type="text" readonly="readonly" class="form-control" id="whodraname" name="product[WHODD_name]" placeholder="WHODD Name">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Preferred WHO DD decode</label>
-                                <input type="text" class="form-control" id="WHODD_decode" name="product[WHODD_decode]" placeholder="Preferred WHO DD decode">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label>Start Date</label>
+                            <div class="form-group col-md-4">
+                                <label>Study Start Date</label>
                                 <input type="text" class="form-control" name="product[start_date]" id="start_date">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>End Date</label>
+                            <div class="form-group col-md-4">
+                                <label>Study End Date</label>
                                 <input type="text" class="form-control" name="product[end_date]" id="end_date">
                             </div>
                         </div>
@@ -243,6 +239,7 @@
                                 <h3>Choose Country and Call Center</h3>
                                 <hr>
                                 <div class="form-row justify-content-md-center">
+
                                     <div class="form-group col-md-3">
                                         <label for="">Select Country</label>
                                         <select class="form-control" id="select-country" name="product_workflow[0][country]">
@@ -262,12 +259,15 @@
                                             Country is REQUIRED
                                         </div>
                                     </div>
+
                                     <div class="form-group col-md-3">
                                         <label for="">Select Call Center</label>
                                         <select class="form-control" id="callCenter" name="product_workflow[0][callCenter]">
-                                            <option value="Global">Global</option>
-                                            <option value="Europe">Europe</option>
-                                            <option value="Japan">Japan</option>
+                                        <?php 
+                                        foreach($call_ctr_companies as $k => $call_ctr_company){
+                                            echo "<option value=\"".$k."\">".$call_ctr_company."</option>";
+                                        }
+                                        ?>
                                         </select>
                                         <div id="callCenter-validate" class="alert alert-danger mt-2" role="alert" style="display:none;">
                                             Call Center is REQUIRED
@@ -336,6 +336,76 @@
                                     </div>
                                 </div>
 
+                                <!-- Select Permission  -->
+                                <div class="modal fade bd-example-modal-lg" id="selectPermission" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Permission Assignment</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="permissionSec my-4">
+                                            <!-- TODO LOAD STRUCTURE OF SECTIONS -->
+                                            <?php 
+                                            foreach($loadPermissions as $tab){
+                                                echo "<div class=\"row\"><div class=\"col-md-12\"><h5 class=\"text-center\">".$tab['tab_name']."</h5></div></div>";
+                                                $exsitSectionNo = [];
+                                                foreach($tab['sd_sections'] as $key => $sdSection){
+                                                    $exsitSectionNo[$key] = $sdSection['id'];
+                                                }
+                                                foreach($tab['sd_sections'] as $section){
+                                                    if(!in_array($section['id'], $exsitSectionNo))
+                                                    continue;
+                                                    if($section['section_level']>1){
+                                                        echo "<div id=\"section-".$sdSection['id']."\">".$section['section_name']."</div>";
+                                                        // debug($section['child_section']);
+                                                        $child_sections = explode(',', $section['child_section']);
+                                                        foreach($child_sections as $child_sections){
+                                                            $sectionKey = array_search($child_sections,$exsitSectionNo);
+                                                            echo "<div id=\"section-".$child_sections."\">".$tab['sectionKey']['section_name']."</div>";
+                                                            $exsitSectionNo[$sectionKey]= null;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                                <div class="row">
+                                                    <div class="col-md-12"><h5 class="text-center">General</h5></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="mx-3"><input type="checkbox" class="read" value=""> READ</label>
+                                                        <label class="mx-3"><input type="checkbox" class="checkAll" value=""> Check ALL</label>
+                                                        <hr class="my-2">
+                                                        <div class="checkboxContent">
+                                                            <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                            <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="mx-3"><input type="checkbox" class="read" value=""> WRITE</label>
+                                                        <label class="mx-3"><input type="checkbox" class="checkAll" value=""> Check ALL</label>
+                                                        <hr class="my-2">
+                                                        <div class="checkboxContent">
+                                                            <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                            <label class="mx-1"><input type="checkbox" class="checkItem" value="">Admin</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary">Save</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+
                                 <div class="d-block mt-3">
                                     <button id="undochocon" type="button" class="btn btn-outline-warning" style="display:none;">Go back to last step</button>
                                     <button id="confirm_activities" class="btn btn-primary w-25" style="display:none;">Countinue</button>
@@ -343,6 +413,67 @@
                                     <button id="submitworkflow" class="btn btn-primary w-25" style="display:none;">Countinue</button>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Choose Distribution -->
+                        <div id="chooseDistri" class="prodiff text-center" style="display:none;">
+                            <h3>Choose Distribution</h3>
+                            <hr>
+                            <div id="newDistri-0">
+                                <div class="form-group col-md-3 d-inline-block">
+                                    <label for="">Select Country</label>
+                                    <select class="form-control" id="" name="">
+                                        <option value="">Select Country</option>
+                                        <option value="USA">Unitied States</option>
+                                        <option value="JPN">Japan</option>
+                                        <option value="EU">Europe</option>
+                                    </select>
+                                </div>
+                                <div id="defDistri" class="my-2">
+                                    <button type="button" id="defDistriBtn-0" class="btn btn-success workflow w-25 defDistriBtn"><span>Default Distribution</span></button>
+                                    <div class="defDistriContent" style="display:none;">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="card m-2" style="width: 18rem;">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Generate Report</h5>
+                                                    <p class="card-text">Output a report from system</p>
+                                                </div>
+                                            </div>
+                                            <div class="card m-2" style="width: 18rem;">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Submission</h5>
+                                                    <p class="card-text">Submit report to regulator</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="custDistri" class="my-2">
+                                    <button type="button" id="custDistriBtn-0" class="btn btn-success workflow w-25 custDistriBtn"><span>Customize Distribution</span></button>
+                                    <div class="custDistriContent" class="my-3" style="display:none;">
+                                        <div class="addnNewDistriContent">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="card m-2" style="width: 18rem;">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Generate Report</h5>
+                                                        <p class="card-text">Output a report from system</p>
+                                                    </div>
+                                                </div>
+                                                <div class="card m-2" style="width: 18rem;">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Submission</h5>
+                                                        <p class="card-text">Submit report to regulator</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="newDistrictArea"></div>
+                            <button id="addNewDistri" type="button" class="btn btn-sm btn-outline-primary float-left"><i class="fas fa-plus"></i> Add New</button>
+                            <button id="submitDistri" class="btn btn-primary w-25">Countinue</button>
                         </div>
 
                         <!-- Add CROs -->
@@ -363,6 +494,11 @@
                                     <div class="modal-body">
                                         <label for="">Add Resources</label>
                                         <select class="custom-select" id="croname">
+                                        <?php 
+                                            foreach($cro_companies as $k => $cro_company){
+                                                echo "<option value=\"".$k."\">".$cro_company."</option>";
+                                            }
+                                        ?>
                                         </select>
                                     </div>
                                     <div class="modal-footer">
@@ -433,8 +569,8 @@
                                 <tbody id="crotable">
                                 </tbody>
                             </table>
-                        <button id="undochoWF" type="button" class="btn btn-outline-warning mt-3">Reselect Workflow</button>
-                        <button id="confirmWFlist" type="button" class="btn btn-primary w-25 mt-3 mx-auto">Confirm</button>
+                            <button id="undochoWF" type="button" class="btn btn-outline-warning mt-3">Reselect Workflow</button>
+                            <button id="confirmWFlist" type="button" class="btn btn-primary w-25 mt-3 mx-auto">Confirm</button>
                         </div>
                     </div>
                 </div>

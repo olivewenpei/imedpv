@@ -22,55 +22,66 @@
     <?= $this->Html->css('bootstrap/bootstrap-grid.min.css') ?>
     <?= $this->Html->css('bootstrap/bootstrap-reboot.min.css') ?>
     <?= $this->Html->css('bootstrap/bootstrap.min.css') ?>
+
     <!-- For local Bootstrap/JS link -->
     <?= $this->Html->script('bootstrap/bootstrap.bundle.min.js') ?>
     <?= $this->Html->script('bootstrap/bootstrap.min.js') ?>
     <?= $this->Html->script('bootstrap/jquery-1.12.4.js') ?>
     <?= $this->Html->script('bootstrap/jquery-ui.js') ?>
 
-    <?= $this->Html->css('datatable/datatables.css') ?>
-    <?= $this->Html->script('datatable/datatables.min.js') ?>
+    <!-- For local DataTable CSS/JS link -->
+    <?= $this->Html->css('datatable/DataTables/css/dataTables.bootstrap4.min.css') ?>
+    <?= $this->Html->script('datatable/DataTables/js/jquery.dataTables.min.js') ?>
+    <?= $this->Html->script('datatable/DataTables/js/dataTables.bootstrap4.min.js') ?>
 </head>
 <body>
-<nav class="topNav navbar navbar-light">
-  <a class="navLogo navbar-brand" href="/Dashboards/index">
-    <img src="/img/logo-2.png" alt="logo">
-  </a>
 
-  <div class="login dropdown">
-    <a class="btn btn-light" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <h4><i class="fas fa-user-circle"></i> <span id="roleName"> <?php print $this->request->getSession()->read('Auth.User.firstname'); ?>&nbsp;<?php print $this->request->getSession()->read('Auth.User.lastname'); ?> </span> </h4> <br>
-      <h6>Role:  <span id="role"> <?php print $this->request->getSession()->read('Auth.User.job_title'); ?> </span></h6>
-    </a>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i> My Account</a>
-      <a class="dropdown-item" href="/sd-users/logout"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+<div class="topNav">
+    <div class="navInner mx-auto d-flex bd-highlight">
+      <a class="navLogo navbar-brand mr-auto my-auto bd-highlight" href="/Dashboards/index">
+        <img src="/img/logo-mds.png" title="MDS" alt="logo" style="width:200px;">
+      </a>
+      <div class="d-flex p-2 bd-highlight">
+        <?php
+        $mailNotice = $this->cell('QueryNotice',[$this->request->getSession()->read('Auth.User.id')]);
+        echo $mailNotice;
+        ?>
+      </div>
+      <div class="nav-item dropdown p-2 bd-highlight">
+        <a class="nav-link text-dark bg-light" href="/sd-users/myaccount" id="accountInfo" role="button" aria-haspopup="true" aria-expanded="false">
+          <h5>Hi, <span id="roleName"> <?php print $this->request->getSession()->read('Auth.User.firstname'); ?>&nbsp;<?php print $this->request->getSession()->read('Auth.User.lastname'); ?> </span> </h5>
+        </a>
+        <div class="dropdown-menu login" aria-labelledby="accountInfo">
+          <h5 class="dropdown-header"><?php echo $this->request->getSession()->read('Auth.User.role_name'); ?></h5>
+          <a class="dropdown-item my-1" href="/sd-users/myaccount"><i class="fas fa-user-cog"></i> My Account</a>
+          <a class="dropdown-item my-1" href="/sd-users/logout"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        </div>
+      </div>
     </div>
-  </div>
-</nav>
+</div>
 
-<nav class="mainNav navbar navbar-expand-lg navbar-light">
+<nav class="mainNav navbar navbar-expand-lg navbar-dark">
+  <!-- <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
-  </button>
+  </button> -->
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navMenu navbar-nav mr-auto">
+    <ul class="navMenu navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="/Dashboards/index">Dashboard <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="/sd-products/search" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product</a>
+        <a class="nav-link dropdown-toggle" href="/sd-products/search" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Product</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/sd-products/search">Search Product</a>
           <a class="dropdown-item" href="/sd-products/addproduct">Add Product</a>
-          <a class="dropdown-item" href="/sd-products/workflowmanager">Workflow Manager</a>
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="/sd-cases/saeregistration" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ICSR</a>
+        <a class="nav-link dropdown-toggle" href="/sd-cases/caselist" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ICSR</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/sd-cases/saeregistration">Register SAE/AE</a>
+          <a class="dropdown-item" href="/sd-cases/caseregistration">Register SAE/AE</a>
           <a class="dropdown-item" href="/sd-cases/caselist">Case List</a>
           <!-- Use the following if we need diveder in dropdown menu
           <div class="dropdown-divider"></div>
@@ -78,17 +89,24 @@
           -->
         </div>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Form Builder</a>
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Form Builder</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Add Form</a>
-          <a class="dropdown-item" href="#">Form List</a>
+          <a class="dropdown-item" href="/">Add Form</a>
+          <a class="dropdown-item" href="/">Form List</a>
         </div>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" href="/sd-users/myaccount">My Account</a>
       </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li> -->
     </ul>
+    <!-- <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form> -->
   </div>
 </nav>
 

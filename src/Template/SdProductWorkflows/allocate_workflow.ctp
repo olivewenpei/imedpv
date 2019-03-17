@@ -4,7 +4,10 @@
 <?= $this->Html->css('mainlayout.css') ?>
 <?= $this->Html->script('product/workflowmanager.js') ?>
 <head>
-
+<script type="text/javascript">
+    var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+    var workflowId = <?= $id?>;
+</script>
 <div class="container my-3">
     <div class="card text-center">
         <div class="card-header">
@@ -43,8 +46,8 @@
             </div>
             <div id="workflowResources" class="border border-info p-2 mb-3" style="font-size: 20px;">
             <?php
-            foreach($sdUserAssignments as $userDetail){
-                echo "<div class=\"alert alert-info d-inline-block m-2 wfres\" role=\"alert\">".$userDetail['sd_user']['firstname']." ".$userDetail['sd_user']['lastname']."</div>";
+            foreach($sdUserDistinctAssignments as $userDetail){
+                echo "<div class=\"alert alert-info d-inline-block m-2 wfres\" id=\"personal-".$userDetail['sd_user']['id']."\" role=\"alert\">".$userDetail['sd_user']['firstname']." ".$userDetail['sd_user']['lastname']."</div>";
             }
             ?>
             </div>
@@ -53,8 +56,13 @@
             <div id="workflowActivityDropzone">
             <?php
             foreach($sdProductWorkflow['sd_workflow']['sd_workflow_activities'] as $activityDetail){
-                echo "<div class=\"badge badge-info p-3 resourceDropzone\">";
+                echo "<div id=\"activity_card-".$activityDetail['id']."\" class=\"badge badge-info p-3 resourceDropzone m-3 mw-100\">";
                 echo "<div class=\"card-header\"><h5>".$activityDetail['activity_name']."</h5><p>".$activityDetail['description']."</p></div>";
+
+                foreach($sdUserAssignments as $userDetail){
+                    if($userDetail['sd_workflow_activity_id']==$activityDetail['id'])
+                        echo "<div class=\"alert alert-info d-inline-block m-2 wfres\" id=\"personal-".$userDetail['sd_user']['id']."\" role=\"alert\">".$userDetail['sd_user']['firstname']." ".$userDetail['sd_user']['lastname']."</div>";
+                }
                 echo "</div>";
                 echo "<i class=\"fas fa-long-arrow-alt-right\"></i>";
             }
@@ -65,7 +73,7 @@
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-success mt-3 w-25">Confirm</button>
+                <button type="submit" onclick="confirmAllocation()" class="btn btn-success mt-3 w-25">Confirm</button>
             </div>
         </div>
     </div>

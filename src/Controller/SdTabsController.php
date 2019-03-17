@@ -33,31 +33,20 @@
              *
              * @return \Cake\Http\Response|void
              */
-            public function showdetails($tabid = 1  )
+            public function showdetails($caseNo, $version = 1,$tabid = 1)
             {
-                $userinfo = $this->request->session()->read('Auth.user');
-                //TODO Permission related
-                $caseNo = $this->request->getQuery('caseNo');
-                $sdCases = TableRegistry::get('SdCases');
-                $sdCases = $sdCases->find()->where(['caseNo'=>$caseNo])->contain(['SdProductWorkflows.SdProducts'])->first();
+                $writePermission= 0;
+                $userinfo = $this->request->session()->read('Auth.User');
+                $sdCasesTable = TableRegistry::get('SdCases');
+                $sdCases = $sdCasesTable->find()->where(['caseNo'=>$caseNo,'version_no'=>$version])->contain(['SdProductWorkflows.SdProducts'])->first();
                 $caseId = $sdCases['id'];
-                $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
-
-                $sdTabs = $this->SdTabs->find()->select(['tab_name','display_order'])->where(['status'=>1])->order(['display_order' => 'ASC']);
-                $this->viewBuilder()->layout('main_layout');
-                $associated = ['SdSectionStructures','SdSectionStructures'=>['SdFields'=>['SdElementTypes','SdFieldValues']]];
-                $sdTab = TableRegistry::get('SdSections');
-                $sdSections = $sdTab ->find()->where(['sd_tab_id'=>$tabid,'status'=>true])
-                                    ->order(['SdSections.section_level'=>'DESC','SdSections.display_order'=>'ASC'])
-                                    ->contain(['SdSectionStructures'=>function($q)use($caseId){
-                                        return $q->order(['SdSectionStructures.row_no'=>'ASC','SdSectionStructures.field_start_at'=>'ASC'])
-                                            ->contain(['SdFields'=>['SdFieldValueLookUps','SdFieldValues'=> function ($q)use($caseId) {
-                                                return $q->where(['SdFieldValues.sd_case_id'=>$caseId, 'SdFieldValues.status'=>true]);
-                                            }, 'SdElementTypes'=> function($q){
-                                            return $q->select('type_name')->where(['SdElementTypes.status'=>true]);
-                                                }]]);
-                                    }]);
+                // if(empty($caseId)){
+                //     $this->Flash->error(__('Cannot find this case.'));
+                //     $this->redirect($this->referer());
+                //     return;
+                // }
                 if ($this->request->is(['patch', 'post', 'put'])) {
+                    $error =[];
                     $requstData = $this->request->getData();
                     $sdMedwatchPositions = TableRegistry::get('SdFieldValues');
                     foreach($requstData['sd_field_values'] as $sectionValueK => $sectionValue) {
@@ -70,7 +59,6 @@
                                 $sdFieldValueEntity = $sdMedwatchPositions->newEntity();
                                 $dataSet = [
                                     'sd_case_id' => $caseId,
-                                    'version_no' => '1',
                                     'sd_field_id' => $sectionFieldValue['sd_field_id'],
                                     'set_number' => $sectionFieldValue['set_number'],
                                     'created_time' =>date("Y-m-d H:i:s"),
@@ -83,8 +71,71 @@
                         }
                     };
                 }
+                $currentActivityId = $sdCases['sd_workflow_activity_id'];
 
-                $this->set(compact('sdSections','tabid','caseId','product_name'));
+                //User not allow to this activity
+                if($userinfo['sd_role_id']>2){
+                    $assignments = TableRegistry::get('SdUserAssignments')
+                            ->find()->select(['sd_workflow_activity_id'])    
+                            ->where(['sd_user_id'=>$userinfo['id'],'sd_product_workflow_id'=>$sdCases['sd_product_workflow_id']])->toArray();
+                    $activitySectionPermissions = TableRegistry::get('SdActivitySectionPermissions')
+                            ->find('list',[
+                                'keyField' => 'sd_section_id',
+                                'valueField' => 'action'
+                            ])
+                            ->join([
+                                'sections' =>[
+                                    'table' =>'sd_sections',
+                                    'type'=>'INNER',
+                                    'conditions'=>['sections.id = SdActivitySectionPermissions.sd_section_id','sections.sd_tab_id = '.$tabid],
+                                ],
+                                'ua'=>[
+                                    'table'=>'sd_user_assignments',
+                                    'type'=>'INNER',
+                                    'conditions'=>['ua.sd_product_workflow_id ='.$sdCases['sd_product_workflow_id'],'ua.sd_user_id ='.$userinfo['id'],'ua.sd_workflow_activity_id = SdActivitySectionPermissions.sd_workflow_activity_id']
+                                ]
+                            ])->toArray();   
+                    if($sdCases['sd_user_id'] != $userinfo['id']){
+                        $writePermission = 0; 
+                    }else{
+                        $writePermission = 1;
+                    }   
+                    if(!$writePermission){
+                        foreach($activitySectionPermissions as $key => $activitySectionPermission){
+                            $activitySectionPermissions[$key] = 2;
+                        }
+                    }
+                }else {
+                    $activitySectionPermissions = null;
+                    $writePermission =1;
+                }
+                $this->set(compact('activitySectionPermissions'));
+                //For readonly status, donot render layout
+                $readonly = $this->request->getQuery('readonly');
+                if ($readonly!=1) $this->viewBuilder()->layout('main_layout'); else $this->viewBuilder()->layout('readonly_layout');
+                $case_versions = $sdCasesTable->find()->where(['caseNo'=>$caseNo])->select(['version_no']);
+                $product_name = $sdCases['sd_product_workflow']['sd_product']['product_name'];
+
+                //Fetch tab structures
+                //TODO according to model
+                $sdTab = TableRegistry::get('SdSections');
+                $sdSections = $sdTab ->find()->where(['sd_tab_id'=>$tabid,'status'=>true])
+                                    ->order(['SdSections.section_level'=>'DESC','SdSections.display_order'=>'ASC'])
+                                    ->contain(['SdSectionStructures'=>function($q)use($caseId){
+                                        return $q->order(['SdSectionStructures.row_no'=>'ASC','SdSectionStructures.field_start_at'=>'ASC'])
+                                            ->contain(['SdFields'=>['SdFieldValueLookUps','SdFieldValues'=> function ($q)use($caseId) {
+                                                return $q->where(['SdFieldValues.sd_case_id'=>$caseId, 'SdFieldValues.status'=>true]);
+                                            }, 'SdElementTypes'=> function($q){
+                                            return $q->select('type_name')->where(['SdElementTypes.status'=>true]);
+                                                }]]);
+                                    }])->toArray();
+                if($userinfo['sd_role_id']>2){
+                    foreach($sdSections as $sectionKey => $sdSection){
+                        if(!array_key_exists($sdSection['id'],$activitySectionPermissions)) unset($sdSections[$sectionKey]);
+                    }
+                }
+
+                $this->set(compact('sdSections','caseNo','version','tabid','caseId','product_name','case_versions','writePermission'));
             }
             /**
              *
@@ -508,6 +559,9 @@
                 
                 // Require composer autoload
                 //require_once __DIR__ . '../vendor/autoload.php';
+               // debug($positions);
+                // Require composer autoload
+                //require_once __DIR__ . '../vendor/autoload.php';
 
                 $mpdf = new \Mpdf\Mpdf();
 
@@ -517,7 +571,6 @@
                 $medwatchdata = $this->SdTabs->find();
                 
                 $mpdf->use_kwt = true;  
-
 
                 $mpdf->SetImportUse();
                 $mpdf->SetDocTemplate('export_template/MEDWATCH.pdf',true);

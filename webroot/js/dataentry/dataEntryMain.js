@@ -1,7 +1,59 @@
 jQuery(function($) {
     $(document).ready(paginationReady());
 });
+
+
 $(document).ready(function(){
+    $('[name$=\\[field_value\\]').change(function(){
+        var id = $(this).attr('id').split('-');
+        $('[id=section-'+id[1]+'-error_message-'+id[3]+']').text();
+        $('[id=section-'+id[1]+'-error_message-'+id[3]+']').hide();
+
+        $("div[id=section-"+id[1]+"-field-"+id[3]+']').each(function(){
+            var field_value = null;
+            if($(this).find("[name$=\\[field_value\\]]").length){
+                field_type = $(this).find("[name$=\\[field_value\\]]").attr('id').split('-')[2];
+                if((field_type!="radio")&&(field_type!="checkbox")){
+                     field_value = $(this).find("[name$=\\[field_value\\]]").val();
+                }else{
+                    if(field_type=="radio"){
+                        $(this).find("[name$=\\[field_value\\]]").each(function(){
+                            if($(this).prop('checked')){
+                                field_value = $(this).val();}
+                        });
+                    }else{
+                        field_value = $(this).find("[id$=final]").val();
+                    }
+                }
+            }
+            if(($(this).find("[name$=\\[field_rule\\]]").length)&&(field_value!="")){
+                var rule = $(this).find("[name$=\\[field_rule\\]]").val().split("-");
+                if((rule[1]=="N")&&(!/^[0-9]+$/.test(field_value)))
+                {
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").show();
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").text('/numbers only');
+                    console.log('number only at '+$(this).attr('id'));
+                    validate = 0;
+                }else if((rule[1]=="A")&&(!/^[a-zA-Z]+$/.test(field_value))){
+                    console.log('alphabet only at '+$(this).attr('id'));
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").show();
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").text('/alphabet only');
+                    validate = 0;
+                }
+                if(rule[0]<field_value.length) {
+                    console.log('exccess the length at'+$(this).attr('id'));
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").show();
+                    $(this).find("[id^=section-"+id[1]+"-error_message-]").text( $(this).find("[id^=section-"+id[1]+"-error_message-]").text()+'/exccess the length');
+                    validate = 0;
+                }
+            };
+        });
+    });
+ if(readonly) {
+    $('input').prop("disabled", true);
+    $('select').prop("disabled", true);
+    $('textarea').prop("disabled", true);
+};
     // Datepicker Script
 $( function() {
     // $( "[id*=date]" ).datepicker({
@@ -24,6 +76,85 @@ $( function() {
             $("#section-1-field-355").hide(1000);
         });
     });
+
+    $("#searchFieldKey").keyup(function(){
+        var request={
+            'key':$('#searchFieldKey').val(),
+            'caseId':caseId,
+            'userId':userId,
+        };
+        console.log(request);
+        if(request['key']!="")
+        {
+            $.ajax({
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            type:'POST',
+            url:'/sd-sections/search',
+            data:request,
+            success:function(response){
+                $('#searchFieldResult').html("");
+                console.log(response);
+                searchResult = $.parseJSON(response);
+                var text ="<table class=\"table table-hover w-100\">";
+                text +="<tr><th scope=\"col\">Field Lable</th>";
+                text +="<th scope=\"col\">Tab Name</th>";
+                text +="<th scope=\"col\">Section Name</th>";
+                text +="<th scope=\"col\">Action</th><tr>";
+                $.each(searchResult,function(k,v){
+                    text +="<tr>";
+                    text +="<td>"+v['field']['field_label']+"</td>";
+                    text +="<td>"+v['tab']['tab_name']+"</td>";
+                    text +="<td>"+v['section_name']+"</td>";
+                    text +="<td><a class=\"btn btn-outline-info btn-sm\" onclick=\"hightlightField("+v['field']['id']+")\" role=\"button\" href=\"/sd-tabs/showdetails/"+caseNo+"/"+version+"/"+v['tab']['id']+"#secdiff-"+v['id']+"\">Go</a></td></tr>";
+                });
+                text +="</table>";
+                $('#searchFieldResult').html(text);
+
+            },
+            error:function(response){
+                console.log(response.responseText);
+            }
+        });}
+        else $('#searchFieldResult').html("");
+    });
+
+});
+// Search Bar
+    function hightlightField (fieldID) {
+        $("div[id*='"+fieldID+"']").css("border", "3px dotted red").delay(2000);
+    };
+
+$(document).ready(function(){
+ if(readonly) {
+    $('input').prop("disabled", true);
+    $('select').prop("disabled", true);
+    $('textarea').prop("disabled", true);
+};
+    // Datepicker Script
+$( function() {
+    // $( "[id*=date]" ).datepicker({
+    //     changeMonth: true,
+    //     changeYear: true
+    // });
+    $("#section-1-field-355").hide();
+} );
+
+// For Additional documents (A.1.8.1) select in General Tab
+    // If choose "Yes", show "Choose file"
+    $(document).ready(function(){
+        $("#section-1-radio-13-option-1").click(function(){
+            $("#section-1-field-355").show(1000);
+        });
+    });
+    // If choose "No", hide "Choose file"
+    $(document).ready(function(){
+        $("#section-1-radio-13-option-2").click(function(){
+            $("#section-1-field-355").hide(1000);
+        });
+    });
+
 
     $('input:checkbox').change(
         function(){
@@ -221,7 +352,8 @@ function paginationReady(){
         $(child_section_id).each(function(k, v){
             var sectionKey = $("[id^=add_set-"+v+"]").attr('id').split('-')[3];
             $(section[sectionKey].sd_section_structures).each(function(k,v){
-                $.each(v.sd_field.sd_field_values,function(key, value){console.log("v:");console.log(v);console.log(value);console.log(value.set_number);
+                $.each(v.sd_field.sd_field_values,function(key, value){
+                    // console.log("v:");console.log(v);console.log(value);console.log(value.set_number);
                     max_set_no = Math.max(value.set_number, max_set_no);
                 })
             })
@@ -286,6 +418,34 @@ function l2deleteSection(sectionId){
     }
     level2setPageChange(sectionId,pageNo);
     $("[id=section-"+sectionId+"-page_number-"+pageNo+"]").css('font-weight', 'bold');
+}
+function validation(sectionId){
+    var validate = 1;
+    $("div[id^=section-"+sectionId+"-field]").each(function(){
+        var field_value = null;
+        if($(this).find("[name$=\\[field_value\\]]").length){
+            field_type = $(this).find("[name$=\\[field_value\\]]").attr('id').split('-')[2];
+            if((field_type!="radio")&&(field_type!="checkbox")){
+                 field_value = $(this).find("[name$=\\[field_value\\]]").val();
+            }else{
+                if(field_type=="radio"){
+                    $(this).find("[name$=\\[field_value\\]]").each(function(){
+                        if($(this).prop('checked')){
+                            field_value = $(this).val();}
+                    });
+                }else{
+                    field_value = $(this).find("[id$=final]").val();
+                }
+            }
+        }
+        if((parseInt($(this).find("[name$=\\[is_required\\]]").val()))&&(field_value=="")){
+            console.log('required  '+$(this).attr('id'));
+            $(this).find("[id^=section-"+sectionId+"-error_message-]").show();
+            $(this).find("[id^=section-"+sectionId+"-error_message-]").text('is required');
+        }
+        if($(this).find("[id^=section-"+sectionId+"-error_message-]").is(":visible")) validate = 0;
+    });
+    return validate;
 }
 function deleteSection(sectionId, pcontrol=false){
 
@@ -369,6 +529,7 @@ function deleteSection(sectionId, pcontrol=false){
 
 }
 function saveSection(sectionId){
+    if(!validation(sectionId)) return;
     var request = {};
     var savedArray = [];
 
@@ -409,9 +570,9 @@ function saveSection(sectionId){
         url:'/sd-sections/saveSection/'+caseId,
         data:request,
         success:function(response){
+            console.log(response);
             alert("This section has been saved");
-             savedArray = $.parseJSON(response);
-             console.log(response);
+            savedArray = $.parseJSON(response);
             var sectionIdOriginal =  $("[id^=save-btn"+sectionId+"]").attr('id');
             var section_Id = sectionIdOriginal.split('-');
             var max_set_no  = 0
@@ -458,3 +619,199 @@ function saveSection(sectionId){
 
 
 };
+function action(type){
+    text = "";
+    if(type==1){
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            type:'POST',
+            url:'/sd-users/searchNextAvailable/'+caseId,
+            success:function(response){console.log(response);
+                response = JSON.parse(response);
+                console.log(response);
+                text +="<div class=\"modal-header\">";
+                text +="<h3 class=\"modal-title text-center w-100\" id=\"exampleModalLabel\">Sign Off</h3>";
+                text +="<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">";
+                text +="<span aria-hidden=\"true\">&times;</span>";
+                text +="</button>";
+                text +="</div>";
+                text +="<div class=\"modal-body text-center m-3\">";
+                text +="<p class=\"lead\">Next activity is: "+response['actvity']['activity_name']+"</p>";
+                text +="<input type=\"hidden\" id=\"next-activity-id\" value=\""+response['actvity']['id']+"\">";
+                text +="<div class=\"form-group\">";
+                text +="<label><h5>Comment</h5></label>";
+                text +="<textarea class=\"form-control\" id=\"query-content\" rows=\"3\"></textarea>";
+                text +="</div>";
+                text +="<hr class=\"my-4\">";
+                if(response['previousUserOnNextActivity'].length > 0){
+                    text +="<div><h6>Previous User On This Case On Next Activity: </h6>";
+                    $.each(response['previousUserOnNextActivity'],function(k,v){
+                        text +=v['user']['firstname']+" "+v['user']['lastname']+"("+v['company']['company_name']+"), ";
+                    });
+                    text +="</div>";
+                    text +="<hr class=\"my-4\">";
+                }
+                //add function to chose most avaiable person
+                text +="<div class=\"form-group\">";
+                text +="<label><h6>Select person you want to send to:</h6></label><select class=\"form-control\" id=\"receiverId\">";
+                $.each(response['users'],function(k,v){
+                    text +="<option value="+v['id']+">"+v['firstname']+" "+v['lastname'];
+                    if(v['sd_cases'].length > 0)
+                        text +="(currently working on "+v['sd_cases']['0']['casesCount']+" cases)";
+                    else text +="(currently working on 0 case)";
+                    text +="</option>";
+                });
+                text +="</select>";
+                text +="</div>";
+                text +="<div class=\"text-center\"><button class=\"btn btn-primary w-25\" onclick=\"forward()\">Confirm</button></div>";
+                text +="</div>";
+                $('#action-text-hint').html(text);
+            },
+            error:function(response){
+                console.log(response.responseText);
+            },
+        });
+    }
+    if(type==2){
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            type:'POST',
+            url:'/sd-users/searchPreviousAvailable/'+caseId,
+            success:function(response){console.log(response);
+                response = JSON.parse(response);
+                console.log(response);
+                text +="<div class=\"modal-header\">";
+                text +="<h3 class=\"modal-title text-center w-100\" id=\"exampleModalLabel\">Push Backward</h3>";
+                text +="<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">";
+                text +="<span aria-hidden=\"true\">&times;</span>";
+                text +="</button>";
+                text +="</div>";
+                text +="<div class=\"modal-body text-center m-3\">";
+                text +="<div class=\"form-group\">";
+                text +="<label><h5>Comment</h5></label>";
+                text +="<textarea class=\"form-control\" id=\"query-content\" rows=\"3\"></textarea>";
+                text +="</div>";
+                text +="<h5>Case Info:</h5>";
+                text +="<table class=\"table table-hover\">";
+                text +="<thead>";
+                text +="<tr>";
+                text +="<th scope=\"col\">Activity </th>";
+                text +="<th scope=\"col\">Previous User On This Activity </th>";
+                text +="<th scope=\"col\">Avaliable User </th>";
+                text +="</tr>";
+                text +="</thead>";
+                $.each(response,function(k,activity){
+                    text += "<div id=\"previous_activity-"+activity['id']+"\" hidden>"+JSON.stringify(activity['users'])+"</div> ";
+                    if(activity['previousUserOnPreviousActivity'].length > 0){
+                        text +="<tr>";
+                        text += "<td>"+activity['activity_name']+"</td>";
+                        text +="<td>";
+                        $.each(activity['previousUserOnPreviousActivity'],function(k,v){
+                            text +=v['user']['firstname']+" "+v['user']['lastname']+"("+v['company']['company_name']+")<br>";
+                        });
+                        text += "</td><td>";
+                        $.each(activity['users'],function(k,v){
+                            text +=v['firstname']+" "+v['lastname'];
+                            if(v['sd_cases'].length > 0)
+                                text +="(currently working on "+v['sd_cases']['0']['casesCount']+" cases)<br>";
+                            else text +="(currently working on 0 case)<br>";
+                        });
+                        text +="</tr>";
+                    }
+                });
+                text +="</table>";
+                text +="<hr class=\"my-4\">";
+                //add function to chose most avaiable person
+                text +="<div class=\"form-group\">";
+                text +="<label>Which you want to push to?</label>";
+                text +="<select class=\"form-control w-50 mx-auto\" id=\"next-activity-id\" >";
+                text +="<option value=\"null\">Select Activity</option>";
+                $.each(response,function(k,v){
+                    text += "<option value=\""+v['id']+"\">"+v['activity_name']+"</option>";
+                });
+                text +="</select>";
+                text +="<label class=\"my-2\">Select person you want to send to:</label><select class=\"form-control w-50 mx-auto\" id=\"receiverId\">";
+                text +="</select>";
+                text +="</div>";
+                text +="<div class=\"text-center\"><button class=\"btn btn-primary w-25\" onclick=\"backward()\">Confirm</button></div>";
+                text +="</div>";
+                $('#action-text-hint').html(text);
+                $('#next-activity-id').change(function(){
+                    console.log($('#previous_activity-'+$(this).val()).html());
+                    var users =  $.parseJSON($('#previous_activity-'+$(this).val()).html());
+                    var text =""
+                    $('#receiverId').html(text);
+                    $.each(users,function(k,v){
+                        text += "<option value=\""+v['id']+"\">"+v['firstname']+" "+v['lastname']+"</option>"
+                    });
+                    $('#receiverId').html(text);
+                });
+            },
+            error:function(response){
+                console.log(response.responseText);
+            },
+        });
+    }
+
+}
+function forward(){
+    var request ={
+        'senderId':userId,
+        'next-activity-id':$('#next-activity-id').val(),
+        'receiverId':$('#receiverId').val(),
+        'content':$('#query-content').text()
+    }
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/sd-cases/forward/'+caseNo+'/'+version+"/0",
+        data:request,
+        success:function(response){
+            console.log(response);
+            window.location.href = "/sd-cases/caselist";
+        },
+        error:function(response){
+            console.log(response.responseText);
+            }
+        });
+}
+function backward(){
+    var request ={
+        'senderId':userId,
+        'next-activity-id':$('#next-activity-id').val(),
+        'receiverId':$('#receiverId').val(),
+        'content':$('#query-content').text()
+    }
+    console.log(request);
+    $.ajax({
+        headers: {
+            'X-CSRF-Token': csrfToken
+        },
+        type:'POST',
+        url:'/sd-cases/forward/'+caseNo+'/'+version+"/1",
+        data:request,
+        success:function(response){
+            console.log(response);
+            window.location.href = "/sd-cases/caselist";
+        },
+        error:function(response){
+            console.log(response.responseText);
+            }
+        });
+}
+
+function submitDataEntry()
+{
+    var validated = 1;
+    $.each(section,function(k,v){
+        if(!validation(v.id)) validated = 0;
+    });
+    if(validated) document.getElementById("dataEntry").submit();
+}
